@@ -27,9 +27,9 @@ import './dark.styl';
 import './bp6-compat.css';
 
 // load all page stylesheets
-const pageStyleReq = require.context('../', true, /\\.page\\.styl$/i);
+const pageStyleReq = require.context('../', true, /\.page\.styl$/i);
 pageStyleReq.keys().map((key) => pageStyleReq(key));
-const pageStyleReqDefault = require.context('../', true, /\\.page\\.default\\.styl$/i);
+const pageStyleReqDefault = require.context('../', true, /\.page\.default\.styl$/i);
 pageStyleReqDefault.keys().map((key) => pageStyleReqDefault(key));
 
 // Apply the shared foundation after page styles so its tokens and components win intentionally.
