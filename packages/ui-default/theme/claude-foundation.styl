@@ -14,11 +14,10 @@ body
   max-width: 1440px
   box-sizing: border-box
   margin: 0 auto
-  padding: 32px 28px 56px
+  padding: 4rem 28px 56px
 
 .nav
-  position: relative
-  z-index: 20
+  // Keep Hydro's native fixed positioning and z-index above nav--shadow.
   background: var(--claude-surface)
   border-bottom: 1px solid var(--claude-line)
   box-shadow: none
@@ -49,7 +48,7 @@ body
 .nav .nav__item
   display: inline-flex
   align-items: center
-  min-height: 64px
+  min-height: rem($nav-item-height)
   padding: 0 13px
   color: var(--claude-ink-muted)
   border-bottom: 2px solid transparent
@@ -279,7 +278,7 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
 
 @media only screen and (max-width: 900px)
   .main
-    padding: 24px 18px 40px
+    padding: 4rem 18px 40px
   .problem-catalog
     grid-template-columns: minmax(0, 1fr)
   .problem-catalog__sidebar
@@ -319,6 +318,21 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
 
 .problem-catalog__table .data-table
   width: 100%
+
+.problem-catalog__table .data-table .col--difficulty
+  width: 120px
+  min-width: 120px
+  white-space: nowrap
+
+.problem-catalog__table .data-table.hide-problem-tag .problem__tag.notag--hide,
+.problem-catalog__table .data-table.hide-problem-tag .notag--hide
+  display: none
+
+.problem-catalog__table .data-table.hide-problem-tag .tag--hide
+  display: block
+
+.problem-catalog__table .data-table .tag--hide
+  display: none
 
 .problem-catalog__table .col--name
   min-width: 220px
@@ -371,4 +385,4 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
 
 @media only screen and (max-width: 600px)
   .problem-catalog__table .data-table
-    min-width: 640px
+    min-width: 680px
