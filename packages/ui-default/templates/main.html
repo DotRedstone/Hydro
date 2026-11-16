@@ -4,10 +4,21 @@
 {% import "components/problem.html" as problem with context %}
 {% import "components/user.html" as user with context %}
 {% block content %}
-<div class="row">
+<header class="learning-hub__intro">
+  <p class="learning-hub__eyebrow">{{ _('Home') }}</p>
+  <h1>{{ model.system.get('server.name') }}</h1>
+  <nav class="learning-hub__shortcuts" aria-label="{{ _('Navigation') }}">
+    <a href="{{ url('problem_main') }}">{{ _('Problem Set') }}</a>
+    <a href="{{ url('contest_main') }}">{{ _('Contest') }}</a>
+    <a href="{{ url('training_main') }}">{{ _('Training') }}</a>
+    <a href="{{ url('homework_main') }}">{{ _('Homework') }}</a>
+  </nav>
+</header>
+<div class="row learning-hub__columns">
   {% for column in contents %}
-    <div class="large-{{ column.width }} columns">
+    <div class="large-{{ column.width }} columns learning-hub__column">
       {% for s in column.sections %}
+        <div class="learning-hub__module learning-hub__module--{{ s[0] }}">
         {% if templateExists("partials/homepage/" + s[0] + ".html") %}
           {% set payload = s[1] %}
           {% include "partials/homepage/" + s[0] + ".html" %}
@@ -15,6 +26,7 @@
           {% set payload = _("Template {0} not found.").format(s[0]) %}
           {% include "partials/homepage/error.html" %}
         {% endif %}
+        </div>
       {% endfor %}
     </div>
   {% endfor %}

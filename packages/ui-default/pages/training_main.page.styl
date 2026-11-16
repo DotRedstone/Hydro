@@ -46,3 +46,61 @@
     &.my
       .training-status--icon
         font-size: rem($font-size-icon * 1.2)
+
+  .training-list-layout .training__item
+    padding-left: 26px
+    border-left: 0
+
+  .training-list-layout .training__title
+    margin: 0 0 6px
+    font-size: 1.13rem
+    line-height: 1.45
+    font-weight: 620
+
+  .training-list-layout .training__participants
+    width: 72px
+    margin-right: 16px
+
+  .training-list-layout .training__intro
+    margin: 6px 0 11px
+    font-size: .9rem
+    line-height: 1.7
+    color: var(--claude-ink-muted)
+
+  .training-list-layout .training__intro p
+    margin: 0
+    overflow-wrap: anywhere
+
+  .training-list-layout .training__progress
+    font-size: .84rem
+    line-height: 1.6
+
+  .training-list-layout .learning-activity-side .training__list
+    margin: 0
+    padding: 0
+    list-style: none
+
+  .training-list-layout .learning-activity-side .training__item
+    margin: 0
+    padding: 12px 0
+    border-bottom: 1px solid var(--claude-line)
+
+  .training-list-layout .learning-activity-side .training__title
+    font-size: .91rem
+
+  .training-list-layout .learning-activity-side .training__progress-bar
+    background: var(--claude-line)
+    border-radius: 999px
+    overflow: hidden
+
+  .training-list-layout .learning-activity-side .training__progress-track
+    background: var(--claude-accent)
+    border-radius: inherit
+
+  @media only screen and (max-width: 600px)
+    .training-list-layout .training__item
+      padding-left: 16px
+
+    .training-list-layout .training__participants
+      width: 58px
+      margin-right: 9px

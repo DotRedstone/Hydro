@@ -1,6 +1,6 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row" data-sticky-parent>
+<div class="row training-detail-layout" data-sticky-parent>
   {%- if Object.keys(udict).length -%}
   <div class="medium-2 columns mobile--hide">
     <div data-sticky="large"><div class="section side">
@@ -41,7 +41,7 @@
   {%- else -%}
   <div class="medium-9 columns">
   {%- endif -%}
-    <div class="section">
+    <div class="section training-detail-intro">
       <div class="section__body typo">
         {{ tdoc['content'] }}
       </div>
@@ -64,7 +64,7 @@
         {{ tdoc.description|default('')|markdown|safe }}
       </div>
     </div>
-    <div class="section">
+    <div class="section training-detail-chapters">
       {% include "partials/training_detail.html" %}
     </div>
   </div>

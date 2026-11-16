@@ -1,8 +1,8 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row">
-  <div class="large-9 columns">
-    <div class="section">
+<div class="row learning-activity-layout training-list-layout">
+  <div class="large-9 columns learning-activity-main">
+    <div class="section learning-activity-list-card">
       <div class="section__header">
         <h1 class="section__title">{{ _('All Training Plans') }}</h1>
         <div class="section__tools">
@@ -59,7 +59,7 @@
       {% endif %}
     </div>
   </div>
-  <div class="large-3 columns">
+  <div class="large-3 columns learning-activity-side">
     {% if handler.user.hasPerm(perm.PERM_CREATE_TRAINING) %}
       <div class="section side">
         <div class="section__header">

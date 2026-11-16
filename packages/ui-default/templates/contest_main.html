@@ -1,7 +1,7 @@
 {% extends "layout/basic.html" %}
 {% import "components/contest.html" as contest with context %}
 {% macro render_important_contest(view, title, tdoc) %}
-<div class="section immersive--content section--contest {{ view }}">
+<div class="section immersive--content section--contest learning-activity-feature {{ view }}">
   <div class="media">
     <div class="media__body middle">
       <div class="section__body">
@@ -45,8 +45,8 @@
 </div>
 {% endmacro %}
 {% block content %}
-<div class="row">
-  <div class="medium-9 columns">
+<div class="row learning-activity-layout contest-list-layout">
+  <div class="medium-9 columns learning-activity-main">
   {%- for tdoc in tdocs -%}
     {% if model.contest.isOngoing(tdoc, tsdoc) %}
       {{ render_important_contest('live', 'Live...', tdoc) }}
@@ -54,7 +54,7 @@
       {{ render_important_contest('ready', 'Ready (☆▽☆)', tdoc) }}
     {% endif %}
   {%- endfor -%}
-    <div class="section">
+    <div class="section learning-activity-list-card">
       <div class="section__header">
         <h1 class="section__title">{{ _('All Contests') if not rule else _('All {0} Contests').format(_(model.contest.RULES[rule].TEXT)) }}</h1>
         <div class="section__tools">
@@ -128,7 +128,7 @@
       </div>
     </div>
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns learning-activity-side">
   {% if handler.user.hasPerm(perm.PERM_CREATE_CONTEST) %}
     <div class="section side">
       <div class="section__header">

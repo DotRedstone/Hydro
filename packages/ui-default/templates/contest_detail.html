@@ -5,10 +5,10 @@
 {% block content %}
 {{ set(UiContext, 'tdoc', tdoc) }}
 {{ set(UiContext, 'tsdoc', tsdoc) }}
-<div class="row">
-  <div class="medium-9 columns">
-    <div class="section">
-      <div class="section__header" style="align: center">
+<div class="row learning-activity-layout contest-detail-layout">
+  <div class="medium-9 columns learning-activity-main">
+    <div class="section learning-activity-hero">
+      <div class="section__header">
         <h1 class="section__title">{{ tdoc.title }}</h1>
       </div>
       <div class="section__body">
@@ -23,7 +23,7 @@
         {% endif %}
       </div>
     </div>
-    <div class="section">
+    <div class="section learning-activity-description">
       <div class="section__body typo richmedia">
         {{ tdoc['content']|markdown|safe }}
       {% if model.contest.isOngoing(tdoc, tsdoc) %}
@@ -48,7 +48,7 @@
       </div>
     {% endif %}
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns learning-activity-side">
   {% set owner_udoc = udict[tdoc.owner] %}
   {% include "partials/contest_sidebar.html" %}
   </div>
