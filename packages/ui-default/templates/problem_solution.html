@@ -1,8 +1,8 @@
 {% extends "layout/basic.html" %}
 {% import "components/comments_solution.html" as comments with context %}
 {% block content %}
-<div class="row">
-  <div class="medium-9 columns">
+<div class="row authoring-workbench">
+  <div class="medium-9 columns authoring-workbench__main">
     <div class="section">
       <div class="section__header">
         <h1 class="section__title">{{ _('{0} solutions').format(pscount) }}</h1>
@@ -47,7 +47,7 @@
       </div>
     {% endif %}
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns authoring-workbench__side">
     {% set owner_udoc = udict[pdoc.owner] %}
     {% include "partials/problem_sidebar.html" %}
   </div>

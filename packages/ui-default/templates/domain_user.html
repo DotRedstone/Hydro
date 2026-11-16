@@ -3,7 +3,7 @@
 {{ set(UiContext, 'roles', roles.map(eval('(i) => i._id'))) }}
 {{ set(UiContext, 'canForceJoin', model.system.get('server.allowInvite') or handler.user.hasPriv(PRIV.PRIV_MANAGE_ALL_DOMAIN)) }}
 {% set _rolesSelect = roles.filter(eval("(i) => i._id !== 'guest'")).map(eval('(role) => [role._id, role._id]')) %}
-<div class="section">
+<div class="section administration-users-card">
   <div class="section__header">
     <h1 class="section__title">{{ _('{0}: Users').format(domain.name) }}</h1>
     <div class="section__tools">

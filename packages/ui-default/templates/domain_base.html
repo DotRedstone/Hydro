@@ -1,10 +1,10 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row" data-sticky-parent>
-  <div class="medium-9 columns">
+<div class="row administration-layout" data-sticky-parent>
+  <main class="medium-9 columns administration-layout__main">
   {% block domain_content %}{% endblock %}
-  </div>
-  <div class="medium-3 columns"><div data-sticky="large">
+  </main>
+  <aside class="medium-3 columns administration-layout__side"><div data-sticky="large">
     <div class="section side">
       <ol class="menu">
         {%- for family, items in ui.getNodes('DomainManage')|groupby('args.family') -%}
@@ -21,6 +21,6 @@
         {% endfor %}
       </ol>
     </div>
-  </div></div>
+  </div></aside>
 </div>
 {% endblock %}
