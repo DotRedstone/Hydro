@@ -25,9 +25,10 @@ import 'vj/misc/nothing.styl';
 import 'vj/components/editor/cmeditor.styl';
 import './dark.styl';
 import './bp6-compat.css';
+import './claude-foundation.styl';
 
 // load all page stylesheets
-const pageStyleReq = require.context('../', true, /\.page\.styl$/i);
+const pageStyleReq = require.context('../', true, /\\.page\\.styl$/i);
 pageStyleReq.keys().map((key) => pageStyleReq(key));
-const pageStyleReqDefault = require.context('../', true, /\.page\.default\.styl$/i);
+const pageStyleReqDefault = require.context('../', true, /\\.page\\.default\\.styl$/i);
 pageStyleReqDefault.keys().map((key) => pageStyleReqDefault(key));
