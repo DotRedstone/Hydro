@@ -32,5 +32,5 @@ pageStyleReq.keys().map((key) => pageStyleReq(key));
 const pageStyleReqDefault = require.context('../', true, /\.page\.default\.styl$/i);
 pageStyleReqDefault.keys().map((key) => pageStyleReqDefault(key));
 
-// Apply the shared foundation after page styles so its tokens and components win intentionally.
+// Load after page styles in source order; final extracted CSS ordering is determined by the bundler.
 require('./claude-foundation.styl');
