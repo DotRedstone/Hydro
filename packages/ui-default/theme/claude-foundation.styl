@@ -38,7 +38,7 @@ body
 .nav__list-item
   display: flex
   align-items: center
-  min-height: 64px
+  min-height: rem($nav-item-height)
 
 .nav__logo
   display: block
@@ -179,9 +179,16 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
   background: var(--claude-surface)
 
 .pager__item.current
-  color: #fff
-  border-color: var(--claude-accent)
-  background: var(--claude-accent)
+  color: var(--claude-accent)
+  border-color: transparent
+  background: transparent
+  font-weight: 600
+
+.pager-bottom .pager__item.current
+  border-top: 2px solid var(--claude-accent)
+
+.pager-top .pager__item.current
+  border-bottom: 2px solid var(--claude-accent)
 
 .pager__item:hover
   color: var(--claude-accent)
