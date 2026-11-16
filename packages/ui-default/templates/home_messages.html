@@ -1,6 +1,7 @@
 {% extends "layout/home_base.html" %}
 {% block home_content %}
-<div class="section">
+<div class="section account-message-card">
+  <div class="section__header"><h1 class="section__title">{{ _('Messages') }}</h1></div>
   <div id="messagePad">
     {{ noscript_note.render() }}
     <div class="loader-container"><div class="loader"></div></div>

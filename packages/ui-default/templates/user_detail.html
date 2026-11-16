@@ -8,9 +8,9 @@
     background-image: url("{{ udoc.backgroundImage }}"), url("/components/profile/backgrounds/1.jpg");
   }
 </style>
-<div class="row">
-  <div class="medium-9 columns">
-    <div class="section">
+<div class="row account-profile-layout">
+  <div class="medium-9 columns account-profile-main">
+    <div class="section account-profile-card">
       <div class="profile-header user-profile-bg">
         <div class="profile-header__content">
           <div class="media">
@@ -110,7 +110,7 @@
                   <div class="typo section__body no-media">
                     {% set _mark = Math.ceil(pdocs.length/4) %}
                     {% macro col(pdocs) %}
-                      <div class="medium-3 columns"><ul>
+                      <div class="medium-3 columns account-profile-side"><ul>
                         {% for pdoc in pdocs %}
                           <li>{{ problem.render_problem_title(pdoc, show_tags=false, small=true) }}</li>
                         {% endfor %}
