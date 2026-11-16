@@ -309,3 +309,64 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
     background: var(--claude-surface-muted)
   .problem-catalog__search .search > input
     background: var(--claude-surface)
+
+.problem-catalog__table
+  width: 100%
+  overflow-x: auto
+  -webkit-overflow-scrolling: touch
+
+.problem-catalog__table .data-table
+  width: 100%
+
+.problem-catalog__table .col--name
+  min-width: 220px
+
+.problem-catalog__table .col--problem-name a
+  color: var(--claude-ink)
+  font-weight: 550
+
+.problem-catalog__table .col--problem-name a:hover
+  color: var(--claude-accent)
+
+.problem__tag-link, .problem__tag-item
+  border-radius: 999px
+  border: 1px solid var(--claude-line)
+  background: var(--claude-surface-muted)
+  color: var(--claude-ink-muted)
+
+.problem__tag-link:hover
+  border-color: var(--claude-accent)
+  background: var(--claude-accent-soft)
+  color: var(--claude-accent)
+
+.problem-catalog__sidebar .section__body
+  padding: 16px 18px
+
+.problem-catalog__sidebar .menu
+  margin: 0
+  padding: 0
+
+.problem-catalog__sidebar .menu__link
+  display: block
+  padding: 9px 10px
+  color: var(--claude-ink-muted)
+
+.problem-catalog__sidebar .menu__link:hover
+  color: var(--claude-accent)
+  background: var(--claude-accent-soft)
+
+.problem-catalog__search [data-fragment-id="problem_stat"]
+  flex: 0 0 auto
+  color: var(--claude-ink-muted)
+  white-space: nowrap
+
+.problem-catalog__search [data-fragment-id="problem_stat"] p
+  margin: 0
+
+.footer
+  padding-top: 22px
+  padding-bottom: 18px
+
+@media only screen and (max-width: 600px)
+  .problem-catalog__table .data-table
+    min-width: 640px
