@@ -58,9 +58,11 @@
     margin-left: auto
     margin-right: auto
 
-  .record-filter-card,
-  .record-list-card
+  .record-filter-card
     overflow: hidden
+    margin-bottom: var(--claude-space-5)
+
+  .record-list-card
     margin-bottom: var(--claude-space-5)
 
   .record-filter-card .section__header
@@ -76,6 +78,10 @@
 
   .record-filter-card .section__body
     padding: 22px 24px
+
+  .record-filter-grid::before,
+  .record-filter-grid::after
+    content: none
 
   .record-filter-grid
     display: grid
@@ -120,11 +126,6 @@
 
   .record-list-body
     padding: 0
-
-  .record-table-wrap
-    width: 100%
-    overflow-x: auto
-    -webkit-overflow-scrolling: touch
 
   .record_main__table
     min-width: 900px

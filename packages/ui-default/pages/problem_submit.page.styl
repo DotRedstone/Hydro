@@ -1,4 +1,6 @@
-.page--problem_submit
+.page--problem_submit,
+.page--contest_detail_problem_submit,
+.page--homework_detail_problem_submit
   .col--status
     width: rem(150px)
 
@@ -10,6 +12,10 @@
     .col--memory,
     .col--time
       display: none
+
+  .problem-submit-layout::before,
+  .problem-submit-layout::after
+    content: none
 
   .problem-submit-layout
     display: grid
