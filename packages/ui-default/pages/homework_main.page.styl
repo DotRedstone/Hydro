@@ -15,3 +15,103 @@ $highlight-button-color = #F6DF45
   
   .filter-form
     display: inline-block
+
+  .homework-list-layout .learning-activity-list-card
+    margin-bottom: var(--claude-space-5)
+
+  .homework-list-layout .learning-activity-list-card .section__header
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: space-between
+    gap: 13px
+    padding: 22px 26px
+
+  .homework-list-layout .learning-activity-list-card .section__title
+    font-size: 1.35rem
+    line-height: 1.4
+
+  .homework-list-layout .learning-activity-list-card .section__tools
+    display: flex
+    align-items: center
+    flex-wrap: wrap
+    gap: 9px
+
+  .homework-list-layout [name="filter-form"]
+    display: flex
+    flex-wrap: wrap
+    gap: 8px
+    align-items: center
+
+  .homework-list-layout [name="homework_display"],
+  .homework-list-layout [name="filter-form"] input,
+  .homework-list-layout [name="filter-form"] select
+    min-height: 40px
+    padding: 8px 12px
+    font-size: .88rem
+    border-radius: var(--claude-radius-sm)
+
+  .homework-list-layout [name="filter-form"] input
+    min-width: 170px
+
+  .homework-list-layout .homework__list
+    padding: 8px 0
+    margin: 0
+    list-style: none
+
+  .homework-list-layout .homework__item
+    margin: 0
+    padding: 20px 26px
+    border-bottom: 1px solid var(--claude-line)
+
+  .homework-list-layout .homework__item:last-child
+    border-bottom: 0
+
+  .homework-list-layout .homework__item:hover
+    background: var(--claude-surface-muted)
+
+  .homework-list-layout .homework__date
+    width: 70px
+    min-height: 68px
+    padding: 8px
+    margin-right: 17px
+    border: 1px solid var(--claude-line)
+    border-radius: var(--claude-radius-md)
+    background: var(--claude-page)
+    color: var(--claude-ink)
+
+  .homework-list-layout .homework__title
+    font-size: 1.12rem
+    line-height: 1.5
+    font-weight: 630
+    margin: 0 0 10px
+
+  .homework-list-layout .homework__title a
+    color: var(--claude-ink)
+
+  .homework-list-layout .homework__title a:hover
+    color: var(--claude-accent)
+
+  .homework-list-layout .supplementary.list
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 6px 16px
+    color: var(--claude-ink-muted)
+    font-size: .85rem
+    line-height: 1.6
+
+  .homework-list-layout [name="calendar_entry"]
+    padding: 20px
+    border-top: 1px solid var(--claude-line)
+
+  @media only screen and (max-width: 600px)
+    .homework-list-layout .homework__item
+      padding: 16px
+
+    .homework-list-layout .learning-activity-list-card .section__header
+      padding: 18px
+
+    .homework-list-layout .homework__date
+      width: 56px
+      margin-right: 8px
