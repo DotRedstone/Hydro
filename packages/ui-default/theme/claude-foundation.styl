@@ -16,109 +16,6 @@ body
   margin: 0 auto
   padding: 4rem 28px 56px
 
-.nav
-  // Keep Hydro's native fixed positioning and z-index above nav--shadow.
-  background: var(--claude-surface)
-  border-bottom: 1px solid var(--claude-line)
-  box-shadow: none
-
-.nav--shadow
-  // Decorative fixed shadow: never intercept desktop navigation or dropdowns.
-  pointer-events: none
-
-.nav .row::before,
-.nav .row::after,
-.nav .row > .columns::before,
-.nav .row > .columns::after
-  // Foundation clearfix nodes must not become flex items.
-  content: none
-
-.nav > .row
-  // Contain the floated columns so the existing More logic can measure row height.
-  display: flow-root
-
-.nav .row > .columns
-  display: flex
-  flex-wrap: wrap
-  align-items: center
-  justify-content: space-between
-  min-height: rem($nav-item-height)
-  height: auto
-
-.nav__list
-  display: flex
-  flex-wrap: wrap
-  align-items: center
-  gap: 5px
-  margin: 0
-  padding: 0
-
-.nav__list-item
-  display: flex
-  align-items: center
-  height: rem($nav-item-height)
-
-.nav__logo
-  display: block
-  max-height: 34px
-  max-width: 148px
-  object-fit: contain
-
-.nav .nav__item
-  display: inline-flex
-  align-items: center
-  box-sizing: border-box
-  height: rem($nav-item-height)
-  min-height: 0
-  padding: 0 13px
-  color: var(--claude-ink-muted)
-  border-bottom: 2px solid transparent
-  background: transparent
-  font-weight: 500
-  transition: color .16s ease, border-color .16s ease
-
-.nav .nav__item:hover
-  color: var(--claude-accent)
-  background: transparent
-  text-decoration: none
-
-.nav .nav__item.nav--active
-  color: var(--claude-accent)
-  border-bottom-color: var(--claude-accent)
-
-.nav .nav__item--round
-  border-radius: var(--claude-radius-sm)
-  background: var(--claude-accent)
-  color: #fff
-  padding: 9px 15px
-
-.nav .nav__item--round:hover
-  background: var(--claude-accent-hover)
-  color: #fff
-
-.header--mobile
-  background: var(--claude-surface)
-  border-bottom: 1px solid var(--claude-line)
-  color: var(--claude-ink)
-
-.header--mobile .header__hamburger
-  display: flex
-  align-items: center
-  justify-content: center
-  min-width: 44px
-  min-height: 44px
-  padding: 0
-  cursor: pointer
-
-.header--mobile .hamburger-inner,
-.header--mobile .hamburger-inner::before,
-.header--mobile .hamburger-inner::after
-  background-color: var(--claude-ink)
-
-.header--mobile__domain img
-  max-height: 32px
-  max-width: 150px
-
 .section
   background: var(--claude-surface)
   border: 1px solid var(--claude-line)
@@ -321,19 +218,6 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
     order: 2
 
 @media only screen and (max-width: 600px)
-  // Hydro's slideout menu must remain vertical instead of inheriting desktop flex.
-  .nav.slideout-menu .row > .columns
-    display: block
-    height: auto
-  .nav.slideout-menu .nav__list
-    display: block
-  .nav.slideout-menu .nav__list-item
-    display: block
-    height: auto
-  .nav.slideout-menu .nav__item
-    display: block
-    height: auto
-    min-height: rem($nav-item-height)
   .main
     padding: 18px 12px 32px
   .problem-catalog__heading

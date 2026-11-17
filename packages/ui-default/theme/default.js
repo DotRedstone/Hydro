@@ -34,4 +34,5 @@ pageStyleReqDefault.keys().map((key) => pageStyleReqDefault(key));
 
 // Load after page styles in source order; final extracted CSS ordering is determined by the bundler.
 require('./claude-foundation.styl');
+require('./claude-navigation.styl');
 require('./claude-authoring.styl');

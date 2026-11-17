@@ -43,7 +43,12 @@ function handleNavbar() {
   }
   $trigger.show();
 
-  const base = 70;
+  // Preserve the existing row-height packing protocol as the theme's nav height changes.
+  // The first top-level item is the brand and supplies the actual single-row height.
+  const singleLine = $('.nav__list--main > .nav__list-item').first().outerHeight()
+    || $('.nav__list--secondary > .nav__list-item').first().outerHeight()
+    || 60;
+  const base = singleLine + 10;
 
   let navItems = $('.nav__list--main > .nav__list-item');
   let navItem = navItems.length - 2;
