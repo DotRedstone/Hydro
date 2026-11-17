@@ -184,7 +184,8 @@
   top: var(--school-nav-height)
 
 #nprogress .bar,
-#nprogress .spinner
+#nprogress .spinner,
+.hint
   top: var(--school-nav-height)
 
 // The mobile header stays in document flow; the desktop fixed bar becomes a slideout.
@@ -311,9 +312,9 @@
   .header--mobile .row
     display: flow-root
 
-  .header--mobile__domain,
-  .header--mobile__domain:visited,
-  .header--mobile__domain:hover
+  .header--mobile a.header--mobile__domain,
+  .header--mobile a.header--mobile__domain:visited,
+  .header--mobile a.header--mobile__domain:hover
     display: inline-flex
     align-items: center
     min-height: 44px
