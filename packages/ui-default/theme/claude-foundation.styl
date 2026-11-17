@@ -35,12 +35,15 @@ body
 
 .nav .row > .columns
   display: flex
+  flex-wrap: wrap
   align-items: center
   justify-content: space-between
-  height: rem($nav-item-height)
+  min-height: rem($nav-item-height)
+  height: auto
 
 .nav__list
   display: flex
+  flex-wrap: wrap
   align-items: center
   gap: 5px
   margin: 0
