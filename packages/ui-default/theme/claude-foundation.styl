@@ -22,10 +22,22 @@ body
   border-bottom: 1px solid var(--claude-line)
   box-shadow: none
 
+.nav--shadow
+  // Decorative fixed shadow: never intercept desktop navigation or dropdowns.
+  pointer-events: none
+
+.nav .row::before,
+.nav .row::after,
+.nav .row > .columns::before,
+.nav .row > .columns::after
+  // Foundation clearfix nodes must not become flex items.
+  content: none
+
 .nav .row > .columns
   display: flex
   align-items: center
   justify-content: space-between
+  height: rem($nav-item-height)
 
 .nav__list
   display: flex
@@ -37,7 +49,7 @@ body
 .nav__list-item
   display: flex
   align-items: center
-  min-height: rem($nav-item-height)
+  height: rem($nav-item-height)
 
 .nav__logo
   display: block
@@ -48,7 +60,9 @@ body
 .nav .nav__item
   display: inline-flex
   align-items: center
-  min-height: rem($nav-item-height)
+  box-sizing: border-box
+  height: rem($nav-item-height)
+  min-height: 0
   padding: 0 13px
   color: var(--claude-ink-muted)
   border-bottom: 2px solid transparent
@@ -78,6 +92,21 @@ body
 .header--mobile
   background: var(--claude-surface)
   border-bottom: 1px solid var(--claude-line)
+  color: var(--claude-ink)
+
+.header--mobile .header__hamburger
+  display: flex
+  align-items: center
+  justify-content: center
+  min-width: 44px
+  min-height: 44px
+  padding: 0
+  cursor: pointer
+
+.header--mobile .hamburger-inner,
+.header--mobile .hamburger-inner::before,
+.header--mobile .hamburger-inner::after
+  background-color: var(--claude-ink)
 
 .header--mobile__domain img
   max-height: 32px
@@ -285,6 +314,19 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
     order: 2
 
 @media only screen and (max-width: 600px)
+  // Hydro's slideout menu must remain vertical instead of inheriting desktop flex.
+  .nav.slideout-menu .row > .columns
+    display: block
+    height: auto
+  .nav.slideout-menu .nav__list
+    display: block
+  .nav.slideout-menu .nav__list-item
+    display: block
+    height: auto
+  .nav.slideout-menu .nav__item
+    display: block
+    height: auto
+    min-height: rem($nav-item-height)
   .main
     padding: 18px 12px 32px
   .problem-catalog__heading
