@@ -3,8 +3,8 @@
 {% import "components/problem.html" as problem with context %}
 {% block content %}
 {{ set(UiContext, 'tdoc', tdoc) }}
-<div class="row">
-  <div class="medium-9 columns">
+<div class="row authoring-workbench">
+  <div class="medium-9 columns authoring-workbench__main">
     <div class="section">
       <div class="section__body no-padding">
         <table class="data-table">
@@ -73,7 +73,7 @@
       </div>
     </div>
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns authoring-workbench__side">
     {% include 'partials/contest_sidebar_management.html' %}
   </div>
 </div>
