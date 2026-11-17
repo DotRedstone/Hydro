@@ -33,6 +33,10 @@ body
   // Foundation clearfix nodes must not become flex items.
   content: none
 
+.nav > .row
+  // Contain the floated columns so the existing More logic can measure row height.
+  display: flow-root
+
 .nav .row > .columns
   display: flex
   flex-wrap: wrap
