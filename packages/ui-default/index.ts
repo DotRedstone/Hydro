@@ -8,6 +8,7 @@ import convert from 'schemastery-jsonschema';
 import { presetRenderers } from './backendlib/contentRenderer';
 import markdown from './backendlib/markdown';
 import { TemplateService } from './backendlib/template';
+import { isThemeId, THEMES } from './theme/themes';
 
 class WikiHelpHandler extends Handler {
   noCheckPermView = true;
@@ -53,7 +54,7 @@ class SetThemeHandler extends Handler {
   noCheckPermView = true;
 
   async get({ theme }) {
-    theme = ['light', 'dark', 'default'].includes(theme) ? theme : 'default';
+    theme = isThemeId(theme) ? theme : 'default';
     if (this.user.hasPriv(PRIV.PRIV_USER_PROFILE)) {
       await UserModel.setById(this.user._id, { theme });
     }
@@ -202,7 +203,8 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       SettingModel.Setting('setting_display', 'showTimeAgo', true, 'boolean', 'Enable Time Ago'),
       SettingModel.Setting('setting_display', 'fontFamily', 'Inter', fontRange, 'Font Family'),
       SettingModel.Setting('setting_display', 'codeFontFamily', 'Source Code Pro', codeFontRange, 'Code Font Family'),
-      SettingModel.Setting('setting_display', 'theme', 'light', { light: 'Light', dark: 'Dark' }, 'Theme'),
+      SettingModel.Setting('setting_display', 'theme', 'default',
+        Object.fromEntries(THEMES.map((t) => [t.id, t.label])), 'Theme'),
       SettingModel.Setting('setting_markdown', 'preferredEditorType', 'sv', { sv: 'Split View', monaco: 'Monaco Editor' }, 'Preferred Editor Type'),
       SettingModel.Setting('setting_highlight', 'showInvisibleChar', false, 'boolean', 'Show Invisible Characters'),
       SettingModel.Setting('setting_highlight', 'formatCode', true, 'boolean', 'Auto Format Code'),

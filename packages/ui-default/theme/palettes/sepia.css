@@ -1,0 +1,64 @@
+/* Palette: sepia */
+/* ---------------------------------------------------------------------------- */
+/* 第二个“浅色家族”的调色板，用来验证多主题只需要加一个文件：               */
+/*   :root            默认浅色（claude）                                       */
+/*   :root.theme--dark  深色                                                   */
+/*   :root.theme--sepia 这个文件里的暖褐纸张                                   */
+/*                                                                             */
+/* 只覆盖颜色类令牌；间距、圆角、字号、宽度这些结构令牌沿用 :root。            */
+/* 新增主题的做法见 theme/README.md「Adding a palette」。                      */
+
+:root.theme--sepia {
+  color-scheme: light;
+
+  --c-bg: #E8DFCB;
+  --c-surface: #F4ECD9;
+  --c-sunken: #DDD2BA;
+  --c-hover: #E2D8C1;
+  --c-border: #D3C6AB;
+  --c-border-strong: #BCAD8F;
+  --c-nav-bg: rgba(232, 223, 203, 0.88);
+  --c-overlay: rgba(58, 47, 28, 0.34);
+
+  --c-fg: #3A3021;
+  --c-fg-2: #574A34;
+  --c-fg-3: #857658;
+  --c-heading: #2B2416;
+
+  --c-accent: #B9663C;
+  --c-accent-hover: #C4744A;
+  --c-link: #8E4A25;
+  --c-accent-soft: #EFDCC5;
+  --c-accent-fg: #FFF9F0;
+  --c-focus-ring: rgba(185, 102, 60, 0.30);
+
+  --c-ok: #4A7355;
+  --c-ok-soft: #DCE6D3;
+  --c-bad: #A24632;
+  --c-warn: #96691B;
+  --c-warn-soft: #F0E1C0;
+  --c-info: #3F6B85;
+  --c-neutral: #7C6E58;
+  --c-neutral-soft: #E2D8C3;
+
+  --c-code-bg: #E6DBC3;
+  --c-code-fg: #8E4A25;
+  --c-mark: #EBD19C;
+  --c-inverse-bg: #3A3021;
+  --c-inverse-fg: #F4ECD9;
+
+  --c-cat-1: #B9663C;
+  --c-cat-2: #B98B34;
+  --c-cat-3: #7E9160;
+  --c-cat-4: #5F8B80;
+  --c-cat-5: #5C7995;
+  --c-cat-6: #857094;
+  --c-cat-7: #A56B7C;
+  --c-cat-8: #8B8474;
+
+  --logo-filter: none;
+
+  --shadow-pop: 0 1px 2px rgba(58, 47, 28, 0.07), 0 8px 24px rgba(58, 47, 28, 0.12);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(58, 47, 28, 0.06), 0 18px 44px rgba(58, 47, 28, 0.10);
+}

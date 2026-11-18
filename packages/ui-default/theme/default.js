@@ -1,5 +1,6 @@
 // Design tokens must land before anything that consumes var(--c-*).
 import './palettes/claude.css';
+import './palettes/sepia.css';
 import 'normalize.css/normalize.css';
 import 'allotment/dist/style.css';
 import 'katex/dist/katex.min.css';

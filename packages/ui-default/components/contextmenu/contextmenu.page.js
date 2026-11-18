@@ -1,6 +1,6 @@
 import { AutoloadPage } from 'vj/misc/Page';
 import { copyFromSite } from 'vj/components/copy/copy';
-import { applyTheme } from 'vj/components/theme/theme.page';
+import { toggleTheme } from 'vj/components/theme/theme.page';
 
 // 只有在“我们确实能提供更有用动作”的地方才接管右键：
 // 输入框、可编辑区域、代码编辑器、按住 Shift 时一律交回浏览器原生菜单。
@@ -174,7 +174,7 @@ export default new AutoloadPage('contextmenu', () => {
         break;
       }
       case 'theme':
-        applyTheme(document.documentElement.classList.contains('theme--dark') ? 'light' : 'dark');
+        toggleTheme();
         break;
       default: break;
     }

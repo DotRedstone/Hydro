@@ -1,35 +1,42 @@
 import { AutoloadPage } from 'vj/misc/Page';
-
-const THEMES = ['light', 'dark', 'default'] as const;
-type Theme = typeof THEMES[number];
+import {
+  DEFAULT_THEME, isDarkTheme, resolveTheme, THEMES,
+} from 'vj/theme/themes';
 
 const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"/></svg>';
 const SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>';
 const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5.5 11.5 12 5l6.5 6.5"/></svg>';
 
-function normalizeTheme(theme: string): Theme {
-  return (THEMES as readonly string[]).includes(theme) ? theme as Theme : 'default';
+/** 当前生效的主题：`<html>` 上只会挂一个 `theme--<id>`。 */
+function currentTheme() {
+  const { classList } = document.documentElement;
+  return THEMES.find((t) => classList.contains(`theme--${t.id}`))?.id || DEFAULT_THEME;
 }
 
 function isDark() {
-  return document.documentElement.classList.contains('theme--dark');
+  return isDarkTheme(currentTheme());
 }
 
 /** Apply a palette switch in place — the theme is one class on <html>. */
 export function applyTheme(theme: string) {
-  const next = normalizeTheme(theme);
-  const dark = next === 'dark';
+  const meta = resolveTheme(theme);
   const html = document.documentElement;
-  html.classList.toggle('theme--dark', dark);
-  html.classList.toggle('theme--light', !dark);
-  html.dataset.mantineColorScheme = dark ? 'dark' : 'light';
-  localStorage.setItem('mantine-color-scheme-value', dark ? 'dark' : 'light');
-  document.querySelector('meta[name="theme-color"]')?.setAttribute(
-    'content', dark ? '#262624' : '#FAF9F5',
-  );
+  for (const item of THEMES) html.classList.remove(`theme--${item.id}`);
+  html.classList.add(`theme--${meta.id}`);
+  html.dataset.mantineColorScheme = meta.dark ? 'dark' : 'light';
+  localStorage.setItem('mantine-color-scheme-value', meta.dark ? 'dark' : 'light');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', meta.color);
   // remember the choice for the next server render (works without an account)
-  document.cookie = `theme=${next}; path=/; max-age=31536000; samesite=lax`;
-  document.dispatchEvent(new CustomEvent('themechange', { detail: next }));
+  document.cookie = `theme=${meta.id}; path=/; max-age=31536000; samesite=lax`;
+  document.dispatchEvent(new CustomEvent('themechange', { detail: meta.id }));
+}
+
+/** 深浅切换按钮：深色回默认纸面，其它主题一律去深色。 */
+export function toggleTheme() {
+  const next = isDark() ? DEFAULT_THEME : 'dark';
+  applyTheme(next);
+  fetch(`/set_theme/${next}`, { credentials: 'include' }).catch(() => {});
+  return next;
 }
 
 function makeFab(className: string, label: string, html: string) {
@@ -55,11 +62,7 @@ function mountFloatingActions() {
   }
 
   const theme = makeFab('fab--theme', '切换深浅色', MOON);
-  theme.addEventListener('click', () => {
-    const next = isDark() ? 'light' : 'dark';
-    applyTheme(next);
-    fetch(`/set_theme/${next}`, { credentials: 'include' }).catch(() => {});
-  });
+  theme.addEventListener('click', toggleTheme);
 
   const top = makeFab('fab--top', '回到顶部', ARROW_UP);
   top.addEventListener('click', () => {
