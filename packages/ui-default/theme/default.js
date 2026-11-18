@@ -48,3 +48,4 @@ pageStyleReqDefault.keys().map((key) => pageStyleReqDefault(key));
 require('./claude-foundation.styl');
 require('./claude-navigation.styl');
 require('./claude-authoring.styl');
+require('./claude-motion.styl');
