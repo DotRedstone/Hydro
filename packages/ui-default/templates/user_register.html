@@ -4,16 +4,21 @@
   <div class="account-auth-card">
     <div class="auth-card__main">
     <h1>{{ _('Sign Up') }}</h1>
-    <form method="POST" captcha>
+    <form method="POST" class="auth-form">
+      {% if error %}
+      <div class="auth-form__error" role="alert">{{ error }}</div>
+      {% endif %}
       <div class="row"><div class="columns">
         <label class="material textbox">
           {{ _('Email') }}
-          <input name="mail" type="text" autofocus>
+          <input name="mail" type="text" value="{{ mail }}" autofocus autocomplete="email">
         </label>
       </div></div>
+      {% if captchaRequired %}
+      {% include "partials/login_captcha.html" %}
+      {% endif %}
       <div class="row"><div class="columns">
         <div class="text-center">
-          {{ captcha|safe }}
           <input id="submit" type="submit" value="{{ _('Send Verification Email') }}" class="expanded rounded primary button">
         </div>
       </div></div>

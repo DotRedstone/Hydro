@@ -1,9 +1,15 @@
 {% extends "layout/immersive.html" %}
 {% block content %}
-<div class="immersive--content immersive--center account-auth-card">
-  <h1>{{ _('Sign Up') }}</h1>
-  <div class="text-center">
-    {{ _('Sign up mail has been sent to your email.') }}
+<div class="auth-page">
+  <div class="account-auth-card account-auth-card--single">
+    <div class="auth-card__main">
+    <h1>{{ _('Check your inbox') }}</h1>
+    <p class="auth-card__lead">{{ _('Sign up mail has been sent to {0}. Open the link inside to finish your account.').format(mail) }}</p>
+    <p class="auth-card__foot">
+      <a class="rounded button" href="{{ url('user_login') }}">{{ _('Login') }}</a>
+      <a class="rounded button inverse" href="{{ url('user_register') }}">{{ _('Use another email') }}</a>
+    </p>
+    </div>
   </div>
 </div>
 {% endblock %}

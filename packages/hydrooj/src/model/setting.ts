@@ -312,6 +312,8 @@ SystemSetting(Schema.object({
         from: Schema.string().default('').description('Mail From'),
         secure: Schema.boolean().default(false).description('SSL'),
         verify: Schema.boolean().default(true).description('Verify register email'),
+        devOutbox: Schema.boolean().default(false)
+            .description('Write mails into ~/.hydro/outbox instead of sending them (development only)'),
     }).extra('family', 'setting_smtp'),
     server: Schema.object({
         allowInvite: Schema.boolean().default(true).description('Allow invite users'),
