@@ -9,6 +9,7 @@
   .col--status
     width: rem(140px)
     position: relative
+    border-right: 1px solid $table-border-color
 
   .col--difficulty
     width: rem(70px)
@@ -21,6 +22,7 @@
   .col--ac-tried
     width: rem(100px)
     text-align: center
+    border-left: 1px solid $table-border-color
 
   +mobile()
     .col--status,
@@ -29,7 +31,7 @@
       display: none
 
     .col--ac
-      border-left: 0
+      border-left: 1px solid $table-border-color
 
 
 .widget--category-filter
@@ -105,21 +107,14 @@
 .toggle-tag
   float: right
 
-// the catalog wrapper hides tags while the tag column is toggled off
 .problem-catalog__table .hide-problem-tag .problem__tag
   display: none
 
-// the table sits under the toolbar; rows get room to breathe
-.page--problem_main
-  .data-table > thead > tr
-    height: rem(40px)
+.data-table > tbody > tr
+  height: 40.15px
 
-  .data-table > tbody > tr
-    height: rem(52px)
-
-  .data-table th,
-  .data-table td
-    padding: rem(0 14px)
+.data-table > thead > tr
+  height: 54.9px
 
 .search-container
   padding-bottom: 0
@@ -197,84 +192,42 @@
     .search-tag__item
       background: var(--c-sunken);
 
-// toolbar: search box, problem count, sorter, submit
 .search
   width: 100%
   position: relative
   display: flex
-  align-items: center
-  gap: rem(10px)
-  padding: rem(12px 16px)
-  background: $section-bg-color
-  border-bottom: 1px solid $border-2-color
-
-  [data-fragment-id="problem_stat"]
-    order: 2
-    flex: 0 0 auto
-
-    p
-      margin: 0
-      font-size: rem($font-size-small)
-      color: $text-3-color
-      white-space: nowrap
-
-  .search-sort
-    order: 3
-    flex: 0 0 auto
-    width: rem(124px)
-    height: rem(38px)
-    padding: 0 rem(8px)
-    border: 1px solid $border-1-color
-    border-radius: $radius-sm
-    background: $section-bg-color
-    color: $text-2-color
-    font-size: rem($font-size-small)
-    outline: 0
-
-    &:focus
-      border-color: $input-focus-border-color
 
 .search > input
-  order: 1
-  flex: 1 1 auto
-  min-width: 0
-  height: rem(38px)
+  width: 100%
   border: 1px solid $border-1-color
-  border-radius: $radius-sm
-  padding: 0 rem(12px)
-  background: var(--c-bg)
+  border-right: none
+  padding: 5px
+  height: 36px
   outline: none
   color: $text-1-color
-  font-size: rem($font-size-secondary)
-
-  &::placeholder
-    color: $text-3-color
-
-  &:focus
-    border-color: $input-focus-border-color
-    background: $section-bg-color
 
 .search > button
-  order: 4
-  flex: 0 0 auto
-  width: rem(38px)
-  height: rem(38px)
+  width: 37px
+  height: 36px
   border: 1px solid $primary-color
-  border-radius: $radius-pill
   background: $primary-color
   text-align: center
   color: var(--c-accent-fg)
   cursor: pointer
+  font-size: 20px
+
+.search > div
+  position: absolute
+  right: 170px
+  top: 10px
   font-size: rem(17px)
-  transition: background .15s
 
-  &:hover
-    background: var(--c-accent-hover)
-    border-color: var(--c-accent-hover)
-
-.page--problem_main
-  .col--difficulty
-    width: rem(110px)
-
-  .col--ac-tried
-    width: rem(120px)
+.search-sort
+  position: absolute
+  border: none
+  top: 1px
+  height: 34px
+  right: 37px
+  color: $text-1-color
+  cursor: pointer
+  width: 120px

@@ -1,4 +1,6 @@
-.page--problem_submit
+.page--problem_submit,
+.page--contest_detail_problem_submit,
+.page--homework_detail_problem_submit
   .col--status
     width: rem(150px)
 
@@ -10,3 +12,114 @@
     .col--memory,
     .col--time
       display: none
+
+  .problem-submit-layout::before,
+  .problem-submit-layout::after
+    content: none
+
+  .problem-submit-layout
+    display: grid
+    grid-template-columns: minmax(0, 1fr) 296px
+    gap: var(--sp-5)
+    align-items: start
+    margin-left: auto
+    margin-right: auto
+
+  .problem-submit-layout > .columns
+    width: auto
+    min-width: 0
+    float: none
+    padding-left: 0
+    padding-right: 0
+
+  .problem-submit-card
+    overflow: hidden
+
+  .problem-submit-card > .section__header
+    padding: 24px 28px
+
+  .problem-submit-card > .section__header .section__title
+    font-size: 1.45rem
+    line-height: 1.4
+
+  .problem-submit-body
+    padding: 28px
+    font-size: 1rem
+    line-height: 1.7
+
+  .problem-submit-form
+    display: flex
+    flex-direction: column
+    gap: 22px
+
+  .problem-submit-form label
+    display: block
+    margin-bottom: 8px
+    color: var(--c-fg)
+    font-size: .94rem
+    font-weight: 600
+
+  .problem-submit-form textarea[name="code"]
+    display: block
+    width: 100%
+    min-height: 420px
+    box-sizing: border-box
+    padding: 18px
+    border: 1px solid var(--c-border)
+    border-radius: var(--r)
+    background: var(--c-bg)
+    color: var(--c-fg)
+    font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace
+    font-size: .9rem
+    line-height: 1.7
+    tab-size: 4
+
+  .problem-submit-form input[type="file"]
+    display: block
+    width: 100%
+    max-width: 100%
+    margin-top: 8px
+    padding: 12px
+    border: 1px dashed var(--c-border)
+    border-radius: var(--r)
+    background: var(--c-sunken)
+
+  .submit-language-panel
+    padding: 16px
+    border: 1px solid var(--c-border)
+    border-radius: var(--r)
+    background: var(--c-sunken)
+
+  .submit-language-panel #codelang-selector
+    margin: 0
+
+  .problem-submit-form input[type="submit"]
+    min-width: 150px
+    min-height: 44px
+    padding: 10px 22px
+    border-radius: var(--r-sm)
+    font-size: .95rem
+    font-weight: 600
+
+  .problem-submit-sidebar .section
+    overflow: hidden
+    margin-bottom: var(--sp-4)
+
+  .problem-submit-sidebar .menu__link
+    display: flex
+    align-items: center
+    min-height: 42px
+    padding: 10px 16px
+    font-size: .92rem
+
+  @media only screen and (max-width: 900px)
+    .problem-submit-layout
+      grid-template-columns: minmax(0, 1fr)
+
+  @media only screen and (max-width: 600px)
+    .problem-submit-card > .section__header,
+    .problem-submit-body
+      padding: 18px
+
+    .problem-submit-form textarea[name="code"]
+      min-height: 320px

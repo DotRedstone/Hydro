@@ -10,10 +10,10 @@
   + ("&allDomain=1" if allDomain else "")
 ) }}
 {{ set(UiContext, 'rids', rdocs.map(eval("rdoc=>rdoc._id.toString()"))) }}
-<div class="row">
+<div class="row record-main-layout">
   <div class="medium-12 columns">
-    <form method="get">
-      <div class="section">
+    <form method="get" class="record-filter-form">
+      <div class="section record-filter-card">
         <div class="section__header">
           <h1 class="section__title">{{ _('Filter') }}</h1>
           <div class="section__tools">
@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="section__body">
-          <div class="row">
+          <div class="row record-filter-grid">
             <div class="medium-2 columns">
               <label class="filter-user">
                 {{ _('By Username / UID') }}
@@ -64,8 +64,8 @@
         </div>
       </div>
     </form>
-    <div class="section">
-      <div class="section__body no-padding">
+    <div class="section record-list-card">
+      <div class="section__body no-padding record-list-body">
       {% if not rdocs.length %}
         {% if not filterUidOrName and not filterPid and not filterTid %}
         {{ nothing.render('Oh, there is no task in the queue!') }}
