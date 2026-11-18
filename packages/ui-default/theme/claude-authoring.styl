@@ -319,9 +319,45 @@
   min-width: 220px
   white-space: normal
 
+// inline editors live inside table rows on the domain role/user pages
+.administration-layout__main .data-table select,
+.administration-layout__main .data-table input.textbox
+  min-height: 34px
+  margin: 0
+  padding: 4px 10px
+  border-radius: var(--r-sm)
+  background: var(--c-surface)
+  font-size: .86rem
+
+.administration-layout__main .data-table input[type=checkbox]
+  accent-color: var(--c-accent)
+
+.administration-layout__main .col--actions,
+.administration-script-card .col--action
+  min-width: 92px
+  white-space: nowrap
+
 .administration-layout__main .col--p
   min-width: 70px
   text-align: center
+
+// inline editors live inside table rows on the domain role/user pages
+.administration-layout__main .data-table select,
+.administration-layout__main .data-table input.textbox
+  min-height: 34px
+  margin: 0
+  padding: 4px 10px
+  border-radius: var(--r-sm)
+  background: var(--c-surface)
+  font-size: .86rem
+
+.administration-layout__main .data-table input[type=checkbox]
+  accent-color: var(--c-accent)
+
+.administration-layout__main .col--actions,
+.administration-script-card .col--action
+  min-width: 92px
+  white-space: nowrap
 
 .administration-layout__main .col--p input[type=checkbox],
 .administration-layout__main [data-checkbox-group] 
@@ -358,23 +394,30 @@
   line-height: 1.65
 
 .administration-import-card textarea[name=users]
-  min-height: 220px
-  font-family: ui-monospace, Consolas, monospace
+  min-height: 240px
+  padding: 12px 14px
+  border-radius: var(--r-sm)
+  background: var(--c-bg)
+  font-family: var(--code-font-family)
+  font-size: .87rem
+  line-height: 1.7
+
+// the message log only exists once a run has produced output
+.administration-import-card pre[name=messages]:empty
+  display: none
 
 // Distinguish irreversible controls from ordinary Save / Preview actions.
 // This is visual only: native dialogs and explicit clicks remain required.
 .authoring-workbench button[name=operation][value=delete],
 .administration-layout button[name=operation][value=delete],
-.administration-layout #delete-domain-form input[type=submit],
-.administration-layout button[name=submit]
+.administration-layout #delete-domain-form input[type=submit]
   border: 1px solid var(--c-bad)
   color: var(--c-bad)
   background: transparent
 
 .authoring-workbench button[name=operation][value=delete]:hover,
 .administration-layout button[name=operation][value=delete]:hover,
-.administration-layout #delete-domain-form input[type=submit]:hover,
-.administration-layout button[name=submit]:hover
+.administration-layout #delete-domain-form input[type=submit]:hover
   border-color: var(--c-bad)
   background: token-alpha(var(--c-bad), 10%)
   color: var(--c-bad)
@@ -388,14 +431,18 @@
 .administration-script-card .col--action a
   display: inline-flex
   align-items: center
-  min-height: 36px
-  padding: 6px 10px
-  border: 1px solid token-alpha(var(--c-bad), 40%)
+  min-height: 34px
+  padding: 5px 12px
+  border: 1px solid var(--c-border)
   border-radius: var(--r-sm)
-  color: var(--c-bad)
+  color: var(--c-fg-2)
+  font-size: .85rem
+  text-decoration: none
 
 .administration-script-card .col--action a:hover
-  background: token-alpha(var(--c-bad), 10%)
+  border-color: var(--c-accent)
+  background: var(--c-accent-soft)
+  color: var(--c-link)
 
 @media only screen and (max-width: 1150px)
   .authoring-workbench--files
@@ -434,3 +481,195 @@
 
   .administration-layout__main .data-table .col--description
     min-width: 190px
+
+// Field rows in the authoring card keep one vertical rhythm; the templates emit
+// a mix of 12-column rows and single fields, which used to drift apart.
+.authoring-workbench__editor .section__body > .row,
+.administration-layout__main .section__body > .row
+  margin-left: rem(-8px)
+  margin-right: rem(-8px)
+  margin-bottom: rem(10px)
+
+  &:last-child
+    margin-bottom: 0
+
+.authoring-workbench__editor .section__body > .row > .columns,
+.administration-layout__main .section__body > .row > .columns
+  padding-left: rem(8px)
+  padding-right: rem(8px)
+
+.authoring-workbench__editor .section__body label,
+.administration-layout__main .section__body label
+  margin-bottom: 0
+
+.authoring-workbench__editor .section__body input.textbox,
+.authoring-workbench__editor .section__body select,
+.authoring-workbench__editor .section__body textarea
+  margin-bottom: 0
+
+// The rail is short compared to a long edit form; keep it in view instead of
+// leaving 700px of empty column under it.
++above(rupture.mobile-cutoff)
+  .authoring-workbench__side,
+  .administration-layout__side
+    position: sticky
+    top: calc(var(--school-nav-height) + 16px)
+    align-self: start
+
+// --- Schema editor (manage › config, problem › config) ---------------------
+// Both config editors are allotment split views over monaco + Element Plus.
+// `:root:root` bridges the palette into the library variables and outranks the
+// library's own `:root` block, which loads later in the cascade.
+:root:root
+  --el-color-primary: var(--c-accent)
+  --el-color-primary-light-3: var(--c-accent-hover)
+  --el-color-primary-light-5: var(--c-accent-soft)
+  --el-color-primary-light-9: var(--c-accent-soft)
+  --el-color-danger: var(--c-bad)
+  --el-color-error: var(--c-bad)
+  --el-color-success: var(--c-ok)
+  --el-color-warning: var(--c-warn)
+  --el-bg-color: var(--c-surface)
+  --el-bg-color-page: var(--c-bg)
+  --el-bg-color-overlay: var(--c-surface)
+  --el-text-color-primary: var(--c-fg)
+  --el-text-color-regular: var(--c-fg)
+  --el-text-color-secondary: var(--c-fg-2)
+  --el-text-color-placeholder: var(--c-fg-3)
+  --el-border-color: var(--c-border)
+  --el-border-color-light: var(--c-border)
+  --el-border-color-lighter: var(--c-border)
+  --el-border-color-extra-light: var(--c-border)
+  --el-fill-color: var(--c-hover)
+  --el-fill-color-light: var(--c-hover)
+  --el-fill-color-lighter: var(--c-hover)
+  --el-fill-color-blank: transparent
+  --el-input-bg-color: var(--c-bg)
+  --el-input-border-color: var(--c-border)
+  --el-input-text-color: var(--c-fg)
+  --el-input-hover-border-color: var(--c-fg-3)
+  --el-input-focus-border-color: var(--c-accent)
+  --el-disabled-bg-color: var(--c-sunken)
+  --el-disabled-text-color: var(--c-fg-3)
+  --el-color-white: var(--c-surface)
+  --el-color-black: var(--c-fg)
+  --k-color-primary: var(--c-accent)
+  --k-color-danger: var(--c-bad)
+  --k-hover-bg: var(--c-hover)
+  --k-button-hover-bg: var(--c-hover)
+  --k-text-light: var(--c-fg-3)
+  --k-text-dark: var(--c-fg)
+  --k-menu-shadow: var(--shadow-float)
+  --el-button-bg-color: var(--c-surface)
+  --el-button-border-color: var(--c-border)
+  --el-button-text-color: var(--c-fg)
+  --el-button-hover-bg-color: var(--c-hover)
+  --el-button-hover-border-color: var(--c-fg-3)
+  --el-button-hover-text-color: var(--c-fg)
+
+// palette rules shared by the full-bleed editor and the in-card judge editor
+.fullscreen-content,
+.problem-config-allotment
+  background: var(--c-bg)
+  color: var(--c-fg)
+  font-family: var(--font-body)
+
+  .monaco-editor,
+  .monaco-editor .overflow-guard,
+  .monaco-editor-background,
+  .monaco-editor .margin
+    background: var(--c-surface) !important
+
+  .monaco-editor .line-numbers
+    color: var(--c-fg-3) !important
+
+  .k-schema-header
+    margin: 14px 0 10px
+    color: var(--c-heading)
+    font-family: var(--font-display)
+    font-size: 1.16rem
+    font-weight: 550
+    letter-spacing: -.01em
+
+  .k-schema-item
+    padding: 10px 12px
+    border-color: var(--c-border)
+
+  .k-schema-item:hover
+    background: var(--c-hover)
+
+  .k-schema-item h3
+    color: var(--c-fg)
+    font-size: .93rem
+    font-weight: 600
+
+  .k-schema-item h3 .prefix
+    color: var(--c-fg-2)
+    font-family: var(--code-font-family)
+    font-size: .85rem
+
+  .k-schema-item p
+    color: var(--c-fg-2)
+    font-size: .82rem
+    line-height: 1.65
+
+  .k-form:not(:first-child)
+    margin-top: 26px
+
+// the in-card judge editor keeps monaco on the surface and lets it fill its pane
+.problem-config-allotment
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  overflow: hidden
+
+  .split-view-view
+    background: var(--c-bg)
+
+  .split-view-view:first-child
+    background: var(--c-surface)
+
+    > div:first-child
+      height: 100% !important
+      box-sizing: border-box
+
+  .split-view-view:nth-child(2) > div
+    padding: 0 14px 40px
+
+// geometry rules for the full-bleed management editor only
+.fullscreen-content
+  .split-view-container > .split-view-view:not(:last-child)
+    box-shadow: inset -1px 0 0 var(--c-border)
+
+  .split-view-view
+    background: var(--c-bg)
+
+  .split-view-view:first-child
+    background: var(--c-surface)
+
+    > div:first-child
+      height: calc(100% - 104px) !important
+      padding: 14px 16px 0
+      box-sizing: border-box
+
+    > button.button
+      margin: 12px 16px 16px
+
+  .split-view-view:nth-child(2) > div
+    margin-left: 0 !important
+    padding: 8px 22px 64px
+
+  pre.help-text
+    flex: none
+    margin: 8px 16px 0
+    color: var(--c-bad)
+    font-family: var(--code-font-family)
+    font-size: .78rem
+    line-height: 1.6
+    white-space: pre-wrap
+
+  .section.side.visible
+    margin: 0
+    border: 0
+    border-radius: 0
+    box-shadow: none
+    background: var(--c-surface)

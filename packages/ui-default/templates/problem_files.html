@@ -8,9 +8,9 @@
         <h1 class="section__title">{{ _('Testdata') }}</h1>
         <div class="section__tools">
           {% if not reference and (handler.user.own(pdoc, perm.PERM_EDIT_PROBLEM_SELF) or handler.user.hasPerm(perm.PERM_EDIT_PROBLEM)) %}
-            <a href="{{ url('problem_config', pid=pdoc.docId) }}" class="primary rounded button">{{ _('Config') }}</a>
+            <a href="{{ url('problem_config', pid=pdoc.docId) }}" class="rounded button">{{ _('Config') }}</a>
+            <button class="rounded button" name="upload_file">{{ _('Upload') }}</button>
             <button class="primary rounded button" name="create_testdata">{{ _('Create') }}</button>
-            <button class="primary rounded button" name="upload_file">{{ _('Upload') }}</button>
           {% elif reference %}
             <a href="{{ url('problem_detail', domainId=pdoc.reference.domainId, pid=pdoc.reference.pid) }}" class="primary rounded button">{{ _('Source') }}</a>
           {% endif %}
@@ -67,8 +67,8 @@
         <h1 class="section__title">{{ _('Additional Files') }}</h1>
         <div class="section__tools">
           {% if (handler.user.own(pdoc, perm.PERM_EDIT_PROBLEM_SELF) or handler.user.hasPerm(perm.PERM_EDIT_PROBLEM)) and not reference %}
+            <button class="rounded button" name="upload_file">{{ _('Upload') }}</button>
             <button class="primary rounded button" name="create_file">{{ _('Create') }}</button>
-            <button class="primary rounded button" name="upload_file">{{ _('Upload') }}</button>
           {% endif %}
         </div>
       </div>

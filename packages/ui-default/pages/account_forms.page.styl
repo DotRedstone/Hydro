@@ -135,6 +135,52 @@
   margin: 6px 0
   padding: 6px 0
 
+// Confirm-access (sudo) reuses the auth shell as a single narrower column:
+// one field, one action, the explanation underneath the form.
+.account-auth-card--single
+  grid-template-columns: minmax(0, 1fr)
+  width: min(100%, 440px)
+  max-width: 440px
+
+.auth-card__lead
+  margin: -10px 0 22px
+  color: var(--c-fg-2)
+  font-size: .9rem
+  line-height: 1.72
+
+.auth-card__foot
+  margin: 18px 0 0
+  padding-top: 16px
+  border-top: 1px solid token-alpha(var(--c-border), 70%)
+
+.auth-card__other
+  margin-top: 14px
+
+.auth-card__other-title
+  margin: 0 0 6px
+  color: var(--c-fg-3)
+  font-size: .74rem
+  font-weight: 600
+  letter-spacing: .08em
+  text-transform: uppercase
+
+.auth-card__other-list
+  margin: 0
+  padding: 0
+  list-style: none
+
+.auth-card__other-list li
+  margin: 0
+  padding: 4px 0
+
+.auth-card__other-list a
+  color: var(--c-link)
+  font-size: .89rem
+  text-decoration: none
+
+.auth-card__other-list a:hover
+  text-decoration: underline
+
 .account-signin-dialog
   border-radius: var(--r-lg)
   border: 1px solid var(--c-border)

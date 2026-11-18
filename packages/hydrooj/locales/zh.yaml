@@ -771,6 +771,7 @@ setting_domain: 域设置
 setting_file: 存储桶设置
 setting_info_domain: 个人信息
 setting_info: 个人信息
+setting_limits: 限制
 setting_privacy: 隐私
 setting_server: 服务器设置
 setting_session: Session 设置

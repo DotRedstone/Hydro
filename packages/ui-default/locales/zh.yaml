@@ -76,6 +76,7 @@ Access Control: 访问控制
 According to the contest rules, you cannot view your submission details at current.: 根据比赛规则，你现在不能查看你的评测记录详情。
 Account Settings: 账户设置
 Action: 动作
+Actions: 操作
 Active Sessions: 活动会话
 Add Authenticator: 添加认证器
 Add File: 添加文件
@@ -1161,3 +1162,14 @@ Log in with your username and password to continue.: 用用户名和密码登录
 Remembered it?: 想起来了？
 Password recovery needs a working mail server. On this site you can ask an administrator to reset it for you.: 找回密码需要可用的邮件服务；本站可联系管理员帮你重置。
 Back to Login: 返回登录
+Allow Print: 允许打印
+Allow Team: 允许团队参赛
+Allow View Code: 允许查看他人代码
+Auto hide-and show: 比赛中自动隐藏并显示
+Flexible Duration: 弹性时长
+Keep Scoreboard Hidden: 保持榜单隐藏
+Lock (minutes): 封榜（分钟）
+Rated: 计入排名
+Markdown Syntax: Markdown 语法
+Allow user to print during contest: 允许比赛中打印题目
+Allow team participation: 允许团队参赛
