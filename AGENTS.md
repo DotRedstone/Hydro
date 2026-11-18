@@ -57,7 +57,7 @@ node packages/ui-default/build/check-tokens.js     # 期望 design tokens: ok
 现有交互组件：`consent`（首次访问的 Cookie 说明）、`contextmenu`（右键菜单）、
 `theme/fab`（右下角搜索/主题/回到顶部）、`signin`（登录页与登录弹窗）。
 
-右键菜单的约定：
+### 右键菜单
 
 - 只在存在精确指针（`pointer: fine`）时接管；纯触屏设备保留系统长按菜单。
 - 输入框、`contenteditable`、代码编辑器（`.cm-editor` / `.monaco-editor` / `.md-editor`）
@@ -65,6 +65,30 @@ node packages/ui-default/build/check-tokens.js     # 期望 design tokens: ok
 - 菜单项按组出现（历史 / 剪贴板 / 打开 / 视图 / 站点），没有可用动作的组整体隐藏。
 - 键盘可用：打开后焦点落在第一项，`↑` `↓` `Home` `End` 移动，`Esc` 关闭。
 - 复制失败要给出提示，不能静默失败。
+
+### 复制管线
+
+所有把文字放进剪贴板的动作都走 `components/copy`，不要在别处直接写 `clipboard.writeText`：
+
+- 默认行为：复制正文追加一行来源（`ui-default.copyAttribution` 可关），代码块默认不追加
+  （`ui-default.copyAttributionCode` 可开）；输入框、contenteditable、编辑器内不接管
+- 需要新行为时注册 handler，而不是改核心：
+
+```ts
+import { registerCopyHandler } from 'vj/components/copy/copy';
+
+registerCopyHandler('contest-guard', (payload) => {
+  payload.options.attribution = false;      // 比赛里不追加来源
+  payload.text = watermark(payload.text);   // 或者加水印
+}, 100);                                    // 数字越大越先执行
+```
+
+- handler 返回 `false` 放弃本次复制，返回对象替换 payload；默认来源追加是优先级 -100 的
+  普通 handler，不享受特权
+- 管线结束后派发 `hydro/copy` 事件，`detail` 含 `text` / `html` / `source` /
+  `context`（`domainId`、`problemId`、`contestId`）；只观察不改写的功能（上报、统计）用它
+- 页面标识来自 `templates/partials/copy_context.html` 的 `data-copy-*`，不要在各页面里
+  重复拼装标题与地址
 
 ## 目录边界
 
