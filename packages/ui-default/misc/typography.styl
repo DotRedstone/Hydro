@@ -260,10 +260,16 @@ small, figcaption
   overflow: auto hidden;
 
 .typo a, .typo .link, .typo-a
-  &, &:visited, &:active, &:hover
+  &, &:visited, &:active
     &:not(.user-profile-name)
       &:not(.media-link)
-        color: $primary-color
+        color: $text-1-color
+
+  &:hover
+    &:not(.user-profile-name)
+      &:not(.media-link)
+        color: var(--c-link)
+        text-decoration: underline
 
 .typo dl, .typo form, .typo hr, .typo table
   padding-top: 0.3em

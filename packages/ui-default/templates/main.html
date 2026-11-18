@@ -9,13 +9,15 @@
     <p class="learning-hub__eyebrow">{{ _('Home') }}</p>
     <h1>{{ model.system.get('server.name') }}</h1>
     <p class="learning-hub__lead">{{ _('A warm, restrained judge for practice and contests.') }}</p>
-    <nav class="learning-hub__shortcuts" aria-label="{{ _('Navigation') }}">
-      <a href="{{ url('problem_main') }}">{{ _('Problem Set') }}</a>
-      <a href="{{ url('contest_main') }}">{{ _('Contest') }}</a>
-      <a href="{{ url('training_main') }}">{{ _('Training') }}</a>
-      <a href="{{ url('homework_main') }}">{{ _('Homework') }}</a>
-    </nav>
-    <a class="button primary rounded learning-hub__cta" href="{{ url('problem_main') }}">{{ _('Start solving') }}</a>
+    <div class="learning-hub__actions">
+      <a class="button primary rounded learning-hub__cta" href="{{ url('problem_main') }}">{{ _('Start solving') }}</a>
+      <nav class="learning-hub__shortcuts" aria-label="{{ _('Navigation') }}">
+        <a href="{{ url('contest_main') }}">{{ _('Contest') }}</a>
+        <a href="{{ url('training_main') }}">{{ _('Training') }}</a>
+        <a href="{{ url('homework_main') }}">{{ _('Homework') }}</a>
+        <a href="{{ url('discussion_main') }}">{{ _('Discussion') }}</a>
+      </nav>
+    </div>
   </header>
 </div></div>
 <div class="row learning-hub__columns">

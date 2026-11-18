@@ -1,8 +1,8 @@
 // Homepage uses configured contents and existing partials; visual hierarchy only.
 .page--homepage
   .learning-hub__intro
-    margin: 0 0 26px
-    padding: 0 0 20px
+    margin: 0 0 28px
+    padding: 0 0 24px
     border: 0
     border-bottom: 1px solid token-alpha(var(--c-border), 70%)
     background: transparent
@@ -18,12 +18,12 @@
     letter-spacing: .08em
 
   .learning-hub__intro h1
-    margin: 0 0 16px
+    margin: 0 0 14px
     color: var(--c-heading)
     font-family: var(--font-display)
-    font-size: clamp(1.9rem, 3.2vw, 2.5rem)
-    line-height: 1.2
-    letter-spacing: -.02em
+    font-size: clamp(2.1rem, 3.6vw, 2.9rem)
+    line-height: 1.14
+    letter-spacing: -.025em
     font-weight: 500
 
   .learning-hub__shortcuts
@@ -32,17 +32,23 @@
     gap: 10px
 
   .learning-hub__lead
-    margin: 0 0 14px
-    max-width: 46ch
+    margin: 0 0 20px
+    max-width: 52ch
     color: var(--c-fg-2)
-    font-size: .96rem
-    line-height: 1.65
+    font-size: 1rem
+    line-height: 1.7
+
+  .learning-hub__actions
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 18px
 
   .learning-hub__cta
-    margin: 4px 0 16px
+    margin: 0
 
   .learning-hub__shortcuts
-    gap: 20px
+    gap: 18px
 
   .learning-hub__shortcuts a
     display: inline-flex
@@ -227,3 +233,34 @@
 
     .learning-hub__module .section__list__item
       padding: 15px 16px
+
+  // Rail lists: one row per item, hairline separated, meta pushed to the right.
+  .home-list__row
+    display: flex
+    align-items: baseline
+    gap: 12px
+    padding: 11px 22px
+    border-bottom: 1px solid token-alpha(var(--c-border), 55%)
+
+    &:last-child
+      border-bottom: 0
+
+    &:hover
+      background: var(--c-hover)
+
+  .home-list__title
+    flex: 1 1 auto
+    min-width: 0
+    font-size: .95rem
+
+    b
+      margin-right: 2px
+      color: var(--c-fg-3)
+      font-weight: 500
+      font-variant-numeric: tabular-nums
+
+  .home-list__meta
+    flex: 0 0 auto
+    color: var(--c-fg-3)
+    font-size: .82rem
+    white-space: nowrap
