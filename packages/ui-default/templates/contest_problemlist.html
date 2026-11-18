@@ -6,8 +6,8 @@
 {{ set(UiContext, 'tdoc', tdoc) }}
 {{ set(UiContext, 'tsdoc', tsdoc) }}
 {% set hasCorrection = correction and Object.keys(correction).length %}
-<div class="row" data-sticky-parent>
-  <div class="medium-9 columns">
+<div class="row learning-activity-layout contest-problems-layout" data-sticky-parent>
+  <div class="medium-9 columns learning-activity-main">
     <div class="section">
       <div class="section__header">
         <h1 class="section__title">{{ _('Problems') }}</h1>
@@ -209,7 +209,7 @@
       {% endif %}
     </div>
   </div>
-  <div class="medium-3 columns" data-sticky="large">
+  <div class="medium-3 columns learning-activity-side" data-sticky="large">
     {% if tdoc.privateFiles.length %}
     <div class="section side">
       <div class="section__header">
