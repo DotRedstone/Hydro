@@ -5,7 +5,8 @@ hold a literal colour, so restyling the whole site (or adding a dark variant, or
 second palette) means editing values — not hunting through a hundred `.styl` files.
 
 ```
-theme/palettes/claude.css   <- values (the only place with literal colours)
+theme/palettes/*.css        <- values (the only place with literal colours)
+theme/themes.ts             <- the theme list: id / label / dark / browser colour
 common/variables.inc.styl   <- $stylus-variable -> var(--c-*) mapping
 common/functions.inc.styl   <- token-alpha / token-mix / token-tint helpers
 components/**/*.styl        <- consume $variables, never colours
@@ -13,10 +14,14 @@ components/**/*.styl        <- consume $variables, never colours
 
 ## How theming works
 
-* The palette defines CSS custom properties on `:root` (light) and
-  `:root.theme--dark` (dark). The layout puts `theme--dark` on `<html>` when the
-  active theme contains `dark`, so **dark mode is a palette swap**, not a second
-  stylesheet.
+* A palette defines CSS custom properties, scoped by a single class on `<html>`:
+  `:root` is the default (light) paper, `:root.theme--dark` the dark one, and any
+  extra palette adds `:root.theme--<id>`. So **a theme is a palette swap**, not a
+  second stylesheet, and switching never reloads CSS.
+* `theme/themes.ts` is the only list of themes (id, label, dark flag, browser
+  colour). The server reads it for `/set_theme/:theme`, the display setting, the
+  footer menu and `<meta name="theme-color">`; the client reads it for the in-place
+  switch. Adding a theme = one palette file + one entry there.
 * The active theme is, in order: the signed-in user's `theme` setting, then the
   `theme` cookie, then `default` (light). Anonymous visitors get the cookie, so
   picking a theme never requires an account; `components/theme/theme.page.ts`
@@ -133,15 +138,28 @@ Those must pass `var(--c-*)` strings — `components/notification/index.ts` and
 
 ## Adding a palette
 
-1. Copy `theme/palettes/claude.css` and define **every** token listed above for
-   both `:root` and `:root.theme--dark`. A missing token falls back to nothing and
-   the UI loses that colour.
-2. If the palette is not the default, scope it with `.palette--<name>` on `<html>`
-   (parallel to `theme--<name>`) instead of `:root`, so it can be switched at
-   runtime without reloading the stylesheet.
-3. Import it from `theme/default.js` next to the existing palette import. The
-   `theme` webpack cache group extracts it into `theme-<version>.css`, which the
-   layout already links.
+Three steps, no component edits:
+
+1. Copy `theme/palettes/sepia.css` (the smallest example) to
+   `theme/palettes/<name>.css` and redefine **every colour token** listed above
+   under `:root.theme--<name>`. A missing token falls back to nothing and the UI
+   loses that colour. Layout tokens (`--sp-*`, `--r-*`, `--w-*`, `--shadow-*`)
+   stay inherited from `:root` unless the palette really needs different ones.
+2. Add one entry to `theme/themes.ts`:
+
+   ```ts
+   { id: 'sepia', label: 'Sepia', dark: false, color: '#F4ECD9' }
+   ```
+
+   `label` goes through `_()`, so add the locale key too; `color` must match the
+   palette's `--c-bg` (it becomes the browser toolbar colour).
+3. `import './palettes/<name>.css'` in `theme/default.js`, next to the existing
+   palette imports. The `theme` webpack cache group extracts it into
+   `theme-<version>.css`, which the layout already links.
+
+Then check `/set_theme/<name>` as a guest **and** signed in: the class must land on
+`<html>`, the footer menu must list the new label, and `/theme-guide` should render
+the whole token table in the new palette.
 
 ## Migrating upstream changes
 
