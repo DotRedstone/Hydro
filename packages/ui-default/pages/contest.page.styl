@@ -24,60 +24,50 @@ $highlight-button-color = var(--c-warn)
     &.ready
       border-left-color: var(--c-warn)
 
-  // The featured contest is an ink panel: one dark block against the paper page
-  // reads as an invitation, where a coloured wash used to fight the palette.
+  // 进行中与即将开始的比赛会上下并排出现在首页顶部，一块反色卡片不管在
+  // 日间还是夜间都太扎眼；两张卡片统一走纸面，只让“进行中”多一层陶土色
+  // 描边、浅色底和一个会呼吸的状态点。
   .section--contest
-    color: var(--c-inverse-fg)
-    background: var(--c-inverse-bg)
-    border-color: transparent
-    box-shadow: var(--shadow-card)
+    color: var(--c-fg)
+    background: var(--c-surface)
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-lg)
+    box-shadow: none
+    overflow: hidden
 
-    // only the running contest earns the ink panel; upcoming ones stay on paper
-    &.ready
-      background: var(--c-surface)
-      color: var(--c-fg)
-      border-color: var(--c-border)
-      box-shadow: none
-
-      .status_title
-        border-color: var(--c-border)
-        color: var(--c-fg-2)
-
-      h1
-        color: var(--c-heading)
-
-      .info
-        color: var(--c-fg-2)
-
-        .icon
-          color: var(--c-fg-3)
-
-      .detail-button
-        background: var(--c-sunken)
-        color: var(--c-fg)
-
-      .detail-button:hover
-        background: var(--c-accent)
-        color: var(--c-accent-fg)
+    &.live
+      border-color: token-alpha(var(--c-accent), 45%)
+      background: token-tint(var(--c-accent), 5%)
 
     .status_title
-      display: inline-block
-      padding: rem(5px 11px)
-      border: 1px solid token-alpha(var(--c-inverse-fg), 32%)
+      display: inline-flex
+      align-items: center
+      gap: 7px
+      padding: rem(4px 11px)
+      border: 1px solid var(--c-border)
       border-radius: var(--r-pill)
-      background: transparent
-      color: token-alpha(var(--c-inverse-fg), 88%)
+      background: var(--c-surface)
+      color: var(--c-fg-3)
       font-size: .72rem
       font-weight: 600
       letter-spacing: .1em
       text-transform: uppercase
 
     &.live .status_title
-      border-color: token-alpha(var(--c-accent), 65%)
-      color: var(--c-accent)
+      border-color: token-alpha(var(--c-accent), 55%)
+      color: var(--c-link)
+
+      // 正在进行的比赛用一个会呼吸的小点提示，不用整块反色
+      &::before
+        content: ''
+        width: 6px
+        height: 6px
+        border-radius: 50%
+        background: currentColor
+        animation: contest-live-pulse 2.2s ease-in-out infinite
 
     h1
-      color: var(--c-inverse-fg)
+      color: var(--c-heading)
       font-family: var(--font-display)
       line-height: 1.25
       font-size: clamp(1.5rem, 2.4vw, 2rem)
@@ -85,11 +75,11 @@ $highlight-button-color = var(--c-warn)
       margin: rem(16px 0)
 
     .info
-      color: token-alpha(var(--c-inverse-fg), 74%)
+      color: var(--c-fg-2)
       font-size: .85rem
 
       .icon
-        color: token-alpha(var(--c-inverse-fg), 52%)
+        color: var(--c-fg-3)
         font-size: .95rem
 
       li
@@ -99,29 +89,35 @@ $highlight-button-color = var(--c-warn)
     .attandance
       margin-top: rem(15px)
       font-size: rem($font-size-secondary)
-      opacity: 0.8
+      color: var(--c-fg-3)
+
+    .media__right .typo
+      color: var(--c-fg-2)
 
     .detail-button
       cursor: pointer
       display: block
       text-align: center
-      background: var(--c-accent)
-      color: var(--c-accent-fg)
+      background: var(--c-sunken)
+      color: var(--c-fg)
       line-height: rem(40px)
       border-radius: var(--r-pill)
       width: rem(150px)
       position: relative
       overflow: hidden
-      transition: box-shadow .4s, background-color .4s
-      transition-timing-function: ease-out-cubic
-
-      &:after
-        content: none
+      transition: background-color .2s ease-out-cubic, color .2s ease-out-cubic, box-shadow .2s ease-out-cubic
 
       &:hover
         text-decoration: none
+        background: var(--c-hover)
+
+    // 只有“正在进行”的卡片承担主操作
+    &.live .detail-button
+      background: var(--c-accent)
+      color: var(--c-accent-fg)
+
+      &:hover
         background: var(--c-accent-hover)
-        color: var(--c-accent-fg)
         box-shadow: var(--shadow-card)
 
     +mobile()
@@ -134,6 +130,18 @@ $highlight-button-color = var(--c-warn)
 
       .detail-button
         width: auto
+
+@keyframes contest-live-pulse
+  0%, 100%
+    opacity: 1
+    transform: scale(1)
+  50%
+    opacity: .45
+    transform: scale(.82)
+
+@media (prefers-reduced-motion: reduce)
+  .page--contest_main .section--contest.live .status_title::before
+    animation: none
 
 .page--contest_problemlist
   .col--status, .col--correction
