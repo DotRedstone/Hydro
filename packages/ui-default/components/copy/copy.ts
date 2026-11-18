@@ -83,8 +83,12 @@ function readContext(): CopyContext {
         const parsed = Number(value);
         return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
     };
+    // 页面标题通常是「具体内容 - 站点名」，来源里不需要重复站点名
+    const siteName = data.siteName || '';
+    let title = document.title;
+    if (siteName && title.endsWith(` - ${siteName}`)) title = title.slice(0, -(siteName.length + 3));
     return {
-        title: data.title || document.title,
+        title: data.title || title,
         url: window.location.href,
         page: data.page || document.documentElement.dataset.page || '',
         domainId: data.domain,
