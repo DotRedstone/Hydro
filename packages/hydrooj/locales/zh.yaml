@@ -57,6 +57,13 @@ about: 关于
 About: 关于
 AC Message: 通过消息
 Accepted Ratio: 通过率
+Username or Email: 用户名或邮箱
+Captcha: 验证码
+Close: 关闭
+Invalid username/email or password.: 用户名或邮箱与密码不匹配。
+Captcha expired, please enter the new one.: 验证码已过期，请输入新的验证码。
+Captcha mismatch, please try again.: 验证码不正确，请重新输入。
+Too many attempts, please try again later.: 尝试次数过多，请稍后再试。
 Accepted: 已通过
 Waiting: 等待评测
 Wrong Answer: 答案错误

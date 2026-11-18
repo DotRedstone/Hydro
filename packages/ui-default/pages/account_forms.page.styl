@@ -148,6 +148,17 @@
   font-size: .9rem
   line-height: 1.72
 
+// 登录失败留在表单里说话，不再整页跳到错误页
+.auth-form__error
+  margin: 0 0 18px
+  padding: 10px 13px
+  border: 1px solid token-alpha(var(--c-bad), 30%)
+  border-radius: var(--r-sm)
+  background: token-tint(var(--c-bad), 8%)
+  color: var(--c-bad)
+  font-size: .85rem
+  line-height: 1.6
+
 .auth-card__foot
   margin: 18px 0 0
   padding-top: 16px
@@ -370,3 +381,25 @@
 
   .account-dashboard-sidebar .menu__seperator
     display: none
+
+// OAuth 按钮：图标 + 文案在同一行居中，按钮宽度仍由 .expanded 决定
+// 提高一级优先级，压过 .button 自带的 display/line-height 组合
+.auth-form .oauth-button,
+.account-signin-dialog .oauth-button,
+.oauth-button.oauth-button
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 9px
+  line-height: 1.2
+
+.oauth-button__icon
+  display: inline-flex
+  align-items: center
+  flex: none
+
+  svg
+    width: 17px
+    height: 17px
+    display: block
+    fill: currentColor

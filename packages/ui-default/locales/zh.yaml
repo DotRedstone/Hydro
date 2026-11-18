@@ -71,6 +71,23 @@ AC Message: 通过消息
 Accept: 通过
 Accepted Problems: 通过的题目
 Accepted Ratio: 通过率
+Username or Email: 用户名或邮箱
+Captcha: 验证码
+Close: 关闭
+Invalid username/email or password.: 用户名或邮箱与密码不匹配。
+Captcha expired, please enter the new one.: 验证码已过期，请输入新的验证码。
+Captcha mismatch, please try again.: 验证码不正确，请重新输入。
+Too many attempts, please try again later.: 尝试次数过多，请稍后再试。
+Confirm your email address: 确认你的邮箱
+Set password and finish sign up: 设置密码并完成注册
+The link is valid for a limited time. If you did not request this email, you can ignore it.: 链接在一段时间内有效。如果这不是你本人的操作，可以忽略这封邮件。
+Finish your account: 完成注册
+The email is confirmed. Choose a username and a password, and you are in.: 邮箱已确认。设置用户名与密码即可完成注册。
+Create Account: 创建账户
+Check your inbox: 请查收邮件
+Sign up mail has been sent to {0}. Open the link inside to finish your account.: 注册邮件已发送到 {0}，打开邮件里的链接即可完成注册。
+Use another email: 换个邮箱
+Login with GitHub: 使用 GitHub 登录
 Accepted: 已通过
 Waiting: 等待评测
 Wrong Answer: 答案错误

@@ -1,0 +1,11 @@
+{# 登录失败达到阈值后出现的验证码行：图片由 /captcha.svg 现场生成 #}
+<div class="login-captcha">
+  <label class="material textbox login-captcha__field">
+    {{ _('Captcha') }}
+    <input name="captcha" type="text" inputmode="latin" autocomplete="off" maxlength="4" required>
+  </label>
+  <div class="login-captcha__figure">
+    <img class="login-captcha__image" src="{{ url('captcha') }}" alt="{{ _('Captcha') }}" width="132" height="44">
+    <a class="login-captcha__refresh" href="javascript:;" data-captcha-refresh>{{ _('Refresh') }}</a>
+  </div>
+</div>

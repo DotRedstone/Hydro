@@ -4,20 +4,26 @@
   <div class="account-auth-card">
     <div class="auth-card__main">
     <h1>{{ _('Login') }}</h1>
-    <form method="POST">
+    <form method="POST" class="auth-form">
+      {% if error %}
+      <div class="auth-form__error" role="alert">{{ error }}</div>
+      {% endif %}
       {% if model.system.get('server.login') %}
       <div class="row"><div class="columns">
         <label class="material textbox">
-          {{ _('Username') }}
-          <input name="uname" type="text" autofocus autocomplete="username webauthn">
+          {{ _('Username or Email') }}
+          <input name="uname" type="text" value="{{ uname }}" autofocus autocomplete="username webauthn">
         </label>
       </div></div>
       <div class="row"><div class="columns">
         <label class="material textbox">
           {{ _('Password') }}
-          <input name="password" type="password">
+          <input name="password" type="password" autocomplete="current-password">
         </label>
       </div></div>
+      {% if captchaRequired %}
+      {% include "partials/login_captcha.html" %}
+      {% endif %}
       <div class="row"><div class="columns">
         <label class="material checkbox">
           <input type="checkbox" name="rememberme" class="checkbox">{{ _('Remember me') }}
@@ -33,7 +39,9 @@
       {% endif %}
       {%- for v in loginMethods|default(handler.loginMethods) -%}
         <div class="row"><div class="columns">
-          <a href="{{ url('user_oauth', type=v.id, query={redirect: redirect}) }}" class="expanded rounded button inverse">{{ _(v.text) }}</a>
+          <a href="{{ url('user_oauth', type=v.id, query={redirect: redirect}) }}" class="expanded rounded button inverse oauth-button">
+            {% if v.icon %}<span class="oauth-button__icon" aria-hidden="true">{{ v.icon|safe }}</span>{% endif %}{{ _(v.text) }}
+          </a>
         </div></div>
       {%- endfor -%}
       <div class="row"><div class="columns">
