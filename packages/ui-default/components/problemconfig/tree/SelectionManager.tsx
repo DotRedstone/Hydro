@@ -47,7 +47,7 @@ export function SelectionManager(props: SelectionManagerProps) {
     // eslint-disable-next-line ts/no-use-before-define
     document.body.addEventListener('mouseup', handleMouseUp);
     $('body').css('cursor', 'crosshair')
-      .append('<div id="divSelectArea" style="position:absolute;background-color:#e073d4;"></div>');
+      .append('<div id="divSelectArea" style="position:absolute;background-color:var(--c-accent);opacity:.45;"></div>');
     $('#divSelectArea').css({
       top: event.pageY,
       left: event.pageX,

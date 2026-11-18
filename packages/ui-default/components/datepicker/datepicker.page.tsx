@@ -21,13 +21,13 @@ function initTimePicker(input: HTMLInputElement) {
     right: 0,
     maxHeight: 0,
     overflowY: 'auto',
-    background: 'var(--bg-color, #fff)',
-    border: '1px solid #ccc',
+    background: 'var(--c-surface)',
+    border: '1px solid var(--c-border)',
     borderTop: 'none',
-    borderRadius: '0 0 4px 4px',
+    borderRadius: '0 0 var(--r-sm) var(--r-sm)',
     zIndex: 1000,
     opacity: 0,
-    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+    boxShadow: 'var(--shadow-pop)',
     transition: 'max-height .2s ease, opacity .2s ease',
     pointerEvents: 'none',
   }).addClass('time-picker-dropdown');
@@ -43,7 +43,7 @@ function initTimePicker(input: HTMLInputElement) {
         $input.val(time).trigger('change');
         closeDropdown(); // eslint-disable-line ts/no-use-before-define
       }).on('mouseenter', function () {
-        $(this).css('background', 'var(--highlight-color, #e8f0fe)');
+        $(this).css('background', 'var(--c-accent-soft)');
       }).on('mouseleave', function () {
         $(this).css('background', '');
       });

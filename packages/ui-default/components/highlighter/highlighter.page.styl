@@ -1,4 +1,3 @@
-@import 'prism-themes/themes/prism-vs.css'
 
 pre, code
   background: $syntax-hl-bg-color
@@ -22,6 +21,76 @@ pre
 code
   color: $code-color
   font-size: rem($font-size-secondary)
+
+// Prism token palette.
+//
+// prism-themes ships fixed light hex values, which turned code blocks into white
+// islands in dark mode. The token colours below come from the same palette as the
+// rest of the UI, so highlighting follows the theme.
+pre[class*='language-'],
+code[class*='language-']
+  color: var(--c-fg)
+  background: var(--c-code-bg)
+  text-shadow: none
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata
+  color: var(--c-fg-3)
+
+.token.punctuation
+  color: var(--c-fg-2)
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted
+  color: var(--c-bad)
+
+.token.boolean,
+.token.number
+  color: var(--c-warn)
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted
+  color: var(--c-ok)
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string
+  color: var(--c-fg-2)
+
+.token.atrule,
+.token.attr-value,
+.token.keyword
+  color: var(--c-accent)
+
+.token.function,
+.token.class-name
+  color: var(--c-info)
+
+.token.regex,
+.token.important,
+.token.variable
+  color: var(--c-warn)
+
+.token.important,
+.token.bold
+  font-weight: 600
+
+.token.italic
+  font-style: italic
+
+.token.entity
+  cursor: help
 
 .line-highlight 
   position: absolute
