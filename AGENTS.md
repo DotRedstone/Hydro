@@ -40,6 +40,32 @@ node packages/ui-default/build/check-tokens.js     # 期望 design tokens: ok
 - 改了服务端 handler：用 curl 或脚本覆盖成功、失败、限流三条路径。
 - 只验证了其中一侧时，不要声称整体通过。
 
+## 前端结构与交互约定
+
+新增交互按固定位置放，避免同类逻辑散落在页面里：
+
+| 内容 | 位置 | 说明 |
+| --- | --- | --- |
+| 交互逻辑 | `components/<feature>/<feature>.page.js` | 用 `AutoloadPage` 注册，不用模块副作用 |
+| 交互样式 | `components/<feature>/<feature>.page.styl` | 与 `.page.js` 成对，`require.context` 自动打进样式包 |
+| 标记与文案 | `templates/partials/<feature>.html` | 只放 HTML 与 `_()` 文案，动作在 JS 里按 `data-*` 查找 |
+| 页面骨架 | `templates/layout/*.html` | 只做 include，不写逻辑 |
+| 页面专属样式 | `pages/<page>.page.styl` | 只写该页面选择器，不放全局规则 |
+| 全局层样式 | `theme/claude-*.styl` | `foundation` 基础排版与卡片、`navigation` 导航、`authoring` 编辑器与表单、`motion` 动效 |
+| 文案 | `locales/*.yaml` | 新增键同时补 `ui-default` 与 `hydrooj` 两份，且不得重复 |
+
+现有交互组件：`consent`（首次访问的 Cookie 说明）、`contextmenu`（右键菜单）、
+`theme/fab`（右下角搜索/主题/回到顶部）、`signin`（登录页与登录弹窗）。
+
+右键菜单的约定：
+
+- 只在存在精确指针（`pointer: fine`）时接管；纯触屏设备保留系统长按菜单。
+- 输入框、`contenteditable`、代码编辑器（`.cm-editor` / `.monaco-editor` / `.md-editor`）
+  一律不接管；按住 Shift 右键同样交回浏览器原生菜单。
+- 菜单项按组出现（历史 / 剪贴板 / 打开 / 视图 / 站点），没有可用动作的组整体隐藏。
+- 键盘可用：打开后焦点落在第一项，`↑` `↓` `Home` `End` 移动，`Esc` 关闭。
+- 复制失败要给出提示，不能静默失败。
+
 ## 目录边界
 
 - `packages/ui-default/templates/`：Nunjucks 模板；页面专属 class 放在 `pages/*.page.styl`。
