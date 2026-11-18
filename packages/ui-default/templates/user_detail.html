@@ -3,11 +3,15 @@
 {% extends "layout/basic.html" %}
 {% block content %}
 {{ set(UiContext, 'udoc', udoc) }}
+{% if udoc.backgroundImage %}
 <style>
   .user-profile-bg {
-    background-image: url("{{ udoc.backgroundImage }}"), url("/components/profile/backgrounds/1.jpg");
+    background-image: url("{{ udoc.backgroundImage }}");
+    background-size: cover;
+    background-position: center center;
   }
 </style>
+{% endif %}
 <div class="row account-profile-layout">
   <div class="medium-9 columns account-profile-main">
     <div class="section account-profile-card">

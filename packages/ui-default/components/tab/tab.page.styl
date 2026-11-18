@@ -53,15 +53,17 @@
     line-height: rem($tab-item-height-mobile)
     height: rem($tab-item-height-mobile)
 
+// Immersive tabs sit on a page surface, not on a dark banner, so they use the
+// normal text tokens; the selected tab is the raised surface.
 .section__tab-container.immersive
   .section__tab-header-item
-    color: token-alpha(var(--c-inverse-fg), 90%)
-    border-radius: 1px 1px 0 0
+    color: var(--c-fg-3)
+    border-radius: var(--r-sm) var(--r-sm) 0 0
     cursor: pointer
     transition: background .2s ease-out-cubic
 
     &:hover
-      color: var(--c-inverse-fg)
+      color: var(--c-fg)
 
     &.selected
       background: var(--c-surface)
@@ -72,7 +74,7 @@
       &.selected
         box-shadow: none
         background: transparent
-        color: var(--c-inverse-fg)
+        color: var(--c-fg)
 
         &::after
           position: absolute
@@ -80,7 +82,7 @@
           width: 100%
           bottom: 0
           height: 3px
-          background: $secondary-color
+          background: var(--c-accent)
           content: ''
 
 .section__tab-container:not(.immersive)
