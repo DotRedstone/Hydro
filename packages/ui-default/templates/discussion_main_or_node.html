@@ -1,12 +1,13 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row">
-  <div class="medium-9 columns">
-    <div class="section">
+<div class="row community-layout">
+  <div class="medium-9 columns community-layout__main">
+    <div class="section community-discussions-card">
+    <div class="section__header"><h1 class="section__title">{{ vnode['title'] or _('Discussion') }}</h1></div>
     {% include "partials/discussion_list.html" %}
     </div>
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns community-layout__sidebar">
   {% if vnode.type == model.document.TYPE_PROBLEM %}
     {% set pdoc = vnode %}
     {% set owner_udoc = udict[vnode.owner] %}

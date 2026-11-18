@@ -1,0 +1,397 @@
+// Phase 4: existing community and account flows; visual structure only.
+// Tokens originate from the shared Claude-inspired foundation.
+
+.page--discussion_main,
+.page--discussion_node,
+.page--discussion_detail,
+.page--discussion_create,
+.page--discussion_edit,
+.page--ranking,
+.page--user_detail
+  .community-layout::before,
+  .community-layout::after
+    content: none
+
+  .community-layout
+    display: grid
+    grid-template-columns: minmax(0, 1fr) 280px
+    gap: var(--sp-5)
+    align-items: start
+
+  .community-layout > .columns
+    width: auto
+    min-width: 0
+    float: none
+    padding-left: 0
+    padding-right: 0
+
+  .community-layout__main > .section,
+  .community-layout__sidebar > .section
+    margin-bottom: var(--sp-5)
+
+  .community-layout .section__title
+    font-weight: 650
+    line-height: 1.4
+
+  .community-layout__sidebar .section__header
+    padding: 17px 20px
+
+  .community-layout__sidebar .section__body
+    padding: 20px
+
+  .community-layout__sidebar .menu__link
+    min-height: 42px
+    padding: 10px 15px
+    font-size: .9rem
+
+  @media only screen and (max-width: 900px)
+    .community-layout
+      grid-template-columns: minmax(0, 1fr)
+    .community-layout__sidebar
+      order: 2
+
+.page--discussion_main,
+.page--discussion_node,
+.page--blog_main
+  .community-discussions-card > .section__header
+    padding: 22px 26px
+
+  .community-discussions-card > .section__header .section__title
+    font-size: 1.35rem
+
+  .community-discussions-card .discussion__list
+    margin: 0
+    padding: 0
+    list-style: none
+
+  .community-discussions-card .discussion__item
+    margin: 0
+    padding: 19px 25px
+    border-bottom: 1px solid var(--c-border)
+    border-left: 4px solid transparent
+    background: var(--c-surface)
+
+  .community-discussions-card .discussion__item:last-child
+    border-bottom: 0
+
+  .community-discussions-card .discussion__item:hover
+    background: var(--c-sunken)
+
+  .community-discussions-card .discussion__item.highlight
+    border-left-color: var(--c-accent)
+
+  .community-discussions-card .discussion__replies
+    display: flex
+    flex-direction: column
+    justify-content: center
+    width: 70px
+    min-height: 67px
+    padding: 9px 6px
+    border: 1px solid var(--c-border)
+    border-radius: var(--r)
+    background: var(--c-bg)
+    color: var(--c-fg)
+    margin-right: 17px
+
+  .community-discussions-card .discussion__replies .numbox__num
+    font-size: 1.4rem
+    line-height: 1.2
+    font-weight: 650
+
+  .community-discussions-card .discussion__replies .numbox__text
+    color: var(--c-fg-2)
+    font-size: .77rem
+
+  .community-discussions-card .discussion__title
+    margin: 0 0 9px
+    font-size: 1.09rem
+    line-height: 1.45
+    font-weight: 650
+
+  .community-discussions-card .discussion__title a
+    color: var(--c-fg)
+
+  .community-discussions-card .discussion__title a:hover
+    color: var(--c-accent)
+
+  .community-discussions-card .supplementary.list
+    display: flex
+    flex-wrap: wrap
+    gap: 6px 15px
+    color: var(--c-fg-2)
+    font-size: .83rem
+    line-height: 1.6
+    margin: 0
+
+.page--discussion_detail,
+.page--blog_detail
+  .discussion-thread-card .section__body
+    padding: 27px 30px
+
+  .discussion-thread-card .supplementary.list
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 7px 13px
+    margin: 0
+    font-size: .83rem
+    line-height: 1.6
+    color: var(--c-fg-2)
+
+  .discussion-thread-card .discussion-thread-title
+    width: 100%
+
+  .discussion-thread-card .discussion-thread-title h1
+    margin: 10px 0 4px
+    color: var(--c-fg)
+    font-size: clamp(1.4rem, 2.3vw, 1.85rem)
+    line-height: 1.4
+    font-weight: 650
+    letter-spacing: -.02em
+
+  .discussion-thread-card .topic__content
+    margin: 25px 0 5px
+    padding-top: 24px
+    border-top: 1px solid var(--c-border)
+    font-size: 1rem
+    line-height: 1.85
+    color: var(--c-fg)
+    overflow-wrap: anywhere
+
+  .discussion-thread-card .topic__content p,
+  .discussion-thread-card .topic__content li
+    line-height: 1.85
+
+  .discussion-thread-card .section__footer
+    padding: 15px 26px
+    border-top: 1px solid var(--c-border)
+    color: var(--c-fg-2)
+
+  .discussion-replies-card > .section__header
+    padding: 20px 27px
+
+  .discussion-replies-card > .section__body
+    padding: 12px 26px 25px
+
+  .discussion-replies-card .dczcomments__list
+    margin: 0
+    padding: 0
+    list-style: none
+
+  .discussion-replies-card .dczcomments__item
+    padding: 22px 0
+    border-bottom: 1px solid var(--c-border)
+
+  .discussion-replies-card .dczcomments__item:last-child
+    border-bottom: 0
+
+  .discussion-replies-card .dczcomments__supplementary
+    margin-bottom: 11px
+    font-size: .84rem
+    line-height: 1.6
+    color: var(--c-fg-2)
+
+  .discussion-replies-card .dczcomments__item .typo
+    color: var(--c-fg)
+    line-height: 1.8
+    overflow-wrap: anywhere
+
+  .discussion-replies-card .dczcomments__operations a
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    min-width: 28px
+    min-height: 28px
+    border-radius: var(--r-sm)
+
+  .discussion-replies-card .dczcomments__operations a:hover
+    color: var(--c-accent)
+    background: var(--c-accent-soft)
+
+  .discussion-replies-card .dczcomments__replies
+    margin-top: 18px
+    padding: 5px 0 0 19px
+    border-left: 2px solid var(--c-border)
+
+  .discussion-replies-card .dczcomments__reply
+    padding: 13px 0
+
+  .discussion-replies-card .dczcomments__box textarea,
+  .discussion-replies-card textarea[name="dczcomments__dummy-box"]
+    width: 100%
+    min-height: 115px
+    padding: 13px 15px
+    border: 1px solid var(--c-border)
+    border-radius: var(--r)
+    background: var(--c-bg)
+    font-size: .95rem
+    line-height: 1.7
+
+.page--discussion_create,
+.page--discussion_edit
+  .discussion-editor-card .section__header
+    padding: 23px 28px
+
+  .discussion-editor-card .section__title
+    font-size: 1.32rem
+
+  .discussion-editor-card > .section__body
+    padding: 26px 28px
+
+  .discussion-editor-card label
+    font-size: .92rem
+    line-height: 1.65
+
+  .discussion-editor-card input[name="title"]
+    min-height: 44px
+    padding: 10px 13px
+    font-size: 1rem
+    font-weight: 550
+
+  .discussion-editor-card textarea[name="content"]
+    padding: 16px
+    font-size: .95rem
+    line-height: 1.75
+
+  .discussion-editor-card form button
+    min-height: 40px
+
+.page--ranking
+  .community-ranking-card .section__header
+    padding: 23px 28px
+    display: flex
+    flex-direction: column
+    gap: 6px
+
+  .community-ranking-card .section__title
+    font-size: 1.5rem
+    font-weight: 650
+
+  .community-ranking-note
+    margin: 0
+    color: var(--c-fg-2)
+    font-size: .84rem
+    line-height: 1.6
+
+  .community-ranking-card [data-fragment-id="ranking"]
+    min-width: 0
+
+  .community-ranking-card .data-table
+    width: 100%
+    min-width: 820px
+    font-size: .89rem
+
+  .community-ranking-card .data-table th
+    padding: 15px 13px
+
+  .community-ranking-card .data-table td
+    padding: 13px
+    line-height: 1.6
+
+  .community-ranking-card .col--user
+    min-width: 170px
+
+  .community-ranking-card .col--bio
+    display: table-cell
+    white-space: normal
+    line-height: 1.5
+    color: var(--c-fg-2)
+
+  @media only screen and (max-width: 600px)
+    .community-ranking-card .section__header
+      padding: 18px
+    .community-ranking-card .data-table
+      min-width: 690px
+
+.page--user_detail
+  .account-profile-layout::before,
+  .account-profile-layout::after
+    content: none
+
+  .account-profile-layout
+    display: grid
+    grid-template-columns: minmax(0, 1fr) 280px
+    align-items: start
+    gap: var(--sp-5)
+
+  .account-profile-layout > .columns
+    width: auto
+    min-width: 0
+    padding-left: 0
+    padding-right: 0
+    float: none
+
+  .account-profile-main > .section,
+  .account-profile-side > .section
+    margin-bottom: var(--sp-5)
+
+  .account-profile-card
+    overflow: hidden
+
+  .account-profile-card .profile-header
+    min-height: 240px
+
+  .account-profile-card .profile-header__content
+    padding: 27px 30px 0
+
+  .account-profile-card .profile-header__main h1
+    font-size: clamp(1.45rem, 2.4vw, 2rem)
+    line-height: 1.4
+    font-weight: 650
+    margin: 0 0 12px
+
+  .account-profile-card .profile-header__main p
+    font-size: .9rem
+    line-height: 1.75
+    margin: 6px 0
+
+  .account-profile-card .profile-content .section__tab-title
+    font-size: 1.09rem
+    font-weight: 650
+
+  .account-profile-card .profile-content .section__tab-main
+    line-height: 1.8
+
+  .account-profile-card .profile-content .section__body
+    padding: 20px 26px
+    overflow-wrap: anywhere
+
+  .account-profile-side .sidebar-user-stat
+    display: flex
+    gap: 12px
+    justify-content: space-around
+
+  .account-profile-side .numbox__num
+    font-size: 1.35rem
+    font-weight: 650
+
+  .account-profile-side .numbox__text
+    color: var(--c-fg-2)
+    font-size: .81rem
+
+  @media only screen and (max-width: 900px)
+    .account-profile-layout
+      grid-template-columns: minmax(0, 1fr)
+    .account-profile-side
+      order: 2
+
+  @media only screen and (max-width: 600px)
+    .account-profile-card .profile-header__content
+      padding: 20px 18px 0
+
+    .account-profile-card .profile-content .section__body
+      padding: 17px
+
+.page--discussion_main,
+.page--discussion_node,
+.page--discussion_detail,
+.page--discussion_create,
+.page--discussion_edit,
+.page--ranking
+  @media only screen and (max-width: 600px)
+    .community-discussions-card .discussion__item
+      padding: 16px
+    .discussion-thread-card .section__body,
+    .discussion-replies-card > .section__body,
+    .discussion-editor-card > .section__body
+      padding: 18px

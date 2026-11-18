@@ -1,0 +1,306 @@
+// Shared account/form presentation. Existing fields, auth handlers and methods untouched.
+.account-auth-card
+  width: min(100%, 470px)
+  max-width: 470px
+  box-sizing: border-box
+  margin: 30px auto 48px
+  padding: 32px 36px 36px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-lg)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-card)
+  color: var(--c-fg)
+
+.account-auth-card h1
+  margin: 0 0 26px
+  text-align: left
+  color: var(--c-fg)
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem)
+  line-height: 1.4
+  letter-spacing: -.02em
+  font-weight: 650
+
+.account-auth-card .row
+  max-width: none
+
+.account-auth-card label.material,
+.account-auth-card label.textbox
+  display: block
+  color: var(--c-fg)
+  font-size: .91rem
+  font-weight: 550
+  line-height: 1.7
+  margin-bottom: 15px
+
+.account-auth-card label.material input:not([type="checkbox"]),
+.account-auth-card label.textbox input:not([type="checkbox"])
+  display: block
+  width: 100%
+  box-sizing: border-box
+  min-height: 45px
+  margin-top: 7px
+  padding: 10px 12px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  background: var(--c-bg)
+  color: var(--c-fg)
+  font-size: .98rem
+
+.account-auth-card input[type="checkbox"]
+  margin-right: 9px
+  accent-color: var(--c-accent)
+
+.account-auth-card label.checkbox
+  color: var(--c-fg-2)
+  font-size: .87rem
+  line-height: 1.7
+
+.account-auth-card .button,
+.account-auth-card input[type="submit"],
+.account-auth-card input[name="confirm"],
+.account-auth-card input[name="webauthn_verify"]
+  min-height: 44px
+  margin: 7px 0
+  border-radius: var(--r-sm)
+  font-size: .93rem
+  font-weight: 600
+
+.account-auth-card .supplementary,
+.account-auth-card .supplementary.inverse
+  color: var(--c-fg-2)
+  font-size: .85rem
+  line-height: 1.7
+
+.account-auth-card .supplementary a
+  color: var(--c-accent)
+
+.account-auth-card .note,
+.account-auth-card .warn
+  border-radius: var(--r-sm)
+  line-height: 1.7
+
+.account-auth-card .sudo-switch
+  margin: 6px 0
+  padding: 6px 0
+
+.account-signin-dialog
+  border-radius: var(--r-lg)
+  border: 1px solid var(--c-border)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-card)
+  overflow: hidden
+
+.account-signin-dialog .dialog--signin__main
+  padding: 25px 28px
+  color: var(--c-fg)
+
+.account-signin-dialog .dialog--signin__title
+  font-size: 1.55rem
+  line-height: 1.4
+  font-weight: 650
+  letter-spacing: -.02em
+  color: var(--c-fg)
+
+.account-signin-dialog .dialog--signin__note
+  color: var(--c-fg-2)
+  font-size: .87rem
+  line-height: 1.65
+
+.account-signin-dialog .dialog--signin__main label
+  font-size: .89rem
+  line-height: 1.65
+
+.account-signin-dialog .dialog--signin__main input:not([type="checkbox"]):not([type="hidden"])
+  min-height: 43px
+  border-radius: var(--r-sm)
+
+.account-signin-dialog .dialog--signin__main .button
+  min-height: 42px
+  border-radius: var(--r-sm)
+
+.account-signin-dialog .dialog--signin__side
+  padding: 26px 22px
+  line-height: 1.75
+
+.account-signin-dialog .dialog--signin__side h1
+  font-size: 1.3rem
+  line-height: 1.4
+
+.page--home_account,
+.page--home_settings,
+.page--home_security,
+.page--home_messages
+  .section
+    margin-bottom: var(--sp-5)
+
+  .section__header
+    padding: 20px 24px
+    border-bottom: 1px solid var(--c-border)
+
+  .section__header .section__title
+    margin: 0
+    font-size: 1.17rem
+    font-weight: 650
+    line-height: 1.4
+
+  .section__body
+    padding: 22px 24px
+    font-size: .92rem
+    line-height: 1.7
+
+  .section__body.no-padding
+    padding: 0
+
+  .section__body label
+    color: var(--c-fg)
+    font-size: .91rem
+    line-height: 1.65
+
+  .section__body input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  .section__body select,
+  .section__body textarea
+    max-width: 100%
+    min-height: 42px
+    padding: 9px 12px
+    border-radius: var(--r-sm)
+    background: var(--c-bg)
+    color: var(--c-fg)
+    font-size: .94rem
+
+  .section__body textarea
+    min-height: 125px
+    line-height: 1.7
+
+  .section__body .button,
+  .section__header .button
+    min-height: 40px
+    padding: 9px 14px
+    border-radius: var(--r-sm)
+    font-size: .9rem
+
+  .section__body .menu__link,
+  .section__body a
+    overflow-wrap: anywhere
+
+  .platform-list,
+  .autherlist,
+  .sessionlist
+    margin: 0
+    padding: 0
+    list-style: none
+
+  .platform-list__item,
+  .autherlist__item,
+  .sessionlist__item
+    margin: 0
+    padding: 16px 0
+    border-bottom: 1px solid var(--c-border)
+
+  .platform-list__item:last-child,
+  .autherlist__item:last-child,
+  .sessionlist__item:last-child
+    border-bottom: 0
+
+  .platform-list__item .media__body,
+  .autherlist__item .media__body,
+  .sessionlist__item .media__body
+    min-width: 0
+    overflow-wrap: anywhere
+
+  .platform-list__item .media__body p,
+  .autherlist__item .media__body p
+    margin: 0
+    line-height: 1.65
+
+  .account-security-content .row
+    margin-bottom: 14px
+
+  .account-security-content .section__body
+    min-width: 0
+
+  .account-message-card #messagePad
+    min-height: 240px
+    padding: 15px
+    color: var(--c-fg)
+
+  .account-message-card .loader-container
+    min-height: 110px
+    display: flex
+    align-items: center
+    justify-content: center
+
+  @media only screen and (max-width: 600px)
+    .section__header
+      padding: 17px 18px
+
+    .section__body
+      padding: 18px
+
+@media only screen and (max-width: 600px)
+  .account-auth-card
+    width: 100%
+    max-width: none
+    margin: 16px auto 26px
+    padding: 24px 19px 28px
+
+  .account-signin-dialog .dialog--signin__main
+    padding: 20px 17px
+
+.account-dashboard-layout::before,
+.account-dashboard-layout::after
+  content: none
+
+.account-dashboard-layout
+  display: grid
+  grid-template-columns: minmax(0, 1fr) 210px
+  gap: var(--sp-5)
+  align-items: start
+
+.account-dashboard-layout > .columns
+  min-width: 0
+  width: auto
+  padding-left: 0
+  padding-right: 0
+  float: none
+
+.account-dashboard-sidebar .section
+  margin-bottom: var(--sp-5)
+
+.account-dashboard-sidebar .menu
+  margin: 0
+  padding: 9px
+  list-style: none
+
+.account-dashboard-sidebar .menu__link
+  display: flex
+  align-items: center
+  min-height: 42px
+  padding: 10px 12px
+  border-radius: var(--r-sm)
+  font-size: .89rem
+  line-height: 1.5
+  color: var(--c-fg-2)
+
+.account-dashboard-sidebar .menu__link:hover,
+.account-dashboard-sidebar .menu__link.active
+  background: var(--c-accent-soft)
+  color: var(--c-accent)
+
+.account-dashboard-sidebar .menu__seperator
+  border-color: var(--c-border)
+  margin: 7px 10px
+
+@media only screen and (max-width: 900px)
+  .account-dashboard-layout
+    grid-template-columns: minmax(0, 1fr)
+
+  .account-dashboard-sidebar
+    order: -1
+
+  .account-dashboard-sidebar .menu
+    display: flex
+    flex-wrap: wrap
+    gap: 5px
+
+  .account-dashboard-sidebar .menu__seperator
+    display: none

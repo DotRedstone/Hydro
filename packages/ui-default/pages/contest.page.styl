@@ -227,8 +227,8 @@ $highlight-button-color = var(--c-warn)
 .page--contest_main
   .learning-activity-feature
     overflow: hidden
-    border: 1px solid var(--claude-line)
-    box-shadow: var(--claude-shadow)
+    border: 1px solid var(--c-border)
+    box-shadow: var(--shadow-card)
 
   .learning-activity-feature .media
     display: flex
@@ -269,7 +269,7 @@ $highlight-button-color = var(--c-warn)
     min-width: 140px
     width: auto
     padding: 0 16px
-    border-radius: var(--claude-radius-sm)
+    border-radius: var(--r-sm)
     font-size: .91rem
     font-weight: 650
 
@@ -293,7 +293,7 @@ $highlight-button-color = var(--c-warn)
 
 .page--contest_problemlist
   .contest-problems-layout .learning-activity-main .section
-    margin-bottom: var(--claude-space-5)
+    margin-bottom: var(--sp-5)
 
   .contest-problems-layout .section__body.no-padding
     padding: 0
@@ -305,22 +305,22 @@ $highlight-button-color = var(--c-warn)
   .contest-problems-layout .data-table .col--problem-name a
     font-size: .95rem
     line-height: 1.5
-    color: var(--claude-ink)
+    color: var(--c-fg)
 
   .contest-problems-layout .data-table .col--problem-name a:hover
-    color: var(--claude-accent)
+    color: var(--c-accent)
 
   .contest-problems-layout .section--clarifications .section__body
     padding: 22px 26px
 
   .contest-problems-layout .dczcomments__item
     padding: 15px 0
-    border-bottom: 1px solid var(--claude-line)
+    border-bottom: 1px solid var(--c-border)
 
   .contest-problems-layout .dczcomments__supplementary
     font-size: .82rem
     line-height: 1.6
-    color: var(--claude-ink-muted)
+    color: var(--c-fg-2)
 
 .page--contest_scoreboard,
 .page--homework_scoreboard
@@ -329,8 +329,8 @@ $highlight-button-color = var(--c-warn)
     margin-right: auto
 
   .learning-scoreboard-card
-    border-radius: var(--claude-radius-lg)
-    box-shadow: var(--claude-shadow)
+    border-radius: var(--r-lg)
+    box-shadow: var(--shadow-card)
 
   .learning-scoreboard-card > .section__header
     display: flex
@@ -338,7 +338,7 @@ $highlight-button-color = var(--c-warn)
     align-items: stretch
     gap: 18px
     padding: 24px 28px
-    border-bottom: 1px solid var(--claude-line)
+    border-bottom: 1px solid var(--c-border)
 
   .scoreboard-heading
     display: flex
@@ -353,7 +353,7 @@ $highlight-button-color = var(--c-warn)
 
   .scoreboard-heading__eyebrow
     margin: 0 0 6px
-    color: var(--claude-accent)
+    color: var(--c-accent)
     font-size: .78rem
     font-weight: 650
     letter-spacing: .08em
@@ -375,15 +375,15 @@ $highlight-button-color = var(--c-warn)
   .scoreboard-heading__actions .button
     min-height: 36px
     padding: 7px 11px
-    border: 1px solid var(--claude-line)
-    background: var(--claude-surface-muted)
-    color: var(--claude-ink-muted)
+    border: 1px solid var(--c-border)
+    background: var(--c-sunken)
+    color: var(--c-fg-2)
     font-size: .82rem
     white-space: nowrap
 
   .scoreboard-heading__actions .button:hover
-    border-color: var(--claude-accent)
-    color: var(--claude-accent)
+    border-color: var(--c-accent)
+    color: var(--c-accent)
 
   .learning-scoreboard-card > .section__header .section__tools
     display: flex
@@ -393,7 +393,7 @@ $highlight-button-color = var(--c-warn)
     min-width: 170px
     min-height: 40px
     padding: 8px 12px
-    border-radius: var(--claude-radius-sm)
+    border-radius: var(--r-sm)
 
   .learning-scoreboard-card [data-fragment-id="scoreboard"]
     min-width: 0
@@ -423,7 +423,7 @@ $highlight-button-color = var(--c-warn)
     margin-right: 5px
 
   .learning-scoreboard-card .star-highlight
-    background: var(--claude-accent-soft)
+    background: var(--c-accent-soft)
 
   @media only screen and (max-width: 600px)
     .learning-scoreboard-card > .section__header

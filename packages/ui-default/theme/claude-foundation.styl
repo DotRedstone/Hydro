@@ -163,7 +163,7 @@
 .learning-activity-layout
   display: grid
   grid-template-columns: minmax(0, 1fr) 288px
-  gap: var(--claude-space-5)
+  gap: var(--sp-5)
   align-items: start
 
 .learning-activity-layout > .columns
@@ -175,7 +175,7 @@
 
 .learning-activity-main > .section,
 .learning-activity-side > .section
-  margin-bottom: var(--claude-space-5)
+  margin-bottom: var(--sp-5)
 
 .learning-activity-main .section__header
   padding: 22px 26px
@@ -196,15 +196,15 @@
   display: block
   padding: 11px 18px
   min-height: 42px
-  border-radius: var(--claude-radius-sm)
-  color: var(--claude-ink-muted)
+  border-radius: var(--r-sm)
+  color: var(--c-fg-2)
   font-size: .91rem
   line-height: 1.55
 
 .learning-activity-side .menu__link:hover,
 .learning-activity-side .menu__link.active
-  background: var(--claude-accent-soft)
-  color: var(--claude-accent)
+  background: var(--c-accent-soft)
+  color: var(--c-accent)
 
 .learning-activity-side dl.horizontal
   display: grid
@@ -215,7 +215,7 @@
   line-height: 1.55
 
 .learning-activity-side dl.horizontal dt
-  color: var(--claude-ink-muted)
+  color: var(--c-fg-2)
 
 .learning-activity-side dl.horizontal dd
   min-width: 0
@@ -281,7 +281,7 @@
 .learning-activity-list-card [name="filter-form"] select
   min-height: 40px
   padding: 8px 10px
-  border-radius: var(--claude-radius-sm)
+  border-radius: var(--r-sm)
   font-size: .9rem
 
 .learning-activity-list-card [name="filter-form"] input
@@ -296,15 +296,15 @@
 .learning-activity-list-card .section__list__item
   margin: 0
   padding: 21px 26px
-  border-bottom: 1px solid var(--claude-line)
-  background: var(--claude-surface)
+  border-bottom: 1px solid var(--c-border)
+  background: var(--c-surface)
   transition: background .15s ease
 
 .learning-activity-list-card .section__list__item:last-child
   border-bottom: 0
 
 .learning-activity-list-card .section__list__item:hover
-  background: var(--claude-surface-muted)
+  background: var(--c-sunken)
 
 .learning-activity-list-card .media__body
   min-width: 0
@@ -316,10 +316,10 @@
   width: 68px
   min-height: 70px
   padding: 8px
-  border: 1px solid var(--claude-line)
-  border-radius: var(--claude-radius-md)
-  background: var(--claude-page)
-  color: var(--claude-ink)
+  border: 1px solid var(--c-border)
+  border-radius: var(--r)
+  background: var(--c-bg)
+  color: var(--c-fg)
 
 .learning-activity-list-card .numbox__num
   font-size: 1.5rem
@@ -328,7 +328,7 @@
 
 .learning-activity-list-card .numbox__text
   font-size: .78rem
-  color: var(--claude-ink-muted)
+  color: var(--c-fg-2)
 
 .learning-activity-list-card .supplementary.list
   display: flex
@@ -336,22 +336,22 @@
   flex-wrap: wrap
   gap: 7px 16px
   margin: 10px 0 0
-  color: var(--claude-ink-muted)
+  color: var(--c-fg-2)
   font-size: .84rem
   line-height: 1.55
 
 .learning-activity-list-card .section__list__item h1
   margin: 0
-  color: var(--claude-ink)
+  color: var(--c-fg)
   font-size: 1.11rem
   font-weight: 620
   line-height: 1.45
 
 .learning-activity-list-card .section__list__item h1 a
-  color: var(--claude-ink)
+  color: var(--c-fg)
 
 .learning-activity-list-card .section__list__item h1 a:hover
-  color: var(--claude-accent)
+  color: var(--c-accent)
 
 .learning-activity-main .data-table
   font-size: .9rem
@@ -370,7 +370,7 @@
 @media only screen and (max-width: 900px)
   .learning-activity-layout
     grid-template-columns: minmax(0, 1fr)
-    gap: var(--claude-space-4)
+    gap: var(--sp-4)
 
   .learning-activity-side
     order: 2
