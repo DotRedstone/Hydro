@@ -47,6 +47,7 @@ components/**/*.styl        <- consume $variables, never colours
 | elevation | `--shadow-pop` `--shadow-card` `--shadow-float` |
 | shape | `--r-sm` `--r` `--r-lg` `--r-pill` |
 | spacing | `--sp-1` 4px `--sp-2` 8px `--sp-3` 12px `--sp-4` 16px `--sp-5` 24px `--sp-6` 32px |
+| layout | `--w-page` 1200px `--w-sidebar` 280px `--layout-gap` 24px `--layout-gutter` 15px |
 | type | `--font-ui` `--font-display` `--font-code` |
 
 `--c-inverse-*` is the “opposite of the page” pair (tooltips, mobile drawer): light
@@ -81,8 +82,18 @@ They emit `color-mix()`, so the result follows the active palette and dark mode.
 3. New visual constant (radius, shadow, spacing scale, colour) → add a token to
    the palette and use it, don’t inline it.
 4. Run `yarn lint:tokens` (also part of `yarn lint:ci` and every `build:ui*`
-   script). It fails on literal colours, on tokens used but not defined, and on
-   tokens defined but unused.
+   script). It fails on literal colours, literal `border-radius` values, on
+   tokens used but not defined, and on tokens defined but unused.
+5. Layout numbers (`max-width`, grid tracks, gutters) use the `--w-*` / `--layout-*`
+   tokens, **not** `rem(...)`. The `rem()` helper divides by 15px while the
+   document root is 16px, so `rem(1200px)` renders as 1280px — that mismatch is
+   what previously made the catalog and the authoring shells wider than every
+   other page.
+6. Accent split: `--c-accent` is a **fill** colour (buttons, pills, marks);
+   `--c-link` is the darker, text-safe clay for links and icon text. Clay on a
+   card is only 2.9:1, so links must not use `--c-accent`.
+7. One primary action per page or sidebar: `.button.primary` or
+   `.menu__link--primary`. Everything else is secondary (outline) or a text link.
 
 ## Where a rule belongs
 
@@ -112,6 +123,9 @@ Those must pass `var(--c-*)` strings — `components/notification/index.ts` and
 
 ## Verifying a change
 
+* Container check: `.row`, `.problem-catalog`, `.authoring-workbench`,
+  `.administration-layout` and `.account-profile-layout` must all resolve to
+  `--w-page` with a `--layout-gutter` inset and a `--w-sidebar` side column.
 * `/theme-guide` renders every component and the full token list, in the active
   theme; switch the theme in the footer and reload to check dark.
 * `yarn lint:tokens` for the automated part, then a page-level pass: catalog,
