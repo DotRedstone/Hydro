@@ -1,0 +1,71 @@
+// Floating actions sit in one column in the bottom-right corner: search,
+// theme, back-to-top. They used to be three unrelated fixed buttons.
+.fab-stack
+  position: fixed
+  right: rem(24px)
+  bottom: rem(24px)
+  z-index: 900
+  display: flex
+  flex-direction: column-reverse
+  align-items: center
+  gap: rem(10px)
+
+  +mobile()
+    right: rem(14px)
+    bottom: rem(14px)
+
+.fab
+  display: grid
+  place-items: center
+  width: rem(44px)
+  height: rem(44px)
+  padding: 0
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-pill)
+  background: var(--c-surface)
+  color: var(--c-fg-2)
+  box-shadow: var(--shadow-card)
+  cursor: pointer
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease, opacity .16s ease, transform .16s ease
+
+  &:hover
+    border-color: var(--c-accent)
+    background: var(--c-accent-soft)
+    color: var(--c-link)
+
+  &:focus-visible
+    outline: 2px solid var(--c-focus-ring)
+    outline-offset: 2px
+
+  svg
+    width: rem(19px)
+    height: rem(19px)
+    display: block
+
+  // the omnibar trigger is moved into the stack by theme.page.ts
+  &.omnibar-toggle
+    position: static
+    right: auto
+    bottom: auto
+    width: rem(44px)
+    height: rem(44px)
+    border-radius: var(--r-pill)
+    box-shadow: var(--shadow-card)
+
+    span
+      scale: 1.35
+
+.fab--top
+  opacity: 0
+  transform: translateY(6px)
+  pointer-events: none
+
+  &.is-visible
+    opacity: 1
+    transform: none
+    pointer-events: auto
+
++below(rupture.mobile-cutoff)
+  .fab
+    width: rem(42px)
+    height: rem(42px)
