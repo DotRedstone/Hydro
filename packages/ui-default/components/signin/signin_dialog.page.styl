@@ -75,27 +75,66 @@ $signin_form_width = 360px
   color: var(--c-fg-3)
   font-size: .87rem
 
-// Close sits on the card, not inside the form.
-.account-signin-dialog .dialog--signin__close-container
-  position: absolute
-  right: rem(14px)
-  top: rem(12px)
-  z-index: 3
-
-.account-signin-dialog .dialog--signin__close-container a
+// 关闭按钮贴在卡片右上角：一个 32px 的图标按钮，不用文字占位
+.account-signin-dialog .dialog__close
   display: inline-flex
   align-items: center
-  height: rem(28px)
-  padding: 0 rem(10px)
-  border-radius: var(--r-pill)
+  justify-content: center
+  position: absolute
+  z-index: 3
+  top: rem(10px)
+  right: rem(10px)
+  width: rem(32px)
+  height: rem(32px)
+  border-radius: 50%
+  border: 1px solid var(--c-border)
+  background: var(--c-surface)
   color: var(--c-fg-3)
-  font-size: .78rem
-  letter-spacing: .04em
+  font-size: rem(15px)
+  line-height: 1
+  transition: background-color .18s ease-out-cubic, color .18s ease-out-cubic
 
-.account-signin-dialog .dialog--signin__close-container a:hover
+.account-signin-dialog .dialog__close:hover
   background: var(--c-hover)
+  border-color: token-alpha(var(--c-fg), 20%)
   color: var(--c-fg)
   text-decoration: none
+
+.account-signin-dialog .dialog__close:focus-visible
+  outline: 2px solid var(--c-accent)
+  outline-offset: 2px
+
+// 验证码：一张图 + 一个输入框，右侧“换一张”
+.login-captcha
+  display: flex
+  align-items: flex-end
+  gap: 12px
+  margin-bottom: 14px
+
+.login-captcha__field
+  flex: 1 1 auto
+  min-width: 0
+  margin-bottom: 0 !important
+
+.login-captcha__figure
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 3px
+
+.login-captcha__image
+  display: block
+  width: 132px
+  height: 44px
+  border-radius: var(--r-sm)
+  border: 1px solid var(--c-border)
+
+.login-captcha__refresh
+  font-size: .74rem
+  color: var(--c-fg-3)
+
+.login-captcha__refresh:hover
+  color: var(--c-link)
 
 .account-signin-dialog label.material,
 .account-signin-dialog label.textbox
