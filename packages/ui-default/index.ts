@@ -214,6 +214,10 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
         domainNavigation: Schema.boolean().default(true).description('Show Domain Navigation'),
         about: Schema.string().role('markdown').default(defaultAbout),
         enableScratchpad: Schema.boolean().default(true).description('Enable Scratchpad Mode'),
+        copyAttribution: Schema.boolean().default(true)
+          .description('Append the page source when copying text'),
+        copyAttributionCode: Schema.boolean().default(false)
+          .description('Append the page source when copying code blocks'),
       }),
     }));
     ctx.Route('config_schema', '/manage/config/schema.json', SystemConfigSchemaHandler, PRIV.PRIV_EDIT_SYSTEM);

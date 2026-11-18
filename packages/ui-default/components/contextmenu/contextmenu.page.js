@@ -1,4 +1,5 @@
 import { AutoloadPage } from 'vj/misc/Page';
+import { copyFromSite } from 'vj/components/copy/copy';
 import { applyTheme } from 'vj/components/theme/theme.page';
 
 // 只有在“我们确实能提供更有用动作”的地方才接管右键：
@@ -7,31 +8,14 @@ const NATIVE_SELECTOR = 'input, textarea, select, [contenteditable="true"], [con
 
 const prefersReduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// 复制统一交给 components/copy 的管线：来源追加、比赛模式记录都在那里，
+// 右键菜单这里只负责把文本交出去
 async function copyText(text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (e) {
-      // 文档没有焦点、权限被拒时继续走下面的兜底
-    }
-  }
-  const area = document.createElement('textarea');
-  area.value = text;
-  area.setAttribute('readonly', '');
-  area.style.position = 'fixed';
-  area.style.opacity = '0';
-  document.body.appendChild(area);
-  area.select();
-  let ok = false;
   try {
-    ok = document.execCommand('copy');
+    return await copyFromSite(text, 'menu');
   } catch (e) {
-    ok = false;
-  } finally {
-    area.remove();
+    return false;
   }
-  return ok;
 }
 
 export default new AutoloadPage('contextmenu', () => {
