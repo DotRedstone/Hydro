@@ -10,7 +10,7 @@
         <div data-fragment-id="ranking">
           {% if not udocs.length %}
             {% if page == 1 %}
-              <blockquote class="note">{{ _('The ranking page is not updated realtime.') }}</blockquote>
+              <blockquote class="note">{{ _('Nobody has solved anything in this domain yet. Rank is earned by accepted submissions.') }}</blockquote>
             {% endif %}
           {{ nothing.render('Sorry, there are no users in this domain.') }}
           {% else %}

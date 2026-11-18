@@ -10,6 +10,11 @@
     width: rem(70px)
     text-align: center
 
+  // the counts are the quiet facts of the row, the title carries the weight
+  .col--tried, .col--ac, .col--difficulty
+    color: var(--c-fg-2)
+    font-variant-numeric: tabular-nums
+
   .col--status
     border-right: 1px solid $table-border-color
 
@@ -143,10 +148,15 @@
     border-radius: var(--r-sm)
     font-size: .89rem
 
-  .training-detail-layout .menu__link:hover,
-  .training-detail-layout .menu__link.active
+  .training-detail-layout .menu__link:hover
     background: var(--c-accent-soft)
     color: var(--c-link)
+
+  // the active entry is a section label here, not a call to action: keep it quiet
+  .training-detail-layout .menu__link.active
+    background: var(--c-sunken)
+    color: var(--c-fg)
+    font-weight: 620
 
   .training-detail-layout dl.horizontal
     font-size: .87rem
@@ -161,3 +171,14 @@
 
     .training-detail-chapters .training__section__detail > .section__body
       padding: 16px
+
+// chapter tables: the problem title is the point of the row, never truncate it
+.page--training_detail .training__section .data-table .col--problem-name
+  min-width: 240px
+  white-space: normal
+
+.page--training_detail .training__section .data-table .col--problem-name a
+  color: var(--c-fg)
+
+.page--training_detail .training__section .data-table .col--problem-name a:hover
+  color: var(--c-link)

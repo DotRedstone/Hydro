@@ -1,5 +1,15 @@
 @import './var.inc.styl'
 
+// the autocomplete widget wraps the real input in its own bordered white box;
+// the input already carries the design border, so the wrapper must stay invisible
+.autocomplete-container .autocomplete-wrapper
+  padding: 0
+  border: 0
+  background: transparent
+
+.autocomplete-container
+  max-width: 100%
+
 // Normal Textbox
 input.textbox, textarea.textbox, span.textbox
   form-styles()
@@ -88,3 +98,10 @@ label.textbox.material.inverse
 
   &.focus
     color: $immersive-primary-color
+
+// Components that upgrade a textbox into an autocomplete keep the original input
+// as a hidden value carrier and render their own controlled input next to it.
+// Without this rule both inputs show up, one of them empty.
+input.textbox.autocomplete-dummy,
+input.autocomplete-dummy
+  display: none !important

@@ -41,13 +41,29 @@ for key, value in $contest-color
     background: $primary-color
     border-color: $primary-color
 
+// The remaining time is docked under the nav instead of pinned to the viewport
+// corner, where it used to sit on top of the page and the nav bar.
 .contest-timer
-  position: fixed;
-  left: 0;
-  top: 48px;
-  z-index: 10000;
+  position: fixed
+  left: 50%
+  bottom: 16px
+  transform: translateX(-50%)
+  z-index: 900
+  margin: 0
+  padding: 6px 12px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-pill)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-card)
+  color: var(--c-fg)
+  font-family: var(--code-font-family)
+  font-size: .82rem
+  font-weight: 600
+  font-variant-numeric: tabular-nums
+  letter-spacing: .02em
+  line-height: 1.4
   +mobile()
-    visibility: hidden !important;
+    visibility: hidden !important
 
 .contest-problems
   font-size: 0.9375rem;

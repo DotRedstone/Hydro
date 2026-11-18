@@ -89,7 +89,7 @@
       <div class="section__body">
         <ul class="problem__tags">
           {% if not tdoc %}
-            <span class="problem__tag-item">{{ _('ID') }}: {{ pdoc.docId }}</span>
+            <span class="problem__tag-item">{{ _('ID') }}: {{ pdoc.pid or pdoc.docId }}</span>
           {% endif %}
           <span class="problem__tag-item icon icon-book">{{ _('problem_type.' + pdoc.config.type).format(pdoc.config.subType) }}</span>
           {% if pdoc.config.type == 'default' and pdoc.config.subType %}

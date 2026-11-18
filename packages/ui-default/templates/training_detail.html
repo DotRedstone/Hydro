@@ -41,6 +41,19 @@
   {%- else -%}
   <div class="medium-9 columns">
   {%- endif -%}
+    <div class="section learning-activity-hero">
+      <div class="section__header">
+        <h1 class="section__title">{{ tdoc.title }}</h1>
+      </div>
+      <div class="section__body">
+        <span class="problem__tag-item">{{ _('Completed' if tsdoc['enroll'] and tsdoc['done'] else ('In Progress' if tsdoc['enroll'] else 'Not Enrolled')) }}</span>
+        <span class="problem__tag-item icon icon-list">{{ tdoc.dag|length }} {{ _('Sections') }}</span>
+        <span class="problem__tag-item icon icon-user--multiple">{{ tdoc.attend|default(0) }} {{ _('Enrollees') }}</span>
+        {% if tsdoc['enroll'] %}
+        <span class="problem__tag-item">{{ _('Progress') }}: {{ (100 * tsdoc['donePids']|length / pids|length)|round|int }}%</span>
+        {% endif %}
+      </div>
+    </div>
     <div class="section training-detail-intro">
       <div class="section__body typo">
         {{ tdoc['content'] }}

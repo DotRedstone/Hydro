@@ -115,10 +115,40 @@
   color: var(--c-link)
 
 .problem__tag-link, .problem__tag-item
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  max-width: 100%
   border-radius: var(--r-pill)
   border: 1px solid var(--c-border)
   background: var(--c-sunken)
   color: var(--c-fg-3)
+
+// inline user links inside a chip (host, owner, author) must not push the row apart
+.problem__tag-item .user-profile-link,
+.problem__tag-link .user-profile-link
+  display: inline-flex
+  align-items: center
+  gap: 5px
+  min-width: 0
+
+.problem__tag-item .user-profile-link img,
+.problem__tag-link .user-profile-link img
+  width: 16px
+  height: 16px
+  margin: 0
+  border-radius: 50%
+
+.problem__tag-item .user-profile-name,
+.problem__tag-link .user-profile-name
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.problem__tag-item sup,
+.problem__tag-link sup
+  font-size: .68em
+  line-height: 1
 
 .problem__tag-link:hover
   border-color: var(--c-link)
@@ -394,3 +424,30 @@
   .learning-activity-list-card .numbox
     width: 55px
     min-height: 62px
+
+// Nets inside a narrow rail cannot hold a 37%/62% horizontal definition list:
+// labels were clipped to a single glyph. Stack them instead.
++above(rupture.desktop-cutoff)
+  .section.side dl.horizontal
+    dt,
+    dd
+      float: none
+      width: auto
+      overflow: visible
+      white-space: normal
+      text-overflow: clip
+
+    dt
+      margin: 12px 0 2px
+      color: var(--c-fg-3)
+      font-size: .76rem
+      font-weight: 550
+      letter-spacing: .04em
+
+    dd
+      margin: 0 0 12px
+      color: var(--c-fg)
+      line-height: 1.6
+
+    dt:first-child
+      margin-top: 2px

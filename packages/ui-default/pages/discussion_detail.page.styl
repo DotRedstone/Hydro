@@ -4,10 +4,15 @@
   .topic__content
     margin: rem(20px 0)
 
+  // the sidebar profile header used a stock blue photo; on paper it reads as a
+  // foreign block, so it becomes the same warm band as the profile page
   .profile__bg
+    background-image: none
+    background: linear-gradient(120deg, token-tint(var(--c-accent), 14%), var(--c-sunken))
+    border-bottom: 1px solid var(--c-border)
     background-size: cover
     background-position: center center
-    height: rem(60px)
+    height: rem(64px)
     margin-bottom: rem(-32px)
 
   .sidebar-user-profile

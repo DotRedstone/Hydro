@@ -115,9 +115,11 @@
     font-size: .9rem
 
   .record-filter-card .section__tools
+    position: static
     display: flex
     gap: 8px
     flex-wrap: wrap
+    padding: 0
 
   .record-filter-card .section__tools .button
     min-height: 38px
@@ -183,3 +185,23 @@
 
     .record-filter-card .section__tools
       width: 100%
+
+// rejudge / cancel-score controls belong to the row, not to the list: they only
+// show up when the row is under the pointer
+.page--record_main .record_main__table .col--problem-name form.form--inline
+  display: inline-flex
+  align-items: center
+  gap: 8px
+  margin-right: 6px
+  visibility: hidden
+
+.page--record_main .record_main__table tbody tr:hover .col--problem-name form.form--inline,
+.page--record_main .record_main__table .col--problem-name form.form--inline:focus-within
+  visibility: visible
+
+.page--record_main .record_main__table .col--problem-name form.form--inline button.link
+  font-size: .78rem
+  color: var(--c-fg-3)
+
+.page--record_main .record_main__table .col--problem-name form.form--inline button.link:hover
+  color: var(--c-bad)

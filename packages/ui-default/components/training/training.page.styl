@@ -1,25 +1,83 @@
 .training-status--icon
-  display: inline-block
-  width: 1.15em
-  for key, value in $training-status-icon
+  display: inline-flex
+  align-items: center
+  width: auto
+  margin-right: 2px
+
+  // the iconfont state glyphs read as stray punctuation, a dot carries the state
+  &:before
+    content: ''
+    display: block
+    width: 6px
+    height: 6px
+    border-radius: 50%
+    background: currentColor
+
+  for key, value in $training-status-color
     &.{key}:before
-      content: value
-      color: $training-status-color[key]
+      background: value
 
 .training-status--text
   for key, value in $training-status-color
     &.{key}
       color: value
 
+// self-contained state chip: dot + label in one element
+.training-status
+  display: inline-flex
+  align-items: center
+  gap: 7px
+  padding: 3px 11px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-pill)
+  font-size: .76rem
+  font-weight: 600
+  letter-spacing: .02em
+  line-height: 1.5
+  white-space: nowrap
+
+  &:before
+    content: ''
+    display: block
+    width: 6px
+    height: 6px
+    border-radius: 50%
+    background: currentColor
+
+  for key, value in $training-status-color
+    &--{key}
+      color: value
+
 .training-section-status--icon
   display: inline-block
   width: 1.15em
-  for key, value in $training-section-status-icon
-    &.{key}:before
-      content: value
-      color: $training-status-color[key]
 
 .training-section-status--text
+  display: inline-flex
+  align-items: center
+  gap: 7px
+  padding: 4px 11px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-pill)
+  font-size: .76rem
+  font-weight: 600
+  letter-spacing: .02em
+  line-height: 1.5
+
+  // the iconfont glyphs read as stray punctuation, a dot carries the same state
+  .training-section-status--icon
+    width: auto
+
+    &:before
+      content: ''
+      display: block
+      width: 6px
+      height: 6px
+      border-radius: 50%
+      background: currentColor
+
   for key, value in $training-section-status-color
     &.{key}
       color: value
+      border-color: token-alpha(value, 40%)
+      background: token-alpha(value, 8%)

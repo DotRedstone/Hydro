@@ -15,46 +15,86 @@ $highlight-button-color = var(--c-warn)
     color: $success-color
 
   .contest__item
-    border-left: rem(5px) solid transparent
-    padding-left: rem(5px)
-    
+    border-left: rem(3px) solid transparent
+    padding-left: rem(10px)
+
     &.live
-      border-left: rem(5px) solid var(--c-bad)
+      border-left-color: var(--c-accent)
 
     &.ready
-      border-left: rem(5px) solid var(--c-info)
+      border-left-color: var(--c-warn)
 
+  // The featured contest is an ink panel: one dark block against the paper page
+  // reads as an invitation, where a coloured wash used to fight the palette.
   .section--contest
-    &.live
-      background: var(--c-bad)
+    color: var(--c-inverse-fg)
+    background: var(--c-inverse-bg)
+    border-color: transparent
+    box-shadow: var(--shadow-card)
 
+    // only the running contest earns the ink panel; upcoming ones stay on paper
     &.ready
-      background: var(--c-info)
+      background: var(--c-surface)
+      color: var(--c-fg)
+      border-color: var(--c-border)
+      box-shadow: none
+
+      .status_title
+        border-color: var(--c-border)
+        color: var(--c-fg-2)
+
+      h1
+        color: var(--c-heading)
+
+      .info
+        color: var(--c-fg-2)
+
+        .icon
+          color: var(--c-fg-3)
+
+      .detail-button
+        background: var(--c-sunken)
+        color: var(--c-fg)
+
+      .detail-button:hover
+        background: var(--c-accent)
+        color: var(--c-accent-fg)
 
     .status_title
       display: inline-block
-      font-size: rem($font-size-secondary)
-      color: var(--c-accent-fg)
-      background: var(--c-overlay)
-      padding: rem(7px 10px)
-      border-radius: var(--r-xs)
+      padding: rem(5px 11px)
+      border: 1px solid token-alpha(var(--c-inverse-fg), 32%)
+      border-radius: var(--r-pill)
+      background: transparent
+      color: token-alpha(var(--c-inverse-fg), 88%)
+      font-size: .72rem
+      font-weight: 600
+      letter-spacing: .1em
+      text-transform: uppercase
+
+    &.live .status_title
+      border-color: token-alpha(var(--c-accent), 65%)
+      color: var(--c-accent)
 
     h1
-      line-height: 1.2
-      font-size: rem(25px)
-      margin: rem(20px 0)
+      color: var(--c-inverse-fg)
+      font-family: var(--font-display)
+      line-height: 1.25
+      font-size: clamp(1.5rem, 2.4vw, 2rem)
+      letter-spacing: -.015em
+      margin: rem(16px 0)
 
     .info
-      color: var(--c-accent-fg)
-      font-size: rem($font-size-secondary)
+      color: token-alpha(var(--c-inverse-fg), 74%)
+      font-size: .85rem
 
       .icon
-        color: var(--c-warn)
-        font-size: rem($font-size-icon)
+        color: token-alpha(var(--c-inverse-fg), 52%)
+        font-size: .95rem
 
       li
         display: inline-block
-        margin-right: rem(10px)
+        margin-right: rem(16px)
 
     .attandance
       margin-top: rem(15px)
@@ -65,8 +105,8 @@ $highlight-button-color = var(--c-warn)
       cursor: pointer
       display: block
       text-align: center
-      background: $highlight-button-color
-      color: var(--c-heading)
+      background: var(--c-accent)
+      color: var(--c-accent-fg)
       line-height: rem(40px)
       border-radius: var(--r-pill)
       width: rem(150px)
@@ -76,25 +116,13 @@ $highlight-button-color = var(--c-warn)
       transition-timing-function: ease-out-cubic
 
       &:after
-        position: absolute
-        background: var(--c-inverse-fg)
-        content: ""
-        height: rem(100px)
-        left: rem(-70px)
-        top: rem(-25px)
-        width: rem(50px)
-        opacity: 0.2
-        transform: rotate(35deg)
-        transition: left 0.6s ease-out-cubic
-        z-index: 1
+        content: none
 
       &:hover
         text-decoration: none
-        box-shadow: 0 2px 20px token-alpha($highlight-button-color, 45%)
-        background: token-tint($highlight-button-color, 80%)
-
-        &:after
-          left: 150%
+        background: var(--c-accent-hover)
+        color: var(--c-accent-fg)
+        box-shadow: var(--shadow-card)
 
     +mobile()
       .media, .media_body, .media__right
@@ -386,14 +414,19 @@ $highlight-button-color = var(--c-warn)
     color: var(--c-link)
 
   .learning-scoreboard-card > .section__header .section__tools
+    position: static
     display: flex
     justify-content: flex-end
+    padding: 0
 
   .learning-scoreboard-card .select.filter
+    width: auto
     min-width: 170px
-    min-height: 40px
-    padding: 8px 12px
+    max-width: 240px
+    min-height: 36px
+    padding: 6px 10px
     border-radius: var(--r-sm)
+    font-size: .82rem
 
   .learning-scoreboard-card [data-fragment-id="scoreboard"]
     min-width: 0
@@ -510,3 +543,9 @@ $highlight-button-color = var(--c-warn)
   li
     line-height: 1.8
     font-size: .82rem
+
+// Hydro marks the first-blood cell with an inline light-green background; keep
+// that signal but let it follow the palette (it was a pale green in dark mode).
+.page--contest_scoreboard .data-table td[style*="rgb(217"],
+.page--homework_scoreboard .data-table td[style*="rgb(217"]
+  background-color: token-alpha(var(--c-ok), 16%) !important

@@ -12,8 +12,32 @@
   .training__item
     padding-left: rem(5px)
 
-  .training__participants
-    width: rem(80px)
+  // the count lines up with the title, not with the middle of the row
+  .training__item .media__left
+    vertical-align: top
+    padding-top: 3px
+
+  // the enrolment count is a quiet statistic, not a boxed widget
+  .training__item .training__participants
+    display: flex
+    flex-direction: column
+    justify-content: center
+    width: rem(62px)
+    min-height: 0
+    padding: 0
+    border: 0
+    background: none
+
+    .numbox__num
+      font-size: 1.5rem
+      font-weight: 650
+      line-height: 1.15
+      font-variant-numeric: tabular-nums
+
+    .numbox__text
+      font-size: .74rem
+      line-height: 1.4
+      color: var(--c-fg-3)
 
   .training__progress
     line-height: rem(17px)
