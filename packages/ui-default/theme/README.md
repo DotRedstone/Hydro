@@ -41,11 +41,12 @@ components/**/*.styl        <- consume $variables, never colours
 | surfaces | `--c-bg` `--c-surface` `--c-sunken` `--c-hover` `--c-border` `--c-border-strong` `--c-nav-bg` `--c-overlay` |
 | text | `--c-fg` `--c-fg-2` `--c-fg-3` `--c-heading` |
 | accent | `--c-accent` `--c-accent-hover` `--c-accent-soft` `--c-accent-fg` `--c-focus-ring` |
-| semantic | `--c-ok` `--c-ok-soft` `--c-bad` `--c-bad-soft` `--c-warn` `--c-warn-soft` `--c-info` `--c-info-soft` `--c-neutral` `--c-neutral-soft` |
+| semantic | `--c-ok` `--c-ok-soft` `--c-bad` `--c-warn` `--c-warn-soft` `--c-info` `--c-neutral` `--c-neutral-soft` |
 | content | `--c-code-bg` `--c-code-fg` `--c-mark` `--c-inverse-bg` `--c-inverse-fg` |
 | categorical | `--c-cat-1` … `--c-cat-8` (calendar, level badges, tag colours) |
-| elevation | `--shadow-pop` `--shadow-card` |
+| elevation | `--shadow-pop` `--shadow-card` `--shadow-float` |
 | shape | `--r-sm` `--r` `--r-lg` `--r-pill` |
+| spacing | `--sp-1` 4px `--sp-2` 8px `--sp-3` 12px `--sp-4` 16px `--sp-5` 24px `--sp-6` 32px |
 | type | `--font-ui` `--font-display` `--font-code` |
 
 `--c-inverse-*` is the “opposite of the page” pair (tooltips, mobile drawer): light
@@ -83,6 +84,39 @@ They emit `color-mix()`, so the result follows the active palette and dark mode.
    script). It fails on literal colours, on tokens used but not defined, and on
    tokens defined but unused.
 
+## Where a rule belongs
+
+Three shared layout files sit on top of the page styles (`theme/default.js` loads
+them last, in this order):
+
+| File | Scope |
+| --- | --- |
+| `theme/claude-foundation.styl` | page shells shared by several pages: the problem catalog grid, learning-activity shells (`contest` / `homework` / `training`), footer rhythm |
+| `theme/claude-navigation.styl` | the fixed desktop bar, its More/account dropdown panels and the mobile slideout |
+| `theme/claude-authoring.styl` | authoring & administration shells (`problem_edit`, `manage_*`, files panes, the irreversible-action styling) |
+
+Rules of thumb when adding UI:
+
+1. **Component** (button, table, callout, pager…) → its own
+   `components/<name>/<name>.page.styl`, using tokens only.
+2. **One page** → `pages/<page>.page.styl` next to the page script.
+3. **Shell shared by several pages** → one of the three files above; put it under a
+   page-level class (`.problem-catalog`, `.authoring-workbench`, …), never on a bare
+   element selector, or it silently restyles unrelated pages.
+4. **Colour, radius, shadow, spacing that appears twice** → a token, not a value.
+
+Colours also appear from JavaScript (Mantine calls, chart options, editor themes).
+Those must pass `var(--c-*)` strings — `components/notification/index.ts` and
+`pages/problem_statistics.page.ts` show the pattern. `yarn lint:tokens` only scans
+`.styl`, so this is review discipline.
+
+## Verifying a change
+
+* `/theme-guide` renders every component and the full token list, in the active
+  theme; switch the theme in the footer and reload to check dark.
+* `yarn lint:tokens` for the automated part, then a page-level pass: catalog,
+  problem detail, problem edit, a contest, the dashboard, and one admin page.
+
 ## Adding a palette
 
 1. Copy `theme/palettes/claude.css` and define **every** token listed above for
@@ -104,6 +138,10 @@ When pulling `hydro-dev/Hydro`:
 * `.styl` files upstream that use `lighten/darken/rgba($var)` will not compile
   against the token layer. `yarn lint:tokens` plus `yarn build:ui` reports them;
   convert with the table above.
+* `entry.js` sets `__webpack_public_path__` to `UiContext.cdn_prefix || '/'`. The
+  fallback matters: with no CDN configured the prefix is empty, and an empty
+  public path makes webpack resolve chunk URLs against the current document, which
+  breaks every async chunk under a domain-prefixed URL such as `/system/`.
 * `templates/layout/html5.html` carries the font fallback
   (`"<user font>", var(--font-ui)`); keep that shape when upstream changes the
   font block, or the user font setting will stop working.
