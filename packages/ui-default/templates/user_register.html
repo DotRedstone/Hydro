@@ -1,11 +1,12 @@
 {% extends "layout/immersive.html" %}
 {% block content %}
-<div class="row"><div class="columns">
-  <div class="immersive--content immersive--center account-auth-card">
+<div class="auth-page">
+  <div class="account-auth-card">
+    <div class="auth-card__main">
     <h1>{{ _('Sign Up') }}</h1>
     <form method="POST" captcha>
       <div class="row"><div class="columns">
-        <label class="inverse material textbox">
+        <label class="material textbox">
           {{ _('Email') }}
           <input name="mail" type="text" autofocus>
         </label>
@@ -13,10 +14,16 @@
       <div class="row"><div class="columns">
         <div class="text-center">
           {{ captcha|safe }}
-          <input id="submit" type="submit" value="{{ _('Send Verification Email') }}" class="inverse expanded rounded primary button">
+          <input id="submit" type="submit" value="{{ _('Send Verification Email') }}" class="expanded rounded primary button">
         </div>
       </div></div>
     </form>
+    </div>
+    <aside class="auth-card__side">
+      <h2>{{ _('Already registered?') }}</h2>
+      <p>{{ _('Log in with your username and password to continue.') }}</p>
+      <a class="button rounded" href="{{ url('user_login') }}">{{ _('Login') }}</a>
+    </aside>
   </div>
-</div></div>
+</div>
 {% endblock %}

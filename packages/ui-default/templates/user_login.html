@@ -1,24 +1,25 @@
 {% extends "layout/immersive.html" %}
 {% block content %}
-<div class="row"><div class="columns">
-  <div class="immersive--content immersive--center account-auth-card">
+<div class="auth-page">
+  <div class="account-auth-card">
+    <div class="auth-card__main">
     <h1>{{ _('Login') }}</h1>
     <form method="POST">
       {% if model.system.get('server.login') %}
       <div class="row"><div class="columns">
-        <label class="inverse material textbox">
+        <label class="material textbox">
           {{ _('Username') }}
           <input name="uname" type="text" autofocus autocomplete="username webauthn">
         </label>
       </div></div>
       <div class="row"><div class="columns">
-        <label class="inverse material textbox">
+        <label class="material textbox">
           {{ _('Password') }}
           <input name="password" type="password">
         </label>
       </div></div>
       <div class="row"><div class="columns">
-        <label class="inverse material checkbox" style="color:#fff;">
+        <label class="material checkbox">
           <input type="checkbox" name="rememberme" class="checkbox">{{ _('Remember me') }}
         </label>
       </div></div>
@@ -26,7 +27,7 @@
         <input type="hidden" name="tfa" value="">
         <input type="hidden" name="authnChallenge" value="">
         <div class="text-center">
-          <input type="submit" value="{{ _('Login') }}" name="login_submit" class="inverse expanded rounded primary button">
+          <input type="submit" value="{{ _('Login') }}" name="login_submit" class="expanded rounded primary button">
         </div>
       </div></div>
       {% endif %}
@@ -41,6 +42,12 @@
         </div>
       </div></div>
     </form>
+    </div>
+    <aside class="auth-card__side">
+      <h2>{{ _("Don't have an account?") }}</h2>
+      <p>{{ _('Create one to submit code, join contests and keep your submissions.') }}</p>
+      <a class="button rounded" href="{{ url('user_register') }}">{{ _('Sign Up') }}</a>
+    </aside>
   </div>
-</div></div>
+</div>
 {% endblock %}

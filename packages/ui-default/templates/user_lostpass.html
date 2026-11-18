@@ -1,7 +1,8 @@
 {% extends "layout/immersive.html" %}
 {% block content %}
-<div class="row"><div class="columns">
-  <div class="immersive--content immersive--center account-auth-card">
+<div class="auth-page">
+  <div class="account-auth-card">
+    <div class="auth-card__main">
     <h1>{{ _('Lost Password') }}</h1>
     {% if not model.system.get('smtp.user') %}
       <div class="text-center">
@@ -10,18 +11,24 @@
     {% else %}
       <form method="POST">
         <div class="row"><div class="columns">
-          <label class="inverse material textbox">
+          <label class="material textbox">
             {{ _('Email') }}
             <input name="mail" type="text" autofocus>
           </label>
         </div></div>
         <div class="row"><div class="columns">
           <div class="text-center">
-            <input type="submit" value="{{ _('Send Password Reset Email') }}" class="inverse rounded primary button">
+            <input type="submit" value="{{ _('Send Password Reset Email') }}" class="rounded primary button">
           </div>
         </div></div>
       </form>
     {% endif %}
+    </div>
+    <aside class="auth-card__side">
+      <h2>{{ _('Remembered it?') }}</h2>
+      <p>{{ _('Password recovery needs a working mail server. On this site you can ask an administrator to reset it for you.') }}</p>
+      <a class="button rounded" href="{{ url('user_login') }}">{{ _('Back to Login') }}</a>
+    </aside>
   </div>
-</div></div>
+</div>
 {% endblock %}

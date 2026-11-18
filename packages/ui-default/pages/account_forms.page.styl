@@ -1,20 +1,72 @@
 // Shared account/form presentation. Existing fields, auth handlers and methods untouched.
+// Auth pages share one shell: a form panel plus a warm side panel that carries
+// the secondary path (sign up / log in / back). The sign-in dialog uses the same
+// language, so the two never drift apart.
+.auth-page
+  display: flex
+  justify-content: center
+  padding: rem(28px) rem(16px) rem(52px)
+
 .account-auth-card
-  width: min(100%, 470px)
-  max-width: 470px
+  display: grid
+  grid-template-columns: minmax(0, 1fr) rem(258px)
+  width: min(100%, 812px)
+  max-width: 812px
   box-sizing: border-box
-  margin: 30px auto 48px
-  padding: 32px 36px 36px
-  border: 1px solid var(--c-border)
+  margin: 0
+  padding: 0
+  overflow: hidden
+  border: 1px solid token-alpha(var(--c-border), 70%)
   border-radius: var(--r-lg)
   background: var(--c-surface)
   box-shadow: var(--shadow-card)
   color: var(--c-fg)
 
-.account-auth-card h1
-  margin: 0 0 26px
+.auth-card__main
+  padding: 32px 36px 36px
+  min-width: 0
+
+.auth-card__side
+  display: flex
+  flex-direction: column
+  justify-content: center
+  gap: 12px
+  padding: 32px 28px
+  background: var(--c-accent-soft)
+  border-left: 1px solid token-alpha(var(--c-border), 70%)
+
+.auth-card__side h2
+  margin: 0
+  color: var(--c-heading)
+  font-family: var(--font-display)
+  font-size: 1.24rem
+  line-height: 1.35
+  font-weight: 500
+  letter-spacing: -.01em
+
+.auth-card__side p
+  margin: 0
+  color: var(--c-fg-2)
+  font-size: .89rem
+  line-height: 1.7
+
+.auth-card__side .button
+  align-self: flex-start
+  margin: 6px 0 0
+
++below(rupture.mobile-cutoff)
+  .account-auth-card
+    grid-template-columns: minmax(0, 1fr)
+
+  .auth-card__side
+    border-left: 0
+    border-top: 1px solid token-alpha(var(--c-border), 70%)
+
+.account-auth-card .auth-card__main h1
+  margin: 0 0 24px
   text-align: left
-  color: var(--c-fg)
+  color: var(--c-heading)
+  font-family: var(--font-display)
   font-size: clamp(1.5rem, 2.4vw, 1.85rem)
   line-height: 1.4
   letter-spacing: -.02em
@@ -90,41 +142,9 @@
   box-shadow: var(--shadow-card)
   overflow: hidden
 
-.account-signin-dialog .dialog--signin__main
-  padding: 25px 28px
-  color: var(--c-fg)
-
-.account-signin-dialog .dialog--signin__title
-  font-size: 1.55rem
-  line-height: 1.4
-  font-weight: 650
-  letter-spacing: -.02em
-  color: var(--c-fg)
-
-.account-signin-dialog .dialog--signin__note
-  color: var(--c-fg-2)
   font-size: .87rem
   line-height: 1.65
 
-.account-signin-dialog .dialog--signin__main label
-  font-size: .89rem
-  line-height: 1.65
-
-.account-signin-dialog .dialog--signin__main input:not([type="checkbox"]):not([type="hidden"])
-  min-height: 43px
-  border-radius: var(--r-sm)
-
-.account-signin-dialog .dialog--signin__main .button
-  min-height: 42px
-  border-radius: var(--r-sm)
-
-.account-signin-dialog .dialog--signin__side
-  padding: 26px 22px
-  line-height: 1.75
-
-.account-signin-dialog .dialog--signin__side h1
-  font-size: 1.3rem
-  line-height: 1.4
 
 .page--home_account,
 .page--home_settings,
