@@ -1,0 +1,53 @@
+{# 右键菜单：标记与文案在这里，显隐与动作在 components/contextmenu 里 #}
+<div class="context-menu" data-context-menu role="menu" aria-label="{{ _('Page actions') }}" hidden>
+  <div class="context-menu__group" data-group="history">
+    <button type="button" class="context-menu__item" role="menuitem" data-action="back">
+      <span class="icon icon-chevron_left" aria-hidden="true"></span>{{ _('Back') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="forward">
+      <span class="icon icon-chevron_right" aria-hidden="true"></span>{{ _('Forward') }}
+    </button>
+  </div>
+  <div class="context-menu__group" data-group="clipboard">
+    <button type="button" class="context-menu__item" role="menuitem" data-action="copy-selection" hidden>
+      <span class="icon icon-copy" aria-hidden="true"></span>{{ _('Copy selected text') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="copy-link" hidden>
+      <span class="icon icon-link" aria-hidden="true"></span>{{ _('Copy link address') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="copy-image" hidden>
+      <span class="icon icon-insert--image" aria-hidden="true"></span>{{ _('Copy image address') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="copy-code" hidden>
+      <span class="icon icon-code" aria-hidden="true"></span>{{ _('Copy code') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="copy-page">
+      <span class="icon icon-file" aria-hidden="true"></span>{{ _('Copy page link') }}
+    </button>
+  </div>
+  <div class="context-menu__group" data-group="open" hidden>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="open-link" hidden>
+      <span class="icon icon-link--external" aria-hidden="true"></span>{{ _('Open link in new tab') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="open-image" hidden>
+      <span class="icon icon-enlarge" aria-hidden="true"></span>{{ _('Open image in new tab') }}
+    </button>
+  </div>
+  <div class="context-menu__group" data-group="view">
+    <button type="button" class="context-menu__item" role="menuitem" data-action="top">
+      <span class="icon icon-expand_less" aria-hidden="true"></span>{{ _('Back to top') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="reload">
+      <span class="icon icon-refresh" aria-hidden="true"></span>{{ _('Reload page') }}
+    </button>
+  </div>
+  <div class="context-menu__group" data-group="site">
+    <button type="button" class="context-menu__item" role="menuitem" data-action="search">
+      <span class="icon icon-search" aria-hidden="true"></span>{{ _('Search this site') }}
+    </button>
+    <button type="button" class="context-menu__item" role="menuitem" data-action="theme">
+      <span class="icon icon-global" aria-hidden="true"></span>{{ _('Switch theme') }}
+    </button>
+  </div>
+</div>
+<div class="context-menu__toast" data-context-toast data-copied="{{ _('Copied') }}" data-copy-failed="{{ _('Copy failed') }}" hidden aria-live="polite"></div>

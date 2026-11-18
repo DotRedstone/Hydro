@@ -93,6 +93,22 @@ Agree: 同意
 We store a session cookie to keep you signed in, and local storage for your theme choice. Nothing is used for advertising.: 我们用一份会话 Cookie 保持登录状态，用本地存储记住你的深浅色选择。不用于广告追踪。
 Only what is required: 仅必要
 Privacy policy: 隐私政策
+Page actions: 页面操作
+Back: 后退
+Forward: 前进
+Copy selected text: 复制选中文本
+Copy link address: 复制链接地址
+Copy image address: 复制图片地址
+Copy code: 复制代码
+Copy page link: 复制页面链接
+Open link in new tab: 在新标签打开链接
+Open image in new tab: 在新标签打开图片
+Back to top: 回到顶部
+Reload page: 刷新页面
+Search this site: 搜索本站
+Switch theme: 切换深浅色
+Copied: 已复制
+Copy failed: 复制失败，请手动选择
 Accepted: 已通过
 Waiting: 等待评测
 Wrong Answer: 答案错误

@@ -1,0 +1,114 @@
+// 右键菜单：跟着光标出现的小卡片，位置与展开方向由 JS 计算
+.context-menu
+  position: fixed
+  z-index: 1000
+  min-width: rem(198px)
+  max-width: rem(280px)
+  padding: 6px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-pop)
+  opacity: 0
+  transform: scale(.97)
+  transform-origin: top left
+  transition: opacity .13s ease-out-cubic, transform .13s ease-out-cubic
+  pointer-events: none
+  user-select: none
+
+  &[hidden]
+    display: none
+
+  &[data-origin^="bottom"]
+    transform-origin: bottom left
+
+  &[data-origin$="right"]
+    transform-origin: top right
+
+  &[data-origin="bottom-right"]
+    transform-origin: bottom right
+
+.context-menu--open
+  opacity: 1
+  transform: scale(1)
+  pointer-events: auto
+
+.context-menu__group
+  display: flex
+  flex-direction: column
+  padding: 2px 0
+
+  &[hidden]
+    display: none
+
+  & + .context-menu__group
+    border-top: 1px solid token-alpha(var(--c-border), 70%)
+
+.context-menu__item
+  display: flex
+  align-items: center
+  gap: 9px
+  width: 100%
+  min-height: rem(32px)
+  padding: 6px 10px
+  border: 0
+  border-radius: var(--r-sm)
+  background: none
+  color: var(--c-fg-2)
+  font-size: .855rem
+  line-height: 1.4
+  text-align: left
+  cursor: pointer
+  transition: background-color .13s ease-out-cubic, color .13s ease-out-cubic
+
+  &[hidden]
+    display: none
+
+  .icon
+    width: 1.05em
+    color: var(--c-fg-3)
+    font-size: .95rem
+    text-align: center
+
+  &:hover,
+  &:focus-visible
+    background: var(--c-sunken)
+    color: var(--c-fg)
+    outline: none
+
+  &:hover .icon,
+  &:focus-visible .icon
+    color: var(--c-fg-2)
+
+  &:active
+    background: var(--c-hover)
+
+// 复制成功的小提示，出现在底部中间，不打断视线
+.context-menu__toast
+  position: fixed
+  z-index: 1001
+  left: 50%
+  bottom: rem(72px)
+  padding: 8px 16px
+  border-radius: var(--r-pill)
+  background: var(--c-inverse-bg)
+  color: var(--c-inverse-fg)
+  font-size: .82rem
+  letter-spacing: .01em
+  box-shadow: var(--shadow-pop)
+  transform: translate(-50%, 6px)
+  opacity: 0
+  transition: opacity .18s ease-out-cubic, transform .18s ease-out-cubic
+  pointer-events: none
+
+  &[hidden]
+    display: none
+
+.context-menu__toast--show
+  opacity: 1
+  transform: translate(-50%, 0)
+
+@media (prefers-reduced-motion: reduce)
+  .context-menu,
+  .context-menu__toast
+    transition: none
