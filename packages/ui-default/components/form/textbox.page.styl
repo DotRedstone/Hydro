@@ -8,6 +8,9 @@ input.textbox, textarea.textbox, span.textbox
   transition: outline-color .2s, border-color .2s
   transition-timing-function: ease-out-cubic
 
+  &::placeholder
+    color: $text-3-color
+
   &:focus
     border-color: $input-focus-border-color
     outline: $input-focus-outline
@@ -51,14 +54,15 @@ label.textbox.material
     padding-left: 0
     padding-right: 0
     color: $text-1-color
-    border-bottom: 2px solid rgba($text-1-color, 0.4)
+    border-radius: 0
+    border-bottom: 1px solid $border-1-color
     transition: border-color .2s ease-out-cubic
 
     &:disabled, &:read-only
-      color: rgba($text-1-color, 0.6)
+      color: $text-3-color
 
     &:enabled:read-write:hover
-      border-color: rgba($text-1-color, 0.8)
+      border-color: $text-3-color
 
     &:enabled:read-write:focus
       border-color: $input-focus-border-color
@@ -71,10 +75,10 @@ label.textbox.material.inverse
 
   input
     color: $immersive-text-color
-    border-color: rgba($immersive-text-color, 0.4)
+    border-color: $border-1-color
 
     &:disabled, &:read-only
-      color: rgba($immersive-text-color, 0.6)
+      color: $text-3-color
 
     &:enabled:read-write:hover
       border-color: $immersive-text-color

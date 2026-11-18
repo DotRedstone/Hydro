@@ -4,7 +4,7 @@
     left: 0px;
     height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--c-overlay);
     backdrop-filter: blur(3px);
     z-index: 999;
     transition: 0.2s;
@@ -22,9 +22,9 @@
         transition: 0.2s;
         margin-bottom: 10px;
         input {
-            background-color: #fff;
-            border-radius: 5px;
-            border: 2px solid #aaa;
+            background-color: var(--c-surface);
+            border-radius: var(--r-sm);
+            border: 2px solid $border-1-color;
             padding-left: 42px;
             height: 48px;
             width: 100%;
@@ -54,7 +54,10 @@
 }
 .omnibar-toggle {
     z-index: 99;
-    background: white;
+    background: var(--c-surface);
+    color: var(--c-fg-2);
+    border: 1px solid var(--c-border);
+    box-shadow: var(--shadow-pop);
     display: grid;
     place-items: center;
     width: 40px;
@@ -65,7 +68,7 @@
     transition: 0.2s;
     border-radius: 5px;
     &:hover {
-        background: #ccc;
+        background: var(--c-hover);
     }
     span {
         scale: 1.5;
@@ -82,7 +85,7 @@
     font-weight: bold;
 }
 .omnibar-content-section {
-    background: white;
+    background: var(--c-surface);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -90,12 +93,12 @@
     padding: 10px;
     line-height: 1;
     margin-bottom: 10px;
-    border: 2px solid #888;
+    border: 2px solid $border-1-color;
     box-sizing: border-box;
     width: 100%;
     text-decoration: none !important;
     &:hover {
-        background: #eee;
+        background: var(--c-hover);
     }
     >div {
         width: 100%;

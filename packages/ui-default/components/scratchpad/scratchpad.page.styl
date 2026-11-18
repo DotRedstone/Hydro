@@ -1,6 +1,6 @@
 .scratchpad-container
   position: absolute
-  background: #FFF
+  background: var(--c-surface)
 
 #scratchpad
   position: absolute
@@ -18,10 +18,10 @@
   overflow: auto
 
 .scratchpad__toolbar__pretest.enabled:hover .icon
-  color: red
+  color: var(--c-bad)
 
 .scratchpad__toolbar__submit.enabled:hover .icon
-  color: green
+  color: var(--c-ok)
 
 .scratchpad__records__table
   &.loading
@@ -37,7 +37,7 @@
     width: rem(70px)
 
   .col--detail
-    border-right: 1px solid $table-border-color
+    border-right: 0
 
   .icol
     display: inline-block
@@ -47,9 +47,9 @@
 
     .flag
       font-size: rem(12px)
-      color: #FFF
+      color: var(--c-accent-fg)
       padding: rem(2px 3px)
 
   .icol--stat
-    color: #AAA
+    color: $text-3-color
     width: rem(60px)

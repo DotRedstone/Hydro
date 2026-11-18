@@ -3,10 +3,10 @@ $header-gap-mini-domain = ($header-bg-height-mini - $nav-item-height - $header-l
 
 .global-notification
   padding: rem(20px 0)
-  background: #FFF
+  background: var(--c-surface)
 
   &.warning
-    background: #ffe1a6
+    background: var(--c-warn-soft)
 
 .header__logo
   display: block
@@ -37,7 +37,7 @@ $header-gap-mini-domain = ($header-bg-height-mini - $nav-item-height - $header-l
   bottom: 0
   width: 100%
   height: rem($header-layer-height)
-  background: rgba(#000, 0.5)
+  background: var(--c-overlay)
 
   +mobile()
     position: relative
@@ -55,14 +55,15 @@ $header-gap-mini-domain = ($header-bg-height-mini - $nav-item-height - $header-l
 .header--mobile, .location
   +mobile()
     display: block
-    background: #56758f
-    color: #FFF
+    background: var(--c-nav-bg)
+    color: $text-1-color
+    border-bottom: 1px solid $border-2-color
     line-height: rem($nav-item-height)
     font-size: rem($font-size-title)
     padding: rem(10px 0)
 
   a, a:visited, a:hover
-    color: #FFF
+    color: $text-1-color
 
 .header--mobile__domain
   display: block
@@ -71,6 +72,7 @@ $header-gap-mini-domain = ($header-bg-height-mini - $nav-item-height - $header-l
 
   img
     height: 100%
+    filter: var(--logo-filter)
 
 .header__hamburger
   background: none

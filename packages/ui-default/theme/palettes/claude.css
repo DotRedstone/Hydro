@@ -1,0 +1,167 @@
+/* Palette: claude */
+/* ---------------------------------------------------------------------------- */
+/* A palette only assigns VALUES to design tokens. It never styles a selector */
+/* other than the two roots below. Every token listed here is part of the */
+/* contract described in theme/README.md; a new palette must define all of them. */
+
+/*   light: :root            (also the fallback for any page) */
+/*   dark:  :root.theme--dark */
+
+/* Other palettes scope themselves with .palette--<name> (see README). */
+/* The bridge blocks at the bottom re-point Mantine's own variables at the */
+/* tokens, so Mantine islands (notifications, popovers, uploads) match. */
+
+:root {
+  color-scheme: light;
+
+  /* surfaces — warm "pampas" paper, cards a shade lighter */
+  --c-bg: #F0EEE6;
+  --c-surface: #FAF9F5;
+  --c-sunken: #E7E4D8;
+  --c-hover: #E9E6DA;
+  --c-border: #E1DDD0;
+  --c-border-strong: #CFC9B8;
+  --c-nav-bg: rgba(240, 238, 230, 0.86);
+  --c-overlay: rgba(31, 30, 28, 0.36);
+
+  /* text — warm ink, never pure black */
+  --c-fg: #3D3929;
+  --c-fg-2: #5C5749;
+  --c-fg-3: #8A8578;
+  --c-heading: #1F1E1D;
+
+  /* accent — clay */
+  --c-accent: #D97757;
+  --c-accent-hover: #C2603F;
+  --c-accent-soft: #F6E4DB;
+  --c-accent-fg: #FFFFFF;
+  --c-focus-ring: rgba(217, 119, 87, 0.28);
+
+  /* semantic */
+  --c-ok: #4C7A5A;
+  --c-ok-soft: #E2EDE2;
+  --c-bad: #B4543F;
+  --c-warn: #B0801F;
+  --c-warn-soft: #F4EAD2;
+  --c-info: #5A7A94;
+  --c-neutral: #8A8578;
+  --c-neutral-soft: #E9E6DA;
+
+  /* content */
+  --c-code-bg: #E7E4D8;
+  --c-code-fg: #A9502F;
+  --c-mark: #F3E3B8;
+  --c-inverse-bg: #262524;
+  --c-inverse-fg: #F5F3EC;
+
+  /* categorical */
+  --c-cat-1: #D97757;
+  --c-cat-2: #C79A4B;
+  --c-cat-3: #8FA373;
+  --c-cat-4: #6E9C92;
+  --c-cat-5: #6C88A6;
+  --c-cat-6: #907FA6;
+  --c-cat-7: #B2788C;
+  --c-cat-8: #9A9587;
+
+  /* brand: monochrome logos follow the foreground */
+  --logo-filter: none;
+
+  /* type (the user-chosen --font-family / --code-font-family win, see html5.html) */
+  --font-ui: "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: "Source Serif 4", "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+  --font-code: "JetBrains Mono", "Source Code Pro", Consolas, "Liberation Mono", monospace;
+
+  /* elevation */
+  --shadow-pop: 0 1px 2px rgba(31, 30, 28, 0.06), 0 8px 24px rgba(31, 30, 28, 0.10);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(31, 30, 28, 0.05), 0 18px 44px rgba(31, 30, 28, 0.08);
+
+  /* shape — generously rounded, like the Claude surfaces */
+  --r-sm: 8px;
+  --r: 12px;
+  --r-lg: 18px;
+  --r-pill: 999px;
+}
+
+:root.theme--dark {
+  color-scheme: dark;
+  --c-bg: #262524;
+  --c-surface: #302F2C;
+  --c-sunken: #1D1C1B;
+  --c-hover: #383734;
+  --c-border: #3E3C38;
+  --c-border-strong: #4E4B45;
+  --c-nav-bg: rgba(38, 37, 36, 0.86);
+  --c-overlay: rgba(0, 0, 0, 0.5);
+
+  --c-fg: #ECE9DF;
+  --c-fg-2: #C2BEB2;
+  --c-fg-3: #948F83;
+  --c-heading: #F7F5EE;
+
+  --c-accent: #E08A6A;
+  --c-accent-hover: #EC9B7C;
+  --c-accent-soft: #3E2C24;
+  --c-accent-fg: #1F1E1D;
+  --c-focus-ring: rgba(224, 138, 106, 0.32);
+
+  --c-ok: #86B98E;
+  --c-ok-soft: #26332A;
+  --c-bad: #E08D7B;
+  --c-warn: #E0B368;
+  --c-warn-soft: #383021;
+  --c-info: #92AFC8;
+  --c-neutral: #948F83;
+  --c-neutral-soft: #33322E;
+
+  --c-code-bg: #1D1C1B;
+  --c-code-fg: #EC9B7C;
+  --c-mark: #574721;
+  --c-inverse-bg: #ECE9DF;
+  --c-inverse-fg: #262524;
+
+  --c-cat-1: #E08A6A;
+  --c-cat-2: #D6AC63;
+  --c-cat-3: #A8BE86;
+  --c-cat-4: #7EB5A9;
+  --c-cat-5: #92AFC8;
+  --c-cat-6: #AE9BC4;
+  --c-cat-7: #D093A6;
+  --c-cat-8: #948F83;
+
+  --logo-filter: brightness(0) invert(1);
+
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 44px rgba(0, 0, 0, 0.5);
+}
+
+/* Mantine bridge: Mantine declares these under the same attribute selector, */
+/* so it has to be matched at equal specificity to win. */
+:root[data-mantine-color-scheme='light'] {
+  --mantine-color-body: var(--c-bg);
+  --mantine-color-text: var(--c-fg);
+  --mantine-color-dimmed: var(--c-fg-3);
+  --mantine-color-default-border: var(--c-border-strong);
+  --mantine-color-default: var(--c-surface);
+  --mantine-color-default-hover: var(--c-hover);
+  --mantine-color-anchor: var(--c-accent);
+  --mantine-primary-color-filled: var(--c-accent);
+  --mantine-primary-color-filled-hover: var(--c-accent-hover);
+  --mantine-primary-color-light: var(--c-accent-soft);
+  --mantine-primary-color-contrast: var(--c-accent-fg);
+}
+
+:root[data-mantine-color-scheme='dark'] {
+  --mantine-color-body: var(--c-bg);
+  --mantine-color-text: var(--c-fg);
+  --mantine-color-dimmed: var(--c-fg-3);
+  --mantine-color-default-border: var(--c-border-strong);
+  --mantine-color-default: var(--c-surface);
+  --mantine-color-default-hover: var(--c-hover);
+  --mantine-color-anchor: var(--c-accent);
+  --mantine-primary-color-filled: var(--c-accent);
+  --mantine-primary-color-filled-hover: var(--c-accent-hover);
+  --mantine-primary-color-light: var(--c-accent-soft);
+  --mantine-primary-color-contrast: var(--c-accent-fg);
+}

@@ -6,7 +6,7 @@ pre, code
 pre > code
   background: none
   line-height: 1.5
-  color: black
+  color: $text-1-color
   text-align: left
   white-space: pre-wrap
   word-spacing: normal
@@ -29,8 +29,8 @@ code
   right: 0
   padding: inherit 0
   margin-top: 1em /* Same as .prism’s padding-top */
-  background: hsla(24, 20%, 50%,.08)
-  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0))
+  background: token-alpha(var(--c-neutral), 8%)
+  background: linear-gradient(to right, token-alpha(var(--c-neutral), 10%) 70%, token-alpha(var(--c-neutral), 0%))
   pointer-events: none
   line-height: inherit
   white-space: pre
@@ -46,7 +46,7 @@ code
   top: 0 !important
   padding: rem(5px) 0
   opacity: 1 !important
-  background: rgba($syntax-hl-bg-color, 0.8)
+  background: token-alpha($syntax-hl-bg-color, 80%)
   font-family: $primary-font-family
   pointer-events: all
   user-select: none
@@ -73,7 +73,7 @@ code
 .token.cr:before,
 .token.lf:before,
 .token.space:before
-	color: #808080
+	color: $text-3-color
 	opacity: 0.6
 	position: absolute
 

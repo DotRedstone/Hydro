@@ -1,5 +1,5 @@
 .bp6-progress-bar {
-    background: rgba(95, 107, 124, 0.2);
+    background: var(--c-sunken);
     border-radius: 40px;
     display: block;
     height: 8px;
@@ -9,8 +9,8 @@
 }
 
 .bp6-progress-bar .bp6-progress-meter {
-    background: linear-gradient(-45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%);
-    background-color: rgba(95, 107, 124, 0.8);
+    background: linear-gradient(-45deg, color-mix(in srgb, var(--c-inverse-fg) 20%, transparent) 25%, transparent 25%, transparent 50%, color-mix(in srgb, var(--c-inverse-fg) 20%, transparent) 50%, color-mix(in srgb, var(--c-inverse-fg) 20%, transparent) 75%, transparent 75%);
+    background-color: var(--c-fg-2);
     background-size: 30px 30px;
     border-radius: 40px;
     height: 100%;
@@ -23,26 +23,18 @@
     background-image: none;
 }
 
-.bp6-dark .bp6-progress-bar {
-    background: rgba(17, 20, 24, 0.5);
-}
-
-.bp6-dark .bp6-progress-bar .bp6-progress-meter {
-    background-color: #8f99a8;
-}
-
 .bp6-progress-bar.bp6-intent-primary .bp6-progress-meter {
-    background-color: #2d72d2;
+    background-color: var(--c-info);
 }
 
 .bp6-progress-bar.bp6-intent-success .bp6-progress-meter {
-    background-color: #238551;
+    background-color: var(--c-ok);
 }
 
 .bp6-progress-bar.bp6-intent-warning .bp6-progress-meter {
-    background-color: #c87619;
+    background-color: var(--c-warn);
 }
 
 .bp6-progress-bar.bp6-intent-danger .bp6-progress-meter {
-    background-color: #cd4246;
+    background-color: var(--c-bad);
 }

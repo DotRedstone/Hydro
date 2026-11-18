@@ -27,7 +27,7 @@
   position: relative
 
   &.highlight
-    background: mix($highlight-color, #FFF, 10%)
+    background: var(--c-accent-soft)
 
   &.expandable:after
     font-family: $icon-font-name
@@ -53,16 +53,17 @@ a.menu__link, button.menu__link
   &:not(.disabled):hover
     color: $text-1-color
     background: $menu-item-bg-color-hover
-    border-color: darken($primary-color, 10%)
+    border-color: var(--c-accent-hover)
   &.active, &.active:hover
-    border-color: darken($secondary-color, 30%)
-    background: $secondary-color
-    color: #FFF
+    border-color: $primary-color
+    background: var(--c-accent-soft)
+    color: $primary-color
+    font-weight: 500
 
 .menu__item .menu .menu__link
   padding-left: rem($section-gap-h + 10px)
 
 .menu__seperator
   height: 1px
-  border-top: 1px solid #EEE
+  border-top: 1px solid $border-2-color
   margin: rem(5px 0)

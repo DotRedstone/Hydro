@@ -10,11 +10,11 @@
 
   &:hover
     text-decoration: none
-    color: #FFF !important
+    color: var(--c-accent-fg) !important
 
 .contest-tag-rated
-  background: orange
-  color: #FFF
+  background: var(--c-warn)
+  color: var(--c-accent-fg)
 
   .icon
     margin-right: rem(5px)
@@ -22,7 +22,7 @@
 .contest-type-tag
   &, &:visited
     &, .supplementary &
-      color: #FFF
+      color: var(--c-accent-fg)
 
   .icon
     margin-right: rem(5px)
@@ -32,7 +32,7 @@ for key, value in $contest-color
     background: value
 
     &:hover
-      background: lighten(value, 20%)
+      background: token-tint(value, 80%)
 
 .contest-tag
   border: 1px solid $supplementary-border-color
@@ -79,19 +79,19 @@ for key, value in $contest-color
     border-radius: 0.375rem;
     position: relative;
     transition: opacity 0.2s;
-    color: grey;
+    color: var(--c-neutral);
     &.pass
-      color: green;
+      color: var(--c-ok);
       &:before
-        background: green;
+        background: var(--c-ok);
     &.fail
-      color: red;
+      color: var(--c-bad);
       &:before
-        background: red;
+        background: var(--c-bad);
     &.pending
-      color: cyan;
+      color: var(--c-warn);
       &:before
-        background: cyan;
+        background: var(--c-warn);
 
     &:after
       content: '';
@@ -106,7 +106,7 @@ for key, value in $contest-color
       opacity: 0.3;
     
     &.active:after
-      border: 3px solid cyan;
+      border: 3px solid var(--c-warn);
 
     &:before
       opacity: 0.5;

@@ -3,12 +3,12 @@
 // No JavaScript
 .section__tab-item
   margin: rem(20px) 0
-  border-bottom: 1px solid #DDD
+  border-bottom: 1px solid $border-2-color
   padding: 0 rem($section-gap-h) rem($section-gap-v)
 
 .section__tab-title
   font-size: rem($font-size-title)
-  color: #888
+  color: $text-3-color
   margin-bottom: 0.8em
 
 // Has JavaScript
@@ -27,17 +27,27 @@
     padding-top: 0
     padding-right: rem($section-gap-h + 50px)
     webkit-overflow-scrolling: touch
-    mask-image: linear-gradient(to right, rgba(0,0,0,1) 80%, rgba(0,0,0,0));
+    mask-image: linear-gradient(to right, token-alpha(var(--c-fg), 100%) 80%, token-alpha(var(--c-fg), 0%));
 
 .section__tab-header-item
   display: inline-block
   font-size: rem($font-size-secondary)
   line-height: rem($tab-item-height)
   height: rem($tab-item-height)
-  padding: 0 rem(20px)
-  margin-right: rem(10px)
+  padding: 0 rem(14px)
+  margin-right: rem(4px)
   user-select: none
   position: relative
+  color: $text-3-color
+  border-bottom: 2px solid transparent
+  transition: color .15s, border-color .15s
+
+  &:hover
+    color: $text-1-color
+
+  &.selected
+    color: $text-1-color
+    border-bottom-color: $primary-color
 
   +mobile()
     line-height: rem($tab-item-height-mobile)
@@ -45,24 +55,24 @@
 
 .section__tab-container.immersive
   .section__tab-header-item
-    color: rgba(#FFF, 0.9)
+    color: token-alpha(var(--c-inverse-fg), 90%)
     border-radius: 1px 1px 0 0
     cursor: pointer
     transition: background .2s ease-out-cubic
 
     &:hover
-      color: #FFF
+      color: var(--c-inverse-fg)
 
     &.selected
-      background: #FFF
-      color: #666
-      box-shadow: 0 0 10px rgba(#000, 0.3)
+      background: var(--c-surface)
+      color: $text-1-color
+      box-shadow: var(--shadow-pop)
 
     +mobile()
       &.selected
         box-shadow: none
         background: transparent
-        color: #FFF
+        color: var(--c-inverse-fg)
 
         &::after
           position: absolute
@@ -84,14 +94,14 @@
     margin-right: 0
 
     &:hover
-      border-color: #5f9fd6;
-      background: #f8f8f8;
+      border-color: var(--c-info);
+      background: var(--c-hover);
     
     &.tab--active
-      border-color: #ed5f82;
+      border-color: var(--c-accent);
 
     &.selected
-      border-color: #ed5f82;
+      border-color: var(--c-accent);
 
 .section__tab-content
   position: relative

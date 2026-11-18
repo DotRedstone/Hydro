@@ -1,50 +1,59 @@
 .pager
   text-align: center
   font-size: rem($font-size-small)
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  align-items: center
+  gap: rem(2px)
+  padding: rem(10px 0)
 
   &:empty
     display: none
-  
+
+  // The old design drew a 2px rule across the whole section and highlighted the
+  // current page by recolouring that rule; with a single page it read as a
+  // stray line. The pager is now a row of chips.
   &.pager-bottom
     margin-bottom: rem(10px)
-    border-top: 2px solid $pager-border-color
-
-    .pager__item
-      border-top: 2px solid $pager-border-color
+    border-top: 1px solid $border-2-color
 
   &.pager-top
     margin-top: rem(10px)
-    border-bottom: 2px solid $pager-border-color
-
-    .pager__item
-      border-bottom: 2px solid $pager-border-color
+    border-bottom: 1px solid $border-2-color
 
   li
     margin: 0
     display: inline-block
-    margin-top: -2px
 
 .pager__item
   display: inline-block
-  padding: rem(10px)
+  min-width: rem(30px)
+  padding: rem(5px 9px)
+  border-radius: $radius-sm
   text-decoration: none
   border: 0
-  transition: border-top .2s linear, color .2s linear
-  color: #a7a7a7
+  transition: background .15s linear, color .15s linear
+  color: $text-3-color
+  line-height: 1.4
 
   &.link
     &, .typo &
-      color: #a7a7a7
+      color: $text-3-color
 
     &:hover
-      border-color: $primary-color
+      background: var(--c-hover)
       text-decoration: none
       &, .typo &
-        color: #666
+        color: $text-1-color
 
   &.current
-    color: $secondary-color !important
-    border-color: $secondary-color !important
+    background: var(--c-accent-soft)
+    color: $primary-color !important
+    font-weight: 600
+
+  &.disabled
+    opacity: 0.4
 
 +mobile()
   .pager__item
@@ -54,4 +63,3 @@
     &.next,
     &.last
       display: none
-

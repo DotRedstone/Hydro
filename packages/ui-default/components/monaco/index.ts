@@ -107,9 +107,40 @@ async function fetchTheme(id: string, label: string) {
   monaco.editor.defineTheme(id, data);
   loaded[id] = true;
 }
+// Editor colours come from the same design tokens as the rest of the page, so a
+// palette swap (or dark mode) also restyles the editor. Monaco only accepts
+// literal #rrggbb(aa) values, so anything else falls back to the default.
+function tokenColor(name: string, fallback: string) {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return /^#[0-9a-f]{3,8}$/i.test(value) ? value : fallback;
+}
+
+export function defineTokenTheme() {
+  const dark = document.documentElement.className.includes('theme--dark');
+  monaco.editor.defineTheme('hydro-tokens', {
+    base: dark ? 'vs-dark' : 'vs',
+    inherit: true,
+    rules: [],
+    colors: {
+      'editor.background': tokenColor('--c-surface', dark ? '#2f2f2c' : '#ffffff'),
+      'editor.foreground': tokenColor('--c-fg', dark ? '#eceae2' : '#2b2a27'),
+      'editor.lineHighlightBackground': tokenColor('--c-sunken', dark ? '#1f1f1d' : '#f3f1ea'),
+      'editor.selectionBackground': tokenColor('--c-accent-soft', dark ? '#3d2c24' : '#f6e7df'),
+      'editorCursor.foreground': tokenColor('--c-accent', dark ? '#db7b5a' : '#c2603f'),
+      'editorLineNumber.foreground': tokenColor('--c-fg-3', dark ? '#8a877e' : '#8e8b82'),
+      'editorIndentGuide.background1': tokenColor('--c-border', dark ? '#3b3a36' : '#e6e3d8'),
+      'editorWidget.background': tokenColor('--c-surface', dark ? '#2f2f2c' : '#ffffff'),
+      'editorWidget.border': tokenColor('--c-border', dark ? '#3b3a36' : '#e6e3d8'),
+    },
+  });
+}
+
 export const loadThemePromise = customOptions.theme
   ? fetchTheme(customOptions.theme, list[customOptions.theme])
-  : Promise.resolve();
+  : Promise.resolve().then(() => {
+    defineTokenTheme();
+    monaco.editor.setTheme('hydro-tokens');
+  });
 
 // 这破烂 monaco 能不能给个 typings 啊
 // 我翻源码真的很累的好吧

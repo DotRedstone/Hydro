@@ -13,16 +13,21 @@
 
 .section
   background: $section-bg-color
+  border: 1px solid $border-2-color
+  border-radius: $radius-lg
+  overflow: hidden
   box-shadow: $section-shadow
 
   +mobile()
-    box-shadow: none
+    border-radius: 0
+    border-left: 0
+    border-right: 0
     margin-left: - rem($grid-padding)
     margin-right: - rem($grid-padding)
 
 .hasjs .section
   +above(rupture.mobile-cutoff)
-    transform: translateY(rem(30px))
+    transform: translateY(rem(8px))
     opacity: 0
 
     &.visible
@@ -30,8 +35,13 @@
       opacity: 1
 
 .section__header
-  padding: rem($section-gap-v) rem($section-gap-h) 0
+  padding: rem($section-gap-v) rem($section-gap-h) rem(14px)
+  border-bottom: 1px solid $border-1-color
   position: relative
+  display: flex
+  align-items: center
+  gap: rem(10px)
+  flex-wrap: wrap
 
   &:last-child
     padding-bottom: rem($section-gap-v)
@@ -63,7 +73,9 @@
   line-height: $form-control-height
 
 h1.section__title
-  font-size: 1.4rem
+  font-size: 1.6rem
+  font-weight: 500
+  letter-spacing: -0.015em
   margin-bottom: rem(12px)
 
 h2.section__title
@@ -71,7 +83,7 @@ h2.section__title
   margin-bottom: rem(10px)
 
 h3.section__title
-  font-size: 1rem
+  font-size: 1.05rem
   margin-bottom: rem(8px)
 
 .section__header .section__title
@@ -94,8 +106,11 @@ h3.section__title
     font-size: rem($font-size-small)
     outline: 0
 
+    border-radius: $radius-sm
+
     &:hover
       color: $section-toolbtn-color-hover
+      background: var(--c-hover)
 
 .section__list__item
   padding: rem($section-list-v $section-gap-h)

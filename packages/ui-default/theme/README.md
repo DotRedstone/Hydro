@@ -1,0 +1,109 @@
+# UI theme: design tokens
+
+The UI is styled from **one token layer**. Nothing outside a palette is allowed to
+hold a literal colour, so restyling the whole site (or adding a dark variant, or a
+second palette) means editing values — not hunting through a hundred `.styl` files.
+
+```
+theme/palettes/claude.css   <- values (the only place with literal colours)
+common/variables.inc.styl   <- $stylus-variable -> var(--c-*) mapping
+common/functions.inc.styl   <- token-alpha / token-mix / token-tint helpers
+components/**/*.styl        <- consume $variables, never colours
+```
+
+## How theming works
+
+* The palette defines CSS custom properties on `:root` (light) and
+  `:root.theme--dark` (dark). The layout puts `theme--dark` on `<html>` when the
+  active theme contains `dark`, so **dark mode is a palette swap**, not a second
+  stylesheet.
+* The active theme is, in order: the signed-in user's `theme` setting, then the
+  `theme` cookie, then `default` (light). Anonymous visitors get the cookie, so
+  picking a theme never requires an account; `components/theme/theme.page.ts`
+  also flips the class in place and persists it in the background.
+* `theme/dark.styl` (the old “override every light rule once more” file) is gone.
+  Do not reintroduce it — add a token instead.
+* `common/variables.inc.styl` keeps every historical `$name` (`$text-1-color`,
+  `$primary-color`, …) but each one now points at a token. Existing `.styl` files
+  therefore needed no renaming.
+* Mantine islands (notifications, popovers, uploads) declare their own variables
+  under `:root[data-mantine-color-scheme=…]`; the palette re-points those at the
+  tokens at equal specificity ("Mantine bridge" block at the bottom of the file).
+* Monaco (`components/monaco/index.ts`) defines the `hydro-tokens` editor theme
+  from the computed token values and uses it when the user has not picked an
+  editor theme. echarts (`pages/problem_statistics.page.ts`) reads tokens the same
+  way.
+
+## Tokens
+
+| Group | Tokens |
+| --- | --- |
+| surfaces | `--c-bg` `--c-surface` `--c-sunken` `--c-hover` `--c-border` `--c-border-strong` `--c-nav-bg` `--c-overlay` |
+| text | `--c-fg` `--c-fg-2` `--c-fg-3` `--c-heading` |
+| accent | `--c-accent` `--c-accent-hover` `--c-accent-soft` `--c-accent-fg` `--c-focus-ring` |
+| semantic | `--c-ok` `--c-ok-soft` `--c-bad` `--c-bad-soft` `--c-warn` `--c-warn-soft` `--c-info` `--c-info-soft` `--c-neutral` `--c-neutral-soft` |
+| content | `--c-code-bg` `--c-code-fg` `--c-mark` `--c-inverse-bg` `--c-inverse-fg` |
+| categorical | `--c-cat-1` … `--c-cat-8` (calendar, level badges, tag colours) |
+| elevation | `--shadow-pop` `--shadow-card` |
+| shape | `--r-sm` `--r` `--r-lg` `--r-pill` |
+| type | `--font-ui` `--font-display` `--font-code` |
+
+`--c-inverse-*` is the “opposite of the page” pair (tooltips, mobile drawer): light
+on dark in the light palette, dark on light in the dark palette. Use it for
+anything sitting on `--c-inverse-bg` instead of hardcoding white.
+
+`--c-accent-fg` is the text colour **on** an accent/semantic background. It flips
+with the palette, which is why “white text on a coloured banner” must be written
+as `var(--c-accent-fg)`.
+
+## Colour maths
+
+Compile-time `lighten()`, `darken()`, `rgba($var, …)`, `mix()` cannot work on CSS
+custom properties, and they bake one theme's values into the CSS. Use the helpers
+in `common/functions.inc.styl`:
+
+| Instead of | Use | Result |
+| --- | --- | --- |
+| `lighten($x, 85%)` for a tinted background | `var(--c-accent-soft)` or `token-tint($x, 15%)` | colour mixed into `--c-surface` |
+| `rgba($x, 0.4)` | `token-alpha($x, 40%)` | colour at 40% opacity |
+| `mix($a, $b, 10%)` | `token-mix($a, $b, 10%)` | 10% of `$a` over `$b` |
+| `lighten($text-1-color, 30%)` | `$text-3-color` | the token already exists |
+
+They emit `color-mix()`, so the result follows the active palette and dark mode.
+
+## Rules
+
+1. No literal colours (`#rgb`, `rgb()`, `hsl()`) outside `theme/palettes/*.css`.
+   `common/color.inc.styl` is exempt: it is a table of CSS colour *names*.
+2. No `.theme--dark &` blocks in component files. If a value must change in dark
+   mode, it is a token.
+3. New visual constant (radius, shadow, spacing scale, colour) → add a token to
+   the palette and use it, don’t inline it.
+4. Run `yarn lint:tokens` (also part of `yarn lint:ci` and every `build:ui*`
+   script). It fails on literal colours, on tokens used but not defined, and on
+   tokens defined but unused.
+
+## Adding a palette
+
+1. Copy `theme/palettes/claude.css` and define **every** token listed above for
+   both `:root` and `:root.theme--dark`. A missing token falls back to nothing and
+   the UI loses that colour.
+2. If the palette is not the default, scope it with `.palette--<name>` on `<html>`
+   (parallel to `theme--<name>`) instead of `:root`, so it can be switched at
+   runtime without reloading the stylesheet.
+3. Import it from `theme/default.js` next to the existing palette import. The
+   `theme` webpack cache group extracts it into `theme-<version>.css`, which the
+   layout already links.
+
+## Migrating upstream changes
+
+When pulling `hydro-dev/Hydro`:
+
+* `theme/dark.styl` will look modified upstream — it is deleted here on purpose.
+  Ignore upstream edits to it.
+* `.styl` files upstream that use `lighten/darken/rgba($var)` will not compile
+  against the token layer. `yarn lint:tokens` plus `yarn build:ui` reports them;
+  convert with the table above.
+* `templates/layout/html5.html` carries the font fallback
+  (`"<user font>", var(--font-ui)`); keep that shape when upstream changes the
+  font block, or the user font setting will stop working.

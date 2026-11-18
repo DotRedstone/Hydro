@@ -5,12 +5,12 @@
 
   .drop-content
     transition: transform .1s ease-in-out
-    background: #333
-    color: #fff
+    background: var(--c-inverse-bg)
+    color: var(--c-inverse-fg)
     font-size: rem($font-size-small)
     padding: .7em 0.9em
     max-width: rem(250px)
-    box-shadow: 1px 1px 4px rgba(#000, 0.3)
+    box-shadow: var(--shadow-pop)
     line-height: 1
     position: relative
 
@@ -49,11 +49,11 @@
   &.drop-element-attached-bottom .drop-content
     bottom: rem(10px)
     &:before
-      border-top-color: #333
+      border-top-color: var(--c-inverse-bg)
   &.drop-element-attached-top .drop-content
     top: rem(10px)
     &:before
-      border-bottom-color: #333
+      border-bottom-color: var(--c-inverse-bg)
 
   // Triangle Positions
   &.drop-element-attached-bottom .drop-content:before

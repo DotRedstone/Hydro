@@ -3,8 +3,8 @@
     display: none !important
 
   .team-invites-banner
-    background: lighten($progress-color, 38%)
-    border: 1px solid lighten($progress-color, 26%)
+    background: var(--c-warn-soft)
+    border: 1px solid token-tint($progress-color, 35%)
     border-left: 4px solid $progress-color
     border-radius: rem(4px)
     padding: rem(12px) rem(14px)
@@ -15,7 +15,7 @@
       align-items: center
       gap: rem(8px)
       font-weight: 600
-      color: darken($progress-color, 28%)
+      color: var(--c-warn)
       margin-bottom: rem(8px)
 
       .icon
@@ -34,7 +34,7 @@
       padding: rem(5px) 0
 
       &:not(:last-child)
-        border-bottom: 1px solid rgba(#000, 0.06)
+        border-bottom: 1px solid $border-2-color
 
     &__actions
       display: flex
@@ -104,7 +104,7 @@
       padding: rem(5px) 0
 
       &:not(:last-child)
-        border-bottom: 1px solid rgba(#000, 0.05)
+        border-bottom: 1px solid $border-2-color
 
     &__actions
       display: flex
