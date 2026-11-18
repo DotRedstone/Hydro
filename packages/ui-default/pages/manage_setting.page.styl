@@ -3,11 +3,10 @@
 // flow in two columns, the family heading sticks while its group scrolls, and
 // the save bar stays reachable at the bottom of the card.
 .page--manage_setting
+  // a family boundary: bigger breathing room above, hairline below
   .section__header
-    position: sticky
-    top: var(--school-nav-height)
-    z-index: 3
-    background: var(--c-surface)
+    padding-bottom: 10px
+    border-bottom: 1px solid token-alpha(var(--c-border), 70%)
 
   .section__body
     display: flex
