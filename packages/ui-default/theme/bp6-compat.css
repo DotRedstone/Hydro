@@ -1,6 +1,6 @@
 .bp6-progress-bar {
     background: var(--c-sunken);
-    border-radius: 40px;
+    border-radius: var(--r-pill);
     display: block;
     height: 8px;
     overflow: hidden;
@@ -12,7 +12,7 @@
     background: linear-gradient(-45deg, color-mix(in srgb, var(--c-inverse-fg) 20%, transparent) 25%, transparent 25%, transparent 50%, color-mix(in srgb, var(--c-inverse-fg) 20%, transparent) 50%, color-mix(in srgb, var(--c-inverse-fg) 20%, transparent) 75%, transparent 75%);
     background-color: var(--c-fg-2);
     background-size: 30px 30px;
-    border-radius: 40px;
+    border-radius: var(--r-pill);
     height: 100%;
     position: absolute;
     transition: width 200ms cubic-bezier(0.4, 1, 0.75, 0.9);

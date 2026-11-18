@@ -1,5 +1,5 @@
 .menu
-  padding: rem(5px 0)
+  padding: rem(8px)
   font-size: rem($font-size-secondary)
 
   .icon
@@ -23,7 +23,8 @@
   padding: rem(12px $section-gap-h)
   line-height: rem(18px)
   color: $text-1-color
-  border-left: 3px solid transparent
+  border: 0
+  border-radius: var(--r-sm)
   position: relative
 
   &.highlight
@@ -53,17 +54,27 @@ a.menu__link, button.menu__link
   &:not(.disabled):hover
     color: $text-1-color
     background: $menu-item-bg-color-hover
-    border-color: var(--c-accent-hover)
   &.active, &.active:hover
-    border-color: $primary-color
     background: var(--c-accent-soft)
-    color: $primary-color
+    color: var(--c-link)
     font-weight: 500
 
 .menu__item .menu .menu__link
   padding-left: rem($section-gap-h + 10px)
 
+// One primary row per menu (submit / join), so the main action is not one of
+// thirteen identical rows.
+.menu a.menu__link--primary
+  &, &:visited
+    background: var(--c-accent)
+    color: var(--c-accent-fg)
+    font-weight: 600
+
+  &:hover
+    background: var(--c-accent-hover)
+    color: var(--c-accent-fg)
+
 .menu__seperator
-  height: 1px
-  border-top: 1px solid $border-2-color
-  margin: rem(5px 0)
+  height: 0
+  border-top: 1px solid token-alpha(var(--c-border), 70%)
+  margin: rem(7px 10px)

@@ -87,6 +87,24 @@ for (const file of styleFiles) {
   });
 }
 
+// corner radii come from the shape scale; a literal radius silently breaks the
+// geometry contract (a 2px chip next to a pill button reads as two products).
+const RADIUS_OK = /^(?:var\(--r(?:-xs|-sm|-lg|-pill)?\)|\$radius(?:-sm|-lg|-pill)?|0|0px|50%|inherit|none)$/;
+for (const file of styleFiles) {
+  if (ALLOWED.has(file)) continue;
+  const rel = path.relative(PKG, file);
+  const lines = stripStrings(stripComments(fs.readFileSync(file, 'utf8'))).split('\n');
+  lines.forEach((line, i) => {
+    const m = line.match(/^\s*border-radius\s*:\s*(.+?)\s*;?\s*$/i);
+    if (!m) return;
+    const parts = m[1].replace(/!important/i, '').split(/\s+/).filter(Boolean);
+    const bad = parts.filter((part) => !RADIUS_OK.test(part));
+    if (bad.length) {
+      problems.push(`${rel}:${i + 1}  literal radius "${m[1]}" — use var(--r-xs/-sm/--r/--r-lg/--r-pill)`);
+    }
+  });
+}
+
 // token usage vs palette definition
 const paletteSrc = fs.readFileSync(ACTIVE_PALETTE, 'utf8');
 const defined = new Set();

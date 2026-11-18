@@ -1152,3 +1152,6 @@ Confirm deleting this statement?: 确认删除这条题面？
 Statement {0} is empty.: 题面 {0} 内容为空。
 File {0} referenced by statement {1} does not exist.: 题面 {1} 引用的文件 {0} 不存在。
 Unknown language: 未知语言
+A warm, restrained judge for practice and contests.: 一个克制、暖色的练习与比赛评测系统。
+Start solving: 开始做题
+Problem Management: 题目管理

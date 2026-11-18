@@ -96,10 +96,10 @@ blockquote
   position: relative
   color: $text-2-color
   font-weight: 400
-  border-left: 3px solid var(--c-border-strong)
-  background: var(--c-sunken)
-  border-radius: 0 $radius-sm $radius-sm 0
-  padding: 0.8rem 1rem
+  border: 0
+  background: token-alpha(var(--c-neutral), 8%)
+  border-radius: var(--r-sm)
+  padding: 0.75rem 1rem
   margin: 0.5rem 0 1rem 0
   font-size: ($font-size-secondary)
   line-height: 1.7
@@ -114,8 +114,7 @@ blockquote
   // Every callout shares one neutral panel; only the label carries severity.
   // Colour blocks are reserved for status chips and inline errors.
   &.note, &.blue, &.warn, &.red, &.yellow
-    border-color: $border-1-color
-    background: var(--c-sunken)
+    background: token-alpha(var(--c-neutral), 8%)
     color: $text-1-color
 
   &.note:before
@@ -228,7 +227,7 @@ u, .typo-u
 mark
   background: var(--c-mark)
   color: inherit
-  border-radius: 3px
+  border-radius: var(--r-xs)
   padding: rem(2px)
   margin: rem(0 5px)
 

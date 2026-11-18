@@ -33,6 +33,8 @@
   /* accent — clay */
   --c-accent: #D97757;
   --c-accent-hover: #C2603F;
+  /* text-safe accent: clay at #D97757 is 2.9:1 on a card, too low for links */
+  --c-link: #A9502F;
   --c-accent-soft: #F6E4DB;
   --c-accent-fg: #FFFFFF;
   --c-focus-ring: rgba(217, 119, 87, 0.28);
@@ -85,7 +87,15 @@
   --sp-5: 24px;
   --sp-6: 32px;
 
+  /* layout — containers and shells read these instead of rem(px), because the
+     rem() helper divides by 15px while the document root is 16px */
+  --w-page: 1200px;
+  --w-sidebar: 280px;
+  --layout-gap: 24px;
+  --layout-gutter: 15px;
+
   /* shape — generously rounded, like the Claude surfaces */
+  --r-xs: 4px;
   --r-sm: 8px;
   --r: 12px;
   --r-lg: 18px;
@@ -110,6 +120,7 @@
 
   --c-accent: #E08A6A;
   --c-accent-hover: #EC9B7C;
+  --c-link: #EC9B7C;
   --c-accent-soft: #3E2C24;
   --c-accent-fg: #1F1E1D;
   --c-focus-ring: rgba(224, 138, 106, 0.32);

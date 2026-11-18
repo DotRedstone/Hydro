@@ -9,12 +9,12 @@
 // page gutters; without them the heading and the sidebar touch the viewport.
 .problem-catalog
   display: grid
-  grid-template-columns: minmax(0, 1fr) rem(280px)
-  gap: rem(24px)
+  grid-template-columns: minmax(0, 1fr) var(--w-sidebar)
+  gap: var(--layout-gap)
   align-items: start
-  max-width: rem(1200px)
+  max-width: var(--w-page)
   margin: 0 auto
-  padding: 0 rem($grid-padding)
+  padding: 0 var(--layout-gutter)
 
 .problem-catalog__main
   min-width: 0
@@ -38,8 +38,8 @@
 
 .problem-catalog__search .search > input
   min-width: 0
-  height: 44px
-  padding: 0 14px
+  height: 40px
+  padding: 0 13px
   border: 1px solid var(--c-border)
   border-radius: var(--r-sm)
   background: var(--c-bg)
@@ -47,16 +47,18 @@
 
 .problem-catalog__search .search > button
   position: static
-  flex: 0 0 44px
-  width: 44px
-  height: 44px
-  border: 0
+  flex: 0 0 40px
+  width: 40px
+  height: 40px
+  border: 1px solid var(--c-border)
   border-radius: var(--r-sm)
-  background: var(--c-accent)
-  color: var(--c-accent-fg)
+  background: var(--c-surface)
+  color: var(--c-fg-3)
 
 .problem-catalog__search .search > button:hover
-  background: var(--c-accent-hover)
+  border-color: var(--c-link)
+  background: var(--c-accent-soft)
+  color: var(--c-link)
 
 .problem-catalog__search .search > div
   position: static
@@ -110,18 +112,18 @@
   font-weight: 500
 
 .problem-catalog__table .col--problem-name a:hover
-  color: var(--c-accent)
+  color: var(--c-link)
 
 .problem__tag-link, .problem__tag-item
-  border-radius: 999px
+  border-radius: var(--r-pill)
   border: 1px solid var(--c-border)
   background: var(--c-sunken)
   color: var(--c-fg-3)
 
 .problem__tag-link:hover
-  border-color: var(--c-accent)
+  border-color: var(--c-link)
   background: var(--c-accent-soft)
-  color: var(--c-accent)
+  color: var(--c-link)
 
 .problem-catalog__sidebar .section__body
   padding: 16px 18px
@@ -136,7 +138,7 @@
   color: var(--c-fg-3)
 
 .problem-catalog__sidebar .menu__link:hover
-  color: var(--c-accent)
+  color: var(--c-link)
   background: var(--c-accent-soft)
 
 .problem-catalog__search [data-fragment-id="problem_stat"]
@@ -162,7 +164,7 @@
 
 .learning-activity-layout
   display: grid
-  grid-template-columns: minmax(0, 1fr) 288px
+  grid-template-columns: minmax(0, 1fr) var(--w-sidebar)
   gap: var(--sp-5)
   align-items: start
 
@@ -204,7 +206,7 @@
 .learning-activity-side .menu__link:hover,
 .learning-activity-side .menu__link.active
   background: var(--c-accent-soft)
-  color: var(--c-accent)
+  color: var(--c-link)
 
 .learning-activity-side dl.horizontal
   display: grid
@@ -351,7 +353,7 @@
   color: var(--c-fg)
 
 .learning-activity-list-card .section__list__item h1 a:hover
-  color: var(--c-accent)
+  color: var(--c-link)
 
 .learning-activity-main .data-table
   font-size: .9rem

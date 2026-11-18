@@ -20,7 +20,7 @@
       background: var(--c-hover);
     
     &.tab--active
-      border-color: var(--c-accent);
+      border-color: var(--c-link);
 
   .problem-detail-layout::before,
   .problem-detail-layout::after
@@ -140,8 +140,18 @@
 
   .problem-detail-sidebar .menu__link:hover,
   .problem-detail-sidebar .menu__link.active
-    color: var(--c-accent)
+    color: var(--c-link)
     background: var(--c-accent-soft)
+
+  // The submit row is the single primary action of this page.
+  .problem-detail-sidebar .menu__link--primary,
+  .problem-detail-sidebar .menu__link--primary:hover
+    background: var(--c-accent)
+    color: var(--c-accent-fg)
+    font-weight: 600
+
+  .problem-detail-sidebar .menu__link--primary:hover
+    background: var(--c-accent-hover)
 
   .problem-detail-sidebar .menu__seperator
     margin: 8px 16px
@@ -160,12 +170,12 @@
     font-weight: 550
 
   .problem-detail-main .section__tab-header-item:hover
-    color: var(--c-accent)
+    color: var(--c-link)
     background: var(--c-sunken)
 
   .problem-detail-main .section__tab-header-item.tab--active
-    border-bottom-color: var(--c-accent)
-    color: var(--c-accent)
+    border-bottom-color: var(--c-link)
+    color: var(--c-link)
     background: transparent
 
   @media only screen and (max-width: 900px)

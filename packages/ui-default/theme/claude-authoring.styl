@@ -8,7 +8,7 @@
 
 .authoring-workbench
   display: grid
-  grid-template-columns: minmax(0, 1fr) 290px
+  grid-template-columns: minmax(0, 1fr) var(--w-sidebar)
   gap: var(--sp-5)
   align-items: start
 
@@ -132,7 +132,7 @@
 .administration-layout__side .menu__link:hover,
 .authoring-workbench__side .menu__link.active,
 .administration-layout__side .menu__link.active
-  color: var(--c-accent)
+  color: var(--c-link)
   background: var(--c-accent-soft)
 
 .authoring-workbench__side .menu__seperator,
@@ -161,7 +161,7 @@
 
 .authoring-workbench #statement-tabs .section__tab-header-item:hover,
 .authoring-workbench #statement-tabs .section__tab-header-item.tab--active
-  color: var(--c-accent)
+  color: var(--c-link)
   background: var(--c-accent-soft)
 
 .authoring-workbench #statement-props
@@ -215,7 +215,7 @@
   font-weight: 550
 
 .files .data-table .col--name a:hover
-  color: var(--c-accent)
+  color: var(--c-link)
 
 .files .data-table .col--size
   width: 95px
@@ -280,7 +280,7 @@
 // Management: preserve ui.getNodes/sidemenu and existing sticky navigation.
 .administration-layout
   display: grid
-  grid-template-columns: minmax(0, 1fr) 248px
+  grid-template-columns: minmax(0, 1fr) var(--w-sidebar)
   gap: var(--sp-5)
   align-items: start
 
@@ -325,7 +325,7 @@
 
 .administration-layout__main .col--p input[type=checkbox],
 .administration-layout__main [data-checkbox-group] 
-  accent-color: var(--c-accent)
+  accent-color: var(--c-link)
   width: 17px
   height: 17px
 
@@ -366,7 +366,6 @@
 .authoring-workbench button[name=operation][value=delete],
 .administration-layout button[name=operation][value=delete],
 .administration-layout #delete-domain-form input[type=submit],
-.administration-layout form:has(input[name=operation][value=restart]) button[type=submit],
 .administration-layout button[name=submit]
   border: 1px solid var(--c-bad)
   color: var(--c-bad)
@@ -375,7 +374,6 @@
 .authoring-workbench button[name=operation][value=delete]:hover,
 .administration-layout button[name=operation][value=delete]:hover,
 .administration-layout #delete-domain-form input[type=submit]:hover,
-.administration-layout form:has(input[name=operation][value=restart]) button[type=submit]:hover,
 .administration-layout button[name=submit]:hover
   border-color: var(--c-bad)
   background: token-alpha(var(--c-bad), 10%)

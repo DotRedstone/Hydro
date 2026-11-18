@@ -11,10 +11,12 @@ Options:
 .row
   margin-left: auto
   margin-right: auto
+  // One content width at every desktop size: 980/1200 split left some pages
+  // (catalog, authoring shells) 220px wider than the rest.
   +desktop()
-    max-width: 980px
+    max-width: var(--w-page)
   +hd()
-    max-width: 1200px
+    max-width: var(--w-page)
 
 .row::before,
 .row::after

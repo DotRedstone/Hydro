@@ -15,8 +15,10 @@
     &:last-child
       border-bottom: 0
 
-    &:nth-child(even)
-      background: $table-alternate-bg-color
+    // No zebra striping: rows are separated by a hairline, and hover carries the
+    // tracking cue. Zebra plus hairlines read as two competing systems.
+    &:hover
+      background: $table-row-hover-bg-color
 
     &.highlight
       background: var(--c-accent-soft)
@@ -29,8 +31,9 @@
 
   thead > tr
     color: $text-3-color
-    font-size: rem(12px)
-    letter-spacing: 0.04em
+    font-size: 0.72rem
+    font-weight: 600
+    letter-spacing: 0.08em
     text-transform: uppercase
     border-top: 0
     border-bottom: 1px solid $table-border-color
@@ -43,10 +46,10 @@
     line-height: rem($table-lh)
 
   td
-    padding: rem(5px $table-padding-h)
+    padding: rem(13px $table-padding-h)
 
   th
-    padding: rem(13px $table-padding-h)
+    padding: rem(11px $table-padding-h)
 
   .empty-row
     color: $text-3-color
