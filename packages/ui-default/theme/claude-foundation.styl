@@ -1,0 +1,156 @@
+// School / catalog layout.
+//
+// This started as a parallel "claude-*" styling layer. Everything that
+// duplicated a component (nav, buttons, cards, tables, pager, footer) now lives
+// next to that component and is driven by --c-* tokens, so only the catalog
+// specific layout is left here. Colours must come from the palette.
+
+// The catalog is a bespoke page shell (no .row/.columns), so it carries its own
+// page gutters; without them the heading and the sidebar touch the viewport.
+.problem-catalog
+  display: grid
+  grid-template-columns: minmax(0, 1fr) rem(280px)
+  gap: rem(24px)
+  align-items: start
+  max-width: rem(1200px)
+  margin: 0 auto
+  padding: 0 rem($grid-padding)
+
+.problem-catalog__main
+  min-width: 0
+
+.problem-catalog__heading
+  margin: 0
+  padding: 4px 0 18px
+  color: var(--c-fg)
+  font-size: 1.8rem
+  font-weight: 600
+  letter-spacing: -.025em
+
+.problem-catalog__search
+  padding: 18px 20px
+  border-bottom: 1px solid var(--c-border)
+
+.problem-catalog__search .search
+  display: flex
+  align-items: center
+  gap: 8px
+
+.problem-catalog__search .search > input
+  min-width: 0
+  height: 44px
+  padding: 0 14px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  background: var(--c-bg)
+  color: var(--c-fg)
+
+.problem-catalog__search .search > button
+  position: static
+  flex: 0 0 44px
+  width: 44px
+  height: 44px
+  border: 0
+  border-radius: var(--r-sm)
+  background: var(--c-accent)
+  color: var(--c-accent-fg)
+
+.problem-catalog__search .search > button:hover
+  background: var(--c-accent-hover)
+
+.problem-catalog__search .search > div
+  position: static
+  flex: 0 0 auto
+  color: var(--c-fg-3)
+  font-size: .85rem
+
+.problem-catalog__search .search-sort
+  position: static
+  flex: 0 0 126px
+  width: 126px
+  height: 44px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  background: var(--c-surface)
+  color: var(--c-fg)
+
+.problem-catalog__sidebar .section
+  margin-bottom: 18px
+
+.problem-catalog__sidebar .menu__link
+  border-radius: var(--r-sm)
+
+
+.problem-catalog__table
+  width: 100%
+
+.problem-catalog__table .data-table
+  width: 100%
+
+.problem-catalog__table .data-table .col--difficulty
+  width: 120px
+  min-width: 120px
+  white-space: nowrap
+
+.problem-catalog__table .data-table.hide-problem-tag .problem__tag.notag--hide,
+.problem-catalog__table .data-table.hide-problem-tag .notag--hide
+  display: none
+
+.problem-catalog__table .data-table.hide-problem-tag .tag--hide
+  display: block
+
+.problem-catalog__table .data-table .tag--hide
+  display: none
+
+.problem-catalog__table .col--name
+  min-width: 220px
+
+.problem-catalog__table .col--problem-name a
+  color: var(--c-fg)
+  font-weight: 500
+
+.problem-catalog__table .col--problem-name a:hover
+  color: var(--c-accent)
+
+.problem__tag-link, .problem__tag-item
+  border-radius: 999px
+  border: 1px solid var(--c-border)
+  background: var(--c-sunken)
+  color: var(--c-fg-3)
+
+.problem__tag-link:hover
+  border-color: var(--c-accent)
+  background: var(--c-accent-soft)
+  color: var(--c-accent)
+
+.problem-catalog__sidebar .section__body
+  padding: 16px 18px
+
+.problem-catalog__sidebar .menu
+  margin: 0
+  padding: 0
+
+.problem-catalog__sidebar .menu__link
+  display: block
+  padding: 9px 10px
+  color: var(--c-fg-3)
+
+.problem-catalog__sidebar .menu__link:hover
+  color: var(--c-accent)
+  background: var(--c-accent-soft)
+
+.problem-catalog__search [data-fragment-id="problem_stat"]
+  flex: 0 0 auto
+  color: var(--c-fg-3)
+  white-space: nowrap
+
+.problem-catalog__search [data-fragment-id="problem_stat"] p
+  margin: 0
+
+.footer
+  padding-top: 22px
+  padding-bottom: 18px
+
+@media only screen and (max-width: 600px)
+  .problem-catalog__table .data-table
+    min-width: 680px

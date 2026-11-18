@@ -43,3 +43,6 @@ const pageStyleReq = require.context('../', true, /\.page\.styl$/i);
 pageStyleReq.keys().map((key) => pageStyleReq(key));
 const pageStyleReqDefault = require.context('../', true, /\.page\.default\.styl$/i);
 pageStyleReqDefault.keys().map((key) => pageStyleReqDefault(key));
+
+// Load after page styles in source order; final extracted CSS ordering is determined by the bundler.
+require('./claude-foundation.styl');
