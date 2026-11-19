@@ -19,8 +19,13 @@
   </div>
   <div class="section__body typo">
     <dl class="large horizontal">
-    <dt>{{ _('Avatar') }}</dt><dd><img src="{{ avatarUrl(domain.avatar) }}" width="32" height="32"></dd>
-    <dt>{{ _('Name') }}</dt><dd>{{ domain.name }}</dd>
+    <dt>{{ _('Avatar') }}</dt>
+    <dd>
+      {% if domain.avatar %}<img src="{{ avatarUrl(domain.avatar) }}" width="32" height="32">
+      {% else %}<span class="text-gray">{{ _('None') }}</span>{% endif %}
+    </dd>
+    <dt>{{ _('Name') }}</dt>
+    <dd>{{ domain.name or model.system.get('server.name') or _('None') }}</dd>
     </dl>
   </div>
 </div>
