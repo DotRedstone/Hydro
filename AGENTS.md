@@ -95,7 +95,10 @@ registerCopyHandler('contest-guard', (payload) => {
 - `packages/ui-default/templates/`：Nunjucks 模板；页面专属 class 放在 `pages/*.page.styl`。
 - `packages/ui-default/components/`：可复用片段，`*.page.js` 会被全局打包。
 - `packages/ui-default/theme/`：设计令牌与主题；字面色值只允许出现在
-  `theme/palettes/claude.css`。
+  `theme/palettes/*.css`（默认 `claude.css`、深色同文件、额外的如 `sepia.css`）。
+- 主题清单只有 `theme/themes.ts` 一份（id / 显示名 / 是否深色 / 地址栏取色）：
+  加主题 = 一个调色板文件 + 那里加一项 + `theme/default.js` 里 import，
+  服务端路由、设置项、页脚菜单、前端切换都从它派生，不要在别处再写死列表。
 - `packages/hydrooj/src/handler/`、`src/model/`：服务端行为；改公共流程时同步检查 API 调用方。
 - `packages/login-with-*`：OAuth provider，插件作用域就是配置键前缀。
 
