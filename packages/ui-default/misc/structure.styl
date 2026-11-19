@@ -1,5 +1,7 @@
+// 按钮改用 flex 居中后特异性压过了这条规则，留个 !important（页面里可见的
+// 降级按钮本来就不该在 JS 可用时出现）
 .hasjs .hasjs--hide
-  display: none
+  display: none !important
 
 .nojs .nojs--hide
   display: none
