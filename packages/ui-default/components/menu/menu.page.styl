@@ -27,8 +27,13 @@
   border-radius: var(--r-sm)
   position: relative
 
+  // 侧栏里「进入在线编程模式」这类特殊入口：中性底 + 左侧细标记，
+  // 不用整块陶土色抢走递交按钮的位置
   &.highlight
-    background: var(--c-accent-soft)
+    background: var(--c-hover)
+    color: var(--c-fg)
+    font-weight: 550
+    box-shadow: inset 2px 0 0 var(--c-accent)
 
   &.expandable:after
     font-family: $icon-font-name
