@@ -140,6 +140,12 @@ export const loadThemePromise = customOptions.theme
   : Promise.resolve().then(() => {
     defineTokenTheme();
     monaco.editor.setTheme('hydro-tokens');
+    // 换主题（含浅色 / 深色 / 棕褐互换）时重新按令牌定义一次，编辑器跟着变色
+    document.addEventListener('themechange', () => {
+      if (customOptions.theme) return;
+      defineTokenTheme();
+      monaco.editor.setTheme('hydro-tokens');
+    });
   });
 
 // 这破烂 monaco 能不能给个 typings 啊

@@ -46,11 +46,17 @@ export default connect((state: any) => ({
     this.model = monaco.editor.getModel(uri) || monaco.editor.createModel(value, language, uri);
     if (this.containerElement) {
       const config: monaco.editor.IStandaloneEditorConstructionOptions = {
-        theme: 'vs-light',
+        // 主题交给 components/monaco 的 hydro-tokens（跟着调色板走），
+        // 不要在这里写死 vs-light：暗色主题下会变成一块刺眼的白板
         fontFamily: UserContext.codeFontFamily,
         ...customOptions,
         lineNumbers: 'on',
         glyphMargin: true,
+        minimap: { enabled: false },
+        padding: { top: 10, bottom: 10 },
+        scrollBeyondLastLine: false,
+        renderLineHighlight: 'all',
+        lineNumbersMinChars: 3,
         lightbulb: { enabled: monaco.editor.ShowLightbulbIconMode.On },
         model: this.model,
         fontLigatures: '',
