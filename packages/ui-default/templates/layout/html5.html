@@ -5,8 +5,7 @@
 {% import "components/noscript_note.html" as noscript_note with context %}
 {% import "components/user.html" as user with context %}
 <!DOCTYPE html>
-{% set picked = handler.user.theme if (handler.user._id and handler.user.theme) else (handler.context.cookies.get('theme') or '') %}
-{% set theme = themeMeta(picked) %}
+{% set theme = themeMeta(themeOf(handler.user, handler.context.cookies)) %}
 <html data-page="{{ page_name }}" data-layout="{{ layout_name }}" class="layout--{{ layout_name }} page--{{ page_name }} theme--{{ theme.id }} nojs" data-mantine-color-scheme="{{ 'dark' if theme.dark else 'light' }}" lang="{{ UserContext.viewLang }}" data-app="Hydro">
 <head>
   <meta charset="UTF-8">

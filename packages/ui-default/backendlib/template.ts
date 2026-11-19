@@ -12,7 +12,7 @@ import { renderStatement } from './contentRenderer';
 import markdown from './markdown';
 import { ensureTag, xss } from './markdown-it-xss';
 import * as misc from './misc';
-import { resolveTheme, THEMES } from '../theme/themes';
+import { pickTheme, resolveTheme, THEMES } from '../theme/themes';
 
 const argv = cac().parse();
 
@@ -159,6 +159,7 @@ class Nunjucks extends nunjucks.Environment {
     // 主题清单只来自 theme/themes.ts；模板里不再各自维护
     this.addGlobal('themes', THEMES);
     this.addGlobal('themeMeta', (id) => resolveTheme(id));
+    this.addGlobal('themeOf', pickTheme);
     this.addGlobal('isIE', (str) => {
       if (!str) return false;
       if (['MSIE', 'rv:11.0'].some((i) => str.includes(i))) return true;

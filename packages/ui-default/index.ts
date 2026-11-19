@@ -8,7 +8,7 @@ import convert from 'schemastery-jsonschema';
 import { presetRenderers } from './backendlib/contentRenderer';
 import markdown from './backendlib/markdown';
 import { TemplateService } from './backendlib/template';
-import { isThemeId, THEMES } from './theme/themes';
+import { isThemeId, pickTheme, THEMES } from './theme/themes';
 
 class WikiHelpHandler extends Handler {
   noCheckPermView = true;
@@ -237,6 +237,11 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       that.response.type = 'text/html';
       that.response.body = await markdown.render(that.response.body);
     }
+  });
+  // 设置页的“主题”下拉要显示当前生效的主题，否则保存其它偏好会把
+  // 访客期在 cookie 里选的主题悄悄覆盖回默认值。
+  ctx.on('handler/before/HomeSettings', async (that) => {
+    that.user.theme = pickTheme(that.user, that.context.cookies);
   });
   ctx.on('handler/after', async (that) => {
     that.UiContext.SWConfig = {

@@ -53,3 +53,15 @@ export function isThemeId(theme?: string): boolean {
 export function isDarkTheme(theme?: string): boolean {
   return resolveTheme(theme).dark;
 }
+
+/**
+ * 当前该用哪个主题：设置里存过就用存的，否则用 cookie 里的（访客期选的）。
+ * 注意不能直接读 `user.theme` —— 偏好项会把默认值料化到 user 上，
+ * 那样 cookie 就永远轮不到了。
+ */
+export function pickTheme(
+  user?: { _udoc?: { theme?: string } },
+  cookies?: { get(name: string): string },
+): string {
+  return resolveTheme(user?._udoc?.theme || cookies?.get('theme')).id;
+}
