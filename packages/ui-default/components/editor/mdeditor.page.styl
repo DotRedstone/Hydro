@@ -1,0 +1,54 @@
+// md-editor-rt 自带一套自己的配色（亮色 #fff、暗色 #000），跟暖纸主题完全
+// 不是一回事：深色下编辑区是一块纯黑，浅色下是刺眼的白。这里把它的 CSS
+// 变量接到设计令牌上，两个主题（含棕褐）都自动跟随。
+// 第三方样式表在构建里的先后顺序不受我们控制，变量这一层直接用 !important 兜住
+.md-editor,
+.md-editor[data-theme=dark]
+  --md-color: var(--c-fg) !important
+  --md-hover-color: var(--c-fg-2) !important
+  --md-bk-color: var(--c-surface) !important
+  --md-bk-color-outstand: var(--c-bg) !important
+  --md-bk-hover-color: var(--c-hover) !important
+  --md-border-color: var(--c-border) !important
+  --md-border-hover-color: var(--c-border-strong) !important
+  --md-border-active-color: var(--c-accent) !important
+  --md-modal-mask: var(--c-overlay) !important
+  --md-modal-shadow: var(--shadow-pop) !important
+  --md-scrollbar-bg-color: var(--c-sunken) !important
+  --md-scrollbar-thumb-color: var(--c-border-strong) !important
+  --md-scrollbar-thumb-hover-color: var(--c-fg-3) !important
+  --md-scrollbar-thumb-active-color: var(--c-fg-2) !important
+
+  // 工具栏、状态栏与正文区同底色，避免三块不同深浅
+  .md-editor-toolbar-wrapper,
+  .md-editor-footer
+    background: var(--c-surface)
+    border-color: var(--c-border)
+
+  .md-editor-toolbar-wrapper
+    border-bottom: 1px solid var(--c-border)
+
+  .md-editor-footer
+    border-top: 1px solid var(--c-border)
+
+  .md-editor-input-wrapper,
+  .md-editor-preview-wrapper
+    background: var(--c-surface)
+
+  // 两个编辑区之间那条分隔线
+  .md-editor-content
+    border-color: var(--c-border)
+
+  // 代码块在编辑器里也用代码底色，而不是图书馆默认的深色
+  .md-editor-preview pre,
+  .md-editor-preview code
+    background: var(--c-code-bg)
+    color: var(--c-fg)
+
+  .md-editor-input-wrapper textarea
+    color: var(--c-fg)
+    background: var(--c-surface)
+
+  // 字数 / 同步滚动那一行
+  .md-editor-footer-item
+    color: var(--c-fg-3)
