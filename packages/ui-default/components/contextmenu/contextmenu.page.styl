@@ -19,6 +19,11 @@
   &[hidden]
     display: none
 
+  // 容器只用来接住焦点（鼠标打开时），高亮只交给具体菜单项
+  &:focus,
+  &:focus-visible
+    outline: none
+
   &[data-origin^="bottom"]
     transform-origin: bottom left
 

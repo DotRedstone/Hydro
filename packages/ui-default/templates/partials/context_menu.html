@@ -1,5 +1,5 @@
 {# 右键菜单：标记与文案在这里，显隐与动作在 components/contextmenu 里 #}
-<div class="context-menu" data-context-menu role="menu" aria-label="{{ _('Page actions') }}" hidden>
+<div class="context-menu" data-context-menu role="menu" aria-label="{{ _('Page actions') }}" tabindex="-1" hidden>
   <div class="context-menu__group" data-group="history">
     <button type="button" class="context-menu__item" role="menuitem" data-action="back">
       <span class="icon icon-chevron_left" aria-hidden="true"></span>{{ _('Back') }}

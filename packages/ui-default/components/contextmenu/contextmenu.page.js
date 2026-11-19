@@ -114,8 +114,11 @@ export default new AutoloadPage('contextmenu', () => {
     lastFocus = document.activeElement;
     place(ev.clientX, ev.clientY);
     requestAnimationFrame(() => menu.classList.add('context-menu--open'));
-    const first = menu.querySelector('.context-menu__item:not([hidden])');
-    if (first) first.focus({ preventScroll: true });
+    // 鼠标打开时只把焦点放到菜单容器上：直接选中第一项会让“回退”一直高亮，
+    // 之后再悬停别的项就变成两行都亮。键盘（菜单键 / Shift+F10）打开才落到第一项。
+    const byKeyboard = ev.clientX === 0 && ev.clientY === 0;
+    const first = byKeyboard && menu.querySelector('.context-menu__item:not([hidden])');
+    (first || menu).focus({ preventScroll: true });
     return true;
   };
 
@@ -134,13 +137,15 @@ export default new AutoloadPage('contextmenu', () => {
   menu.addEventListener('keydown', (ev) => {
     const items = enabledItems();
     const index = items.indexOf(document.activeElement);
+    // 焦点可能还停在容器上（鼠标打开时），此时方向键先进入列表
+    const focusAt = (i) => items[(i + items.length) % items.length]?.focus({ preventScroll: true });
     if (ev.key === 'Escape') {
       ev.preventDefault();
       close();
     } else if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
       ev.preventDefault();
-      const step = ev.key === 'ArrowDown' ? 1 : -1;
-      items[(index + step + items.length) % items.length]?.focus({ preventScroll: true });
+      const down = ev.key === 'ArrowDown';
+      focusAt(index === -1 ? (down ? 0 : items.length - 1) : index + (down ? 1 : -1));
     } else if (ev.key === 'Home' || ev.key === 'End') {
       ev.preventDefault();
       items[ev.key === 'Home' ? 0 : items.length - 1]?.focus({ preventScroll: true });

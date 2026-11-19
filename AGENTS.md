@@ -63,7 +63,9 @@ node packages/ui-default/build/check-tokens.js     # 期望 design tokens: ok
 - 输入框、`contenteditable`、代码编辑器（`.cm-editor` / `.monaco-editor` / `.md-editor`）
   一律不接管；按住 Shift 右键同样交回浏览器原生菜单。
 - 菜单项按组出现（历史 / 剪贴板 / 打开 / 视图 / 站点），没有可用动作的组整体隐藏。
-- 键盘可用：打开后焦点落在第一项，`↑` `↓` `Home` `End` 移动，`Esc` 关闭。
+- 键盘可用：鼠标打开时焦点落在菜单容器上（不选中任何项，否则会一直高亮第一项），
+  键盘打开（菜单键 / Shift+F10）才落到第一项；`↑` `↓` `Home` `End` 移动，`Esc` 关闭。
+- 高亮规则：同一时刻只允许一行高亮，悬停项与键盘焦点用同一种样式。
 - 复制失败要给出提示，不能静默失败。
 
 ### 复制管线
