@@ -152,12 +152,24 @@
 .authoring-workbench #statement-tabs .section__tab-header-item
   display: inline-flex
   align-items: center
+  gap: 6px
   min-height: 39px
   padding: 8px 12px
   color: var(--c-fg-2)
   background: transparent
   border-radius: var(--r-sm)
   text-decoration: none
+
+// 文件名后面那个语言标记：<sup> 在 flex 里会跟文件名叠在一起，改成小胶囊
+.authoring-workbench #statement-tabs .section__tab-header-item .supplementary
+  padding: 1px 5px
+  border-radius: var(--r-xs)
+  background: var(--c-surface)
+  color: var(--c-fg-3)
+  font-size: .68rem
+  font-weight: 500
+  line-height: 1.4
+  letter-spacing: 0
 
 .authoring-workbench #statement-tabs .section__tab-header-item:hover,
 .authoring-workbench #statement-tabs .section__tab-header-item.tab--active
