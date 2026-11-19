@@ -125,6 +125,13 @@ code[class*='language-']
     font-size: large !important
     border-radius: 0px !important
     background: none !important
+    // prism-theme 把代码块里的链接写死成 #bbb，浅色与棕褐主题下几乎看不见
+    color: var(--c-fg-2) !important
+    text-decoration: none !important
+
+    &:hover
+      color: var(--c-fg) !important
+      text-decoration: underline !important
 
 .scratchpad-fill-button
   display: none
