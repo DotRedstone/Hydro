@@ -460,3 +460,160 @@
 
     dt:first-child
       margin-top: 2px
+
+// ---------------------------------------------------------------------------
+// Activity lists (homework / contest / training)
+//
+// One row pattern for every "list of activities" card: quiet two-line date,
+// sans-serif title as the focal point, label/value meta on one line, hover on
+// the row instead of a bordered card per item. The container already carries
+// the surface; rows are separated by hairlines only.
+// ---------------------------------------------------------------------------
+.activity-item
+  position: relative
+  margin: 0
+  padding: 14px 20px
+  border-bottom: 1px solid var(--c-border)
+  transition: background-color .14s ease
+
+  &:last-child
+    border-bottom: 0
+
+  &:hover
+    background: var(--c-hover)
+
+  // a closing deadline gets a hairline marker, not a colour block
+  &--closing::before
+    content: ''
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    width: 2px
+    background: var(--c-warn)
+
+.activity__date
+  display: flex
+  flex-direction: column
+  gap: 1px
+  width: 56px
+  margin-right: 16px
+  color: var(--c-fg-3)
+  font-variant-numeric: tabular-nums
+  line-height: 1.25
+
+.activity__date-day
+  color: var(--c-fg-2)
+  font-size: 1.02rem
+  font-weight: 600
+
+.activity__date-month
+  font-size: .72rem
+
+// content titles are sans-serif; the serif stays for page and section titles
+.activity__title
+  margin: 0 0 4px
+  font-family: var(--font-ui)
+  font-size: .97rem
+  font-weight: 600
+  line-height: 1.5
+  letter-spacing: 0
+
+.activity__title a
+  color: var(--c-fg)
+  text-decoration: none
+
+  // whole row is clickable, the date column stays selectable
+  &::after
+    content: ''
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 92px
+
+  &:hover
+    color: var(--c-link)
+    text-decoration: underline
+    text-underline-offset: 2px
+
+.activity__meta
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 2px 16px
+  margin: 0
+  font-size: .82rem
+  line-height: 1.6
+
+.activity__meta .activity__meta-item
+  display: inline-flex
+  align-items: center
+  gap: 5px
+  margin: 0
+
+.activity__meta .activity__meta-item .icon
+  color: var(--c-fg-3)
+  font-size: .95em
+
+.activity__meta .activity__meta-item--times
+  margin-left: auto
+
+.activity__meta-label
+  color: var(--c-fg-3)
+
+.activity__meta-value
+  color: var(--c-fg-2)
+
+.activity__meta-sep
+  color: var(--c-border-strong)
+
+// status: one semantic dot instead of a filled chip
+.activity__meta-item--status .activity__meta-value
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  color: var(--c-fg)
+  font-weight: 500
+
+  &::before
+    content: ''
+    width: 6px
+    height: 6px
+    border-radius: var(--r-pill)
+    background: var(--c-info)
+
+.activity-item--live .activity__meta-item--status .activity__meta-value::before
+  background: var(--c-ok)
+
+.activity-item--done .activity__meta-item--status .activity__meta-value
+  color: var(--c-fg-3)
+  font-weight: 400
+
+  &::before
+    background: var(--c-fg-3)
+
+.activity-item--closing .activity__meta-item--status .activity__meta-value
+  color: var(--c-warn)
+
+  &::before
+    background: var(--c-warn)
+
+.activity__metadata-attended,
+.contest__info-attended
+  color: var(--c-ok)
+
+@media only screen and (max-width: 600px)
+  .activity-item
+    padding: 13px 16px
+
+  .activity__date
+    width: 44px
+    margin-right: 12px
+
+  .activity__title a::after
+    left: 76px
+
+  // 窄屏换行后时间不再靠右，避免和状态各占一行时左右跳
+  .activity__meta .activity__meta-item--times
+    margin-left: 0

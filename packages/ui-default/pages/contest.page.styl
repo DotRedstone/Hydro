@@ -1,28 +1,8 @@
 $highlight-button-color = var(--c-warn)
 
 .page--contest_main
-  .contest__title
-    font-size: rem($font-size-title)
-    line-height: 1.2em
-    margin-bottom: rem(10px)
-
-  .contest__date
-    margin-right: rem(10px)
-    white-space: nowrap
-    width: rem(60px)
-
-  .contest__info-attended
-    color: $success-color
-
-  .contest__item
-    border-left: rem(3px) solid transparent
-    padding-left: rem(10px)
-
-    &.live
-      border-left-color: var(--c-accent)
-
-    &.ready
-      border-left-color: var(--c-warn)
+  // 列表行的日期 / 标题 / 元信息统一走 claude-foundation 里的 .activity-* 规则，
+  // 这里只保留比赛列表自己的东西。
 
   // 进行中与即将开始的比赛会上下并排出现在首页顶部，一块反色卡片不管在
   // 日间还是夜间都太扎眼；两张卡片统一走纸面，只让“进行中”多一层陶土色
@@ -309,19 +289,6 @@ $highlight-button-color = var(--c-warn)
     font-size: .91rem
     font-weight: 650
 
-  .learning-activity-list-card .contest__title
-    font-size: 1.12rem
-    line-height: 1.45
-    margin: 0
-
-  .learning-activity-list-card .contest__date
-    margin-right: 16px
-
-  .contest__item.live
-    border-left-color: var(--c-bad)
-
-  .contest__item.ready
-    border-left-color: var(--c-info)
 
 .page--contest_detail
   .contest-detail-layout .learning-activity-description

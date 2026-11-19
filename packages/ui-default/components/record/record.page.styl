@@ -17,9 +17,9 @@
     &.{key}
       border-left: rem(3px) solid token-tint(value, 90%)
 
-  // a pass stays visible when scanning a long record table
+  // a pass stays visible when scanning a long record table, but only as a tint
   &.pass
-    background: var(--c-ok-soft)
+    background: token-alpha(var(--c-ok), 9%)
 
 .record-status--background
   color: var(--c-accent-fg)

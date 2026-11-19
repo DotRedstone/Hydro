@@ -1,45 +1,51 @@
-.contest-type-tag
+// 比赛类型 / Rated 标记：默认是纯文本 + 彩色图标，不再是一块实色胶囊。
+// 列表里每条比赛都挂两个色块，一屏下来全是颜色，反而看不出重点。
 .contest-tag
 .contest-tag-rated
+  display: inline-flex
+  align-items: center
+  gap: rem(4px)
+  padding: rem(0 7px)
+  border-radius: var(--r-xs)
   font-size: rem($font-size-small)
-  display: inline-block
-  line-height: rem(22px)
-  padding: rem(0 10px)
+  line-height: rem(20px)
   vertical-align: middle
-  border-radius: var(--r)
-
-  &:hover
-    text-decoration: none
-    color: var(--c-accent-fg) !important
 
 .contest-tag-rated
-  background: var(--c-warn)
-  color: var(--c-accent-fg)
+  border: 1px solid var(--c-border-strong)
+  color: var(--c-fg-2)
 
   .icon
-    margin-right: rem(5px)
+    color: var(--c-warn)
 
 .contest-type-tag
+  display: inline-flex
+  align-items: center
+  gap: rem(4px)
+  font-size: rem($font-size-small)
+  line-height: 1.5
+
   &, &:visited
     &, .supplementary &
-      color: var(--c-accent-fg)
+      color: var(--c-fg-2)
 
   .icon
-    margin-right: rem(5px)
+    color: var(--c-fg-3)
+
+  &:hover
+    &, .supplementary &
+      color: var(--c-fg)
+    text-decoration: none
 
 for key, value in $contest-color
-  .contest-type--{key} .contest-type-tag
-    background: value
-
-    &:hover
-      background: token-tint(value, 80%)
+  .contest-type--{key} .contest-type-tag .icon
+    color: value
 
 .contest-tag
   border: 1px solid $supplementary-border-color
 
   &:hover
-    background: $primary-color
-    border-color: $primary-color
+    border-color: var(--c-fg-3)
 
 // The remaining time is docked under the nav instead of pinned to the viewport
 // corner, where it used to sit on top of the page and the nav bar.
