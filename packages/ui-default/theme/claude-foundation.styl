@@ -298,6 +298,9 @@
   gap: 14px
 
 .learning-activity-list-card .section__tools
+  // misc/section.styl 把它绝对定位在标题右侧；表头本身已经是 flex，
+  // 这里回到文档流，窄屏下筛选栏换行时表头才能跟着长高（否则压住第一行）
+  position: static
   display: flex
   flex-wrap: wrap
   align-items: center
