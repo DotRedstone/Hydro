@@ -1,5 +1,5 @@
 .menu
-  padding: rem(8px)
+  padding: rem(6px)
   font-size: rem($font-size-secondary)
 
   .icon
@@ -20,9 +20,9 @@
   text-align: left
   display: block
   width: 100%
-  padding: rem(12px $section-gap-h)
-  line-height: rem(18px)
-  color: $text-1-color
+  padding: rem(9px 12px)
+  line-height: rem(20px)
+  color: $text-2-color
   border: 0
   border-radius: var(--r-sm)
   position: relative
@@ -35,12 +35,21 @@
     font-weight: 550
     box-shadow: inset 2px 0 0 var(--c-accent)
 
+  // 折叠分组的标题：一行弱化小标，而不是又一个看起来可点的菜单项
+  &.expandable
+    padding-top: rem(10px)
+    padding-bottom: rem(6px)
+    color: var(--c-fg-3)
+    font-size: .78rem
+    font-weight: 600
+    letter-spacing: .02em
+
   &.expandable:after
     font-family: $icon-font-name
     font-size: rem($font-size-icon)
     content: $icon-expand_more
     position: absolute
-    right: $section-gap-h
+    right: rem(12px)
     top: 50%
     line-height: 1
     margin-top: rem($font-size-icon / -2)
@@ -59,13 +68,15 @@ a.menu__link, button.menu__link
   &:not(.disabled):hover
     color: $text-1-color
     background: $menu-item-bg-color-hover
+  // 选中项和顶部导航用同一种克制表达：中性底 + 左侧 2px 标记
   &.active, &.active:hover
-    background: var(--c-accent-soft)
-    color: var(--c-link)
-    font-weight: 500
+    background: var(--c-hover)
+    color: var(--c-fg)
+    font-weight: 550
+    box-shadow: inset 2px 0 0 var(--c-accent)
 
 .menu__item .menu .menu__link
-  padding-left: rem($section-gap-h + 10px)
+  padding-left: rem(14px)
 
 // One primary row per menu (submit / join), so the main action is not one of
 // thirteen identical rows.

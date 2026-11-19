@@ -122,19 +122,25 @@
 .authoring-workbench__side .menu__link,
 .administration-layout__side .menu__link
   display: block
-  min-height: 40px
-  padding: 10px 13px
+  min-height: 34px
+  padding: 7px 11px
   border-radius: var(--r-sm)
   color: var(--c-fg-2)
-  font-size: .89rem
-  line-height: 1.55
+  font-size: .88rem
+  line-height: 1.5
 
 .authoring-workbench__side .menu__link:hover,
-.administration-layout__side .menu__link:hover,
+.administration-layout__side .menu__link:hover
+  color: var(--c-fg)
+  background: var(--c-hover)
+
+// 选中项跟顶部导航同一套表达：中性底 + 左侧 2px 标记，而不是一整块陶土色
 .authoring-workbench__side .menu__link.active,
 .administration-layout__side .menu__link.active
-  color: var(--c-link)
-  background: var(--c-accent-soft)
+  color: var(--c-fg)
+  font-weight: 550
+  background: var(--c-hover)
+  box-shadow: inset 2px 0 0 var(--c-accent)
 
 .authoring-workbench__side .menu__seperator,
 .administration-layout__side .menu__seperator
@@ -303,11 +309,16 @@
   list-style: none
 
 .administration-layout__side .menu .menu
-  padding: 3px 0 7px 11px
+  padding: 2px 0 6px 8px
 
+// 折叠分组的标题是标签，不是菜单项：小一号、弱化、不可点
 .administration-layout__side .menu__link.expandable
-  color: var(--c-fg)
-  font-weight: 650
+  min-height: 0
+  padding: 8px 11px 4px
+  color: var(--c-fg-3)
+  font-size: .78rem
+  font-weight: 600
+  letter-spacing: .02em
 
 .administration-layout__main .section__header .section__tools
   display: flex
