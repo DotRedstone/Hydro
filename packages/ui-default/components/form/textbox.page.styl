@@ -10,6 +10,26 @@
 .autocomplete-container
   max-width: 100%
 
+// 自动补全把自己那个受控 input 画在 wrapper 里，但它身上没有 .textbox，
+// 于是拿不到边框和底色——整片看起来是空白的（比赛创建页的“比赛管理员”
+// “提交语言限制”就是这样）。这里把它按普通 textbox 画出来。
+.autocomplete-container .autocomplete-wrapper
+  input
+    form-styles()
+    margin-bottom: 0
+    background-color: $input-background-color
+    outline: $input-outline
+    transition: outline-color .2s, border-color .2s
+    transition-timing-function: ease-out-cubic
+
+    &::placeholder
+      color: $text-3-color
+
+    &:focus
+      border-color: $input-focus-border-color
+      outline: $input-focus-outline
+      outline-offset: 0
+
 // Normal Textbox
 input.textbox, textarea.textbox, span.textbox
   form-styles()
