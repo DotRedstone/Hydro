@@ -47,9 +47,10 @@
       &, .typo &
         color: $text-1-color
 
+  // 当前页只是一个位置指示，不需要抢主色
   &.current
-    background: var(--c-accent-soft)
-    color: $primary-color !important
+    background: var(--c-hover)
+    color: $text-1-color !important
     font-weight: 600
 
   &.disabled

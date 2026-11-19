@@ -6,17 +6,18 @@ $footer-extra-link-gap = 20px
 
   a, .link
     &, &:visited
-      color: $text-2-color
+      color: $text-3-color
 
     &:hover
-      color: $primary-color
+      color: $text-1-color
 
   h1
     margin: 0
-    font-family: var(--font-display)
-    font-size: .95rem
+    font-family: var(--font-ui)
+    color: var(--c-fg-2)
+    font-size: .78rem
     font-weight: 600
-    letter-spacing: -.01em
+    letter-spacing: .02em
 
     +mobile()
       padding: rem($grid-padding)
@@ -29,8 +30,8 @@ $footer-extra-link-gap = 20px
   border-top: 1px solid token-alpha(var(--c-border), 70%)
 
 .footer__category
-  padding-top: rem(22px)
-  padding-bottom: rem(16px)
+  padding-top: rem(18px)
+  padding-bottom: rem(10px)
 
   +mobile()
     padding-top: rem($grid-padding)
@@ -50,9 +51,9 @@ $footer-extra-link-gap = 20px
     transform: rotate(180deg)
 
 .footer__category__list
-  margin: rem(6px 0 0)
-  font-size: .82rem
-  line-height: 1.85
+  margin: rem(8px 0 0)
+  font-size: .8rem
+  line-height: 1.75
 
   +mobile()
     margin-top: 0
@@ -73,8 +74,8 @@ $footer-extra-link-gap = 20px
   float: right
 
 .footer__extra-link
-  padding: rem(12px 0)
-  font-size: .78rem
+  padding: rem(10px 0)
+  font-size: .76rem
   color: var(--c-fg-3)
 
 .footer__extra-link-item

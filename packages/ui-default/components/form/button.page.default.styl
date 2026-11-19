@@ -5,7 +5,8 @@
   &:not(.codicon)
     background-color: transparent
     border: 1px solid $border-1-color
-    border-radius: $radius-pill
+    // 圆角矩形，不是药丸：整站按钮统一到 --r-sm
+    border-radius: var(--r-sm)
     font-weight: 500
     transition: background-color .15s, border-color .15s, color .15s, box-shadow .15s
     transition-timing-function: ease-out-sine
@@ -23,7 +24,7 @@
         box-shadow: 0 0 0 3px $input-focus-color
 
     &.rounded
-      border-radius: $radius-pill
+      border-radius: var(--r-sm)
 
     &.primary
       border-color: $primary-color
