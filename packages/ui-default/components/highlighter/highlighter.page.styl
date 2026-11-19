@@ -111,27 +111,47 @@ code[class*='language-']
 .toolbar
   position: absolute
   white-space: no-wrap
-  right: 0 !important
-  top: 0 !important
-  padding: rem(5px) 0
+  right: rem(8px) !important
+  top: rem(8px) !important
+  padding: 0
   opacity: 1 !important
-  background: token-alpha($syntax-hl-bg-color, 80%)
+  background: none
   font-family: $primary-font-family
   pointer-events: all
   user-select: none
 
-.toolbar-item
-  a
-    font-size: large !important
-    border-radius: 0px !important
-    background: none !important
-    // prism-theme 把代码块里的链接写死成 #bbb，浅色与棕褐主题下几乎看不见
-    color: var(--c-fg-2) !important
+// 代码块右上角的复制按钮：只有图标，尺寸固定，不随代码块的字体大小变化。
+// 选择器跟 prism-toolbar.css 保持同等特异性，才盖得住那里的背景与内边距。
+div.code-toolbar > .toolbar > .toolbar-item > button,
+div.code-toolbar > .toolbar > .toolbar-item > a
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  width: rem(26px)
+  height: rem(26px)
+  padding: 0 !important
+  border: 1px solid var(--c-border) !important
+  border-radius: var(--r-sm) !important
+  background: var(--c-surface) !important
+  box-shadow: none !important
+  // prism-theme 把代码块里的链接写死成 #bbb，浅色与棕褐主题下几乎看不见
+  color: var(--c-fg-3) !important
+  font-size: rem(14px) !important
+  line-height: 1 !important
+  cursor: pointer
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease
+
+  &:hover,
+  &:focus-visible
+    color: var(--c-fg) !important
+    border-color: var(--c-border-strong) !important
+    background: var(--c-hover) !important
     text-decoration: none !important
 
-    &:hover
-      color: var(--c-fg) !important
-      text-decoration: underline !important
+  &.is-copied
+    color: var(--c-ok) !important
+    border-color: token-alpha(var(--c-ok), 45%) !important
+    background: var(--c-ok-soft) !important
 
 .scratchpad-fill-button
   display: none

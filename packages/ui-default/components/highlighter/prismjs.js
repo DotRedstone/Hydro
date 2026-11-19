@@ -6,10 +6,10 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 import 'prismjs/plugins/line-highlight/prism-line-highlight';
 
-import Clipboard from 'clipboard';
 import $ from 'jquery';
 import components from 'prismjs/components';
 import getLoader from 'prismjs/dependencies';
+import { copyFromSite } from 'vj/components/copy/copy';
 import Notification from 'vj/components/notification/index';
 import { i18n } from 'vj/utils';
 import languageMeta from './meta';
@@ -41,18 +41,39 @@ languageMeta.forEach((meta) => {
 });
 
 // Copy to Clipboard
+//
+// 上游这里是一个写着 Copy 的纯文字链接，字体图标没加载时看起来就像退化了。
+// 现在改成图标按钮：文字只留在 title / aria-label 里，复制动作走 components/copy 管线，
+// 这样比赛模式（水印、禁用复制）也能接管代码块的复制。
 Prism.plugins.toolbar.registerButton('copy-to-clipboard', (env) => {
-  const linkCopy = document.createElement('a');
-  linkCopy.href = 'javascript:;';
-  linkCopy.textContent = 'Copy';
-  const clip = new Clipboard(linkCopy, { text: () => env.code });
-  clip.on('success', () => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'toolbar-item__copy';
+  button.title = i18n('Copy code');
+  button.setAttribute('aria-label', i18n('Copy code'));
+
+  const icon = document.createElement('span');
+  icon.className = 'icon icon-copy';
+  icon.setAttribute('aria-hidden', 'true');
+  button.appendChild(icon);
+
+  let timer;
+  button.addEventListener('click', async () => {
+    const ok = await copyFromSite(env.code, 'code');
+    if (!ok) {
+      Notification.error(i18n('Copy failed :('));
+      return;
+    }
     Notification.success(i18n('Content copied to clipboard!'), 1000);
+    icon.className = 'icon icon-check';
+    button.classList.add('is-copied');
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      icon.className = 'icon icon-copy';
+      button.classList.remove('is-copied');
+    }, 1200);
   });
-  clip.on('error', () => {
-    Notification.error(i18n('Copy failed :('));
-  });
-  return linkCopy;
+  return button;
 });
 
 const invisibles = {
