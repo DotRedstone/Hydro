@@ -101,18 +101,26 @@
     font-weight: 600
     line-height: 1.45
 
+  // 只统一尺寸：底色、描边、圆角、下拉箭头都交给 form/select 与 form/textbox，
+  // 否则背景简写会把下拉箭头一起冲掉，控件也会比按钮高一截
   .record-filter-grid input,
   .record-filter-grid select
     width: 100%
     min-width: 0
-    height: 42px
+    height: 36px
+
+  // 只有字段本体吃这个上边距：自动补全那个 <input> 在 wrapper 里，
+  // 给它加 margin 会把 wrapper 撑到 43px，跟旁边的字段对不齐
+  .record-filter-grid label > input,
+  .record-filter-grid select
     margin-top: 7px
-    padding: 8px 11px
-    border: 1px solid var(--c-border)
-    border-radius: var(--r-sm)
-    background: var(--c-bg)
-    color: var(--c-fg)
-    font-size: .9rem
+
+  .record-filter-grid select
+    line-height: 1.2
+
+  .record-filter-grid .autocomplete-container
+    margin-top: 7px
+    margin-bottom: 0 !important
 
   .record-filter-card .section__tools
     position: static

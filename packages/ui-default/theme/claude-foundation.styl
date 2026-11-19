@@ -73,8 +73,10 @@
   height: 44px
   border: 1px solid var(--c-border)
   border-radius: var(--r-sm)
-  background: var(--c-surface)
+  // background-color：简写会清掉 form/select 画的下拉箭头
+  background-color: var(--c-surface)
   color: var(--c-fg)
+  padding-right: rem(30px)
 
 .problem-catalog__sidebar .section
   margin-bottom: 18px
@@ -322,6 +324,10 @@
 .learning-activity-list-card [name="filter-form"] input
   min-width: 170px
   flex: 1 1 170px
+
+// 下拉要留出箭头的宽度
+.learning-activity-list-card [name="filter-form"] select
+  padding-right: rem(30px)
 
 .learning-activity-list-card .section__list
   margin: 0

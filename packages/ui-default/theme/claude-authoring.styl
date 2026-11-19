@@ -79,7 +79,8 @@
   max-width: 100%
   border-radius: var(--r-sm)
   border-color: var(--c-border)
-  background: var(--c-surface)
+  // background-color 而不是简写：简写会把 form/select 画的下拉箭头一起清掉
+  background-color: var(--c-surface)
   color: var(--c-fg)
   font-size: .94rem
   line-height: 1.6
@@ -338,8 +339,12 @@
   margin: 0
   padding: 4px 10px
   border-radius: var(--r-sm)
-  background: var(--c-surface)
+  background-color: var(--c-surface)
   font-size: .86rem
+
+// 表格里的下拉同样要留出箭头的位置
+.administration-layout__main .data-table select
+  padding-right: rem(28px)
 
 .administration-layout__main .data-table input[type=checkbox]
   accent-color: var(--c-accent)
@@ -352,24 +357,6 @@
 .administration-layout__main .col--p
   min-width: 70px
   text-align: center
-
-// inline editors live inside table rows on the domain role/user pages
-.administration-layout__main .data-table select,
-.administration-layout__main .data-table input.textbox
-  min-height: 34px
-  margin: 0
-  padding: 4px 10px
-  border-radius: var(--r-sm)
-  background: var(--c-surface)
-  font-size: .86rem
-
-.administration-layout__main .data-table input[type=checkbox]
-  accent-color: var(--c-accent)
-
-.administration-layout__main .col--actions,
-.administration-script-card .col--action
-  min-width: 92px
-  white-space: nowrap
 
 .administration-layout__main .col--p input[type=checkbox],
 .administration-layout__main [data-checkbox-group] 

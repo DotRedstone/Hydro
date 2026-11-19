@@ -254,9 +254,13 @@
     min-height: 42px
     padding: 9px 12px
     border-radius: var(--r-sm)
-    background: var(--c-bg)
+    // 用 background-color：background 简写会连下拉箭头一起清掉
+    background-color: var(--c-bg)
     color: var(--c-fg)
     font-size: .94rem
+
+  .section__body select
+    padding-right: rem(30px)
 
   .section__body textarea
     min-height: 125px
