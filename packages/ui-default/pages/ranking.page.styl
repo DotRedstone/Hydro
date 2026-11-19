@@ -10,24 +10,22 @@
     width: rem(60px)
     text-align: right
 
+  // 表头左右各有 13px 内边距，再加上两三个汉字；50px 会把「题目 / 比赛」
+  // 截成「题…」，这里留出放得下标签的最小宽度
   .col--detail
-    width: rem(50px)
+    width: rem(76px)
     text-align: center
-  
-  &[lang="en"]
-    .col--detail
-      width: rem(75px)
 
   .col--ac
-    width: rem(50px)
+    width: rem(70px)
     text-align: center
-  
-  &[lang="en"]
-    .col--ac
-      width: rem(70px)
 
-  .col--bio
-    display: block;
+  &[lang="en"]
+    .col--detail
+      width: rem(92px)
+
+    .col--ac
+      width: rem(86px)
 
   td.col--bio
     height: 36px !important;
