@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { createPortal } from 'react-dom';
 import Icon from '../Icon';
 
 export interface AutoCompleteProps<Item> {
@@ -98,6 +99,10 @@ const AutoComplete = forwardRef(function Impl<T>(props: AutoCompleteProps<T>, re
 
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  // 候选面板挂在 body 上：卡片、表格这些祖先经常有 overflow: hidden，
+  // 留在原地会被裁掉（记录页的筛选栏就是这样），弹出层必须脱离这条链。
+  const [anchor, setAnchor] = useState<{ left: number, width: number, top: number, bottom: number, flip: boolean }>(null);
 
   let [queryCache, valueCache] = [useRef({}).current, useRef({}).current];
   if (props.cacheKey) {
@@ -220,6 +225,35 @@ const AutoComplete = forwardRef(function Impl<T>(props: AutoCompleteProps<T>, re
     // TODO: handle other keys
   };
 
+  const measureList = () => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    setAnchor({
+      left: rect.left,
+      width: rect.width,
+      top: rect.bottom + 6,
+      bottom: window.innerHeight - rect.top + 6,
+      flip: spaceBelow < 260 && spaceAbove > spaceBelow,
+    });
+  };
+
+  const listOpen = focused && itemList.length > 0;
+
+  useEffect(() => {
+    if (!listOpen) return undefined;
+    measureList();
+    const onMove = () => measureList();
+    window.addEventListener('scroll', onMove, true);
+    window.addEventListener('resize', onMove);
+    return () => {
+      window.removeEventListener('scroll', onMove, true);
+      window.removeEventListener('resize', onMove);
+    };
+  }, [listOpen, itemList.length]);
+
   useImperativeHandle(ref, () => ({
     getSelectedItems: () => selectedKeys.map((key) => valueCache[key]),
     getSelectedItemKeys: () => [...selectedKeys, inputRef.current?.value].filter((v) => v?.trim().length),
@@ -263,6 +297,7 @@ const AutoComplete = forwardRef(function Impl<T>(props: AutoCompleteProps<T>, re
   return (
     <div className="autocomplete-container" style={{ display: 'inline-block', width: '100%', marginBottom: '1rem' }}>
       <div
+        ref={wrapperRef}
         className={focused ? 'autocomplete-wrapper focused' : 'autocomplete-wrapper'}
         style={{ width, height }}
       >
@@ -317,8 +352,19 @@ const AutoComplete = forwardRef(function Impl<T>(props: AutoCompleteProps<T>, re
           value={disabledHint}
         />
       )}
-      {focused && itemList.length > 0 && (
-        <ul ref={listRef} className="autocomplete-list" style={listStyle} onMouseDown={(e) => e.preventDefault()}>
+      {listOpen && createPortal(
+        <ul
+          ref={listRef}
+          className="autocomplete-list"
+          style={{
+            position: 'fixed',
+            left: anchor?.left ?? 0,
+            minWidth: anchor?.width ?? 0,
+            ...(anchor?.flip ? { bottom: anchor.bottom, top: 'auto' } : { top: anchor?.top ?? 0, bottom: 'auto' }),
+            ...listStyle,
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+        >
           {itemList.map((item, idx) => {
             const inner = renderItem(item);
             if (!inner) return null;
@@ -333,7 +379,8 @@ const AutoComplete = forwardRef(function Impl<T>(props: AutoCompleteProps<T>, re
               {selectedKeys.includes(itemKey(item)) && <Icon name="check" />}
             </li>;
           })}
-        </ul>
+        </ul>,
+        document.body,
       )}
     </div>
   );
