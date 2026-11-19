@@ -1,11 +1,26 @@
 @import './var.inc.styl'
 
+// 下方“自测 / 评测记录”面板的标题条：安静一条，不抢编辑器的注意力
 .scratchpad__panel-title
-  background: $primary-color
-  line-height: rem($panel-header-height)
-  padding: rem(0 5px)
-  font-size: rem($font-size-small)
-  color: var(--c-accent-fg)
+  display: flex
+  align-items: center
+  gap: rem(6px)
+  flex: none
+  height: rem($panel-header-height)
+  padding: rem(0 12px)
+  border-bottom: 1px solid var(--c-border)
+  background: var(--c-sunken)
+  color: var(--c-fg-2)
+  font-size: .76rem
+  font-weight: 600
+  letter-spacing: .02em
+
+  .icon
+    color: var(--c-fg-3)
+    font-size: .95rem
+
+  .scratchpad__panel-button:first-of-type
+    margin-left: auto
 
 .splitpane-fill
   display: flex
@@ -16,3 +31,14 @@
   top: 0
   height: 100%
   user-select: none
+  background: var(--c-surface)
+
+// 面板正文自己滚，标题条固定
+.scratchpad__panel-title + .flex-col
+  overflow: auto
+
+.scratchpad__panel-empty
+  margin: 0
+  padding: rem(14px 12px)
+  color: var(--c-fg-3)
+  font-size: .82rem

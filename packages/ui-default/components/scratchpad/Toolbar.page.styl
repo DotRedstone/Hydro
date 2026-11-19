@@ -1,53 +1,148 @@
+// 编辑器上方的操作条：一条安静的纸面横条，操作按“跑 / 交 | 语言 | 面板”分组
 .scratchpad__toolbar
-  background: $toolbar-bg
-  padding: rem(8px)
-  font-size: rem($font-size-small)
-  font-weight: normal
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: rem(4px)
+  flex: none
+  height: rem(44px)
+  padding: rem(0 10px)
+  border-bottom: 1px solid var(--c-border)
+  background: var(--c-surface)
+  font-size: .82rem
+  font-weight: 500
+  user-select: none
 
 .scratchpad__toolbar__item
-  margin-right: rem(5px)
+  display: flex
+  align-items: center
+  min-width: 0
 
   .select
     margin: 0
-    height: auto
-    line-height: 1
+    height: rem(28px)
+    padding: rem(0 26px 0 10px)
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-pill)
+    background-color: var(--c-surface)
+    color: var(--c-fg)
 
 .scratchpad__toolbar__button
-  padding: rem(5px)
-  font-size: rem($font-size-small)
-  font-weight: normal
-  background: none
+  display: inline-flex
+  align-items: center
+  height: rem(30px)
+  padding: rem(0 10px)
   border: 1px solid transparent
-  color: $toolbar-fore
+  border-radius: var(--r-pill)
+  background: none
+  color: var(--c-fg-2)
+  font-size: .82rem
+  font-weight: 500
+  white-space: nowrap
   outline: 0
-  transition: .2s linear opacity
+  transition: background-color .15s ease-out-cubic, color .15s ease-out-cubic, border-color .15s ease-out-cubic
 
   // Hack for Firefox bug #984869
-  &>div
-    display: flex
+  & > div
+    display: inline-flex
     flex-direction: row
     align-items: center
+    gap: 5px
 
   &.enabled
     cursor: pointer
 
   .icon
-    font-size: rem($font-size-icon)
-    margin-right: 2px
+    font-size: 1rem
+    color: var(--c-fg-3)
+    transition: color .15s ease-out-cubic
 
   &.enabled:hover
-    color: $toolbar-fore-hover
-    background: $toolbar-bg-hover
+    background: var(--c-hover)
+    color: var(--c-fg)
 
+    .icon
+      color: var(--c-fg-2)
+
+  // “自测 / 评测记录”这类面板开关：打开时只给一层很浅的陶土底
   &.activated
-    color: $toolbar-fore-selected !important
-    background: $toolbar-bg-selected !important
+    background: token-alpha(var(--c-accent), 10%)
+    color: var(--c-link)
+
+    .icon
+      color: var(--c-link)
+
+    &:hover
+      background: token-alpha(var(--c-accent), 16%)
 
   &.disabled
     pointer-events: none
-    opacity: $toolbar-disabled-opacity
+    opacity: .45
+
+// 主操作（运行自测 / 递交评测）比面板开关更重一点
+.scratchpad__toolbar__pretest.enabled,
+.scratchpad__toolbar__submit.enabled
+  border-color: var(--c-border)
+  color: var(--c-fg)
+
+.scratchpad__toolbar__submit.enabled
+  background: var(--c-accent)
+  border-color: var(--c-accent)
+  color: var(--c-accent-fg)
+
+  .icon
+    color: var(--c-accent-fg)
+
+  &:hover
+    background: var(--c-accent-hover)
+    border-color: var(--c-accent-hover)
+    color: var(--c-accent-fg)
+
+    .icon
+      color: var(--c-accent-fg)
+
+// 快捷键提示：小一号的等宽胶囊，别和按钮文字抢注意力
+.scratchpad__kbd
+  margin-left: 3px
+  color: var(--c-fg-3)
+  font-family: var(--font-code)
+  font-size: .68rem
+  font-weight: 400
+  line-height: 1.4
+  letter-spacing: 0
+
+.scratchpad__toolbar__button.enabled:hover .scratchpad__kbd
+  color: var(--c-fg-3)
+
+.scratchpad__toolbar__submit .scratchpad__kbd
+  color: token-alpha(var(--c-accent-fg), 72%)
 
 .scratchpad__toolbar__split
   width: 1px
-  height: 1rem
-  background: $border-1-color
+  height: rem(18px)
+  margin: rem(0 6px)
+  background: var(--c-border)
+
+// 退出放右端，和其它动作隔开
+.scratchpad__toolbar__spacer
+  flex: 1 1 auto
+
+.scratchpad__toolbar__quit
+  color: var(--c-fg-3)
+
+  &.enabled:hover
+    background: token-tint(var(--c-bad), 10%)
+    color: var(--c-bad)
+
+    .icon
+      color: var(--c-bad)
+
++below(rupture.mobile-cutoff)
+  .scratchpad__toolbar
+    height: auto
+    min-height: rem(44px)
+    flex-wrap: wrap
+    padding: rem(6px 8px)
+
+  .scratchpad__kbd
+    display: none

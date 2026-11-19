@@ -1,15 +1,20 @@
 @import './var.inc.styl'
 
 .scratchpad__panel-button
-  background: none
-  border: 0
-  line-height: rem($panel-header-height)
+  display: inline-flex
+  align-items: center
+  height: rem(24px)
   margin: 0
-  color: var(--c-accent-fg)
-  padding: rem(0 5px)
+  padding: rem(0 8px)
+  border: 0
+  border-radius: var(--r-sm)
+  background: none
+  color: var(--c-fg-3)
+  font-size: .76rem
   cursor: pointer
-  font-size: rem($font-size-small)
   outline: 0
+  transition: background-color .15s ease-out-cubic, color .15s ease-out-cubic
 
   &:hover
-    color: $tab-color
+    background: var(--c-hover)
+    color: var(--c-fg)
