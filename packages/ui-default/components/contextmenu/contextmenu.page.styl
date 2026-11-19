@@ -1,14 +1,9 @@
-// 右键菜单：跟着光标出现的小卡片，位置与展开方向由 JS 计算
+// 右键菜单：面板外观来自 components/menu-panel，这里只管“跟着光标弹出来”。
 .context-menu
   position: fixed
   z-index: 1000
   min-width: rem(198px)
   max-width: rem(280px)
-  padding: 6px
-  border: 1px solid var(--c-border)
-  border-radius: var(--r)
-  background: var(--c-surface)
-  box-shadow: var(--shadow-pop)
   opacity: 0
   transform: scale(.97)
   transform-origin: top left
@@ -41,6 +36,7 @@
 .context-menu__group
   display: flex
   flex-direction: column
+  gap: 1px
   padding: 2px 0
 
   &[hidden]
@@ -48,45 +44,6 @@
 
   & + .context-menu__group
     border-top: 1px solid token-alpha(var(--c-border), 70%)
-
-.context-menu__item
-  display: flex
-  align-items: center
-  gap: 9px
-  width: 100%
-  min-height: rem(32px)
-  padding: 6px 10px
-  border: 0
-  border-radius: var(--r-sm)
-  background: none
-  color: var(--c-fg-2)
-  font-size: .855rem
-  line-height: 1.4
-  text-align: left
-  cursor: pointer
-  transition: background-color .13s ease-out-cubic, color .13s ease-out-cubic
-
-  &[hidden]
-    display: none
-
-  .icon
-    width: 1.05em
-    color: var(--c-fg-3)
-    font-size: .95rem
-    text-align: center
-
-  &:hover,
-  &:focus-visible
-    background: var(--c-sunken)
-    color: var(--c-fg)
-    outline: none
-
-  &:hover .icon,
-  &:focus-visible .icon
-    color: var(--c-fg-2)
-
-  &:active
-    background: var(--c-hover)
 
 // 复制成功的小提示，出现在底部中间，不打断视线
 .context-menu__toast
