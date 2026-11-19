@@ -8,7 +8,7 @@ import type { Context } from '../context';
 import {
     AuthOperationError, BadRequestError, BlacklistedError, BuiltinLoginError,
     ForbiddenError, InvalidTokenError, LoginError, NotFoundError, OpcountExceededError,
-    SystemError, UserAlreadyExistError, UserFacingError,
+    SendMailError, SystemError, UserAlreadyExistError, UserFacingError,
     UserNotFoundError, ValidationError, VerifyPasswordError,
 } from '../error';
 import { TokenDoc, Udoc, User } from '../interface';
@@ -432,63 +432,127 @@ class UserRegisterWithCodeHandler extends Handler {
     }
 }
 
+/** 发信通道：配了 SMTP 账号，或者开了开发用 outbox，都算能发信 */
+function canSendMail() {
+    return !!(system.get('smtp.user') || system.get('smtp.devOutbox'));
+}
+
+/** 重置链接的有效时长（小时），与 token 的过期时间保持一致 */
+function resetExpireHours() {
+    return Math.max(1, Math.round(system.get('session.unsaved_expire_seconds') / 3600));
+}
+
+const MAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 class UserLostPassHandler extends Handler {
     noCheckPermView = true;
 
-    async get() {
+    private render(mail: string, error = '') {
         this.response.template = 'user_lostpass.html';
+        this.response.body = { mail, error, mailEnabled: canSendMail() };
     }
 
-    @param('mail', Types.Email)
-    async post(domainId: string, mail: string) {
-        if (!system.get('smtp.user')) throw new SystemError('Cannot send mail');
-        const udoc = await user.getByEmail('system', mail);
-        if (!udoc) throw new UserNotFoundError(mail);
-        await Promise.all([
-            this.limitRate('send_mail', 3600, 30),
-            this.limitRate('send_mail', 60, 1, mail),
-            oplog.log(this, 'user.lostpass', {}),
-        ]);
-        const [tid] = await token.add(
-            token.TYPE_LOSTPASS,
-            system.get('session.unsaved_expire_seconds'),
-            { uid: udoc._id },
-        );
-        const prefix = this.domain.host
-            ? `${this.domain.host instanceof Array ? this.domain.host[0] : this.domain.host}`
-            : system.get('server.url');
-        const m = await this.renderHTML('user_lostpass_mail.html', {
-            url: `/lostpass/${tid}`,
-            url_prefix: prefix.endsWith('/') ? prefix.slice(0, -1) : prefix,
-            uname: udoc.uname,
-        });
-        await sendMail(mail, 'Lost Password', 'user_lostpass_mail', m.toString());
-        this.response.template = 'user_lostpass_mail_sent.html';
+    async get() {
+        this.render('');
+    }
+
+    @param('mail', Types.String, true)
+    async post(domainId: string, mail = '') {
+        const address = mail.trim();
+        if (!MAIL_PATTERN.test(address)) {
+            this.render(address, this.translate('Enter a valid email address.'));
+            return;
+        }
+        if (!canSendMail()) {
+            this.render(address, this.translate('Mail service is not configured yet.'));
+            return;
+        }
+        try {
+            const udoc = await user.getByEmail('system', address);
+            if (!udoc) throw new UserNotFoundError(address);
+            await Promise.all([
+                this.limitRate('send_mail', 3600, 30),
+                this.limitRate('send_mail', 60, 1, address),
+                oplog.log(this, 'user.lostpass', {}),
+            ]);
+            const [tid] = await token.add(
+                token.TYPE_LOSTPASS,
+                system.get('session.unsaved_expire_seconds'),
+                { uid: udoc._id },
+            );
+            const prefix = this.domain.host
+                ? `${this.domain.host instanceof Array ? this.domain.host[0] : this.domain.host}`
+                : system.get('server.url');
+            const m = await this.renderHTML('user_lostpass_mail.html', {
+                url: `/lostpass/${tid}`,
+                url_prefix: prefix.endsWith('/') ? prefix.slice(0, -1) : prefix,
+                uname: udoc.uname,
+                expireHours: resetExpireHours(),
+            });
+            await sendMail(address, 'Lost Password', 'user_lostpass_mail', m.toString());
+            this.response.template = 'user_lostpass_mail_sent.html';
+            this.response.body = { mail: address, expireHours: resetExpireHours() };
+        } catch (e) {
+            if (!(e instanceof UserFacingError)) throw e;
+            // 浏览器表单：错误留在页面上，别把人甩到错误页
+            let message = e.message;
+            if (e instanceof UserNotFoundError) message = this.translate('No account is registered with this email.');
+            else if (e instanceof OpcountExceededError) message = this.translate('Too many attempts, please try again later.');
+            else if (e instanceof SendMailError) message = this.translate('Failed to send the mail, please try again later.');
+            this.render(address, message);
+        }
     }
 }
 
 class UserLostPassWithCodeHandler extends Handler {
     noCheckPermView = true;
 
-    async get({ domainId, code }) {
+    private async loadUname(code: string) {
         const tdoc = await token.get(code, token.TYPE_LOSTPASS);
-        if (!tdoc) throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_LOSTPASS], code);
-        const udoc = await user.getById(domainId, tdoc.uid);
-        this.response.body = { uname: udoc.uname };
+        if (!tdoc) return null;
+        const udoc = await user.getById('system', tdoc.uid);
+        return udoc?.uname || null;
+    }
+
+    private async render(code: string, error = '') {
+        const uname = await this.loadUname(code);
         this.response.template = 'user_lostpass_with_code.html';
+        this.response.body = {
+            code, uname, error, expireHours: resetExpireHours(),
+        };
     }
 
     @param('code', Types.String)
-    @param('password', Types.Password)
-    @param('verifyPassword', Types.Password)
-    async post(domainId: string, code: string, password: string, verifyPassword: string) {
+    async get(domainId: string, code: string) {
+        await this.render(code);
+    }
+
+    @param('code', Types.String)
+    @param('password', Types.String, true)
+    @param('verifyPassword', Types.String, true)
+    async post(domainId: string, code: string, password = '', verifyPassword = '') {
         const tdoc = await token.get(code, token.TYPE_LOSTPASS);
-        if (!tdoc) throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_LOSTPASS], code);
-        if (password !== verifyPassword) throw new VerifyPasswordError();
+        if (!tdoc) {
+            await this.render(code, this.translate('The reset link is invalid or has expired.'));
+            return;
+        }
+        if (password.length < 6 || password.length > 255) {
+            await this.render(code, this.translate('Password should be at least 6 characters.'));
+            return;
+        }
+        if (password !== verifyPassword) {
+            await this.render(code, this.translate('Passwords do not match.'));
+            return;
+        }
+        await this.limitRate('user_lostpass', 60, 10, '{{user}}');
         await user.setById(tdoc.uid, { authenticators: [], tfa: false });
         await user.setPassword(tdoc.uid, password);
         await token.del(code, token.TYPE_LOSTPASS);
-        this.response.redirect = this.url('homepage');
+        // 密码换了就作废所有登录态：原来占着会话的人必须重新登录
+        await token.delByUid(tdoc.uid, token.TYPE_SESSION);
+        await oplog.log(this, 'user.lostpass.reset', { uid: tdoc.uid });
+        // 密码换了就回登录页，让人用新密码登一次
+        this.response.redirect = this.url('user_login');
     }
 }
 

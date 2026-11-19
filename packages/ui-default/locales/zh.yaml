@@ -1235,3 +1235,26 @@ Allow user to print during contest: 允许比赛中打印题目
 Allow team participation: 允许团队参赛
 Nobody has solved anything in this domain yet. Rank is earned by accepted submissions.: 这个域里还没有人做出题目。排名由通过的提交累积而来。
 The ranking page is not updated realtime.: 排名由定时任务计算，不是实时更新的。
+
+# 找回密码（忘记密码）流程
+Reset your password: 重置你的密码
+Set a new password: 设置新密码
+Enter the email you signed up with, and we will send you a link to set a new password.: 填注册时用的邮箱，我们会发一封设置新密码的邮件。
+Password reset mail has been sent to {0}.: 重置密码的邮件已发到 {0}。
+The link is valid for {0} hour(s). Open it to set a new password.: 链接 {0} 小时内有效，打开即可设置新密码。
+The link is valid for {0} hour(s). If you did not ask for a password reset, you can ignore this mail and your password stays unchanged.: 链接 {0} 小时内有效。如果不是你本人操作，忽略这封邮件即可，密码不会变化。
+Nothing in the inbox? Check the spam folder, and make sure the address is the one you signed up with.: 收件箱里没有？看一下垃圾邮件，并确认填的是注册时用的邮箱。
+Send it again: 再发一次
+Request a new reset link: 重新申请重置链接
+The link in the mail stays valid for a limited time. If it expired, come back and ask for a new one.: 邮件里的链接有效期有限，过期了就回来重新申请。
+Setting a new password for {0}.: 正在为 {0} 设置新密码。
+Ask for a new link and open it right away, it stays valid for {0} hour(s).: 重新申请一条链接并尽快打开，它 {0} 小时内有效。
+Set a strong new password: 设置一个足够强的密码
+Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.: 重置密码会同时关闭两步验证，之后请到账户设置里重新开启。
+Enter a valid email address.: 请输入有效的邮箱地址。
+No account is registered with this email.: 这个邮箱还没有注册账号。
+Mail service is not configured yet.: 邮件服务还没有配置好。
+Failed to send the mail, please try again later.: 邮件发送失败，请稍后再试。
+The reset link is invalid or has expired.: 重置链接无效或已经过期。
+Password should be at least 6 characters.: 密码至少 6 位。
+Passwords do not match.: 两次输入的密码不一致。

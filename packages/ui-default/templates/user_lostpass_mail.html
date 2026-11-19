@@ -1,6 +1,8 @@
 {% extends "layout/mail.html" %}
-{% block title %}{{ _('Lost Password') }}{% endblock %}
+{% block title %}{{ _('Reset your password') }}{% endblock %}
 {% block content %}
 <p>{{ _('Hello, {0}! You can click following link to reset the password of your {1} account:').format(uname, handler.domain.ui.name|default(model.system.get('server.name'))) }}</p>
-<p><a href="{{ url_prefix }}{{ url }}">{{ url_prefix }}{{ url }}</a></p>
+<p><a class="hydro-button" href="{{ url_prefix|safe }}{{ url|safe }}">{{ _('Set a new password') }}</a></p>
+<p class="hydro-hint">{{ _('The link is valid for {0} hour(s). If you did not ask for a password reset, you can ignore this mail and your password stays unchanged.').format(expireHours) }}</p>
+<p class="hydro-link">{{ url_prefix|safe }}{{ url|safe }}</p>
 {% endblock %}

@@ -1,9 +1,17 @@
 {% extends "layout/immersive.html" %}
 {% block content %}
-<div class="immersive--content immersive--center account-auth-card">
-  <h1>{{ _('Lost Password') }}</h1>
-  <div class="text-center">
-    {{ _('Password reset mail has been sent to your email.') }}
+<div class="auth-page">
+  <div class="account-auth-card account-auth-card--single">
+    <div class="auth-card__main">
+    <h1>{{ _('Check your inbox') }}</h1>
+    <p class="auth-card__lead">{{ _('Password reset mail has been sent to {0}.').format(mail) }}</p>
+    <p class="auth-card__hint">{{ _('The link is valid for {0} hour(s). Open it to set a new password.').format(expireHours) }}</p>
+    <p class="auth-card__foot">
+      <a class="rounded button" href="{{ url('user_lostpass') }}">{{ _('Send it again') }}</a>
+      <a class="rounded button inverse" href="{{ url('user_login') }}">{{ _('Back to Login') }}</a>
+    </p>
+    <p class="auth-card__hint">{{ _('Nothing in the inbox? Check the spam folder, and make sure the address is the one you signed up with.') }}</p>
+    </div>
   </div>
 </div>
 {% endblock %}

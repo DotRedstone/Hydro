@@ -71,3 +71,27 @@ user_lostpass: Lost Password
 user_register: Register
 wiki_help: Help
 You can also upload your avatar to Gravatar and it will be automatically updated here.: You can also upload your avatar to <a href="https://gravatar.com/">Gravatar</a> and it will be automatically updated here.
+
+# Password reset flow
+'Hello, {0}! You can click following link to reset the password of your {1} account:': 'Hello, {0}! Click the link below to reset the password of your {1} account:'
+Reset your password: Reset your password
+Set a new password: Set a new password
+Enter the email you signed up with, and we will send you a link to set a new password.: Enter the email you signed up with and we will mail you a link to set a new password.
+Password reset mail has been sent to {0}.: A password reset mail has been sent to {0}.
+The link is valid for {0} hour(s). Open it to set a new password.: The link is valid for {0} hour(s). Open it to set a new password.
+The link is valid for {0} hour(s). If you did not ask for a password reset, you can ignore this mail and your password stays unchanged.: The link is valid for {0} hour(s). If you did not ask for a password reset, ignore this mail and your password stays unchanged.
+Nothing in the inbox? Check the spam folder, and make sure the address is the one you signed up with.: Nothing in the inbox? Check the spam folder, and make sure the address is the one you signed up with.
+Send it again: Send it again
+Request a new reset link: Request a new reset link
+The link in the mail stays valid for a limited time. If it expired, come back and ask for a new one.: The link in the mail stays valid for a limited time. If it expired, come back and ask for a new one.
+Setting a new password for {0}.: Setting a new password for {0}.
+Ask for a new link and open it right away, it stays valid for {0} hour(s).: Ask for a new link and open it right away, it stays valid for {0} hour(s).
+Set a strong new password: Set a strong new password
+Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.: Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.
+Enter a valid email address.: Enter a valid email address.
+No account is registered with this email.: No account is registered with this email.
+Mail service is not configured yet.: Mail service is not configured yet.
+Failed to send the mail, please try again later.: Failed to send the mail, please try again later.
+The reset link is invalid or has expired.: The reset link is invalid or has expired.
+Password should be at least 6 characters.: Password should be at least 6 characters.
+Passwords do not match.: Passwords do not match.
