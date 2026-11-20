@@ -274,7 +274,9 @@ AccountSetting(
 
 DomainSetting(
     Setting('setting_domain', 'name', 'New domain', 'text', 'name'),
-    Setting('setting_domain', 'avatar', '', 'text', 'avatar', 'Will be used as the domain icon.'),
+    // 标签写成大写 Avatar，才能吃到 locales 里已有的 “Avatar: 头像”，
+    // 小写的 'avatar' 没有译文，界面上会直接显示英文键名
+    Setting('setting_domain', 'avatar', '', 'text', 'Avatar', 'Will be used as the domain icon.'),
     Setting('setting_domain', 'share', '', 'text', 'Share problem with domain (* for any)'),
     Setting('setting_domain', 'bulletin', '', 'markdown', 'Bulletin'),
     Setting('setting_domain', 'langs', '', 'text', 'Allowed langs', null),

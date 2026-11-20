@@ -74,30 +74,36 @@ $highlight-button-color = var(--c-warn)
     .media__right .typo
       color: var(--c-fg-2)
 
+    // 未开始的比赛用描边按钮：灰底读起来像禁用，而“查看详情”是这张卡上
+    // 唯一能点的东西；只有“正在进行”的卡片才用实心陶土色当主操作
     .detail-button
       cursor: pointer
       display: block
       text-align: center
-      background: var(--c-sunken)
-      color: var(--c-fg)
-      line-height: rem(40px)
-      border-radius: var(--r-pill)
+      border: 1px solid var(--c-border-strong)
+      background: var(--c-surface)
+      color: var(--c-link)
+      line-height: rem(38px)
+      border-radius: var(--r-sm)
       width: rem(150px)
       position: relative
       overflow: hidden
-      transition: background-color .2s ease-out-cubic, color .2s ease-out-cubic, box-shadow .2s ease-out-cubic
+      transition: background-color .2s ease-out-cubic, color .2s ease-out-cubic, border-color .2s ease-out-cubic
 
       &:hover
         text-decoration: none
         background: var(--c-hover)
+        border-color: var(--c-link)
 
     // 只有“正在进行”的卡片承担主操作
     &.live .detail-button
       background: var(--c-accent)
+      border-color: var(--c-accent)
       color: var(--c-accent-fg)
 
       &:hover
         background: var(--c-accent-hover)
+        border-color: var(--c-accent-hover)
         box-shadow: var(--shadow-card)
 
     +mobile()

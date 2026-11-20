@@ -1,67 +1,6 @@
-// System settings are one long generated form: dozens of single fields, grouped
-// by family. One field per row left two thirds of the card empty, so the fields
-// flow in two columns, the family heading sticks while its group scrolls, and
-// the save bar stays reachable at the bottom of the card.
+// 设置表单的排版规则放在 theme/claude-authoring.styl（/manage/setting 与
+// /domain/edit 共用 partials/setting.html）；这里只留本页特有的保存条。
 .page--manage_setting
-  // a family boundary: bigger breathing room above, hairline below
-  .section__header
-    padding-bottom: 10px
-    border-bottom: 1px solid token-alpha(var(--c-border), 70%)
-
-  .section__body
-    display: flex
-    flex-wrap: wrap
-    align-items: flex-start
-    gap: 2px 28px
-
-    > .row
-      flex: 0 1 calc(50% - 14px)
-      min-width: 260px
-      max-width: none
-      margin: 0
-
-      > .columns
-        width: 100%
-        padding-left: 0
-        padding-right: 0
-
-    // textareas, markdown and YAML blocks want the whole row
-    > .row:has(textarea)
-      flex-basis: 100%
-
-  // the schema name is the raw config key; render it as an identifier and let
-  // the translated description read as the field label
-  label
-    display: block
-    margin-bottom: 14px
-    color: var(--c-fg-3)
-    font-family: var(--code-font-family)
-    font-size: .78rem
-    font-weight: 500
-    line-height: 1.6
-
-  label input.textbox,
-  label select,
-  label textarea
-    display: block
-    width: 100%
-    box-sizing: border-box
-    margin-top: 6px
-    color: var(--c-fg)
-    font-size: .91rem
-
-  label input[type="checkbox"] + span,
-  label.checkbox
-    color: var(--c-fg)
-    font-size: .86rem
-    font-weight: 450
-
-  .help-text
-    margin: -6px 0 14px
-    color: var(--c-fg-2)
-    font-size: .8rem
-    line-height: 1.62
-
   // the trailing body only holds the submit action
   form > .section__body:last-child
     position: sticky
@@ -74,11 +13,8 @@
     box-shadow: 0 -6px 16px token-alpha(var(--c-fg), 5%)
 
 +below(rupture.mobile-cutoff)
-  .page--manage_setting
+  .page--manage_setting,
+  .page--domain_edit
     .section__body
-      gap: 0
-
-      > .row,
-      > .row:has(textarea)
-        flex-basis: 100%
-        min-width: 0
+      grid-template-columns: minmax(0, 1fr)
+      gap: 16px

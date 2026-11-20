@@ -1,0 +1,23 @@
+// 编辑域资料（/domain/edit）与系统设置共用 partials/setting.html，但这里只有
+// 名称 / 头像 / 共享域 / 公告 / 语言五个字段，不需要两列：medium-5 只给 41%
+// 宽，稍长的值就被截断。改成单列窄栏，多行字段仍占满整行。
+.page--domain_edit
+  .section__body .row
+    margin-left: 0
+    margin-right: 0
+
+  .section__body .row > .columns,
+  .section__body .row > .columns.medium-5
+    width: 100%
+    float: none
+    padding: 0
+
+  .section__body .form__item
+    max-width: rem(560px)
+    margin-bottom: rem(20px)
+
+  // 公告是 markdown 编辑器，需要整行
+  .section__body .form__item:has(textarea),
+  .section__body .form__item:has(.md-editor),
+  .section__body .form__item:has([data-markdown])
+    max-width: none

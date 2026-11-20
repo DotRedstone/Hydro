@@ -46,7 +46,7 @@
         <span class="icon icon-send"></span> {{ _('Submit') }}
       </a></li>
     {% elif not handler.user.hasPriv(PRIV.PRIV_USER_PROFILE) %}
-      <li class="menu__item scratchpad--hide"><a class="menu__link{% if page_name == 'problem_submit' %} active{% endif %}" href="javascript:showSignInDialog();">
+      <li class="menu__item scratchpad--hide"><a class="menu__link menu__link--primary{% if page_name == 'problem_submit' %} active{% endif %}" href="javascript:showSignInDialog();">
         <span class="icon icon-send"></span> {{ _('Login to Submit') }}
       </a></li>
     {% elif not handler.user._dudoc.join %}

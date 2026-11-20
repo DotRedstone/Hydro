@@ -387,6 +387,14 @@
   min-height: 260px
   min-width: 0
   padding: 16px
+  // ConfigEditor 是给全屏用的外壳：内部 .fullscreen-content 是 absolute + 固定 1200px，
+  // 塞进管理页 896px 的主列就会溢出卡片、盖住右侧导航
+  position: relative
+  overflow: hidden
+
+.administration-config-mount .fullscreen-content
+  width: 100%
+  max-width: 100%
 
 .administration-script-card .col--desc
   min-width: 220px
@@ -683,3 +691,130 @@
     border-radius: 0
     box-shadow: none
     background: var(--c-surface)
+
+// ---------------------------------------------------------------------------
+// /manage/config —— ConfigEditor 是整屏应用：内部 .fullscreen-content 是
+// absolute，尺寸按外层容器算；页面本身还设了 body{overflow:hidden}、隐藏页脚。
+// 所以这里不能套管理页的两列栅格 + 260px 的卡片高度，否则编辑器只剩一条窄带。
+// 做法：去掉卡片外观，让挂载点吃掉「视口 - 导航」的整块高度。
+// 侧栏会被编辑器搬进自己的 slot，页面上的 aside 留空即隐藏。
+// ---------------------------------------------------------------------------
+.page--manage_config
+  .administration-layout
+    display: block
+    max-width: none
+    padding: 0
+
+  .administration-layout__side
+    display: none
+
+  .administration-config-card
+    display: flex
+    flex-direction: column
+    height: calc(100vh - var(--school-nav-height))
+    margin: 0
+    border: 0
+    border-radius: 0
+    background: transparent
+    box-shadow: none
+
+  .administration-config-card > .section__header
+    flex: 0 0 auto
+    padding: 10px var(--layout-gutter)
+
+  .administration-config-mount
+    flex: 1 1 auto
+    min-height: 0
+    padding: 0
+
+.page--manage_setting
+  // a family boundary: bigger breathing room above, hairline below
+  .section__header
+    padding-bottom: 10px
+    border-bottom: 1px solid token-alpha(var(--c-border), 70%)
+
+  .section__body
+    display: grid
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    align-items: start
+    gap: 20px 32px
+
+    // 多行字段（textarea / markdown / yaml）占满整行
+    > .row:has(textarea)
+      grid-column: 1 / -1
+
+  .section__body > .row
+    margin: 0
+    min-width: 0
+
+    // Foundation 的 .row .columns.medium-5 是三段权重，要盖住它
+    > .columns,
+    > .columns.medium-5
+      width: 100%
+      float: none
+      padding: 0
+
+  .form__item
+    display: flex
+    flex-direction: column
+    gap: 7px
+    min-width: 0
+
+  // label 里的键名不参与标签排版：有描述时整段隐藏，否则当小号等宽标签
+  .form__item > label
+    display: contents
+    font-size: 0
+
+  .form__item:not(:has(> .help-text)) > label
+    color: var(--c-fg-3)
+    font-family: var(--code-font-family)
+    font-size: .76rem
+    line-height: 1.5
+    word-break: break-all
+
+  .form__item > label > div
+    order: 3
+
+  // 人类可读名升级成真正的标签
+  .form__item .help-text
+    order: 1
+    margin: 0
+    color: var(--c-fg)
+    font-size: .9rem
+    font-weight: 500
+    line-height: 1.5
+
+  .form__item input.textbox,
+  .form__item select,
+  .form__item textarea
+    display: block
+    width: 100%
+    box-sizing: border-box
+    margin: 0
+    color: var(--c-fg)
+    font-family: var(--font-ui)
+    font-size: .92rem
+
+  .form__item textarea
+    min-height: 120px
+    line-height: 1.65
+
+  // 复选框/单选项：与输入框同一行高，文字用界面字体
+  .form__item label.checkbox,
+  .form__item label.radio,
+  .form__item .checkbox-container label
+    order: 3
+    display: inline-flex
+    align-items: center
+    gap: 8px
+    min-height: 38px
+    color: var(--c-fg)
+    font-family: var(--font-ui)
+    font-size: .9rem
+    font-weight: 400
+    line-height: 1.5
+
+  // 布尔项的人话在复选框里，键名一并不显示（放在最后，权重相同也要压住上面那条）
+  .form__item:has(.checkbox-container) > label
+    font-size: 0
+
