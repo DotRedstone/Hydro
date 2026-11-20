@@ -10,7 +10,7 @@ $checkbox-size = 16px
   vertical-align: middle
   cursor: pointer
   user-select: none
-  color: lighten($text-1-color, 30%) !important
+  color: $text-3-color !important
   margin: $input-margin !important
 
   &:hover
@@ -18,8 +18,8 @@ $checkbox-size = 16px
 
   input
     appearance: none
-    border: 1px solid #D0D0D0
-    border-radius: 1px
+    border: 1px solid $border-1-color
+    border-radius: var(--r-xs)
     vertical-align: top
     width: rem($checkbox-size)
     height: rem($checkbox-size)
@@ -38,7 +38,7 @@ $checkbox-size = 16px
       position: absolute
       top: rem(3px)
       left: rem(2px)
-      border: 2px solid #FFF
+      border: 2px solid var(--c-accent-fg)
       border-top: none
       border-right: none
       background: transparent
@@ -46,7 +46,7 @@ $checkbox-size = 16px
       opacity: 0
 
     &:enabled:hover
-      border-color: rgba($secondary-color, 0.7)
+      border-color: token-alpha($secondary-color, 70%)
 
     &:checked
       background: $secondary-color
@@ -74,10 +74,10 @@ label.checkbox.inverse
 
   input
     color: $immersive-text-color
-    border-color: rgba($immersive-text-color, 0.4)
+    border-color: token-alpha($immersive-text-color, 40%)
 
     &:disabled, &:read-only
-      color: rgba($immersive-text-color, 0.6)
+      color: token-alpha($immersive-text-color, 60%)
 
     &:enabled:read-write:hover
       border-color: $immersive-text-color

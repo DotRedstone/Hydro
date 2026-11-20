@@ -8,11 +8,23 @@
   .col--actions
     width: 100px
   
+  // 权限列表本质是一组标识符：用等宽字体排成一段“差异清单”，
+  // 比一堆比例字体的大写单词好扫
+  .col--priv_info
+    white-space: normal
+    font-family: var(--font-code)
+    font-size: .78rem
+    line-height: 1.55
+
+  .priv_plus,
+  .priv_minus
+    margin: 0
+
   .priv_plus
-    color: green
+    color: var(--c-ok)
 
   .priv_minus
-    color: red
+    color: var(--c-bad)
 
   .col--p
     width: 30px

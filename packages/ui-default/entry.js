@@ -28,7 +28,10 @@ console.log(
 window.UiContext = JSON.parse(window.UiContext);
 window.UserContext = JSON.parse(window.UserContext);
 try {
-  __webpack_public_path__ = UiContext.cdn_prefix;
+  // Without a configured CDN cdn_prefix is '', and an empty public path makes
+  // webpack resolve chunk URLs against the current document (broken under
+  // domain-prefixed routes such as /system/). Fall back to the site root.
+  __webpack_public_path__ = UiContext.cdn_prefix || '/';
 } catch (e) { }
 if ('serviceWorker' in navigator) {
   const sendConfig = () => fetch('/service-worker-config', {

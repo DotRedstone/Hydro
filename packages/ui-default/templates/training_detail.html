@@ -1,6 +1,6 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row" data-sticky-parent>
+<div class="row training-detail-layout" data-sticky-parent>
   {%- if Object.keys(udict).length -%}
   <div class="medium-2 columns mobile--hide">
     <div data-sticky="large"><div class="section side">
@@ -41,7 +41,20 @@
   {%- else -%}
   <div class="medium-9 columns">
   {%- endif -%}
-    <div class="section">
+    <div class="section learning-activity-hero">
+      <div class="section__header">
+        <h1 class="section__title">{{ tdoc.title }}</h1>
+      </div>
+      <div class="section__body">
+        <span class="problem__tag-item">{{ _('Completed' if tsdoc['enroll'] and tsdoc['done'] else ('In Progress' if tsdoc['enroll'] else 'Not Enrolled')) }}</span>
+        <span class="problem__tag-item icon icon-list">{{ tdoc.dag|length }} {{ _('Sections') }}</span>
+        <span class="problem__tag-item icon icon-user--multiple">{{ tdoc.attend|default(0) }} {{ _('Enrollees') }}</span>
+        {% if tsdoc['enroll'] %}
+        <span class="problem__tag-item">{{ _('Progress') }}: {{ (100 * tsdoc['donePids']|length / pids|length)|round|int }}%</span>
+        {% endif %}
+      </div>
+    </div>
+    <div class="section training-detail-intro">
       <div class="section__body typo">
         {{ tdoc['content'] }}
       </div>
@@ -64,7 +77,7 @@
         {{ tdoc.description|default('')|markdown|safe }}
       </div>
     </div>
-    <div class="section">
+    <div class="section training-detail-chapters">
       {% include "partials/training_detail.html" %}
     </div>
   </div>

@@ -35,7 +35,7 @@ export const editorRegistry: Record<string, (ctx: StatementEditorContext) => Sta
   pdf: ({ entry, $container }) => {
     const viewUrl = `./file/${encodeURIComponent(entry.file || entry.name)}`;
     $container.append($(tpl`
-      <div class="section__body" style="border:1px dashed var(--palette-color-secondary, #ccc);padding:16px;text-align:center">
+      <div class="section__body" style="border:1px dashed var(--c-border-strong);padding:16px;text-align:center">
         <p><span class="icon icon-file"></span> ${entry.file || entry.name}</p>
         <p class="note">${i18n('This statement is a binary file stored in additional files.')}</p>
         <a class="rounded button" href="${viewUrl}" target="_blank">${i18n('View')}</a>

@@ -1,0 +1,12 @@
+{# 首次访问的 cookie 说明：左下角卡片，不遮挡右下角浮动按钮 #}
+<div class="consent-bar" data-consent role="dialog" aria-label="{{ _('Cookies and local storage') }}">
+  <div class="consent-bar__copy">
+    <p class="consent-bar__title">{{ _('Cookies and local storage') }}</p>
+    <p class="consent-bar__text">{{ _('We store a session cookie to keep you signed in, and local storage for your theme choice. Nothing is used for advertising.') }}</p>
+  </div>
+  <div class="consent-bar__actions">
+    <button type="button" class="compact rounded primary button" data-consent-accept>{{ _('Agree') }}</button>
+    <button type="button" class="compact rounded button" data-consent-essential>{{ _('Only what is required') }}</button>
+    <a class="consent-bar__link" href="{{ url('wiki_about', anchor='privacy') }}">{{ _('Privacy policy') }}</a>
+  </div>
+</div>

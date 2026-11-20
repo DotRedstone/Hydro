@@ -13,16 +13,19 @@
 
 .section
   background: $section-bg-color
+  border: 1px solid token-alpha(var(--c-border), 70%)
+  border-radius: var(--r)
+  overflow: hidden
   box-shadow: $section-shadow
 
   +mobile()
-    box-shadow: none
-    margin-left: - rem($grid-padding)
-    margin-right: - rem($grid-padding)
+    border-radius: var(--r)
+    margin-left: 0
+    margin-right: 0
 
 .hasjs .section
   +above(rupture.mobile-cutoff)
-    transform: translateY(rem(30px))
+    transform: translateY(rem(8px))
     opacity: 0
 
     &.visible
@@ -30,8 +33,14 @@
       opacity: 1
 
 .section__header
-  padding: rem($section-gap-v) rem($section-gap-h) 0
+  padding: rem(15px) rem(20px) rem(13px)
+  min-height: rem(56px)
+  border-bottom: 1px solid token-alpha(var(--c-border), 70%)
   position: relative
+  display: flex
+  align-items: center
+  gap: rem(10px)
+  flex-wrap: wrap
 
   &:last-child
     padding-bottom: rem($section-gap-v)
@@ -40,7 +49,7 @@
     padding-top: rem($section-gap-v) !important
 
 .section__body
-  padding: 0.7em rem($section-gap-h)
+  padding: rem(18px) rem(22px)
 
   &.no-padding
     padding: 0 !important
@@ -62,8 +71,20 @@
 .section__header .section__title
   line-height: $form-control-height
 
+// 卡片标题是界面的一部分，用界面字体；衬线只留给品牌字与页面级大标题
+.section__title
+  font-family: var(--font-ui)
+  font-weight: 600
+  letter-spacing: -0.01em
+
+// Side rails sit next to the main column: their titles drop one step so the
+// page title keeps the visual lead.
+.section.side .section__title
+  font-size: 1rem
+
 h1.section__title
-  font-size: 1.4rem
+  font-size: 1.1rem
+  font-weight: 600
   margin-bottom: rem(12px)
 
 h2.section__title
@@ -71,7 +92,7 @@ h2.section__title
   margin-bottom: rem(10px)
 
 h3.section__title
-  font-size: 1rem
+  font-size: 1.05rem
   margin-bottom: rem(8px)
 
 .section__header .section__title
@@ -94,8 +115,11 @@ h3.section__title
     font-size: rem($font-size-small)
     outline: 0
 
+    border-radius: $radius-sm
+
     &:hover
       color: $section-toolbtn-color-hover
+      background: var(--c-hover)
 
 .section__list__item
   padding: rem($section-list-v $section-gap-h)

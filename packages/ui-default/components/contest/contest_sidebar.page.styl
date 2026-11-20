@@ -1,7 +1,7 @@
 .contest-sidebar__bg
   display: block
-  background: #67AABB url(problem-contest-bg.png) right top no-repeat
-  color: #FFF !important
+  background: var(--c-info) url(problem-contest-bg.png) right top no-repeat
+  color: var(--c-accent-fg) !important
   font-size: rem($font-size)
   padding: rem(20px 0)
 
@@ -11,8 +11,8 @@
 
   h1
     font-size: rem($font-size-title)
-    color: #FFF
-    text-shadow: 0 1px 3px rgba(#000, 0.5)
+    color: var(--c-accent-fg)
+    text-shadow: 0 1px 3px token-alpha(var(--c-inverse-bg), 50%)
 
   &:hover
     text-decoration: none

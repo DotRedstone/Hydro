@@ -71,11 +71,69 @@ AC Message: 通过消息
 Accept: 通过
 Accepted Problems: 通过的题目
 Accepted Ratio: 通过率
+Username or Email: 用户名或邮箱
+Captcha: 验证码
+Close: 关闭
+Invalid username/email or password.: 用户名或邮箱与密码不匹配。
+Captcha expired, please enter the new one.: 验证码已过期，请输入新的验证码。
+Captcha mismatch, please try again.: 验证码不正确，请重新输入。
+Too many attempts, please try again later.: 尝试次数过多，请稍后再试。
+Confirm your email address: 确认你的邮箱
+Set password and finish sign up: 设置密码并完成注册
+The link is valid for a limited time. If you did not request this email, you can ignore it.: 链接在一段时间内有效。如果这不是你本人的操作，可以忽略这封邮件。
+Finish your account: 完成注册
+The email is confirmed. Choose a username and a password, and you are in.: 邮箱已确认。设置用户名与密码即可完成注册。
+Create Account: 创建账户
+Check your inbox: 请查收邮件
+Sign up mail has been sent to {0}. Open the link inside to finish your account.: 注册邮件已发送到 {0}，打开邮件里的链接即可完成注册。
+Use another email: 换个邮箱
+Login with GitHub: 使用 GitHub 登录
+Cookies and local storage: Cookie 与本地存储
+Agree: 同意
+We store a session cookie to keep you signed in, and local storage for your theme choice. Nothing is used for advertising.: 我们用一份会话 Cookie 保持登录状态，用本地存储记住你的深浅色选择。不用于广告追踪。
+Only what is required: 仅必要
+Privacy policy: 隐私政策
+Page actions: 页面操作
+Back: 后退
+Forward: 前进
+Copy selected text: 复制选中文本
+Copy link address: 复制链接地址
+Copy image address: 复制图片地址
+Copy code: 复制代码
+Copy page link: 复制页面链接
+Open link in new tab: 在新标签打开链接
+Open image in new tab: 在新标签打开图片
+Back to top: 回到顶部
+Reload page: 刷新页面
+Search this site: 搜索本站
+Switch theme: 切换深浅色
+Copied: 已复制
+Sepia: 棕褐
+Copy source suffix: —— 来源：{0}（{1}）
+Copy failed: 复制失败，请手动选择
 Accepted: 已通过
+Waiting: 等待评测
+Wrong Answer: 答案错误
+Time Exceeded: 运行超时
+Memory Exceeded: 内存超限
+Output Exceeded: 输出超限
+Runtime Error: 运行时错误
+System Error: 系统错误
+Cancelled: 已取消
+Unknown Error: 未知错误
+Hacked: 已被 Hack
+Running: 运行中
+Compiling: 编译中
+Fetched: 已取回
+Ignored: 已忽略
+Format Error: 格式错误
+Hack Successful: Hack 成功
+Hack Unsuccessful: Hack 失败
 Access Control: 访问控制
 According to the contest rules, you cannot view your submission details at current.: 根据比赛规则，你现在不能查看你的评测记录详情。
 Account Settings: 账户设置
 Action: 动作
+Actions: 操作
 Active Sessions: 活动会话
 Add Authenticator: 添加认证器
 Add File: 添加文件
@@ -547,7 +605,7 @@ Linked Accounts: 关联账户
 Links: 链接
 List View: 列表视图
 Live: 正在进行
-Live...: 正在进行…
+Live...: 正在进行
 Loading editor...: 正在加载编辑器...
 Loading file...: 正在加载文件内容...
 Location: 位置
@@ -609,7 +667,7 @@ New Filename: 新文件名
 New filename(s): 新文件名
 New Password: 新密码
 New Training Plan: 新训练计划
-New: 创建
+New: 未开始
 No {0} at current.: 当前没有{0}。
 No changes to make.: 没有任何修改。
 No comments so far...: 目前还没有评论...
@@ -755,6 +813,7 @@ problem.stats.sort.time: 运行时间
 Problems created in polyhedron can be directly imported into any Hydro based online judge system.: Polyhedron 中的题目可以直接导入任何基于 Hydro 的在线测评系统。
 Problems Sets: 题库
 Problems: 题目
+Sections: 章节
 Processing...: 处理中...
 Profile Background Image: 背景图片
 Progress: 进度
@@ -771,7 +830,7 @@ ranking: 排名
 Read all record codes: 读取所有记录的代码
 Read data of own problems: 读取自己题目的数据
 Read data of problem: 读取题目数据
-Ready (☆▽☆): 马上开始 (☆▽☆)
+Ready (☆▽☆): 即将开始
 Ready: 即将开始
 Recent {0} Records: 最近 {0} 条记录
 Recent Activities: 最近活动
@@ -877,6 +936,8 @@ Set Score for Contest: 设置赛时分数
 Set time and memory limits: 设置时空限制
 setting_customize: 个性化
 setting_display: 显示偏好
+setting_highlight: 高亮偏好
+setting_markdown: 编辑偏好
 setting_domain: 域设置
 setting_info_domain: 个人信息
 setting_info: 个人信息
@@ -1152,3 +1213,52 @@ Confirm deleting this statement?: 确认删除这条题面？
 Statement {0} is empty.: 题面 {0} 内容为空。
 File {0} referenced by statement {1} does not exist.: 题面 {1} 引用的文件 {0} 不存在。
 Unknown language: 未知语言
+A warm, restrained judge for practice and contests.: 一个克制、暖色的练习与比赛评测系统。
+Start solving: 开始做题
+Problem Management: 题目管理
+Already registered?: 已有账号？
+Create one to submit code, join contests and keep your submissions.: 注册后即可提交代码、参加比赛，并保留你的提交记录。
+Log in with your username and password to continue.: 用用户名和密码登录即可继续。
+Remembered it?: 想起来了？
+Password recovery needs a working mail server. On this site you can ask an administrator to reset it for you.: 找回密码需要可用的邮件服务；本站可联系管理员帮你重置。
+Back to Login: 返回登录
+Allow Print: 允许打印
+Allow Team: 允许团队参赛
+Allow View Code: 允许查看他人代码
+Auto hide-and show: 比赛中自动隐藏并显示
+Flexible Duration: 弹性时长
+Keep Scoreboard Hidden: 保持榜单隐藏
+Lock (minutes): 封榜（分钟）
+Rated: 计入排名
+Markdown Syntax: Markdown 语法
+Allow user to print during contest: 允许比赛中打印题目
+Allow team participation: 允许团队参赛
+Nobody has solved anything in this domain yet. Rank is earned by accepted submissions.: 这个域里还没有人做出题目。排名由通过的提交累积而来。
+The ranking page is not updated realtime.: 排名由定时任务计算，不是实时更新的。
+
+# 找回密码（忘记密码）流程
+Reset your password: 重置你的密码
+Set a new password: 设置新密码
+Enter the email you signed up with, and we will send you a link to set a new password.: 填注册时用的邮箱，我们会发一封设置新密码的邮件。
+Password reset mail has been sent to {0}.: 重置密码的邮件已发到 {0}。
+The link is valid for {0} hour(s). Open it to set a new password.: 链接 {0} 小时内有效，打开即可设置新密码。
+The link is valid for {0} hour(s). If you did not ask for a password reset, you can ignore this mail and your password stays unchanged.: 链接 {0} 小时内有效。如果不是你本人操作，忽略这封邮件即可，密码不会变化。
+Nothing in the inbox? Check the spam folder, and make sure the address is the one you signed up with.: 收件箱里没有？看一下垃圾邮件，并确认填的是注册时用的邮箱。
+Send it again: 再发一次
+Request a new reset link: 重新申请重置链接
+The link in the mail stays valid for a limited time. If it expired, come back and ask for a new one.: 邮件里的链接有效期有限，过期了就回来重新申请。
+Setting a new password for {0}.: 正在为 {0} 设置新密码。
+Ask for a new link and open it right away, it stays valid for {0} hour(s).: 重新申请一条链接并尽快打开，它 {0} 小时内有效。
+Set a strong new password: 设置一个足够强的密码
+Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.: 重置密码会同时关闭两步验证，之后请到账户设置里重新开启。
+Enter a valid email address.: 请输入有效的邮箱地址。
+No account is registered with this email.: 这个邮箱还没有注册账号。
+Mail service is not configured yet.: 邮件服务还没有配置好。
+Failed to send the mail, please try again later.: 邮件发送失败，请稍后再试。
+The reset link is invalid or has expired.: 重置链接无效或已经过期。
+Password should be at least 6 characters.: 密码至少 6 位。
+Passwords do not match.: 两次输入的密码不一致。
+No submissions yet.: 还没有提交记录。
+Search problems or users: 搜索题目或用户
+Searching...: 搜索中……
+Nothing found: 没有找到相关内容

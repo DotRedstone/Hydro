@@ -1,0 +1,72 @@
+// 首次访问的 cookie 说明卡片：左下角，避开右下角的浮动按钮
+.consent-bar
+  position: fixed
+  z-index: 940
+  left: rem(24px)
+  bottom: rem(24px)
+  width: 420px
+  max-width: calc(100vw - rem(48px))
+  padding: 18px 20px 16px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-lg)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-pop)
+  opacity: 0
+  transform: translateY(14px)
+  transition: opacity .26s ease-out-cubic, transform .26s ease-out-cubic
+  pointer-events: none
+
+  +mobile()
+    left: rem(12px)
+    right: rem(12px)
+    bottom: rem(12px)
+    width: auto
+
+.consent-bar--open
+  opacity: 1
+  transform: translateY(0)
+  pointer-events: auto
+
+.consent-bar--leaving
+  opacity: 0
+  transform: translateY(10px)
+  pointer-events: none
+
+.consent-bar__title
+  margin: 0 0 6px
+  color: var(--c-fg)
+  font-size: .95rem
+  font-weight: 620
+  letter-spacing: -.01em
+
+.consent-bar__text
+  margin: 0
+  color: var(--c-fg-2)
+  font-size: .82rem
+  line-height: 1.65
+
+.consent-bar__actions
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 8px 10px
+  margin-top: 14px
+
+.consent-bar__actions .button
+  margin: 0
+
+.consent-bar__link
+  color: var(--c-fg-3)
+  font-size: .8rem
+
+.consent-bar__link:hover
+  color: var(--c-link)
+
+// 窄屏时卡片会横跨整行，把右下角浮动按钮整体上移，避免两个浮层叠在一起
+@media (prefers-reduced-motion: no-preference)
+  .fab-stack
+    transition: transform .26s ease-out-cubic
+
+  +mobile()
+    body:has(.consent-bar--open) .fab-stack
+      transform: translateY(calc(-1 * rem(190px)))

@@ -1,5 +1,35 @@
 @import './var.inc.styl'
 
+// the autocomplete widget wraps the real input in its own bordered white box;
+// the input already carries the design border, so the wrapper must stay invisible
+.autocomplete-container .autocomplete-wrapper
+  padding: 0
+  border: 0
+  background: transparent
+
+.autocomplete-container
+  max-width: 100%
+
+// 自动补全把自己那个受控 input 画在 wrapper 里，但它身上没有 .textbox，
+// 于是拿不到边框和底色——整片看起来是空白的（比赛创建页的“比赛管理员”
+// “提交语言限制”就是这样）。这里把它按普通 textbox 画出来。
+.autocomplete-container .autocomplete-wrapper
+  input
+    form-styles()
+    margin-bottom: 0
+    background-color: $input-background-color
+    outline: $input-outline
+    transition: outline-color .2s, border-color .2s
+    transition-timing-function: ease-out-cubic
+
+    &::placeholder
+      color: $text-3-color
+
+    &:focus
+      border-color: $input-focus-border-color
+      outline: $input-focus-outline
+      outline-offset: 0
+
 // Normal Textbox
 input.textbox, textarea.textbox, span.textbox
   form-styles()
@@ -7,6 +37,9 @@ input.textbox, textarea.textbox, span.textbox
   outline: $input-outline
   transition: outline-color .2s, border-color .2s
   transition-timing-function: ease-out-cubic
+
+  &::placeholder
+    color: $text-3-color
 
   &:focus
     border-color: $input-focus-border-color
@@ -51,30 +84,31 @@ label.textbox.material
     padding-left: 0
     padding-right: 0
     color: $text-1-color
-    border-bottom: 2px solid rgba($text-1-color, 0.4)
+    border-radius: 0
+    border-bottom: 1px solid $border-1-color
     transition: border-color .2s ease-out-cubic
 
     &:disabled, &:read-only
-      color: rgba($text-1-color, 0.6)
+      color: $text-3-color
 
     &:enabled:read-write:hover
-      border-color: rgba($text-1-color, 0.8)
+      border-color: $text-3-color
 
     &:enabled:read-write:focus
       border-color: $input-focus-border-color
 
   &.focus
-    color: $input-focus-border-color
+    color: $text-1-color
 
 label.textbox.material.inverse
   color: $immersive-text-color
 
   input
     color: $immersive-text-color
-    border-color: rgba($immersive-text-color, 0.4)
+    border-color: $border-1-color
 
     &:disabled, &:read-only
-      color: rgba($immersive-text-color, 0.6)
+      color: $text-3-color
 
     &:enabled:read-write:hover
       border-color: $immersive-text-color
@@ -84,3 +118,10 @@ label.textbox.material.inverse
 
   &.focus
     color: $immersive-primary-color
+
+// Components that upgrade a textbox into an autocomplete keep the original input
+// as a hidden value carrier and render their own controlled input next to it.
+// Without this rule both inputs show up, one of them empty.
+input.textbox.autocomplete-dummy,
+input.autocomplete-dummy
+  display: none !important

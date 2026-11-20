@@ -1,0 +1,123 @@
+// 自动补全：字段本体、已选标签、候选面板。
+//
+// @hydrooj/components 自带一份 antd 风格的 scss：白底候选面板、#d9d9d9 边框、
+// #e6f7ff 蓝色高亮、聚焦时还有一圈蓝色光晕。在这套暖纸配色里非常出戏，深色主题下
+// 更是一块纯白。这里统一改成设计令牌版本：面板跟字段左对齐、至少同宽，
+// 候选项按行排布，悬停与键盘焦点用同一套高亮。
+//
+// 库的 css 是组件自己 import 的，打包顺序不受我们控制，所以选择器统一加一层
+// .autocomplete-container 提高特异性，别指望先后顺序。
+
+// 面板要贴着字段下沿展开，容器得是定位上下文
+.autocomplete-container
+  position: relative
+  max-width: 100%
+
+// 字段外观由 textbox.page.styl 画在真正的 <input> 上，wrapper 只剩布局职责，
+// 所以这里把库自带的边框、底色和 focus 光晕全部清掉
+.autocomplete-container .autocomplete-wrapper
+  border: 0
+  padding: 0
+  background: transparent
+  box-shadow: none
+
+  &:focus,
+  &.focused
+    border: 0
+    outline: 0
+    box-shadow: none
+
+// 面板被 portal 到 body（见 AutoComplete.tsx），这里不能再靠 .autocomplete-container 提权，
+// 用 ul.autocomplete-list 这个组合压过库自带的 .autocomplete-list。
+// 位置由组件按字段位置算好，写成内联样式，左边和最小宽度不在这里管。
+ul.autocomplete-list
+  width: max-content
+  max-width: rem(420px)
+  max-height: rem(320px)
+  margin: 0
+  padding: rem(4px)
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-pop)
+  overflow-y: auto
+  overscroll-behavior: contain
+  // 输入框可能在弹窗里，层级要压过 dialog 的 1000
+  z-index: 1100
+
+  li
+    align-items: center
+    gap: rem(8px)
+    padding: rem(7px) rem(10px)
+    border-radius: var(--r-xs)
+    color: var(--c-fg)
+    font-size: rem($font-size-secondary)
+    line-height: 1.45
+    cursor: pointer
+
+    & > div
+      flex-grow: 1
+      min-width: 0
+
+    &[aria-selected='true']
+      // 库给的 #fafafa 在深色主题下是块脏灰
+      background-color: transparent
+      font-weight: 600
+
+    &[data-focus='true']
+      background: var(--c-hover)
+
+    .icon
+      flex: 0 0 auto
+      color: var(--c-link)
+
+// 候选项里两行文本（用户名 + UID、题目名 + 题号）的第二行统一收敛成弱化的小字
+ul.autocomplete-list .user-select__uname,
+ul.autocomplete-list .problem-select__title,
+ul.autocomplete-list .domain-select__name
+  color: var(--c-fg)
+  font-weight: 500
+
+ul.autocomplete-list .user-select__uid,
+ul.autocomplete-list .problem-select__id,
+ul.autocomplete-list .domain-select__id
+  color: var(--c-fg-3)
+  font-size: rem($font-size-small)
+  line-height: 1.4
+
+// 候选项里的头像：跟行高对齐，别把行撑开
+ul.autocomplete-list .media
+  align-items: center
+
+ul.autocomplete-list .media__left
+  margin-right: rem(8px)
+
+ul.autocomplete-list .user-profile-avatar
+  width: rem(26px)
+  height: rem(26px)
+  border-radius: var(--r-pill)
+
+// 多选时已选项做成胶囊
+.autocomplete-container .autocomplete-tag
+  gap: rem(4px)
+  height: rem(26px)
+  margin: rem(3px)
+  padding: 0 rem(5px) 0 rem(10px)
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-pill)
+  background: var(--c-sunken)
+  color: var(--c-fg-2)
+  font-size: rem($font-size-small)
+  line-height: 1.2
+
+  &:focus
+    border-color: var(--c-accent)
+    background: var(--c-accent-soft)
+
+  .icon
+    color: var(--c-fg-3)
+    font-size: rem(12px)
+    cursor: pointer
+
+    &:hover
+      color: var(--c-fg)

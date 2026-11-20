@@ -100,7 +100,7 @@
         </div>
       </div>
     {% elif not handler.user.hasPriv(PRIV.PRIV_USER_PROFILE) %}
-        <a class="menu__link" href="javascript:showSignInDialog()">
+        <a class="menu__link menu__link--primary" href="javascript:showSignInDialog()">
           <span class="icon icon-add"></span> {{ _('Login to Attend Contest') }}
         </a>
     {% elif not handler.user._dudoc.join %}

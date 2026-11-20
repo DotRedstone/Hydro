@@ -1,6 +1,7 @@
 .page--domain_permission
   .col--p
-    width: 80px
+    // 80px 装不下 DEFAULT（表头是大写 + 字距），会被截成 DEFA…
+    width: 104px
     text-align: center
     border-left: 1px solid $table-border-color
 
@@ -9,6 +10,6 @@
 
   .col--family
     line-height: 2
-    color: #FFF
-    background: lighten(saturate($primary-color, 70%), 30%)
+    color: var(--c-accent-fg)
+    background: var(--c-accent-soft)
     border-top: 2px solid $primary-color

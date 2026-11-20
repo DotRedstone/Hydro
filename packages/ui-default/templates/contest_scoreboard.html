@@ -5,11 +5,23 @@
 {% set type = 'homework' if tdoc.rule == 'homework' else 'contest' %}
 
 {% block content %}
-<div class="row"><div class="medium-12 columns scoreboard--{{ tdoc.rule }}">
-  <div class="section visible">
+<div class="row learning-scoreboard-layout"><div class="medium-12 columns scoreboard--{{ tdoc.rule }}">
+  <div class="section visible learning-scoreboard-card">
     <div class="section__header">
-      <h1 class="section__title">
-      {{ tdoc.title }}&nbsp;&nbsp;
+      <div class="scoreboard-heading">
+        <div class="scoreboard-heading__identity">
+          <p class="scoreboard-heading__eyebrow">{{ _('Scoreboard') }}</p>
+          <h1 class="section__title">{{ tdoc.title }}</h1>
+        </div>
+        <div class="scoreboard-heading__actions">
+      <select class="select filter" name="list">
+        <option value="all">{{ _('All Users') }}</option>
+        <option value="star">{{ _('Starred Users') }}</option>
+        <option value="rank">{{ _('Ranked Users') }}</option>
+        {% for group in groups %}
+          <option value="{{ group.uids.join(',') }}">{{ group.name }}</option>
+        {% endfor %}
+      </select>
       {%- for ext in ['HTML', 'CSV', 'Ghost'] -%}
         <a class="button" target="_blank" href="{{ url(type + '_scoreboard_view', tid=tdoc.docId, view=ext.toLowerCase()) }}">
           <span class="icon icon-download"></span> {{ _('Export as {0}').format(ext) }}
@@ -28,16 +40,7 @@
           </button>
         </form>
       {% endif %}
-      </h1>
-      <div class="section__tools">
-        <select class="select filter" name="list">
-          <option value="all">{{ _('All Users') }}</option>
-          <option value="star">{{ _('Starred Users') }}</option>
-          <option value="rank">{{ _('Ranked Users') }}</option>
-          {% for group in groups %}
-            <option value="{{ group.uids.join(',') }}">{{ group.name }}</option>
-          {% endfor %}
-        </select>
+        </div>
       </div>
     </div>
     {% include "partials/scoreboard.html" %}

@@ -18,13 +18,17 @@ const signinDialogPage = new AutoloadPage('signinDialogPage', null, () => {
   async function initPasskey() {
     if (authnInitialized || !window.isSecureContext) return;
     authnInitialized = true;
+    // WebAuthn rejects IP literals and single-label hosts as RP ids; probing them
+    // throws a SecurityError and used to surface as a red toast on every page load.
+    const host = window.location.hostname;
+    if (/^[\d.]+$/.test(host) || !host.includes('.')) return;
     const support = await browserSupportsWebAuthnAutofill();
     if (!support) return;
     const authnInfo = await request.get('/user/webauthn', { login: true });
     if (!authnInfo.authOptions) return;
     const result = await startAuthentication({ optionsJSON: authnInfo.authOptions, useBrowserAutofill: true })
       .catch((e) => {
-        Notification.error(i18n('Failed to get credential: {0}', e));
+        console.warn('[webauthn] authentication unavailable:', e);
         return null;
       });
     if (!result) return;

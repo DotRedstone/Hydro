@@ -3,15 +3,15 @@
   left: rem(20px)
   bottom: rem(20px)
   padding: rem(10px)
-  border-radius: rem(2px)
-  background: rgba(#222, 0.9)
-  color: #FFF
+  border-radius: var(--r)
+  background: var(--c-inverse-bg)
+  color: var(--c-inverse-fg)
   font-size: rem($font-size-secondary)
   transition: transform .2s, opacity .2s
   transition-timing-function: ease-out-cubic
   z-index: 1000  // managed
   line-height: rem(20px)
-  box-shadow: 0 4px 10px rgba(#000, 0.4)
+  box-shadow: var(--shadow-pop)
   min-width: rem(150px)
 
   img
@@ -67,7 +67,7 @@
   margin-right: rem(15px)
 
   h2
-    color: #FFFFFF
+    color: var(--c-inverse-fg)
 
   p
     margin-top: rem(7px);
@@ -80,5 +80,5 @@
 }
 
 .mantine-notifications-close-button:hover {
-  background-color: rgba(0, 0, 0, 0.1) !important;
+  background-color: token-alpha(var(--c-inverse-fg), 10%) !important;
 }

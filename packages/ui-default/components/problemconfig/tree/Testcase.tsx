@@ -42,7 +42,7 @@ export function TestcaseNode(props: TestcaseNodeProps) {
         display: 'flex',
         alignItems: 'center',
         cursor: 'pointer',
-        background: selected ? 'var(--mantine-color-blue-light, #ebf3ff)' : 'transparent',
+        background: selected ? 'var(--c-accent-soft)' : 'transparent',
         borderRadius: 4,
         fontFamily: 'var(--mantine-font-family-monospace)',
       }}

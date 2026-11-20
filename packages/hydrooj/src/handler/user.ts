@@ -7,12 +7,13 @@ import { randomstring } from '@hydrooj/utils';
 import type { Context } from '../context';
 import {
     AuthOperationError, BadRequestError, BlacklistedError, BuiltinLoginError,
-    ForbiddenError, InvalidTokenError, NotFoundError,
-    SystemError, UserAlreadyExistError, UserFacingError,
+    ForbiddenError, InvalidTokenError, LoginError, NotFoundError, OpcountExceededError,
+    SendMailError, SystemError, UserAlreadyExistError, UserFacingError,
     UserNotFoundError, ValidationError, VerifyPasswordError,
 } from '../error';
 import { TokenDoc, Udoc, User } from '../interface';
 import avatar from '../lib/avatar';
+import { CAPTCHA_THRESHOLD, createCaptcha, renderCaptchaSvg } from '../lib/captcha';
 import { sendMail } from '../lib/mail';
 import { verifyTFA } from '../lib/verifyTFA';
 import BlackListModel from '../model/blacklist';
@@ -49,16 +50,57 @@ async function successfulAuth(this: Handler, udoc: User) {
     }
 }
 
+function isCaptchaRequired(h: Handler) {
+    return (h.session.loginFail || 0) >= CAPTCHA_THRESHOLD;
+}
+
+/** 校验并一次性消耗会话中的验证码，避免同一张图被重复使用 */
+function consumeCaptcha(h: Handler, input: string) {
+    const expect = h.session.captcha;
+    const issuedAt = h.session.captchaAt || 0;
+    h.session.captcha = null;
+    h.session.captchaAt = 0;
+    if (!expect || Date.now() - issuedAt > 5 * 60 * 1000) {
+        throw new ValidationError('captcha', null, h.translate('Captcha expired, please enter the new one.'));
+    }
+    if (!input || input.trim().toUpperCase() !== expect) {
+        throw new ValidationError('captcha', null, h.translate('Captcha mismatch, please try again.'));
+    }
+}
+
 class UserLoginHandler extends Handler {
     noCheckPermView = true;
+
+    private needsCaptcha() {
+        return isCaptchaRequired(this);
+    }
+
+    private recordLoginFail() {
+        this.session.loginFail = (this.session.loginFail || 0) + 1;
+    }
+
+    private renderWithError(message: string, uname: string, redirect: string) {
+        this.response.template = 'user_login.html';
+        this.response.body = {
+            redirect,
+            uname,
+            error: message,
+            builtInLogin: system.get('server.login'),
+            loginMethods: this.loginMethods,
+            captchaRequired: this.needsCaptcha(),
+        };
+    }
 
     @param('redirect', Types.String, true)
     async get(domainId: string, redirect: string = '') {
         this.response.template = 'user_login.html';
         this.response.body = {
             redirect,
+            uname: '',
+            error: '',
             builtInLogin: system.get('server.login'),
             loginMethods: this.loginMethods,
+            captchaRequired: this.needsCaptcha(),
         };
     }
 
@@ -69,43 +111,82 @@ class UserLoginHandler extends Handler {
     @param('tfa', Types.String, true)
     @param('authnChallenge', Types.String, true)
     @param('judge', Types.Boolean, true)
+    @param('captcha', Types.String, true)
     async post(
         domainId: string, uname: string, password: string, rememberme = false, redirect = '',
-        tfa = '', authnChallenge = '', judge = false,
+        tfa = '', authnChallenge = '', judge = false, captcha = '',
     ) {
-        if (!judge && !system.get('server.login')) throw new BuiltinLoginError();
-        let udoc = await user.getByEmail(domainId, uname);
-        udoc ||= await user.getByUname(domainId, uname);
-        if (judge && !system.get('server.login') && !udoc?.hasPriv(PRIV.PRIV_JUDGE)) throw new BuiltinLoginError();
-        if (!udoc) throw new UserNotFoundError(uname);
-        if (system.get('system.contestmode') && !udoc.hasPriv(PRIV.PRIV_EDIT_SYSTEM)) {
-            if (udoc._loginip && udoc._loginip !== this.request.ip) throw new ValidationError('ip');
-            if (system.get('system.contestmode') === 'strict') {
-                const udocs = await user.getMulti({ loginip: this.request.ip, _id: { $ne: udoc._id } }).toArray();
-                if (udocs.length) throw new ValidationError('ip');
+        // 浏览器表单提交时留在登录页显示错误，其它调用方仍拿到原来的错误对象
+        const inline = !judge && (this.request.headers.accept || '').includes('text/html');
+        try {
+            if (!judge && !system.get('server.login')) throw new BuiltinLoginError();
+            if (!judge && this.needsCaptcha()) consumeCaptcha(this, captcha);
+            let udoc = await user.getByEmail(domainId, uname);
+            udoc ||= await user.getByUname(domainId, uname);
+            if (judge && !system.get('server.login') && !udoc?.hasPriv(PRIV.PRIV_JUDGE)) throw new BuiltinLoginError();
+            if (!udoc) {
+                this.recordLoginFail();
+                throw new UserNotFoundError(uname);
             }
+            if (system.get('system.contestmode') && !udoc.hasPriv(PRIV.PRIV_EDIT_SYSTEM)) {
+                if (udoc._loginip && udoc._loginip !== this.request.ip) throw new ValidationError('ip');
+                if (system.get('system.contestmode') === 'strict') {
+                    const udocs = await user.getMulti({ loginip: this.request.ip, _id: { $ne: udoc._id } }).toArray();
+                    if (udocs.length) throw new ValidationError('ip');
+                }
+            }
+            await Promise.all([
+                this.limitRate('user_login', 60, 30),
+                this.limitRate('user_login_id', 60, 5, uname),
+                oplog.log(this, 'user.login', { redirect }),
+            ]);
+            if (udoc.tfa || udoc.authn) {
+                if (udoc.tfa && tfa) {
+                    if (!verifyTFA(udoc._tfa, tfa)) throw new InvalidTokenError('2FA');
+                } else if (udoc.authn && authnChallenge) {
+                    const challenge = await token.get(authnChallenge, token.TYPE_WEBAUTHN);
+                    if (!challenge || challenge.uid !== udoc._id) throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_WEBAUTHN]);
+                    if (!challenge.verified) throw new ValidationError('challenge');
+                    await token.del(authnChallenge, token.TYPE_WEBAUTHN);
+                } else throw new ValidationError('2FA', 'Authn');
+            }
+            try {
+                await udoc.checkPassword(password);
+            } catch (e) {
+                this.recordLoginFail();
+                throw e;
+            }
+            if (!udoc.hasPriv(PRIV.PRIV_USER_PROFILE)) throw new BlacklistedError(uname, udoc.banReason);
+            this.session.loginFail = 0;
+            await successfulAuth.call(this, udoc);
+            this.session.save = rememberme;
+            this.response.redirect = redirect || ((this.request.referer || '/login').endsWith('/login')
+                ? this.url('homepage') : this.request.referer);
+        } catch (e) {
+            if (!inline) throw e;
+            // 账号或密码错误时不暴露具体是哪一项错，统一一句话
+            let message = e.message;
+            if (e instanceof UserNotFoundError || e instanceof LoginError) {
+                message = this.translate('Invalid username/email or password.');
+            } else if (e instanceof OpcountExceededError) {
+                message = this.translate('Too many attempts, please try again later.');
+            }
+            this.renderWithError(message, uname, redirect);
         }
-        await Promise.all([
-            this.limitRate('user_login', 60, 30),
-            this.limitRate('user_login_id', 60, 5, uname),
-            oplog.log(this, 'user.login', { redirect }),
-        ]);
-        if (udoc.tfa || udoc.authn) {
-            if (udoc.tfa && tfa) {
-                if (!verifyTFA(udoc._tfa, tfa)) throw new InvalidTokenError('2FA');
-            } else if (udoc.authn && authnChallenge) {
-                const challenge = await token.get(authnChallenge, token.TYPE_WEBAUTHN);
-                if (!challenge || challenge.uid !== udoc._id) throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_WEBAUTHN]);
-                if (!challenge.verified) throw new ValidationError('challenge');
-                await token.del(authnChallenge, token.TYPE_WEBAUTHN);
-            } else throw new ValidationError('2FA', 'Authn');
-        }
-        await udoc.checkPassword(password);
-        if (!udoc.hasPriv(PRIV.PRIV_USER_PROFILE)) throw new BlacklistedError(uname, udoc.banReason);
-        await successfulAuth.call(this, udoc);
-        this.session.save = rememberme;
-        this.response.redirect = redirect || ((this.request.referer || '/login').endsWith('/login')
-            ? this.url('homepage') : this.request.referer);
+    }
+}
+
+class CaptchaHandler extends Handler {
+    noCheckPermView = true;
+    notUsage = true;
+
+    async get() {
+        const code = createCaptcha();
+        this.session.captcha = code;
+        this.session.captchaAt = Date.now();
+        this.response.type = 'image/svg+xml';
+        this.response.addHeader('cache-control', 'no-store, max-age=0');
+        this.response.body = renderCaptchaSvg(code);
     }
 }
 
@@ -248,10 +329,19 @@ export class UserRegisterHandler extends Handler {
 
     async get() {
         this.response.template = 'user_register.html';
+        this.response.body = { captchaRequired: true, error: '', mail: '' };
     }
 
     @post('mail', Types.Email)
-    async post({ }, mail: string) {
+    @param('captcha', Types.String, true)
+    async post({ }, mail: string, captcha = '') {
+        try {
+            consumeCaptcha(this, captcha);
+        } catch (e) {
+            this.response.template = 'user_register.html';
+            this.response.body = { captchaRequired: true, error: e.message, mail };
+            return;
+        }
         if (await user.getByEmail('system', mail)) throw new UserAlreadyExistError(mail);
         const mailDomain = mail.split('@')[1];
         if (await BlackListModel.get(`mail::${mailDomain}`)) throw new BlacklistedError(mailDomain);
@@ -276,7 +366,7 @@ export class UserRegisterHandler extends Handler {
         const prefix = this.domain.host
             ? `${this.domain.host instanceof Array ? this.domain.host[0] : this.domain.host}`
             : system.get('server.url');
-        if (system.get('smtp.verify') && system.get('smtp.user')) {
+        if (system.get('smtp.verify') && (system.get('smtp.user') || system.get('smtp.devOutbox'))) {
             const m = await this.renderHTML('user_register_mail.html', {
                 path: `/register/${t[0]}`,
                 url_prefix: prefix.endsWith('/') ? prefix.slice(0, -1) : prefix,
@@ -342,63 +432,127 @@ class UserRegisterWithCodeHandler extends Handler {
     }
 }
 
+/** 发信通道：配了 SMTP 账号，或者开了开发用 outbox，都算能发信 */
+function canSendMail() {
+    return !!(system.get('smtp.user') || system.get('smtp.devOutbox'));
+}
+
+/** 重置链接的有效时长（小时），与 token 的过期时间保持一致 */
+function resetExpireHours() {
+    return Math.max(1, Math.round(system.get('session.unsaved_expire_seconds') / 3600));
+}
+
+const MAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 class UserLostPassHandler extends Handler {
     noCheckPermView = true;
 
-    async get() {
+    private render(mail: string, error = '') {
         this.response.template = 'user_lostpass.html';
+        this.response.body = { mail, error, mailEnabled: canSendMail() };
     }
 
-    @param('mail', Types.Email)
-    async post(domainId: string, mail: string) {
-        if (!system.get('smtp.user')) throw new SystemError('Cannot send mail');
-        const udoc = await user.getByEmail('system', mail);
-        if (!udoc) throw new UserNotFoundError(mail);
-        await Promise.all([
-            this.limitRate('send_mail', 3600, 30),
-            this.limitRate('send_mail', 60, 1, mail),
-            oplog.log(this, 'user.lostpass', {}),
-        ]);
-        const [tid] = await token.add(
-            token.TYPE_LOSTPASS,
-            system.get('session.unsaved_expire_seconds'),
-            { uid: udoc._id },
-        );
-        const prefix = this.domain.host
-            ? `${this.domain.host instanceof Array ? this.domain.host[0] : this.domain.host}`
-            : system.get('server.url');
-        const m = await this.renderHTML('user_lostpass_mail.html', {
-            url: `/lostpass/${tid}`,
-            url_prefix: prefix.endsWith('/') ? prefix.slice(0, -1) : prefix,
-            uname: udoc.uname,
-        });
-        await sendMail(mail, 'Lost Password', 'user_lostpass_mail', m.toString());
-        this.response.template = 'user_lostpass_mail_sent.html';
+    async get() {
+        this.render('');
+    }
+
+    @param('mail', Types.String, true)
+    async post(domainId: string, mail = '') {
+        const address = mail.trim();
+        if (!MAIL_PATTERN.test(address)) {
+            this.render(address, this.translate('Enter a valid email address.'));
+            return;
+        }
+        if (!canSendMail()) {
+            this.render(address, this.translate('Mail service is not configured yet.'));
+            return;
+        }
+        try {
+            const udoc = await user.getByEmail('system', address);
+            if (!udoc) throw new UserNotFoundError(address);
+            await Promise.all([
+                this.limitRate('send_mail', 3600, 30),
+                this.limitRate('send_mail', 60, 1, address),
+                oplog.log(this, 'user.lostpass', {}),
+            ]);
+            const [tid] = await token.add(
+                token.TYPE_LOSTPASS,
+                system.get('session.unsaved_expire_seconds'),
+                { uid: udoc._id },
+            );
+            const prefix = this.domain.host
+                ? `${this.domain.host instanceof Array ? this.domain.host[0] : this.domain.host}`
+                : system.get('server.url');
+            const m = await this.renderHTML('user_lostpass_mail.html', {
+                url: `/lostpass/${tid}`,
+                url_prefix: prefix.endsWith('/') ? prefix.slice(0, -1) : prefix,
+                uname: udoc.uname,
+                expireHours: resetExpireHours(),
+            });
+            await sendMail(address, 'Lost Password', 'user_lostpass_mail', m.toString());
+            this.response.template = 'user_lostpass_mail_sent.html';
+            this.response.body = { mail: address, expireHours: resetExpireHours() };
+        } catch (e) {
+            if (!(e instanceof UserFacingError)) throw e;
+            // 浏览器表单：错误留在页面上，别把人甩到错误页
+            let message = e.message;
+            if (e instanceof UserNotFoundError) message = this.translate('No account is registered with this email.');
+            else if (e instanceof OpcountExceededError) message = this.translate('Too many attempts, please try again later.');
+            else if (e instanceof SendMailError) message = this.translate('Failed to send the mail, please try again later.');
+            this.render(address, message);
+        }
     }
 }
 
 class UserLostPassWithCodeHandler extends Handler {
     noCheckPermView = true;
 
-    async get({ domainId, code }) {
+    private async loadUname(code: string) {
         const tdoc = await token.get(code, token.TYPE_LOSTPASS);
-        if (!tdoc) throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_LOSTPASS], code);
-        const udoc = await user.getById(domainId, tdoc.uid);
-        this.response.body = { uname: udoc.uname };
+        if (!tdoc) return null;
+        const udoc = await user.getById('system', tdoc.uid);
+        return udoc?.uname || null;
+    }
+
+    private async render(code: string, error = '') {
+        const uname = await this.loadUname(code);
         this.response.template = 'user_lostpass_with_code.html';
+        this.response.body = {
+            code, uname, error, expireHours: resetExpireHours(),
+        };
     }
 
     @param('code', Types.String)
-    @param('password', Types.Password)
-    @param('verifyPassword', Types.Password)
-    async post(domainId: string, code: string, password: string, verifyPassword: string) {
+    async get(domainId: string, code: string) {
+        await this.render(code);
+    }
+
+    @param('code', Types.String)
+    @param('password', Types.String, true)
+    @param('verifyPassword', Types.String, true)
+    async post(domainId: string, code: string, password = '', verifyPassword = '') {
         const tdoc = await token.get(code, token.TYPE_LOSTPASS);
-        if (!tdoc) throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_LOSTPASS], code);
-        if (password !== verifyPassword) throw new VerifyPasswordError();
+        if (!tdoc) {
+            await this.render(code, this.translate('The reset link is invalid or has expired.'));
+            return;
+        }
+        if (password.length < 6 || password.length > 255) {
+            await this.render(code, this.translate('Password should be at least 6 characters.'));
+            return;
+        }
+        if (password !== verifyPassword) {
+            await this.render(code, this.translate('Passwords do not match.'));
+            return;
+        }
+        await this.limitRate('user_lostpass', 60, 10, '{{user}}');
         await user.setById(tdoc.uid, { authenticators: [], tfa: false });
         await user.setPassword(tdoc.uid, password);
         await token.del(code, token.TYPE_LOSTPASS);
-        this.response.redirect = this.url('homepage');
+        // 密码换了就作废所有登录态：原来占着会话的人必须重新登录
+        await token.delByUid(tdoc.uid, token.TYPE_SESSION);
+        await oplog.log(this, 'user.lostpass.reset', { uid: tdoc.uid });
+        // 密码换了就回登录页，让人用新密码登一次
+        this.response.redirect = this.url('user_login');
     }
 }
 
@@ -633,6 +787,7 @@ declare module '@hydrooj/framework' {
 
 export async function apply(ctx: Context) {
     ctx.Route('user_login', '/login', UserLoginHandler);
+    ctx.Route('captcha', '/captcha.svg', CaptchaHandler);
     ctx.Route('user_oauth', '/oauth/:type/login', OauthHandler);
     ctx.Route('user_sudo', '/user/sudo', UserSudoHandler, PRIV.PRIV_USER_PROFILE);
     ctx.Route('user_tfa', '/user/tfa', UserTFAHandler);

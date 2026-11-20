@@ -1,53 +1,75 @@
-.contest-type-tag
+// 比赛类型 / Rated 标记：默认是纯文本 + 彩色图标，不再是一块实色胶囊。
+// 列表里每条比赛都挂两个色块，一屏下来全是颜色，反而看不出重点。
 .contest-tag
 .contest-tag-rated
+  display: inline-flex
+  align-items: center
+  gap: rem(4px)
+  padding: rem(0 7px)
+  border-radius: var(--r-xs)
   font-size: rem($font-size-small)
-  display: inline-block
-  line-height: rem(22px)
-  padding: rem(0 10px)
+  line-height: rem(20px)
   vertical-align: middle
-  border-radius: rem(12px)
-
-  &:hover
-    text-decoration: none
-    color: #FFF !important
 
 .contest-tag-rated
-  background: orange
-  color: #FFF
+  border: 1px solid var(--c-border-strong)
+  color: var(--c-fg-2)
 
   .icon
-    margin-right: rem(5px)
+    color: var(--c-warn)
 
 .contest-type-tag
+  display: inline-flex
+  align-items: center
+  gap: rem(4px)
+  font-size: rem($font-size-small)
+  line-height: 1.5
+
   &, &:visited
     &, .supplementary &
-      color: #FFF
+      color: var(--c-fg-2)
 
   .icon
-    margin-right: rem(5px)
+    color: var(--c-fg-3)
+
+  &:hover
+    &, .supplementary &
+      color: var(--c-fg)
+    text-decoration: none
 
 for key, value in $contest-color
-  .contest-type--{key} .contest-type-tag
-    background: value
-
-    &:hover
-      background: lighten(value, 20%)
+  .contest-type--{key} .contest-type-tag .icon
+    color: value
 
 .contest-tag
   border: 1px solid $supplementary-border-color
 
   &:hover
-    background: $primary-color
-    border-color: $primary-color
+    border-color: var(--c-fg-3)
 
+// The remaining time is docked under the nav instead of pinned to the viewport
+// corner, where it used to sit on top of the page and the nav bar.
 .contest-timer
-  position: fixed;
-  left: 0;
-  top: 48px;
-  z-index: 10000;
+  position: fixed
+  left: 50%
+  bottom: 16px
+  transform: translateX(-50%)
+  z-index: 900
+  margin: 0
+  padding: 6px 12px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-pill)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-card)
+  color: var(--c-fg)
+  font-family: var(--code-font-family)
+  font-size: .82rem
+  font-weight: 600
+  font-variant-numeric: tabular-nums
+  letter-spacing: .02em
+  line-height: 1.4
   +mobile()
-    visibility: hidden !important;
+    visibility: hidden !important
 
 .contest-problems
   font-size: 0.9375rem;
@@ -76,22 +98,22 @@ for key, value in $contest-color
     width: 1.5rem;
     align-items: center;
     justify-content: space-around;
-    border-radius: 0.375rem;
+    border-radius: var(--r-xs);
     position: relative;
     transition: opacity 0.2s;
-    color: grey;
+    color: var(--c-neutral);
     &.pass
-      color: green;
+      color: var(--c-ok);
       &:before
-        background: green;
+        background: var(--c-ok);
     &.fail
-      color: red;
+      color: var(--c-bad);
       &:before
-        background: red;
+        background: var(--c-bad);
     &.pending
-      color: cyan;
+      color: var(--c-warn);
       &:before
-        background: cyan;
+        background: var(--c-warn);
 
     &:after
       content: '';
@@ -102,11 +124,11 @@ for key, value in $contest-color
       left: 0;
       box-sizing: border-box;
       border: 2px solid currentColor;
-      border-radius: 6px;
+      border-radius: var(--r-xs);
       opacity: 0.3;
     
     &.active:after
-      border: 3px solid cyan;
+      border: 3px solid var(--c-warn);
 
     &:before
       opacity: 0.5;

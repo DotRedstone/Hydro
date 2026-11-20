@@ -1,17 +1,114 @@
-$highlight-button-color = #F6DF45
+// 作业列表。
+//
+// 行本身的样式（日期、标题、元信息、悬停）统一在 theme/claude-foundation.styl 的
+// .activity-* 规则里，和比赛、训练列表共用一套；这里只处理本页的工具条。
+
+$highlight-button-color = var(--c-warn)
 
 .page--homework_main
-  .homework__title
-    line-height: 1.2em
-    margin-bottom: rem(10px)
-    font-size: rem($font-size-title)
+  .homework-list-layout .learning-activity-list-card
+    margin-bottom: var(--sp-5)
 
-  .homework__info-attended
-    color: $success-color
+  // 工具条：搜索 / 分组 / 视图 / 创建共用一行同高的控件
+  .homework-list-layout .learning-activity-list-card .section__header
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: space-between
+    gap: 12px
+    padding: 14px 20px
 
-  .homework__date
-    margin-right: rem(10px)
+  .homework-list-layout .learning-activity-list-card .section__title
+    font-size: 1.06rem
+    font-weight: 600
+    letter-spacing: -.005em
+
+  .homework-toolbar
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 8px 10px
+
+  .homework-toolbar > *
+    flex: 0 0 auto
+
+  .homework-toolbar .filter-form
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 8px
+    margin: 0
+
+  .homework-toolbar__view
+    display: inline-flex
+    align-items: center
+    gap: 6px
     white-space: nowrap
-  
-  .filter-form
-    display: inline-block
+
+  .homework-toolbar__label
+    color: var(--c-fg-3)
+    font-size: .8rem
+    white-space: nowrap
+
+  .homework-toolbar [name="q"],
+  .homework-toolbar select,
+  .homework-toolbar .button
+    height: 32px
+    min-height: 32px
+    margin: 0
+    font-size: .85rem
+
+  .homework-toolbar [name="q"]
+    width: 200px
+    padding: 0 10px
+
+  .homework-toolbar select
+    // 右侧要给 form/select 画的下拉箭头留位置
+    padding-right: rem(28px)
+
+  .homework-toolbar .button
+    padding-left: 12px
+    padding-right: 12px
+
+  .homework-list-layout .homework__list
+    margin: 0
+    padding: 0
+    list-style: none
+
+  .homework-list-layout [name="calendar_entry"]
+    padding: 20px
+    border-top: 1px solid var(--c-border)
+
+  @media only screen and (max-width: 600px)
+    .homework-list-layout .learning-activity-list-card .section__header
+      padding: 14px 16px
+
+    .homework-toolbar [name="q"]
+      width: auto
+      flex: 1 1 140px
+      min-width: 0
+
+    .homework-toolbar__label
+      display: none
+
+
+// 手机上工具条里的输入框仍然要 16px，否则 iOS 聚焦会放大整页。
+// 选择器要写到和上面 `.homework-toolbar [name="q"]` 同权重才吃得掉。
+// 注意：这张卡在 390px 下“全部”下拉本来就有一截被裁（本轮之前就有），
+// 属于工具条自身宽度计算的问题，留待单独处理。
++mobile()
+  .page--homework_main .homework-toolbar [name="q"],
+  .page--homework_main .homework-toolbar select
+    font-size: 16px
+
+  // 表单默认是 flex: 0 0 auto，宽度按内容算（实测 405px），比卡片宽出 79px，
+  // “全部”就被裁在卡片外。允许它收缩、并把搜索框的固定 200px 放开，
+  // 三个控件才能在 390px 里排成一行。
+  .page--homework_main .homework-toolbar .filter-form
+    flex: 1 1 100%
+    min-width: 0
+
+  .page--homework_main .homework-toolbar [name="q"]
+    width: auto
+    flex: 1 1 120px
+    min-width: 0

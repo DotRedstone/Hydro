@@ -1,4 +1,3 @@
-@import 'prism-themes/themes/prism-vs.css'
 
 pre, code
   background: $syntax-hl-bg-color
@@ -6,7 +5,7 @@ pre, code
 pre > code
   background: none
   line-height: 1.5
-  color: black
+  color: $text-1-color
   text-align: left
   white-space: pre-wrap
   word-spacing: normal
@@ -23,14 +22,84 @@ code
   color: $code-color
   font-size: rem($font-size-secondary)
 
+// Prism token palette.
+//
+// prism-themes ships fixed light hex values, which turned code blocks into white
+// islands in dark mode. The token colours below come from the same palette as the
+// rest of the UI, so highlighting follows the theme.
+pre[class*='language-'],
+code[class*='language-']
+  color: var(--c-fg)
+  background: var(--c-code-bg)
+  text-shadow: none
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata
+  color: var(--c-fg-3)
+
+.token.punctuation
+  color: var(--c-fg-2)
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted
+  color: var(--c-bad)
+
+.token.boolean,
+.token.number
+  color: var(--c-warn)
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted
+  color: var(--c-ok)
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string
+  color: var(--c-fg-2)
+
+.token.atrule,
+.token.attr-value,
+.token.keyword
+  color: var(--c-link)
+
+.token.function,
+.token.class-name
+  color: var(--c-info)
+
+.token.regex,
+.token.important,
+.token.variable
+  color: var(--c-warn)
+
+.token.important,
+.token.bold
+  font-weight: 600
+
+.token.italic
+  font-style: italic
+
+.token.entity
+  cursor: help
+
 .line-highlight 
   position: absolute
   left: 0
   right: 0
   padding: inherit 0
   margin-top: 1em /* Same as .prism’s padding-top */
-  background: hsla(24, 20%, 50%,.08)
-  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0))
+  background: token-alpha(var(--c-neutral), 8%)
+  background: linear-gradient(to right, token-alpha(var(--c-neutral), 10%) 70%, token-alpha(var(--c-neutral), 0%))
   pointer-events: none
   line-height: inherit
   white-space: pre
@@ -42,20 +111,47 @@ code
 .toolbar
   position: absolute
   white-space: no-wrap
-  right: 0 !important
-  top: 0 !important
-  padding: rem(5px) 0
+  right: rem(8px) !important
+  top: rem(8px) !important
+  padding: 0
   opacity: 1 !important
-  background: rgba($syntax-hl-bg-color, 0.8)
+  background: none
   font-family: $primary-font-family
   pointer-events: all
   user-select: none
 
-.toolbar-item
-  a
-    font-size: large !important
-    border-radius: 0px !important
-    background: none !important
+// 代码块右上角的复制按钮：只有图标，尺寸固定，不随代码块的字体大小变化。
+// 选择器跟 prism-toolbar.css 保持同等特异性，才盖得住那里的背景与内边距。
+div.code-toolbar > .toolbar > .toolbar-item > button,
+div.code-toolbar > .toolbar > .toolbar-item > a
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  width: rem(26px)
+  height: rem(26px)
+  padding: 0 !important
+  border: 1px solid var(--c-border) !important
+  border-radius: var(--r-sm) !important
+  background: var(--c-surface) !important
+  box-shadow: none !important
+  // prism-theme 把代码块里的链接写死成 #bbb，浅色与棕褐主题下几乎看不见
+  color: var(--c-fg-3) !important
+  font-size: rem(14px) !important
+  line-height: 1 !important
+  cursor: pointer
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease
+
+  &:hover,
+  &:focus-visible
+    color: var(--c-fg) !important
+    border-color: var(--c-border-strong) !important
+    background: var(--c-hover) !important
+    text-decoration: none !important
+
+  &.is-copied
+    color: var(--c-ok) !important
+    border-color: token-alpha(var(--c-ok), 45%) !important
+    background: var(--c-ok-soft) !important
 
 .scratchpad-fill-button
   display: none
@@ -73,7 +169,7 @@ code
 .token.cr:before,
 .token.lf:before,
 .token.space:before
-	color: #808080
+	color: $text-3-color
 	opacity: 0.6
 	position: absolute
 

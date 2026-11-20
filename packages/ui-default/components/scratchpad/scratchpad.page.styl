@@ -1,6 +1,10 @@
+// 在线编程模式（scratchpad）：整页是一块工作台
+//   左：图标栏  |  中：题面 / 设置  |  右：工具条 + 编辑器，下面是自测与评测记录
+// 分栏由 Allotment 负责，这里只把它的分隔条换成设计令牌。
+
 .scratchpad-container
   position: absolute
-  background: #FFF
+  background: var(--c-bg)
 
 #scratchpad
   position: absolute
@@ -8,6 +12,16 @@
   top: $nav-item-height
   width: 100%
   bottom: 0
+  background: var(--c-bg)
+  color: var(--c-fg)
+  // Allotment 靠这几个变量画分隔线与拖拽指示，改令牌就不用管它的哈希类名
+  --separator-border: var(--c-border)
+  --focus-border: var(--c-accent)
+  --sash-size: 10px
+  --sash-hover-size: 2px
+
+  .splitpane-fill
+    background: var(--c-surface)
 
 .scratchpad__problem
   position: absolute
@@ -16,12 +30,20 @@
   width: 100%
   height: 100%
   overflow: auto
+  background: var(--c-surface)
+
+  // 整屏工作台里的题面要给点呼吸感，别贴着分栏线
+  .problem-content
+    padding: rem(20px 26px 40px)
+
+  .problem-content > .section:first-child
+    margin-top: 0
 
 .scratchpad__toolbar__pretest.enabled:hover .icon
-  color: red
+  color: var(--c-bad)
 
 .scratchpad__toolbar__submit.enabled:hover .icon
-  color: green
+  color: var(--c-ok)
 
 .scratchpad__records__table
   &.loading
@@ -37,7 +59,7 @@
     width: rem(70px)
 
   .col--detail
-    border-right: 1px solid $table-border-color
+    border-right: 0
 
   .icol
     display: inline-block
@@ -47,9 +69,9 @@
 
     .flag
       font-size: rem(12px)
-      color: #FFF
+      color: var(--c-accent-fg)
       padding: rem(2px 3px)
 
   .icol--stat
-    color: #AAA
+    color: $text-3-color
     width: rem(60px)

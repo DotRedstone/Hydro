@@ -4,6 +4,7 @@ homepage:
   default:
     - width: 9
       bulletin: true
+      recent_problems: 12
       contest: 5
       homework: 10
       training: 10
@@ -12,7 +13,6 @@ homepage:
     - width: 3
       hitokoto: true
       starred_problems: 50
-      recent_problems: 10
       discussion_nodes: true
       suggestion: true
 langs:

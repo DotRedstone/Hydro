@@ -16,10 +16,10 @@
     width: rem(120px)
 
   .col--case, .col--status
-    border-right: 1px solid $table-border-color
+    border-right: 0
   
   .subtask
-    background-color: #fff !important
+    background-color: var(--c-surface) !important
     height: rem(30px)
     td
       padding-top: 0 
@@ -50,6 +50,135 @@
 
   .compiler-text-mask
     height: rem(50px)
-    background-image: linear-gradient(to bottom, transparent, #ffffff 25px)
+    background-image: linear-gradient(to bottom, transparent, var(--c-surface) 25px)
     p
       text-align: center
+
+.page--record_detail
+  .record-detail-layout::before,
+  .record-detail-layout::after
+    content: none
+
+  .record-detail-layout
+    display: grid
+    grid-template-columns: minmax(0, 1fr) 320px
+    gap: var(--sp-5)
+    align-items: start
+    margin-left: auto
+    margin-right: auto
+
+  .record-detail-layout > .columns
+    width: auto
+    min-width: 0
+    float: none
+    padding-left: 0
+    padding-right: 0
+
+  .record-detail-main > .section,
+  .record-detail-sidebar > .section
+    overflow: hidden
+    margin-bottom: var(--sp-5)
+
+  .record-detail-main #status > .section__header
+    padding: 22px 26px
+
+  .record-detail-main #status > .section__header .section__title
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 10px
+    font-size: 1.3rem
+    line-height: 1.4
+
+  .record-detail-main #status > .section__body
+    padding: 20px 26px
+
+  .record-detail-main .record_detail__table
+    width: 100%
+    font-size: .9rem
+
+  .record-detail-main .record_detail__table th
+    padding: 14px 12px
+    font-size: .78rem
+    text-transform: uppercase
+    letter-spacing: .03em
+
+  .record-detail-main .record_detail__table td
+    padding: 12px
+    line-height: 1.55
+
+  .record-detail-main .record_detail__table .message
+    display: block
+    margin-top: 5px
+    color: var(--c-fg-3)
+    font-size: .82rem
+    line-height: 1.55
+
+  .record-detail-main .record-code-card .section__body
+    padding: 22px
+    overflow-x: auto
+
+  .record-detail-main .record-code-card pre
+    margin: 0
+    border: 1px solid var(--c-border)
+    border-radius: var(--r)
+    background: var(--c-sunken)
+    font-size: .86rem
+    line-height: 1.65
+
+  .record-detail-main .compiler-text,
+  .record-detail-main .judge-text
+    padding: 16px
+    border-radius: var(--r)
+    background: var(--c-sunken)
+    color: var(--c-fg)
+    font-size: .84rem
+    line-height: 1.65
+    overflow-x: auto
+
+  .record-detail-sidebar .section__header
+    padding: 17px 20px
+
+  .record-detail-sidebar .section__body
+    padding: 18px 20px
+
+  .record-detail-sidebar dl.horizontal
+    display: grid
+    grid-template-columns: minmax(90px, .8fr) minmax(0, 1.2fr)
+    gap: 9px 12px
+    margin: 0
+    font-size: .86rem
+    line-height: 1.5
+
+  .record-detail-sidebar dl.horizontal dt
+    color: var(--c-fg-3)
+    font-weight: 550
+
+  .record-detail-sidebar dl.horizontal dd
+    min-width: 0
+    margin: 0
+    overflow-wrap: anywhere
+    color: var(--c-fg)
+
+  .record-detail-sidebar .menu__link
+    min-height: 40px
+    padding: 10px 16px
+    font-size: .9rem
+
+  .record-detail-sidebar #summary
+    margin-top: 18px
+    padding-top: 16px
+    border-top: 1px solid var(--c-border)
+
+  @media only screen and (max-width: 900px)
+    .record-detail-layout
+      grid-template-columns: minmax(0, 1fr)
+
+  @media only screen and (max-width: 600px)
+    .record-detail-main #status > .section__header,
+    .record-detail-main #status > .section__body,
+    .record-detail-main .record-code-card .section__body
+      padding: 16px
+
+    .record-detail-sidebar dl.horizontal
+      grid-template-columns: minmax(90px, .75fr) minmax(0, 1.25fr)

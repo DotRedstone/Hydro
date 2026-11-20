@@ -1,8 +1,8 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row">
-  <div class="large-9 columns">
-    <div class="section">
+<div class="row learning-activity-layout training-list-layout">
+  <div class="large-9 columns learning-activity-main">
+    <div class="section learning-activity-list-card">
       <div class="section__header">
         <h1 class="section__title">{{ _('All Training Plans') }}</h1>
         <div class="section__tools">
@@ -19,12 +19,12 @@
       {% else %}
         <ol class="section__list all primary training__list">
           {%- for tdoc in tdocs -%}
-            <li class="section__list__item training__item">
+            <li class="section__list__item activity-item training__item">
               <div class="media">
                 <div class="media__left middle">
                   <div class="training__participants numbox">
                     <div class="numbox__num large">{{ tdoc.attend|default(0) }}</div>
-                    <div class="numbox__text">{{ _('Enrolled') }}</div>
+                    <div class="numbox__text">{{ _('Enrollees') }}</div>
                   </div>
                 </div>
                 <div class="media__body middle">
@@ -34,19 +34,17 @@
                   </div>
                   <ul class="supplementary list training__progress">
                     <li>
-                      <span class="icon icon-flag text-blue"></span> {{ _('{0} sections').format(tdoc['dag']|length) }}, {{ _('{0} problems').format(model.training.getPids(tdoc.dag)|length) }}
+                      {{ _('{0} sections').format(tdoc['dag']|length) }}, {{ _('{0} problems').format(model.training.getPids(tdoc.dag)|length) }}
                     </li>
                     <li>
                     {% if tsdict[tdoc.docId]['enroll'] %}
                       {% if not tsdict[tdoc.docId]['done'] %}
-                        <span class="icon training-status--icon progress"></span>
-                        <span class="training-status--text progress">{{ _('Completed') }} {{ (100 * tsdict[tdoc.docId]['donePids']|length / model.training.getPids(tdoc.dag)|length)|round|int }}%</span>
+                        <span class="training-status training-status--progress">{{ _('Progress') }} {{ (100 * tsdict[tdoc.docId]['donePids']|length / model.training.getPids(tdoc.dag)|length)|round|int }}%</span>
                       {% else %}
-                        <span class="icon training-status--icon done"></span>
-                        <span class="training-status--text done">{{ _('Completed') }} 100%</span>
+                        <span class="training-status training-status--done">{{ _('Completed') }} 100%</span>
                       {% endif %}
                     {% elif handler.user.hasPriv(PRIV.PRIV_USER_PROFILE) %}
-                      <span class="icon training-status--icon outside"></span> <span class="training-status--text outside">{{ _('Not Enrolled') }}</span>
+                      <span class="training-status training-status--outside">{{ _('Not Enrolled') }}</span>
                     {% endif %}
                     </li>
                   </ul>
@@ -59,7 +57,7 @@
       {% endif %}
     </div>
   </div>
-  <div class="large-3 columns">
+  <div class="large-3 columns learning-activity-side">
     {% if handler.user.hasPerm(perm.PERM_CREATE_TRAINING) %}
       <div class="section side">
         <div class="section__header">

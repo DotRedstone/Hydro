@@ -1,60 +1,93 @@
+// 全站搜索（Ctrl+K / 右下角放大镜）。
+//
+// 之前是「输入框 + 一堆白卡片直接浮在页面上」：面板本身没有底色，页面内容从卡片缝里
+// 透出来，标题是 18px 黑色粗体压在内容上，卡片还带 2px 描边。这里改成一个完整的
+// 搜索面板：输入行 + 分隔线 + 结果列表，结果行改成可悬停的条目。
+
 .omnibar {
     position: fixed;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
+    inset: 0;
+    background-color: var(--c-overlay);
     backdrop-filter: blur(3px);
     z-index: 999;
     transition: 0.2s;
 }
+
 .omnibar-main {
-    height: min(600px, 100% - 20px);
-    width: min(750px, 60%);
     position: absolute;
-    top: 50%;
+    top: 10vh;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
+    width: rem(680px);
+    max-width: calc(100% - 32px);
+    max-height: 78vh;
+    padding: rem(8px);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-lg);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-float);
+    overflow: hidden;
+
+    // 输入行：贴在面板顶部，下面一条分隔线，不再单独画一个白框
     >div:first-child {
-        transition: 0.2s;
-        margin-bottom: 10px;
+        position: relative;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        padding-bottom: rem(8px);
+        border-bottom: 1px solid var(--c-border);
+        margin-bottom: rem(4px);
+
         input {
-            background-color: #fff;
-            border-radius: 5px;
-            border: 2px solid #aaa;
-            padding-left: 42px;
-            height: 48px;
             width: 100%;
-            font-size: 18px;
+            height: rem(42px);
+            padding: 0 rem(10px) 0 rem(36px);
+            border: 0;
+            border-radius: var(--r-sm);
+            background: transparent;
+            color: var(--c-fg);
+            font-size: rem(16px);
             outline: 0;
             box-sizing: border-box;
+
+            &::placeholder {
+                color: var(--c-fg-3);
+            }
         }
+
         span {
-            height: 48px;
-            width: 48px;
             position: absolute;
+            top: rem(11px);
+            left: rem(10px);
             display: grid;
-            scale: 1.5;
             place-items: center;
-            top: 0px;
-            left: 0px;
+            width: rem(20px);
+            height: rem(20px);
+            color: var(--c-fg-3);
+            font-size: rem(15px);
         }
     }
+
     >div:last-child {
-        flex: 1;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+        // 面板跟着结果长高：flex 让内容自己决定高度，只有超出上限才滚动
+        flex: 0 1 auto;
+        min-height: 0;
+        max-height: 56vh;
         overflow-x: hidden;
         overflow-y: auto;
-        &::-webkit-scrollbar { width: 0 !important; }
+        padding: 0 rem(2px) rem(2px);
+        scrollbar-width: thin;
     }
 }
+
 .omnibar-toggle {
     z-index: 99;
-    background: white;
+    background: var(--c-surface);
+    color: var(--c-fg-2);
+    border: 1px solid var(--c-border);
+    box-shadow: var(--shadow-pop);
     display: grid;
     place-items: center;
     width: 40px;
@@ -63,76 +96,121 @@
     right: 20px;
     bottom: 30px;
     transition: 0.2s;
-    border-radius: 5px;
+    border-radius: var(--r-xs);
     &:hover {
-        background: #ccc;
+        background: var(--c-hover);
     }
     span {
         scale: 1.5;
     }
 }
+
 #omnibar-content {
     overscroll-behavior: none;
 }
-.omnibar-content-title {
-    text-align: left;
-    margin-bottom: 10px;
-    width: 100%;
-    font-size: 18px;
-    font-weight: bold;
+
+// 没有结果 / 搜索中的提示行
+#omnibar-content>div:not([class]) {
+    padding: rem(12px) rem(10px);
+    color: var(--c-fg-3);
+    font-size: rem($font-size-secondary);
 }
+
+.omnibar-content-title {
+    width: 100%;
+    margin: rem(10px) 0 rem(2px);
+    padding: 0 rem(10px);
+    color: var(--c-fg-3);
+    font-size: rem(11px);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    text-align: left;
+    text-transform: uppercase;
+}
+
 .omnibar-content-section {
-    background: white;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    cursor: pointer;
-    padding: 10px;
-    line-height: 1;
-    margin-bottom: 10px;
-    border: 2px solid #888;
-    box-sizing: border-box;
+    gap: rem(3px);
     width: 100%;
+    margin-bottom: rem(2px);
+    padding: rem(8px) rem(10px);
+    border: 0;
+    border-radius: var(--r-sm);
+    background: transparent;
+    color: var(--c-fg);
+    line-height: 1.4;
     text-decoration: none !important;
-    &:hover {
-        background: #eee;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:hover,
+    &:focus-visible {
+        background: var(--c-hover);
+        outline: 0;
     }
+
     >div {
         width: 100%;
         display: flex;
         flex-direction: row;
+        align-items: center;
+        gap: rem(6px);
+    }
+
+    // 第二行是题号 / 通过数这类附加信息
+    >div+div {
+        color: var(--c-fg-3);
+        font-size: rem($font-size-small);
     }
 }
 
-.omnibar-user img {
-    height: 36px;
-    width: 36px;
-    border-radius: 50%;
-    margin-right: 10px;
+.omnibar-problem {
+    >div:first-child>div {
+        font-weight: 500;
+    }
+
+    .icon {
+        color: var(--c-fg-3);
+        margin-right: rem(2px);
+        &:not(:first-child) {
+            margin-left: rem(10px);
+        }
+    }
 }
+
+.omnibar-user {
+    img {
+        height: rem(28px);
+        width: rem(28px);
+        border-radius: var(--r-pill);
+        margin-right: rem(9px);
+    }
+}
+
 .omnibar-user-info {
-    >span {
-        font-size: 14px;
-        margin-bottom: 3px;
-        display: inline-block;
-    }
-    >div {
-        display: flex;
-        flex-direction: row;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: rem(1px);
 }
 
-.omnibar-problem a {
-    margin: 2px 0px 3px 0px;
+.omnibar-user-name {
+    color: var(--c-fg);
+    font-size: rem($font-size-secondary);
+    font-weight: 500;
+    line-height: 1.35;
 }
-.omnibar-problem .icon {
-    margin-right: 3px;
-    &:not(:first-child) {
-        margin-left: 10px;
-    }
+
+.omnibar-user-uid {
+    color: var(--c-fg-3);
+    font-size: rem($font-size-small);
+    line-height: 1.3;
 }
+
 @media print {
-    .omnibar, .omnibar-toggle {
+    .omnibar,
+    .omnibar-toggle {
         display: none;
     }
 }

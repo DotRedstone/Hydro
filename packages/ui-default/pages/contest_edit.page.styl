@@ -1,0 +1,24 @@
+// Grouped field sets inside one editor card: a hairline and a quieter heading
+// separate them, so a long create/edit form reads as three blocks, not one blob.
+.section__header--group
+  margin-top: rem(10px)
+  padding-top: rem(20px) !important
+  border-top: 1px solid token-alpha(var(--c-border), 70%)
+
+  .section__title
+    font-size: 1rem
+    font-weight: 600
+    color: var(--c-fg-2)
+
+// Foundation rows inside a card body pull themselves out of the padding with
+// negative margins; normalise the gutters so inputs line up with the card edge.
+.section__body > .row
+  margin-left: rem(-8px)
+  margin-right: rem(-8px)
+
+.section__body > .row > .columns
+  padding-left: rem(8px)
+  padding-right: rem(8px)
+
+.section__body > .row + .row
+  margin-top: rem(4px)

@@ -1,7 +1,7 @@
 {% extends "layout/basic.html" %}
 {% import "components/contest.html" as contest with context %}
 {% macro render_important_contest(view, title, tdoc) %}
-<div class="section immersive--content section--contest {{ view }}">
+<div class="section immersive--content section--contest learning-activity-feature {{ view }}">
   <div class="media">
     <div class="media__body middle">
       <div class="section__body">
@@ -45,8 +45,8 @@
 </div>
 {% endmacro %}
 {% block content %}
-<div class="row">
-  <div class="medium-9 columns">
+<div class="row learning-activity-layout contest-list-layout">
+  <div class="medium-9 columns learning-activity-main">
   {%- for tdoc in tdocs -%}
     {% if model.contest.isOngoing(tdoc, tsdoc) %}
       {{ render_important_contest('live', 'Live...', tdoc) }}
@@ -54,7 +54,7 @@
       {{ render_important_contest('ready', 'Ready (☆▽☆)', tdoc) }}
     {% endif %}
   {%- endfor -%}
-    <div class="section">
+    <div class="section learning-activity-list-card">
       <div class="section__header">
         <h1 class="section__title">{{ _('All Contests') if not rule else _('All {0} Contests').format(_(model.contest.RULES[rule].TEXT)) }}</h1>
         <div class="section__tools">
@@ -89,32 +89,32 @@
       {% else %}
         <ol class="section__list contest__list">
         {%- for tdoc in tdocs -%}
-          <li class="section__list__item contest__item contest-type--{{ tdoc['rule'] }}">
+          <li class="section__list__item activity-item contest__item contest-type--{{ tdoc['rule'] }}">
             <div class="media">
               <div class="media__left medium">
-                <div class="contest__date numbox">
-                  <div class="numbox__num large">{{ datetimeSpan(tdoc['beginAt'], false, 'D')|safe }}</div>
-                  <div class="numbox__text">{{ datetimeSpan(tdoc['beginAt'], false, 'YYYY-M')|safe }}</div>
+                <div class="activity__date contest__date">
+                  <span class="activity__date-day">{{ datetimeSpan(tdoc['beginAt'], false, 'D')|safe }}</span>
+                  <span class="activity__date-month">{{ datetimeSpan(tdoc['beginAt'], false, 'YYYY-M')|safe }}</span>
                 </div>
               </div>
               <div class="media__body medium">
-                <h1 class="contest__title"><a href="{{ url('contest_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h1>
-                <ul class="supplementary list">
-                  <li>
+                <h2 class="activity__title contest__title"><a href="{{ url('contest_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h1>
+                <ul class="supplementary list activity__meta">
+                  <li class="activity__meta-item">
                     <a href="?rule={{ tdoc['rule'] }}" class="contest-type-tag"><span class="icon icon-award"></span>{{ _(model.contest.RULES[tdoc.rule].TEXT) }}</a>
                   </li>
                   {% if tdoc.rated %}
-                    <li class="contest-tag-rated"><span class="icon icon-star"></span>Rated</li>
+                    <li class="activity__meta-item contest-tag-rated"><span class="icon icon-star"></span>Rated</li>
                   {% endif %}
-                  <li>
-                    <span class="icon icon-schedule--fill text-blue"></span> {{ contest.render_duration(tdoc) }} {{ _('hour(s)') }}
+                  <li class="activity__meta-item">
+                    <span class="icon icon-schedule--fill"></span>{{ contest.render_duration(tdoc) }} {{ _('hour(s)') }}
                   </li>
-                  <li>
-                    <span class="icon icon-user--multiple"></span> {{ tdoc['attend']|default(0) }}
+                  <li class="activity__meta-item">
+                    <span class="icon icon-user--multiple"></span>{{ tdoc['attend']|default(0) }}
                   </li>
                 {% if tsdict[tdoc.docId].attend %}
-                  <li class="contest__info-attended">
-                    <span class="icon icon-check"></span> {{ _('Attended') }}
+                  <li class="activity__meta-item contest__info-attended">
+                    <span class="icon icon-check"></span>{{ _('Attended') }}
                   </li>
                 {% endif %}
                 </ul>
@@ -128,7 +128,7 @@
       </div>
     </div>
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns learning-activity-side">
   {% if handler.user.hasPerm(perm.PERM_CREATE_CONTEST) %}
     <div class="section side">
       <div class="section__header">

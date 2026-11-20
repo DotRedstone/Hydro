@@ -1,7 +1,9 @@
 import {
-    Context, ForbiddenError, Handler, Schema, Service, superagent, SystemModel,
+    Context, ForbiddenError, Handler, Logger, Schema, Service, superagent, SystemModel,
     TokenModel, UserFacingError, ValidationError,
 } from 'hydrooj';
+
+const logger = new Logger('oauth-github');
 
 // from https://github.com/logos
 // eslint-disable-next-line max-len
@@ -10,14 +12,19 @@ const icon = '<svg viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg"><path 
 export default class LoginWithGithubService extends Service {
     static inject = ['oauth'];
     static Config = Schema.object({
-        id: Schema.string().description('GitHub OAuth AppID').required(),
-        secret: Schema.string().description('GitHub OAuth Secret').role('secret').required(),
+        id: Schema.string().description('GitHub OAuth AppID').default(''),
+        secret: Schema.string().description('GitHub OAuth Secret').role('secret').default(''),
         endpoint: Schema.string().description('GitHub Endpoint'),
         canRegister: Schema.boolean().default(true),
     });
 
     constructor(ctx: Context, config: ReturnType<typeof LoginWithGithubService.Config>) {
         super(ctx, 'oauth.github');
+        // 未配置 AppID 时不注册按钮：登录页不会出现一个点了必然失败的入口
+        if (!config.id || !config.secret) {
+            logger.warn('GitHub OAuth 未配置（oauth.github.id / oauth.github.secret），登录按钮已跳过');
+            return;
+        }
         ctx.oauth.provide('github', {
             text: 'Login with GitHub',
             name: 'GitHub',

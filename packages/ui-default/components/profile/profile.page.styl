@@ -21,3 +21,10 @@ for key, _ in $badge-bg-color
   .badge--{key}
     background-color: $badge-bg-color[key] !important
     color: $badge-text-color[key] !important
+
+// 等级 / 身份徽章直接拿分类色当底：白字压在上面只有 3.2–4.4:1。
+// 往正文色混一档（浅色主题变深、深色主题变亮，正好都朝“离文字更远”的方向走），
+// 白字和深字在两种主题下都能到 4.5:1 以上。lv0 是浅底深字，不参与。
+for key in lv1 lv2 lv3 lv4 lv5 lv6 lv7 lv8 lv9 lv10 mod
+  .badge--{key}
+    background-color: token-mix($badge-bg-color[key], var(--c-fg), 72%) !important

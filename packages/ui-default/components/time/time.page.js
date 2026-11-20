@@ -3,17 +3,22 @@ import * as timeago from 'timeago.js';
 import { AutoloadPage } from 'vj/misc/Page';
 import { i18n } from 'vj/utils';
 
-try {
-  const locales = require.context('timeago.js/lib/lang', false, /\.js$/);
-  let locale;
-  try {
-    locale = locales(`./${i18n('timeago_locale')}.js`).default;
-  } catch (e) {
-    locale = locales('./en_US.js').default;
-  }
-  timeago.register(i18n('timeago_locale'), locale);
-} catch (e) {
-  console.error(`Cannot register timeago locale: ${i18n('timeago_locale')}`);
+// timeago ships en_US and zh_CN built in; the rest live behind the package's
+// `./lib/*` export map, which a directory-wide require.context cannot resolve.
+// List the locales this UI ships explicitly so each one stays a real module.
+const timeagoLocaleLoaders = {
+  ko: () => import('timeago.js/lib/lang/ko'),
+  zh_TW: () => import('timeago.js/lib/lang/zh_TW'),
+  en_US: () => import('timeago.js/lib/lang/en_US'),
+  zh_CN: () => import('timeago.js/lib/lang/zh_CN'),
+};
+
+const localeName = i18n('timeago_locale');
+const loadLocale = timeagoLocaleLoaders[localeName];
+if (loadLocale) {
+  loadLocale()
+    .then((mod) => timeago.register(localeName, mod.default || mod))
+    .catch(() => {});
 }
 function runRelativeTime($container) {
   $container.find('span.time.relative[data-timestamp]').get().forEach((element) => {

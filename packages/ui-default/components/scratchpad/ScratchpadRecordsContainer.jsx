@@ -26,19 +26,23 @@ export default connect(mapStateToProps)(class ScratchpadRecordsContainer extends
           </span>
         )}
       >
-        <table className={cn}>
-          <colgroup>
-            <col className="col--detail" />
-            <col className="col--memory" />
-            <col className="col--time" />
-            <col className="col--at" />
-          </colgroup>
-          <tbody>
-            {this.props.rows.map((rowId) => (
-              <ScratchpadRecordsRow key={rowId} id={rowId} />
-            ))}
-          </tbody>
-        </table>
+        {this.props.rows.length ? (
+          <table className={cn}>
+            <colgroup>
+              <col className="col--detail" />
+              <col className="col--memory" />
+              <col className="col--time" />
+              <col className="col--at" />
+            </colgroup>
+            <tbody>
+              {this.props.rows.map((rowId) => (
+                <ScratchpadRecordsRow key={rowId} id={rowId} />
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="scratchpad__panel-empty">{i18n('No submissions yet.')}</p>
+        )}
       </Panel>
     );
   }
