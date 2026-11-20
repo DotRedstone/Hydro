@@ -1,5 +1,22 @@
 // Extracted from Foundation framework
 
+// 占位文字统一走辅助文字色。题库搜索框这类没挂 .textbox 的原生输入框
+// 原本吃浏览器的默认灰（#757575），在纸底上只有 4.3:1
+input::placeholder,
+textarea::placeholder
+  color: var(--c-fg-3)
+  opacity: 1
+
+// 手机上把输入框字号抬到 16px：小于 16px 时 iOS 聚焦会自动放大整页
++mobile()
+  input,
+  input.textbox,
+  textarea,
+  textarea.textbox,
+  select,
+  .select
+    font-size: 16px
+
 /**
    * Known limitation: by default, Chrome and Safari on OS X allow very limited
    * styling of `select`, unless a `border` property is set.

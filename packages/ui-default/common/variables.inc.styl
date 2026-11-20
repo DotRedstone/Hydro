@@ -114,7 +114,9 @@ $compact-control-height = 30px
 $input-margin = 0 0 1rem
 $input-multi-line-margin = 0 0.3rem 0.15rem 0
 $input-image-radio-margin = 0 0.3rem 0.3rem 0
-$input-background-color = var(--c-surface)
+// 输入框用比卡片低一档的纸色：白卡片上的白输入框原本只靠一根淡线区分，
+// 换底色以后字段边界不依赖描边深浅，深色下也同样读得出“这里可以输入”
+$input-background-color = var(--c-bg)
 $input-border = 1px solid var(--c-border-strong)
 $input-outline = 2px solid transparent
 $input-focus-border-color = var(--c-accent)

@@ -40,7 +40,7 @@
   min-width: 0
   height: 40px
   padding: 0 13px
-  border: 1px solid var(--c-border)
+  border: 1px solid var(--c-border-strong)
   border-radius: var(--r-sm)
   background: var(--c-bg)
   color: var(--c-fg)
@@ -50,7 +50,7 @@
   flex: 0 0 40px
   width: 40px
   height: 40px
-  border: 1px solid var(--c-border)
+  border: 1px solid var(--c-border-strong)
   border-radius: var(--r-sm)
   background: var(--c-surface)
   color: var(--c-fg-3)
@@ -70,8 +70,9 @@
   position: static
   flex: 0 0 126px
   width: 126px
-  height: 44px
-  border: 1px solid var(--c-border)
+  // 与搜索框、按钮同高，三者原本是 40/44/40
+  height: 40px
+  border: 1px solid var(--c-border-strong)
   border-radius: var(--r-sm)
   // background-color：简写会清掉 form/select 画的下拉箭头
   background-color: var(--c-surface)
@@ -79,23 +80,61 @@
   padding-right: rem(30px)
 
 .problem-catalog__sidebar .section
-  margin-bottom: 18px
+  margin-bottom: 16px
 
+.problem-catalog__sidebar .section__header
+  padding: 12px 16px
+  min-height: 0
+
+.problem-catalog__sidebar .section__title
+  font-size: .95rem
+
+.problem-catalog__sidebar .section__body
+  padding: 14px 16px
+
+.problem-catalog__sidebar .menu
+  margin: 0
+  padding: 0
+
+// 侧栏菜单是操作入口，不是说明文字：用正文色，悬停只加深不换色板，
+// 强调色留给真正的主操作（试试手气、创建题目）
 .problem-catalog__sidebar .menu__link
+  display: block
+  padding: 8px 10px
   border-radius: var(--r-sm)
+  color: var(--c-fg-2)
+  font-size: .9rem
+  line-height: 1.5
 
+.problem-catalog__sidebar .menu__link:hover
+  color: var(--c-fg)
+  background: var(--c-hover)
+
+.problem-catalog__sidebar .menu__link.active
+  color: var(--c-link)
+  background: var(--c-accent-soft)
+
+// 危险操作和普通操作在静态状态下一模一样，只有悬停时才露出来
+.problem-catalog__sidebar .menu__link[name="delete_selected_problems"]:hover
+  color: var(--c-bad)
+  background: token-alpha(var(--c-bad), 8%)
+
+.problem-catalog__sidebar .supplementary
+  margin-top: 10px
+  color: var(--c-fg-3)
+  font-size: .78rem
+  line-height: 1.6
 
 .problem-catalog__table
   width: 100%
+  // 列宽固定、内容变长时让表格自己横向滚动，而不是把页面撑宽
+  overflow-x: auto
 
 .problem-catalog__table .data-table
   width: 100%
 
-.problem-catalog__table .data-table .col--difficulty
-  width: 120px
-  min-width: 120px
-  white-space: nowrap
-
+// 列宽统一由 pages/problem_main.page.styl 定：这里再写一次会把
+// 表头和数据格的对齐方式拆成两套
 .problem-catalog__table .data-table.hide-problem-tag .problem__tag.notag--hide,
 .problem-catalog__table .data-table.hide-problem-tag .notag--hide
   display: none
@@ -124,7 +163,8 @@
   border-radius: var(--r-pill)
   border: 1px solid var(--c-border)
   background: var(--c-sunken)
-  color: var(--c-fg-3)
+  // 胶囊里的字压在比页面深一档的底上，用 fg-3 只剩 4.3:1
+  color: var(--c-fg-2)
 
 // inline user links inside a chip (host, owner, author) must not push the row apart
 .problem__tag-item .user-profile-link,
@@ -157,22 +197,6 @@
   background: var(--c-accent-soft)
   color: var(--c-link)
 
-.problem-catalog__sidebar .section__body
-  padding: 16px 18px
-
-.problem-catalog__sidebar .menu
-  margin: 0
-  padding: 0
-
-.problem-catalog__sidebar .menu__link
-  display: block
-  padding: 9px 10px
-  color: var(--c-fg-3)
-
-.problem-catalog__sidebar .menu__link:hover
-  color: var(--c-link)
-  background: var(--c-accent-soft)
-
 .problem-catalog__search [data-fragment-id="problem_stat"]
   flex: 0 0 auto
   color: var(--c-fg-3)
@@ -185,9 +209,18 @@
   padding-top: 22px
   padding-bottom: 18px
 
+// 窄屏下题库退回单列：侧栏那 280px 原本把表格挤成一条缝，
+// 分类面板改到列表下方。表格本身按可视列宽自适应，不再强制 680px。
+@media only screen and (max-width: 900px)
+  .problem-catalog
+    grid-template-columns: minmax(0, 1fr)
+
+  .problem-catalog__sidebar
+    order: 2
+
 @media only screen and (max-width: 600px)
   .problem-catalog__table .data-table
-    min-width: 680px
+    min-width: 0
 
 /* Learning hub activity shells, shared across existing contest/training/homework pages. */
 .learning-activity-layout::before,
@@ -199,6 +232,11 @@
   grid-template-columns: minmax(0, 1fr) var(--w-sidebar)
   gap: var(--sp-5)
   align-items: start
+
+// 侧栏没有内容时（访客看比赛/训练列表），280px 会留成一片死白，
+// 让主列铺满；:has 不支持的浏览器保持原来的两列
+.learning-activity-layout:not(:has(> .learning-activity-side > *))
+  grid-template-columns: minmax(0, 1fr)
 
 .learning-activity-layout > .columns
   float: none
@@ -329,14 +367,22 @@
 .learning-activity-list-card [name="filter-form"] select
   padding-right: rem(30px)
 
+// 比赛/作业/训练的筛选控件也按 16px：小于 16px 时 iOS 聚焦会放大整页
++mobile()
+  .learning-activity-list-card [name="filter-form"] input,
+  .learning-activity-list-card [name="filter-form"] select
+    font-size: 16px
+
 .learning-activity-list-card .section__list
   margin: 0
   padding: 8px 0
   list-style: none
 
+// 活动列表的行与首页活动模块保持同一档密度；21px 的上下留白让
+// 一屏只放得下三条比赛
 .learning-activity-list-card .section__list__item
   margin: 0
-  padding: 21px 26px
+  padding: 15px 20px
   border-bottom: 1px solid var(--c-border)
   background: var(--c-surface)
   transition: background .15s ease
@@ -608,11 +654,13 @@
     padding: 13px 16px
 
   .activity__date
-    width: 44px
+    width: 52px
     margin-right: 12px
+    // “2026-11”在 44px 里会被折成两行
+    white-space: nowrap
 
   .activity__title a::after
-    left: 76px
+    left: 80px
 
   // 窄屏换行后时间不再靠右，避免和状态各占一行时左右跳
   .activity__meta .activity__meta-item--times

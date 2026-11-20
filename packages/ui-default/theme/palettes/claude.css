@@ -22,14 +22,16 @@
   --c-sunken: #F1EFEA;
   --c-hover: #F3F1ED;
   --c-border: #E8E5E0;
-  --c-border-strong: #D7D3CB;
+  /* 输入框、下拉框、分页的边界都吃这一个值：再淡就和纸底分不开了 */
+  --c-border-strong: #CBC5BA;
   --c-nav-bg: rgba(248, 247, 244, 0.9);
   --c-overlay: rgba(28, 27, 25, 0.36);
 
   /* text — warm ink, four steps of contrast instead of two */
   --c-fg: #2C2A26;
   --c-fg-2: #57534B;
-  --c-fg-3: #86817A;
+  /* 时间、说明、表头这类小字也用这一档：原来 #86817A 在白卡上只有 3.6:1 */
+  --c-fg-3: #746F67;
   --c-heading: #191817;
 
   /* accent — clay. fills only; --c-link is the text-safe variant */
@@ -47,7 +49,7 @@
   --c-warn: #96681A;
   --c-warn-soft: #F6ECD7;
   --c-info: #4E6E8A;
-  --c-neutral: #86817A;
+  --c-neutral: #746F67;
   --c-neutral-soft: #EEECE7;
 
   /* content */
@@ -114,13 +116,14 @@
   --c-sunken: #151514;
   --c-hover: #2B2B29;
   --c-border: #2E2D2B;
-  --c-border-strong: #403E3A;
+  --c-border-strong: #55524C;
   --c-nav-bg: rgba(27, 27, 26, 0.9);
   --c-overlay: rgba(0, 0, 0, 0.56);
 
   --c-fg: #E7E4DD;
-  --c-fg-2: #B0ACA3;
-  --c-fg-3: #7C7870;
+  --c-fg-2: #B7B3AA;
+  /* 深色下辅助文字压在卡片上只有 4.1:1，提亮一档才够读 */
+  --c-fg-3: #9A968D;
   --c-heading: #F5F3ED;
 
   --c-accent: #D98A66;
@@ -136,7 +139,7 @@
   --c-warn: #DFB974;
   --c-warn-soft: #2C2618;
   --c-info: #93AFC6;
-  --c-neutral: #7C7870;
+  --c-neutral: #9A968D;
   --c-neutral-soft: #2A2A28;
 
   --c-code-bg: #151514;

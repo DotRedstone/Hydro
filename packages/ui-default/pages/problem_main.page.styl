@@ -7,20 +7,20 @@
     width: rem(81px)
   
   .col--status
-    width: rem(108px)
+    width: rem(96px)
     position: relative
 
   .col--difficulty
-    width: rem(70px)
-    text-align: center
-  
+    width: rem(84px)
+    text-align: right
+
   &[lang="en"]
     .col--difficulty
       width: rem(95px)
 
   .col--ac-tried
-    width: rem(100px)
-    text-align: center
+    width: rem(96px)
+    text-align: right
 
   +mobile()
     .col--status,
@@ -93,8 +93,12 @@
     margin-top: rem(floor($menu-drop-triangle-size * -1.414))
 
 
-.display-mode .display-mode-hide,
-.edit-mode .edit-mode-hide,
+// 编辑模式与普通模式各自只该看到自己那一组动作。下面的隐藏规则原本与
+// theme/claude-foundation 里 `.problem-catalog__sidebar .menu__link { display: block }`
+// 权重相同，被后者压住，「进入 / 离开编辑模式」「隐藏 / 取消隐藏选中」这些
+// 互斥项就同时挂在侧栏上。这里把选择器收回到 body 上，权重高于菜单项规则。
+body.display-mode .display-mode-hide,
+body.edit-mode .edit-mode-hide,
 .hide-problem-tag .notag--hide,
 .tag--hide
   display: none
@@ -108,11 +112,8 @@
 .problem-catalog__table .hide-problem-tag .problem__tag
   display: none
 
-.data-table > tbody > tr
-  height: 40.15px
-
-.data-table > thead > tr
-  height: 54.9px
+// 行高交给单元格内边距决定（components/table），不再写死像素：
+// 写死的 40.15px / 54.9px 让表头比数据行高一截，字号一改就错位。
 
 .search-container
   padding-bottom: 0
@@ -229,3 +230,57 @@
   color: $text-1-color
   cursor: pointer
   width: 120px
+
+// 题库是“扫数据”的页面：表格字号按 14px 起，行高压到能一屏看清更多题，
+// 数字列右对齐并用等宽数字，状态列只留一条左线，不再铺一整块浅绿。
+.page--problem_main
+  .problem-catalog__table .data-table
+    font-size: rem($font-size-secondary)
+
+  .problem-catalog__table .data-table th
+    padding: rem(10px 12px)
+    font-size: .7rem
+    letter-spacing: .06em
+
+  .problem-catalog__table .data-table td
+    padding: rem(9px 12px)
+    line-height: 1.45
+
+  .problem-catalog__table .col--ac-tried,
+  .problem-catalog__table .col--difficulty
+    color: var(--c-fg-2)
+    font-variant-numeric: tabular-nums
+
+  .problem-catalog__table .col--problem-name a
+    display: inline-flex
+    align-items: baseline
+    gap: rem(7px)
+
+  .problem-catalog__table .col--problem-name b
+    margin: 0
+    color: var(--c-fg-3)
+    font-weight: 500
+    font-variant-numeric: tabular-nums
+
+  // 状态：一条 2px 的状态线 + 短文案。整行铺色会让表格看起来像被高亮过，
+  // 但完全去掉又会让长列表里通过的行失去可扫的锚点，所以保留线、去掉底。
+  .problem-catalog__table .record-status--border
+    border-left-width: 2px
+
+  .problem-catalog__table .record-status--border.pass
+    background: none
+
+  .problem-catalog__table .col--status
+    padding-left: rem(14px)
+
+  .problem-catalog__table .col--status__text
+    display: inline-flex
+    align-items: center
+    gap: rem(5px)
+    font-size: rem($font-size-small)
+
+// 搜索框与排序在手机上仍然要 16px，否则 iOS 聚焦时会放大整页
++mobile()
+  .problem-catalog__search .search > input,
+  .problem-catalog__search .search-sort
+    font-size: 16px

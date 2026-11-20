@@ -17,9 +17,8 @@
     &.{key}
       border-left: rem(3px) solid token-tint(value, 90%)
 
-  // a pass stays visible when scanning a long record table, but only as a tint
-  &.pass
-    background: token-alpha(var(--c-ok), 9%)
+// 通过的行不再铺浅绿底：一列色块会把整张记录表压成“绿色表格”，
+// 状态语义交给左侧状态线和状态文案本身
 
 .record-status--background
   color: var(--c-accent-fg)

@@ -99,9 +99,11 @@
   padding: 10px 12px
   border: 1px solid var(--c-border-strong)
   border-radius: var(--r-sm)
-  background: var(--c-surface)
+  // 与其他表单一致：输入框比卡片低一档，边界不靠一根淡线撑着；
+  // 1rem 还顺手解决了手机上小于 16px 会触发 iOS 整页放大的问题
+  background: var(--c-bg)
   color: var(--c-fg)
-  font-size: .98rem
+  font-size: 1rem
 
 .account-auth-card input[type="checkbox"]
   margin-right: 9px

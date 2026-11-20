@@ -1,11 +1,10 @@
 // The typography stylesheet is based on typo.css: http://typo.sofi.sh/
 
+// 手机上把根字号从 16px 缩到 13px 是旧版为了塞下更多列做的取舍，
+// 代价是 .8rem 这类行内说明只剩 10px 左右——手机上反而更难读。
+// 这里保持 16px，靠栅格和单列布局腾空间，不再靠缩小文字。
 html
   box-sizing: border-box
-
-+mobile()
-  html
-    font-size: 13px
 
 *, *:before, *:after
   box-sizing: inherit

@@ -90,3 +90,25 @@ $highlight-button-color = var(--c-warn)
 
     .homework-toolbar__label
       display: none
+
+
+// 手机上工具条里的输入框仍然要 16px，否则 iOS 聚焦会放大整页。
+// 选择器要写到和上面 `.homework-toolbar [name="q"]` 同权重才吃得掉。
+// 注意：这张卡在 390px 下“全部”下拉本来就有一截被裁（本轮之前就有），
+// 属于工具条自身宽度计算的问题，留待单独处理。
++mobile()
+  .page--homework_main .homework-toolbar [name="q"],
+  .page--homework_main .homework-toolbar select
+    font-size: 16px
+
+  // 表单默认是 flex: 0 0 auto，宽度按内容算（实测 405px），比卡片宽出 79px，
+  // “全部”就被裁在卡片外。允许它收缩、并把搜索框的固定 200px 放开，
+  // 三个控件才能在 390px 里排成一行。
+  .page--homework_main .homework-toolbar .filter-form
+    flex: 1 1 100%
+    min-width: 0
+
+  .page--homework_main .homework-toolbar [name="q"]
+    width: auto
+    flex: 1 1 120px
+    min-width: 0
