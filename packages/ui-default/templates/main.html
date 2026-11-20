@@ -4,22 +4,9 @@
 {% import "components/problem.html" as problem with context %}
 {% import "components/user.html" as user with context %}
 {% block content %}
-<div class="row"><div class="columns">
-  <header class="learning-hub__intro">
-    <p class="learning-hub__eyebrow">{{ _('Home') }}</p>
-    <h1>{{ model.system.get('server.name') }}</h1>
-    <p class="learning-hub__lead">{{ _('A warm, restrained judge for practice and contests.') }}</p>
-    <div class="learning-hub__actions">
-      <a class="button primary rounded learning-hub__cta" href="{{ url('problem_main') }}">{{ _('Start solving') }}</a>
-      <nav class="learning-hub__shortcuts" aria-label="{{ _('Navigation') }}">
-        <a href="{{ url('contest_main') }}">{{ _('Contest') }}</a>
-        <a href="{{ url('training_main') }}">{{ _('Training') }}</a>
-        <a href="{{ url('homework_main') }}">{{ _('Homework') }}</a>
-        <a href="{{ url('discussion_main') }}">{{ _('Discussion') }}</a>
-      </nav>
-    </div>
-  </header>
-</div></div>
+{# 首页不再放大标题 / 宣传语：站名在导航里已经出现过一次，
+   这里只留一个给读屏和 SEO 的一级标题，内容直接由下面的模块开场。 #}
+<h1 class="sr-only">{{ model.system.get('server.name') }}</h1>
 <div class="row learning-hub__columns">
   {% for column in contents %}
     <div class="large-{{ column.width }} columns learning-hub__column">

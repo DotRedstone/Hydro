@@ -1,38 +1,39 @@
 {% set tdocs = payload[0] %}
 {% set tsdict = payload[1] %}
 {% if tdocs.length %}
-  <div class="section page--contest_main">
+  <div class="section">
     <div class="section__header">
-      <h1 class="section__title">{{ _('Contest') }}</h1>
+      <h2 class="section__title">{{ _('Contest') }}</h2>
+      <div class="section__tools"><a class="link" href="{{ url('contest_main') }}">{{ _('All Contests') }} →</a></div>
     </div>
     <ol class="section__list contest__list">
       {%- for tdoc in tdocs -%}
-        <li class="section__list__item contest__item contest-type--{{ tdoc.rule }} {% if model.contest.isOngoing(tdoc, tsdoc) %}{{ 'live' }}{% elif model.contest.isUpcoming(tdoc) %}{{ 'ready' }}{% endif %}">
+        <li class="section__list__item activity-item contest__item contest-type--{{ tdoc.rule }}">
           <div class="media">
             <div class="media__left medium">
-              <div class="contest__date numbox">
-                <div class="numbox__num large">{{ datetimeSpan(tdoc['beginAt'], false, 'D')|safe }}</div>
-                <div class="numbox__text">{{ datetimeSpan(tdoc['beginAt'], false, 'YYYY-M')|safe }}</div>
+              <div class="activity__date contest__date">
+                <span class="activity__date-day">{{ datetimeSpan(tdoc['beginAt'], false, 'D')|safe }}</span>
+                <span class="activity__date-month">{{ datetimeSpan(tdoc['beginAt'], false, 'YYYY-M')|safe }}</span>
               </div>
             </div>
             <div class="media__body medium">
-              <h1 class="contest__title"><a href="{{ url('contest_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h1>
-              <ul class="supplementary list">
-                <li>
+              <h2 class="activity__title contest__title"><a href="{{ url('contest_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h2>
+              <ul class="supplementary list activity__meta">
+                <li class="activity__meta-item">
                   <a href="{{ url('contest_main', query={rule:tdoc.rule}) }}" class="contest-type-tag"><span class="icon icon-award"></span>{{ _(model.contest.RULES[tdoc.rule].TEXT) }}</a>
                 </li>
                 {% if tdoc.rated %}
-                  <li class="contest-tag-rated"><span class="icon icon-star"></span>Rated</li>
+                  <li class="activity__meta-item contest-tag-rated"><span class="icon icon-star"></span>Rated</li>
                 {% endif %}
-                <li>
-                  <span class="icon icon-schedule--fill text-blue"></span> {{ contest.render_duration(tdoc) }} {{ _('hour(s)') }}
+                <li class="activity__meta-item">
+                  <span class="icon icon-schedule--fill"></span>{{ contest.render_duration(tdoc) }} {{ _('hour(s)') }}
                 </li>
-                <li>
-                  <span class="icon icon-user--multiple"></span> {{ tdoc['attend']|default(0) }}
+                <li class="activity__meta-item">
+                  <span class="icon icon-user--multiple"></span>{{ tdoc['attend']|default(0) }}
                 </li>
                 {% if tsdict[tdoc.docId]['attend'] == 1 %}
-                  <li class="contest__info-attended">
-                    <span class="icon icon-check"></span> {{ _('Attended') }}
+                  <li class="activity__meta-item contest__info-attended">
+                    <span class="icon icon-check"></span>{{ _('Attended') }}
                   </li>
                 {% endif %}
               </ul>

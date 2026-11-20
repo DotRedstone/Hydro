@@ -1,30 +1,28 @@
 {% set tdocs = payload[0] %}
 {% set tsdict = payload[1] %}
 {% if tdocs.length %}
-  <div class="section page--training_main">
+  <div class="section">
     <div class="section__header">
-      <h1 class="section__title">{{ _('Training') }}</h1>
+      <h2 class="section__title">{{ _('Training') }}</h2>
+      <div class="section__tools"><a class="link" href="{{ url('training_main') }}">{{ _('Training') }} →</a></div>
     </div>
-    <ol class="section__list all primary training__list training-list-layout">
+    <ol class="section__list training-list-layout">
       {%- for tdoc in tdocs -%}
-        <li class="section__list__item training__item">
+        <li class="section__list__item activity-item training__item">
           <div class="media">
-            <div class="media__left middle">
-              <div class="training__participants numbox">
-                <div class="numbox__num large">{{ tdoc.attend|default(0) }}</div>
-                <div class="numbox__text">{{ _('Enrollees') }}</div>
-              </div>
-            </div>
             <div class="media__body middle">
-              <h1 class="training__title"><a href="{{ url('training_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h1>
+              <h2 class="activity__title training__title"><a href="{{ url('training_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h2>
               <div class="training__intro typo">
                 <p>{{ tdoc['content'] }}</p>
               </div>
-              <ul class="supplementary list training__progress">
-                <li>
-                  {{ _('{0} sections').format(tdoc['dag']|length) }}, {{ _('{0} problems').format(model.training.getPids(tdoc.dag)|length) }}
+              <ul class="supplementary list activity__meta">
+                <li class="activity__meta-item">
+                  <span class="icon icon-user--multiple"></span>{{ _('Enrollees') }} {{ tdoc.attend|default(0) }}
                 </li>
-                <li>
+                <li class="activity__meta-item">
+                  <span class="icon icon-book"></span>{{ _('{0} sections').format(tdoc['dag']|length) }}, {{ _('{0} problems').format(model.training.getPids(tdoc.dag)|length) }}
+                </li>
+                <li class="activity__meta-item">
                 {% if tsdict[tdoc.docId]['enroll'] %}
                   {% if not tsdict[tdoc.docId]['done'] %}
                   <span class="training-status training-status--progress">{{ _('Progress') }} {{ (100 * tsdict[tdoc.docId]['donePids']|length / model.training.getPids(tdoc.dag)|length)|round|int }}%</span>

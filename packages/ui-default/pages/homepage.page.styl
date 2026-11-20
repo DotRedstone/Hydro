@@ -1,72 +1,7 @@
 // Homepage uses configured contents and existing partials; visual hierarchy only.
 .page--homepage
-  .learning-hub__intro
-    margin: 0 0 28px
-    padding: 0 0 24px
-    border: 0
-    border-bottom: 1px solid token-alpha(var(--c-border), 70%)
-    background: transparent
-
-  .learning-hub__eyebrow
-    margin: 0 0 6px
-    color: var(--c-fg-3)
-    font-size: .74rem
-    font-weight: 600
-    letter-spacing: .12em
-    text-transform: uppercase
-    line-height: 1.4
-    letter-spacing: .08em
-
-  .learning-hub__intro h1
-    margin: 0 0 14px
-    color: var(--c-heading)
-    font-family: var(--font-display)
-    font-size: clamp(2.1rem, 3.6vw, 2.9rem)
-    line-height: 1.14
-    letter-spacing: -.025em
-    font-weight: 500
-
-  .learning-hub__shortcuts
-    display: flex
-    flex-wrap: wrap
-    gap: 10px
-
-  .learning-hub__lead
-    margin: 0 0 20px
-    max-width: 52ch
-    color: var(--c-fg-2)
-    font-size: 1rem
-    line-height: 1.7
-
-  .learning-hub__actions
-    display: flex
-    flex-wrap: wrap
-    align-items: center
-    gap: 18px
-
-  .learning-hub__cta
-    margin: 0
-
-  .learning-hub__shortcuts
-    gap: 18px
-
-  .learning-hub__shortcuts a
-    display: inline-flex
-    align-items: center
-    min-height: 24px
-    padding: 0
-    border: 0
-    background: none
-    color: var(--c-fg-2)
-    font-size: .92rem
-    font-weight: 500
-    text-decoration: none
-    border-bottom: 1px solid transparent
-
-  .learning-hub__shortcuts a:hover
-    color: var(--c-link)
-    border-bottom-color: var(--c-link)
-
+  // 首页不再是“品牌展示页”：没有大标题、宣传语和重复导航，
+  // 模块从顶部开始，第一条就是真实内容。
   .learning-hub__columns
     display: flex
     align-items: flex-start
@@ -81,32 +16,62 @@
     min-width: 0
 
   .learning-hub__module
-    margin-bottom: 22px
+    margin-bottom: 18px
 
   .learning-hub__module > .section
     margin: 0
 
   .learning-hub__module .section__header
-    padding: 18px 22px
+    padding: 13px 18px
+
+  // 右侧“所有比赛 →”原本绝对定位到表头右上角，和收窄后的内边距对不齐；
+  // 表头本身已经是 flex，放回文档流靠右就行
+  .learning-hub__module .section__tools
+    position: static
+    display: flex
+    align-items: center
+    margin-left: auto
+    font-size: .82rem
+
+  .learning-hub__module .section__tools .link
+    color: var(--c-fg-3)
+
+  .learning-hub__module .section__tools .link:hover
+    color: var(--c-link)
 
   .learning-hub__module .section__title
     margin: 0
-    font-size: 1.07rem
+    font-size: 1rem
     line-height: 1.45
-    font-weight: 650
-    letter-spacing: -.01em
+    font-weight: 600
+    letter-spacing: -.005em
 
   .learning-hub__module .section__body
-    padding: 19px 22px
+    padding: 16px 18px
 
   .learning-hub__module .section__body.no-padding
     padding: 0
 
+  // 公告是“读一段话”，不该占一块面板：去掉卡片和阴影，只留一条分隔线，
+  // 让它读起来像页面顶部的一则通知，而不是又一个内容块
+  .learning-hub__module--bulletin > .section
+    background: transparent
+    border: 0
+    border-bottom: 1px solid var(--c-border)
+    border-radius: 0
+    box-shadow: none
+
   .learning-hub__module--bulletin .section__body
-    padding: 26px 30px
-    font-size: 1rem
-    line-height: 1.85
+    padding: 2px 2px 16px
+    color: var(--c-fg-2)
+    font-size: .95rem
+    line-height: 1.8
     overflow-wrap: anywhere
+
+  // 一言由前端异步填充；接口没返回内容时卡片就是一块空白面板，
+  // 与其留一张空卡片，不如等它真的有句子再出现
+  .learning-hub__module--hitokoto .section:has(.section__body:empty)
+    display: none
 
   .learning-hub__module--bulletin .typo > :first-child
     margin-top: 0
@@ -126,7 +91,7 @@
     list-style: none
 
   .learning-hub__module .section__list__item
-    padding: 17px 21px
+    padding: 12px 18px
     border-bottom: 1px solid var(--c-border)
 
   .learning-hub__module .section__list__item:last-child
@@ -135,53 +100,15 @@
   .learning-hub__module .section__list__item .media__body
     min-width: 0
 
-  .learning-hub__module .contest__title,
-  .learning-hub__module .training__title,
-  .learning-hub__module .homework__title
-    margin: 0 0 7px
-    font-size: 1.03rem
-    line-height: 1.5
-    font-weight: 600
-
-  .learning-hub__module .contest__title a,
-  .learning-hub__module .training__title a,
-  .learning-hub__module .homework__title a
-    color: var(--c-fg)
-
-  .learning-hub__module .contest__title a:hover,
-  .learning-hub__module .training__title a:hover,
-  .learning-hub__module .homework__title a:hover
-    color: var(--c-link)
-
-  .learning-hub__module .supplementary.list
-    display: flex
-    flex-wrap: wrap
-    gap: 6px 13px
-    margin: 9px 0 0
-    font-size: .81rem
+  // 首页列表里的训练简介再收一档，避免一条训练占掉半个模块
+  .learning-hub__module .training__intro
+    margin: 2px 0 0
+    color: var(--c-fg-3)
+    font-size: .82rem
     line-height: 1.6
-    color: var(--c-fg-2)
 
-  .learning-hub__module .numbox
-    display: flex
-    flex-direction: column
-    justify-content: center
-    width: 64px
-    min-height: 64px
-    padding: 7px
-    border: 1px solid var(--c-border)
-    border-radius: var(--r)
-    background: var(--c-bg)
-    color: var(--c-fg)
-
-  .learning-hub__module .numbox__num
-    font-size: 1.3rem
-    line-height: 1.2
-    font-weight: 650
-
-  .learning-hub__module .numbox__text
-    color: var(--c-fg-2)
-    font-size: .75rem
+  .learning-hub__module .training__intro p
+    margin: 0
 
   .learning-hub__module--problem_search form .section__body
     display: flex
@@ -224,10 +151,6 @@
       width: 100%
 
   @media only screen and (max-width: 600px)
-    .learning-hub__intro
-      padding: 21px 18px
-      margin-bottom: 20px
-
     .learning-hub__module--bulletin .section__body
       padding: 20px 18px
 
@@ -239,7 +162,7 @@
     display: flex
     align-items: baseline
     gap: 12px
-    padding: 11px 22px
+    padding: 8px 18px
     border-bottom: 1px solid token-alpha(var(--c-border), 55%)
 
     &:last-child
