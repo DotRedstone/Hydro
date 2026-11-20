@@ -67,3 +67,6 @@ __*
 
 packages/*/public/assets
 node_modules.*
+
+# 本地视觉核对截图与临时探针
+.oil-ui/
