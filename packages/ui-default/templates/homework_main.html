@@ -44,9 +44,12 @@
           {%- set hwDone = model.contest.isDone(tdoc) -%}
           {%- set hwLive = not hwDone and model.contest.isOngoing(tdoc) -%}
           {%- set hwState = 'done' if hwDone else ('live' if hwLive else 'ready') -%}
-          {%- set hwLeft = tdoc.endAt.getTime() - Date.now() -%}
-          {%- set hwClosing = hwLive and hwLeft > 0 and hwLeft <= 172800000 -%}
+          {# 真正的截止时间：延期作业看硬截止 endAt，普通作业看 penaltySince #}
           {%- set hwFinal = model.contest.isExtended(tdoc) or hwDone -%}
+          {%- set hwDeadline = tdoc.endAt if hwFinal else tdoc.penaltySince -%}
+          {# 48 小时内即将截止，给一条细线提示 #}
+          {%- set hwLeft = hwDeadline.getTime() - Date.now() -%}
+          {%- set hwClosing = hwLive and hwLeft > 0 and hwLeft <= 172800000 -%}
           <li class="section__list__item activity-item activity-item--{{ hwState }}{% if hwClosing %} activity-item--closing{% endif %} homework__item">
             <div class="media">
               <div class="media__left medium">
