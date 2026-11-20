@@ -331,13 +331,14 @@
   font-size: .87rem
 
 .administration-layout__main .data-table th
-  padding: 13px 11px
+  padding: 10px 11px
   line-height: 1.5
   font-weight: 600
 
 .administration-layout__main .data-table td
-  padding: 12px 11px
-  line-height: 1.6
+  // 管理表格原本每行 78px，脚本/角色/用户权限这类只有两三个字段的表太散
+  padding: 8px 11px
+  line-height: 1.55
 
 .administration-layout__main .col--description
   min-width: 220px
@@ -737,7 +738,7 @@
     display: grid
     grid-template-columns: repeat(2, minmax(0, 1fr))
     align-items: start
-    gap: 20px 32px
+    gap: 14px 32px
 
     // 多行字段（textarea / markdown / yaml）占满整行
     > .row:has(textarea)
