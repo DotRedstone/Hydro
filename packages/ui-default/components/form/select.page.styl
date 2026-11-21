@@ -1,17 +1,26 @@
 @import './var.inc.styl'
 
+// 原生下拉框。
+//
+// 箭头原先是一张写死黑色的 expand_more.svg：深色主题下是黑底黑箭头，看不见；
+// 页面里只要再写一次 background 简写，箭头也会一起被冲掉（记录页的筛选栏就是这样）。
+// 现在改用两层渐变拼出的 V 形，颜色来自设计令牌，背景色随便改都不会丢箭头。
 .select
   form-styles()
-  padding-right: 1.1rem
+  padding-right: rem(30px)
   background-color: $input-background-color
-  background-image: url('~vj/misc/icons/expand_more.svg')
-  background-size: 16px 16px
-  background-position: right -1rem center
-  background-origin: content-box
+  // 一个 90° 的锥形渐变就是一只朝下的实心箭头，同样吃代码里的设计令牌
+  background-image: conic-gradient(from -45deg at 50% 50%, var(--c-fg-3) 0 90deg, transparent 90deg)
+  background-position: right rem(14px) center
+  background-size: rem(9px) rem(5px)
   background-repeat: no-repeat
   outline: $input-outline
+  cursor: pointer
   transition: outline-color .2s, border-color .2s
   transition-timing-function: ease-out-cubic
+
+  &:hover
+    border-color: var(--c-fg-3)
 
   &:focus
     border-color: $input-focus-border-color
@@ -20,6 +29,7 @@
 
   &:disabled
     opacity: 0.5
+    cursor: not-allowed
 
 .select-container.compact .select, .select.compact
   margin-bottom: 0

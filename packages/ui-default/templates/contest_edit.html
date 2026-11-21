@@ -1,8 +1,8 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row">
-  <div class="medium-9 columns">
-    <div class="section">
+<div class="row authoring-workbench">
+  <div class="medium-9 columns authoring-workbench__main">
+    <div class="section authoring-workbench__editor">
       <form method="post">
         <div class="section__header">
           <h2 class="section__title">{{ _('Basic Info') }}</h2>
@@ -79,7 +79,7 @@
             markdown:true
           }) }}
         </div>
-        <div style="padding-top: 0" class="section__header">
+        <div class="section__header section__header--group">
           <h2 class="section__title">{{ _('Permission Control') }}</h2>
         </div>
         <div class="section__body">
@@ -128,7 +128,7 @@
             </div>
           </div>
         </div>
-        <div style="padding-top: 0" class="section__header">
+        <div class="section__header section__header--group">
           <h2 class="section__title">{{ _('Contest Settings') }}</h2>
         </div>
         <div class="section__body">
@@ -248,7 +248,7 @@
       </div>
     </div>
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns authoring-workbench__side">
     {% if tdoc %}
     <div class="section side">
       <div class="section__header">

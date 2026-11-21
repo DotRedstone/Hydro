@@ -4,22 +4,39 @@ $footer-extra-link-gap = 20px
   background: $footer-bg-color
   color: $text-1-color
 
+  a, .link
+    &, &:visited
+      color: $text-3-color
+
+    &:hover
+      color: $text-1-color
+
   h1
-    font-size: rem($font-size-title)
+    margin: 0
+    font-family: var(--font-ui)
+    color: var(--c-fg-2)
+    font-size: .78rem
+    font-weight: 600
+    letter-spacing: .02em
 
     +mobile()
       padding: rem($grid-padding)
       cursor: pointer
       font-size: rem($font-size-secondary)
 
+// One hairline opens the footer; the columns themselves carry no rule, which is
+// what made the old footer look like a four-cell table.
+.footer__links
+  border-top: 1px solid token-alpha(var(--c-border), 70%)
+
 .footer__category
-  padding-top: rem(30px)
-  padding-bottom: rem(50px)
+  padding-top: rem(18px)
+  padding-bottom: rem(10px)
 
   +mobile()
     padding-top: rem($grid-padding)
     padding-bottom: rem($grid-padding)
-    border-bottom: 1px solid darken($footer-bg-color, 5%)
+    border-bottom: 1px solid $border-2-color
 
     &.expandable
       padding: 0
@@ -34,10 +51,9 @@ $footer-extra-link-gap = 20px
     transform: rotate(180deg)
 
 .footer__category__list
-  margin-top: rem(10px)
-  margin-bottom: rem(10px)
-  font-size: rem($font-size-small)
-  line-height: 2
+  margin: rem(8px 0 0)
+  font-size: .8rem
+  line-height: 1.75
 
   +mobile()
     margin-top: 0
@@ -58,12 +74,13 @@ $footer-extra-link-gap = 20px
   float: right
 
 .footer__extra-link
-  padding: rem(20px 0)
-  font-size: rem($font-size-small)
+  padding: rem(10px 0)
+  font-size: .76rem
+  color: var(--c-fg-3)
 
 .footer__extra-link-item
   float: left
-  line-height: 2
+  line-height: 1.7
 
 .footer__extra-left .footer__extra-link-item
   margin-right: rem($footer-extra-link-gap)
@@ -71,16 +88,18 @@ $footer-extra-link-gap = 20px
 .footer__extra-right .footer__extra-link-item
   margin-left: rem($footer-extra-link-gap)
 
+// the immersive layout no longer has a dark hero behind it, so the footer
+// keeps the normal palette instead of the old white-on-image treatment
 .layout--immersive
   .footer
     background: none
-    color: #FFF
+    color: $text-1-color
 
     a, a:visited, a:active
-      color: #FFF
+      color: $text-2-color
 
     a:hover
-      color: #FFF
+      color: $primary-color
 
 +mobile()
   .footer__extra-left, .footer__extra-right

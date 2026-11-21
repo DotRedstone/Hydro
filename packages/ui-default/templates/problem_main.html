@@ -2,20 +2,21 @@
 {% import "components/problem.html" as problem with context %}
 {% extends "layout/basic.html" %}
 {% block content %}
-  <div class="row">
-    <div class="medium-9 columns">
-      <div class="section display-mode">
-        <div class="section__body no-padding">
+  <div class="problem-catalog">
+    <main class="problem-catalog__main">
+      <h1 class="problem-catalog__heading">{{ _('Problems') }}</h1>
+      <section class="section display-mode">
+        <div class="problem-catalog__search">
           <form method="get" id="searchForm" action="{{ url('problem_main') }}">
             <div class="search">
-              <input name="q" type="text" value="{{ qs }}" placeholder="{{ _('Search') }}">
+              <input name="q" type="text" value="{{ qs }}" placeholder="{{ _('Search') }}" aria-label="{{ _('Search') }}">
               {% include "partials/problem_stat.html" %}
-              <select name="sort" class="search-sort">
+              <select name="sort" class="select search-sort" aria-label="{{ _('Sort') }}">
                 {%- for sortType in ["default", "recent"] -%}
                   <option value="{{ sortType }}" {{ "selected" if sort == sortType else "" }}>{{ _('sort::' + sortType) }}</option>
                 {%- endfor -%}
               </select>
-              <button type="submit">
+              <button type="submit" id="search" aria-label="{{ _('Search') }}">
                 <span class="icon icon-search"></span>
               </button>
             </div>
@@ -24,60 +25,65 @@
         <div class="section__body no-padding">
           {% include "partials/problem_list.html" %}
         </div>
-      </div>
-    </div>
-    <div class="medium-3 columns">
+      </section>
+    </main>
+    <aside class="problem-catalog__sidebar">
       {% if handler.user.hasPriv(PRIV.PRIV_USER_PROFILE) %}
         <div class="section side nojs--hide">
-          <ol class="menu">
-            <a href="javascript:;" class="menu__link edit-mode-hide" name="enter-edit-mode">
-              <span class="icon icon-edit"></span>
-              {{ _('Enter Edit Mode') }}
-            </a>
-            <a href="javascript:;" class="menu__link display-mode-hide" name="leave-edit-mode">
-              <span class="icon icon-edit"></span>
-              {{ _('Leave Edit Mode') }}
-            </a>
-            <div id="problem_selection" class="display-mode-hide"></div>
-            {% if handler.user.hasPerm(perm.PERM_EDIT_PROBLEM) %}
-              <a href="javascript:;" class="menu__link display-mode-hide" name="hide_selected_problems">
-                <span class="icon icon-close"></span>
-                {{ _('Hide Selected') }}
+          <div class="section__header">
+            <h2 class="section__title">{{ _('Problem Management') }}</h2>
+          </div>
+          <div class="section__body">
+            <ol class="menu">
+              <a href="javascript:;" class="menu__link edit-mode-hide" name="enter-edit-mode">
+                <span class="icon icon-edit"></span>
+                {{ _('Enter Edit Mode') }}
               </a>
-              <a href="javascript:;" class="menu__link display-mode-hide" name="unhide_selected_problems">
-                <span class="icon icon-check"></span>
-                {{ _('Unhide Selected') }}
+              <a href="javascript:;" class="menu__link display-mode-hide" name="leave-edit-mode">
+                <span class="icon icon-edit"></span>
+                {{ _('Leave Edit Mode') }}
               </a>
-              <a href="javascript:;" class="menu__link display-mode-hide" name="download_selected_problems">
-                <span class="icon icon-download"></span>
-                {{ _('Download Selected') }}
+              <div id="problem_selection" class="display-mode-hide"></div>
+              {% if handler.user.hasPerm(perm.PERM_EDIT_PROBLEM) %}
+                <a href="javascript:;" class="menu__link display-mode-hide" name="hide_selected_problems">
+                  <span class="icon icon-close"></span>
+                  {{ _('Hide Selected') }}
+                </a>
+                <a href="javascript:;" class="menu__link display-mode-hide" name="unhide_selected_problems">
+                  <span class="icon icon-check"></span>
+                  {{ _('Unhide Selected') }}
+                </a>
+                <a href="javascript:;" class="menu__link display-mode-hide" name="download_selected_problems">
+                  <span class="icon icon-download"></span>
+                  {{ _('Download Selected') }}
+                </a>
+                <a href="javascript:;" class="menu__link display-mode-hide" name="delete_selected_problems">
+                  <span class="icon icon-delete"></span>
+                  {{ _('Remove Selected') }}
+                </a>
+              {% endif %}
+              <a href="javascript:;" class="menu__link display-mode-hide" name="copy_selected_problems">
+                <span class="icon icon-copy"></span>
+                {{ _('Copy Selected') }}
               </a>
-              <a href="javascript:;" class="menu__link display-mode-hide" name="delete_selected_problems">
-                <span class="icon icon-delete"></span>
-                {{ _('Remove Selected') }}
-              </a>
-            {% endif %}
-            <a href="javascript:;" class="menu__link display-mode-hide" name="copy_selected_problems">
-              <span class="icon icon-copy"></span>
-              {{ _('Copy Selected') }}
-            </a>
-          </ol>
+            </ol>
+          </div>
         </div>
       {% endif %}
       {% if handler.user.hasPerm(perm.PERM_CREATE_PROBLEM) %}
         <div class="section side">
           <div class="section__header">
-            <h1 class="section__title">{{ _('Create Problem') }}</h1>
+            <h2 class="section__title">{{ _('Create Problem') }}</h2>
           </div>
-          <ol class="menu">
-            {%- for item in ui.getNodes('ProblemAdd') -%}
-              <a href="{{ url(item.name, item.args) }}" class="menu__link">
-                <span class="icon icon-{{ item.args.icon|default('add') }}"></span>
-                {{ _(item.args.text) }}
-              </a>
-            {%- endfor -%}
-          </ol>
           <div class="section__body">
+            <ol class="menu">
+              {%- for item in ui.getNodes('ProblemAdd') -%}
+                <a href="{{ url(item.name, item.args) }}" class="menu__link">
+                  <span class="icon icon-{{ item.args.icon|default('add') }}"></span>
+                  {{ _(item.args.text) }}
+                </a>
+              {%- endfor -%}
+            </ol>
             <div class="typo supplementary">
               <p>{{ _('You have permission to create problems for this domain.') }}</p>
             </div>
@@ -86,7 +92,7 @@
       {% endif %}
       <div class="section side">
         <div class="section__header edit-mode-hide">
-          <h1 class="section__title">{{ _('Categories') }}</h1>
+          <h2 class="section__title">{{ _('Categories') }}</h2>
         </div>
         <div class="section__body">
           {% include "partials/category.html" %}
@@ -95,6 +101,6 @@
           {% include "partials/problem_lucky.html" %}
         </div>
       </div>
-    </div>
+    </aside>
   </div>
 {% endblock %}

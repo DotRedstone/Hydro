@@ -57,7 +57,31 @@ about: 关于
 About: 关于
 AC Message: 通过消息
 Accepted Ratio: 通过率
+Username or Email: 用户名或邮箱
+Captcha: 验证码
+Close: 关闭
+Invalid username/email or password.: 用户名或邮箱与密码不匹配。
+Captcha expired, please enter the new one.: 验证码已过期，请输入新的验证码。
+Captcha mismatch, please try again.: 验证码不正确，请重新输入。
+Too many attempts, please try again later.: 尝试次数过多，请稍后再试。
 Accepted: 已通过
+Waiting: 等待评测
+Wrong Answer: 答案错误
+Time Exceeded: 运行超时
+Memory Exceeded: 内存超限
+Output Exceeded: 输出超限
+Runtime Error: 运行时错误
+System Error: 系统错误
+Cancelled: 已取消
+Unknown Error: 未知错误
+Hacked: 已被 Hack
+Running: 运行中
+Compiling: 编译中
+Fetched: 已取回
+Ignored: 已忽略
+Format Error: 格式错误
+Hack Successful: Hack 成功
+Hack Unsuccessful: Hack 失败
 Access Control: 访问控制
 Action: 动作
 Active Sessions: 活动会话
@@ -459,7 +483,7 @@ Limitations: 限制
 Links: 链接
 List View: 列表视图
 Live: 正在进行
-Live...: 正在进行…
+Live...: 正在进行
 Location: 位置
 Lock discussions: 锁定讨论
 Lock Topic: 锁定主题
@@ -549,7 +573,7 @@ New Email: 新电子邮件
 New file: 新文件
 New Password: 新密码
 New Training Plan: 新训练计划
-New: 创建
+New: 未开始
 No comments so far...: 目前还没有评论...
 No dataset at present.: 暂无测试数据。
 No discussion yet...: 目前没有讨论…
@@ -767,10 +791,13 @@ Set Roles for selected users: 为所选用户设置角色
 setting_basic: 基础设置
 setting_customize: 个性化
 setting_display: 显示偏好
+setting_highlight: 高亮偏好
+setting_markdown: 编辑偏好
 setting_domain: 域设置
 setting_file: 存储桶设置
 setting_info_domain: 个人信息
 setting_info: 个人信息
+setting_limits: 限制
 setting_privacy: 隐私
 setting_server: 服务器设置
 setting_session: Session 设置
@@ -998,3 +1025,31 @@ You've already claimed this homework.: 您已认领过该作业。
 You've already voted.: 您已经投过票。
 Your permission: 您的权限
 Your role: 您的角色
+
+# 找回密码（忘记密码）流程
+'Hello, {0}! You can click following link to reset the password of your {1} account:': 您好，{0}！点下面的链接可以重置您 {1} 账号的密码：
+Reset your password: 重置你的密码
+Set a new password: 设置新密码
+Enter the email you signed up with, and we will send you a link to set a new password.: 填注册时用的邮箱，我们会发一封设置新密码的邮件。
+Password reset mail has been sent to {0}.: 重置密码的邮件已发到 {0}。
+The link is valid for {0} hour(s). Open it to set a new password.: 链接 {0} 小时内有效，打开即可设置新密码。
+The link is valid for {0} hour(s). If you did not ask for a password reset, you can ignore this mail and your password stays unchanged.: 链接 {0} 小时内有效。如果不是你本人操作，忽略这封邮件即可，密码不会变化。
+Nothing in the inbox? Check the spam folder, and make sure the address is the one you signed up with.: 收件箱里没有？看一下垃圾邮件，并确认填的是注册时用的邮箱。
+Send it again: 再发一次
+Request a new reset link: 重新申请重置链接
+The link in the mail stays valid for a limited time. If it expired, come back and ask for a new one.: 邮件里的链接有效期有限，过期了就回来重新申请。
+Setting a new password for {0}.: 正在为 {0} 设置新密码。
+Ask for a new link and open it right away, it stays valid for {0} hour(s).: 重新申请一条链接并尽快打开，它 {0} 小时内有效。
+Set a strong new password: 设置一个足够强的密码
+Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.: 重置密码会同时关闭两步验证，之后请到账户设置里重新开启。
+Enter a valid email address.: 请输入有效的邮箱地址。
+No account is registered with this email.: 这个邮箱还没有注册账号。
+Mail service is not configured yet.: 邮件服务还没有配置好。
+Failed to send the mail, please try again later.: 邮件发送失败，请稍后再试。
+The reset link is invalid or has expired.: 重置链接无效或已经过期。
+Password should be at least 6 characters.: 密码至少 6 位。
+Passwords do not match.: 两次输入的密码不一致。
+No submissions yet.: 还没有提交记录。
+Search problems or users: 搜索题目或用户
+Searching...: 搜索中……
+Nothing found: 没有找到相关内容

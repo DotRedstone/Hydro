@@ -5,16 +5,16 @@ body > .marker
   position: fixed
   z-index: 100
   display: none
-  box-shadow: 0 2px 7px rgba(#000, 0.3)
-  background: #FFF
+  box-shadow: var(--shadow-pop)
+  background: var(--c-surface)
   font-size: rem($font-size-small)
   transition: transform .1s ease-out, opacity .1s ease-out
   transform: scale(0.8)
   transform-origin: 0 100%
   pointer-events: none
-  background: #FFF
+  background: var(--c-surface)
   padding: 1px
-  border: 1px solid #AAA
+  border: 1px solid $border-1-color
 
   &.open
     transform: none
@@ -48,10 +48,10 @@ body > .marker
     border-radius: 50%
 
     &.icon-yellow
-      background: #ffc100
+      background: var(--c-warn)
 
     &.icon-green
-      background: #54d651
+      background: var(--c-ok)
 
     &.icon-red
-      background: #ff3b30
+      background: var(--c-bad)

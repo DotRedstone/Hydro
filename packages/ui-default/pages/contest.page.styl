@@ -1,102 +1,110 @@
-$highlight-button-color = #F6DF45
+$highlight-button-color = var(--c-warn)
 
 .page--contest_main
-  .contest__title
-    font-size: rem($font-size-title)
-    line-height: 1.2em
-    margin-bottom: rem(10px)
+  // 列表行的日期 / 标题 / 元信息统一走 claude-foundation 里的 .activity-* 规则，
+  // 这里只保留比赛列表自己的东西。
 
-  .contest__date
-    margin-right: rem(10px)
-    white-space: nowrap
-    width: rem(60px)
-
-  .contest__info-attended
-    color: $success-color
-
-  .contest__item
-    border-left: rem(5px) solid transparent
-    padding-left: rem(5px)
-    
-    &.live
-      border-left: rem(5px) solid #E98696
-
-    &.ready
-      border-left: rem(5px) solid #469DCF
-
+  // 进行中与即将开始的比赛会上下并排出现在首页顶部，一块反色卡片不管在
+  // 日间还是夜间都太扎眼；两张卡片统一走纸面，只让“进行中”多一层陶土色
+  // 描边、浅色底和一个会呼吸的状态点。
   .section--contest
-    &.live
-      background: #E98696
-      background-image: -webkit-radial-gradient(left top, ellipse farthest-corner, #E98696 0%, #E96B6B 100%)
+    color: var(--c-fg)
+    background: var(--c-surface)
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-lg)
+    box-shadow: none
+    overflow: hidden
 
-    &.ready
-      background: #469DCF
-      background-image: -webkit-radial-gradient(left top, ellipse farthest-corner, #8ACDE6 0%, #469DCF 100%)
+    &.live
+      border-color: token-alpha(var(--c-accent), 45%)
+      background: token-tint(var(--c-accent), 5%)
 
     .status_title
-      display: inline-block
-      font-size: rem($font-size-secondary)
-      color: #FFF
-      background: rgba(#000, 0.3)
-      padding: rem(7px 10px)
-      border-radius: rem(2px)
+      display: inline-flex
+      align-items: center
+      gap: 7px
+      padding: rem(4px 11px)
+      border: 1px solid var(--c-border)
+      border-radius: var(--r-pill)
+      background: var(--c-surface)
+      color: var(--c-fg-3)
+      font-size: .72rem
+      font-weight: 600
+      letter-spacing: .1em
+      text-transform: uppercase
+
+    &.live .status_title
+      border-color: token-alpha(var(--c-accent), 55%)
+      color: var(--c-link)
+
+      // 正在进行的比赛用一个会呼吸的小点提示，不用整块反色
+      &::before
+        content: ''
+        width: 6px
+        height: 6px
+        border-radius: 50%
+        background: currentColor
+        animation: contest-live-pulse 2.2s ease-in-out infinite
 
     h1
-      line-height: 1.2
-      font-size: rem(25px)
-      margin: rem(20px 0)
+      color: var(--c-heading)
+      font-family: var(--font-display)
+      line-height: 1.25
+      font-size: clamp(1.5rem, 2.4vw, 2rem)
+      letter-spacing: -.015em
+      margin: rem(16px 0)
 
     .info
-      color: #FFF
-      font-size: rem($font-size-secondary)
+      color: var(--c-fg-2)
+      font-size: .85rem
 
       .icon
-        color: #FFEB81
-        font-size: rem($font-size-icon)
+        color: var(--c-fg-3)
+        font-size: .95rem
 
       li
         display: inline-block
-        margin-right: rem(10px)
+        margin-right: rem(16px)
 
     .attandance
       margin-top: rem(15px)
       font-size: rem($font-size-secondary)
-      opacity: 0.8
+      color: var(--c-fg-3)
 
+    .media__right .typo
+      color: var(--c-fg-2)
+
+    // 未开始的比赛用描边按钮：灰底读起来像禁用，而“查看详情”是这张卡上
+    // 唯一能点的东西；只有“正在进行”的卡片才用实心陶土色当主操作
     .detail-button
       cursor: pointer
       display: block
       text-align: center
-      background: $highlight-button-color
-      color: darken($highlight-button-color, 70%)
-      line-height: rem(40px)
-      border-radius: rem(20px)
+      border: 1px solid var(--c-border-strong)
+      background: var(--c-surface)
+      color: var(--c-link)
+      line-height: rem(38px)
+      border-radius: var(--r-sm)
       width: rem(150px)
       position: relative
       overflow: hidden
-      transition: box-shadow .4s, background-color .4s
-      transition-timing-function: ease-out-cubic
-
-      &:after
-        position: absolute
-        background: #fff
-        content: ""
-        height: rem(100px)
-        left: rem(-70px)
-        top: rem(-25px)
-        width: rem(50px)
-        opacity: 0.2
-        transform: rotate(35deg)
-        transition: left 0.6s ease-out-cubic
-        z-index: 1
+      transition: background-color .2s ease-out-cubic, color .2s ease-out-cubic, border-color .2s ease-out-cubic
 
       &:hover
         text-decoration: none
-        box-shadow: 0 2px 20px rgba($highlight-button-color, 0.8)
-        background: lighten($highlight-button-color, 20%)
+        background: var(--c-hover)
+        border-color: var(--c-link)
 
-        &:after
-          left: 150%
+    // 只有“正在进行”的卡片承担主操作
+    &.live .detail-button
+      background: var(--c-accent)
+      border-color: var(--c-accent)
+      color: var(--c-accent-fg)
+
+      &:hover
+        background: var(--c-accent-hover)
+        border-color: var(--c-accent-hover)
+        box-shadow: var(--shadow-card)
 
     +mobile()
       .media, .media_body, .media__right
@@ -108,6 +116,18 @@ $highlight-button-color = #F6DF45
 
       .detail-button
         width: auto
+
+@keyframes contest-live-pulse
+  0%, 100%
+    opacity: 1
+    transform: scale(1)
+  50%
+    opacity: .45
+    transform: scale(.82)
+
+@media (prefers-reduced-motion: reduce)
+  .page--contest_main .section--contest.live .status_title::before
+    animation: none
 
 .page--contest_problemlist
   .col--status, .col--correction
@@ -156,7 +176,7 @@ $highlight-button-color = #F6DF45
       text-align: center
 
     .col--lang
-      border-right: 1px solid $table-border-color
+      border-right: 0
 
 
 .page--contest_scoreboard
@@ -170,7 +190,7 @@ $highlight-button-color = #F6DF45
   .col--rank
     width: rem(60px)
     text-align: center
-    border-right: 1px solid $table-border-color
+    border-right: 0
 
   .col--user
     min-width: rem(150px)
@@ -200,7 +220,7 @@ $highlight-button-color = #F6DF45
       display: none
 
   .star-highlight
-  	background: lighten($primary-color, 90%)
+    background: var(--c-accent-soft)
 
 .page--contest_user
   .col--uid
@@ -224,3 +244,289 @@ $highlight-button-color = #F6DF45
     width: rem(80px)
   .col--score
     width: rem(80px)
+
+/* Phase 3 contest list, details, task path and shared scoreboard (homework included). */
+.page--contest_main
+  .learning-activity-feature
+    overflow: hidden
+    border: 1px solid var(--c-border)
+    box-shadow: var(--shadow-card)
+
+  .learning-activity-feature .media
+    display: flex
+    align-items: stretch
+    gap: 12px
+
+  .learning-activity-feature .media__body
+    min-width: 0
+    flex: 1 1 auto
+
+  .learning-activity-feature .media__right
+    flex: 0 0 auto
+
+  .learning-activity-feature .section__body
+    padding: 24px
+
+  .learning-activity-feature h1
+    font-size: clamp(1.35rem, 2vw, 1.75rem)
+    line-height: 1.35
+    margin: 13px 0
+
+  .learning-activity-feature .info
+    display: flex
+    flex-wrap: wrap
+    gap: 9px 15px
+    margin: 15px 0 0
+    line-height: 1.65
+
+  .learning-activity-feature .info li
+    margin: 0
+
+  .learning-activity-feature .status_title
+    font-weight: 600
+    border-radius: var(--r-pill)
+    padding: 6px 12px
+
+  .learning-activity-feature .detail-button
+    min-width: 140px
+    width: auto
+    padding: 0 16px
+    border-radius: var(--r-sm)
+    font-size: .91rem
+    font-weight: 650
+
+
+.page--contest_detail
+  .contest-detail-layout .learning-activity-description
+    margin-top: 0
+
+.page--contest_problemlist
+  .contest-problems-layout .learning-activity-main .section
+    margin-bottom: var(--sp-5)
+
+  .contest-problems-layout .section__body.no-padding
+    padding: 0
+
+  .contest-problems-layout .data-table .col--problem-name
+    min-width: 260px
+    white-space: normal
+
+  .contest-problems-layout .data-table .col--problem-name a
+    font-size: .95rem
+    line-height: 1.5
+    color: var(--c-fg)
+
+  .contest-problems-layout .data-table .col--problem-name a:hover
+    color: var(--c-link)
+
+  .contest-problems-layout .section--clarifications .section__body
+    padding: 22px 26px
+
+  .contest-problems-layout .dczcomments__item
+    padding: 15px 0
+    border-bottom: 1px solid var(--c-border)
+
+  .contest-problems-layout .dczcomments__supplementary
+    font-size: .82rem
+    line-height: 1.6
+    color: var(--c-fg-2)
+
+.page--contest_scoreboard,
+.page--homework_scoreboard
+  .learning-scoreboard-layout
+    margin-left: auto
+    margin-right: auto
+
+  .learning-scoreboard-card
+    border-radius: var(--r-lg)
+    box-shadow: var(--shadow-card)
+
+  .learning-scoreboard-card > .section__header
+    display: flex
+    flex-direction: column
+    align-items: stretch
+    gap: 18px
+    padding: 24px 28px
+    border-bottom: 1px solid var(--c-border)
+
+  .scoreboard-heading
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+    align-items: flex-start
+    gap: 16px
+
+  .scoreboard-heading__identity
+    min-width: 200px
+    flex: 1 1 260px
+
+  .scoreboard-heading__eyebrow
+    margin: 0 0 6px
+    color: var(--c-link)
+    font-size: .78rem
+    font-weight: 650
+    letter-spacing: .08em
+
+  .scoreboard-heading .section__title
+    margin: 0
+    font-size: clamp(1.4rem, 2.2vw, 1.9rem)
+    line-height: 1.35
+    font-weight: 650
+
+  .scoreboard-heading__actions
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: flex-end
+    gap: 7px
+    flex: 1 1 270px
+
+  .scoreboard-heading__actions .button
+    min-height: 36px
+    padding: 7px 11px
+    border: 1px solid var(--c-border)
+    background: var(--c-sunken)
+    color: var(--c-fg-2)
+    font-size: .82rem
+    white-space: nowrap
+
+  .scoreboard-heading__actions .button:hover
+    border-color: var(--c-link)
+    color: var(--c-link)
+
+  .learning-scoreboard-card > .section__header .section__tools
+    position: static
+    display: flex
+    justify-content: flex-end
+    padding: 0
+
+  .learning-scoreboard-card .select.filter
+    width: auto
+    min-width: 170px
+    max-width: 240px
+    min-height: 36px
+    padding: 6px 10px
+    border-radius: var(--r-sm)
+    font-size: .82rem
+
+  .learning-scoreboard-card [data-fragment-id="scoreboard"]
+    min-width: 0
+
+  .learning-scoreboard-card .section__table-container
+    overflow-x: auto
+
+  .learning-scoreboard-card .data-table
+    font-size: .88rem
+
+  .learning-scoreboard-card .data-table td
+    padding: 12px 11px
+    line-height: 1.6
+
+  .learning-scoreboard-card .data-table th
+    padding: 14px 11px
+    line-height: 1.5
+
+  .learning-scoreboard-card .col--rank
+    font-weight: 650
+
+  .learning-scoreboard-card .col--user
+    min-width: 170px
+    text-align: left
+
+  .learning-scoreboard-card .star
+    margin-right: 5px
+
+  .learning-scoreboard-card .star-highlight
+    background: var(--c-accent-soft)
+
+  @media only screen and (max-width: 600px)
+    .learning-scoreboard-card > .section__header
+      padding: 18px
+
+    .scoreboard-heading__actions
+      justify-content: flex-start
+
+    .learning-scoreboard-card > .section__header .section__tools
+      justify-content: flex-start
+
+.page--contest_main
+  @media only screen and (max-width: 600px)
+    .learning-activity-feature .media
+      display: block
+
+    .learning-activity-feature .section__body
+      padding: 18px
+
+// Markdown cheat sheet in the authoring rail: collapsed by default, so the rail
+// stays short and the form keeps the attention.
+.md-hint
+  .md-hint__details
+    padding: 0
+
+  .md-hint__summary
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 15px 22px
+    color: var(--c-fg-2)
+    font-size: .88rem
+    font-weight: 600
+    cursor: pointer
+    list-style: none
+
+    &::-webkit-details-marker
+      display: none
+
+    .icon
+      transition: transform .18s ease
+      color: var(--c-fg-3)
+
+  &[open] .md-hint__summary .icon
+    transform: rotate(180deg)
+
+  .section__body
+    padding-top: 0
+
+  dl
+    margin: 0
+
+  dt
+    margin-top: 12px
+    color: var(--c-fg-3)
+    font-size: .78rem
+    font-weight: 550
+    letter-spacing: .02em
+
+  dt:first-child
+    margin-top: 0
+
+  dd
+    margin: 4px 0 0
+
+  pre
+    margin: 0
+    padding: 7px 9px
+    border-radius: var(--r-sm)
+    background: var(--c-sunken)
+    font-size: .76rem
+    line-height: 1.5
+    white-space: pre-wrap
+
+  h2
+    margin: 18px 0 8px
+    color: var(--c-fg-2)
+    font-size: .82rem
+    font-weight: 600
+
+  ul
+    margin: 0
+
+  li
+    line-height: 1.8
+    font-size: .82rem
+
+// Hydro marks the first-blood cell with an inline light-green background; keep
+// that signal but let it follow the palette (it was a pale green in dark mode).
+.page--contest_scoreboard .data-table td[style*="rgb(217"],
+.page--homework_scoreboard .data-table td[style*="rgb(217"]
+  background-color: token-alpha(var(--c-ok), 16%) !important

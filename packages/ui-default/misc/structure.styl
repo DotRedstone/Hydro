@@ -1,5 +1,20 @@
+// 只给读屏和搜索引擎看的文本
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  margin: -1px
+  padding: 0
+  overflow: hidden
+  clip: rect(0 0 0 0)
+  clip-path: inset(50%)
+  white-space: nowrap
+  border: 0
+
+// 按钮改用 flex 居中后特异性压过了这条规则，留个 !important（页面里可见的
+// 降级按钮本来就不该在 JS 可用时出现）
 .hasjs .hasjs--hide
-  display: none
+  display: none !important
 
 .nojs .nojs--hide
   display: none
@@ -25,23 +40,28 @@
   height: 8px;
 
 ::-webkit-scrollbar-track
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
-  border-radius: 8px;
+  background: transparent
 
 ::-webkit-scrollbar-thumb
-  border-radius: 8px;
-  background: #bbb;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+  border-radius: var(--r-sm)
+  background: var(--c-border-strong)
+  border: 2px solid transparent
+  background-clip: padding-box
+
+::-webkit-scrollbar-thumb:hover
+  background: var(--c-fg-3)
+  background-clip: padding-box
 
 html
   overflow-y: overlay;
 
 .main
-  padding: rem(55px 0)
+  // nav is fixed on hasjs layout; keep a real gap under it instead of 4px
+  padding: rem(72px 0 55px)
   flex: 1
 
   +above(rupture.desktop-cutoff)
-    padding: 4rem 0rem
+    padding: 4.75rem 0rem
 
   +mobile()
     padding: 0
@@ -98,7 +118,7 @@ html
 .numbox__text
   font-size: rem($font-size-small)
   margin-top: rem(10px)
-  color: #AAA
+  color: $text-3-color
 
 // Balancer: horizontally equally distributed columns
 .balancer

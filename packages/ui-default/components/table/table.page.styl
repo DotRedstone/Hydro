@@ -2,30 +2,39 @@
   width: 100%
   table-layout: fixed
   white-space: nowrap
-  font-size: rem($font-size-small)
+  font-size: rem($font-size-secondary)
   font-weight: normal
 
   th
     font-size: rem($font-size-secondary)
 
-  tr
-    border-top: 1px solid $table-border-color
+  tbody > tr
+    border: 0
     border-bottom: 1px solid $table-border-color
 
-    &:nth-child(even)
-      background: $table-alternate-bg-color
+    &:last-child
+      border-bottom: 0
+
+    // No zebra striping: rows are separated by a hairline, and hover carries the
+    // tracking cue. Zebra plus hairlines read as two competing systems.
+    &:hover
+      background: $table-row-hover-bg-color
 
     &.highlight
-      background: lighten($highlight-color, 85%)
+      background: var(--c-accent-soft)
 
   &.is--full-row tr
     cursor: pointer
 
     &:hover
-      background: lighten($primary-color, 85%)
+      background: var(--c-accent-soft)
 
   thead > tr
-    color: #888
+    color: $text-3-color
+    font-size: 0.72rem
+    font-weight: 600
+    letter-spacing: 0.08em
+    text-transform: uppercase
     border-top: 0
     border-bottom: 1px solid $table-border-color
 
@@ -33,16 +42,17 @@
     white-space: nowrap
     overflow: hidden
     text-overflow: ellipsis
+    vertical-align: middle
     line-height: rem($table-lh)
 
   td
-    padding: rem(5px $table-padding-h)
+    padding: rem(11px $table-padding-h)
 
   th
-    padding: rem(13px $table-padding-h)
+    padding: rem(9px $table-padding-h)
 
   .empty-row
-    color: #AAA
+    color: $text-3-color
     font-size: rem($font-size-small)
 
 .section__table-container

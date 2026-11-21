@@ -1,0 +1,64 @@
+// Login / register / password-reset share the immersive layout. With the hero
+// image gone, the page gets a soft warm backdrop and the form a single card.
+.page--user_login, .page--user_register, .page--user_lostpass, .page--user_sudo, .page--user_register_verify
+  #panel
+    background:
+      radial-gradient(1100px 420px at 50% -140px, var(--c-accent-soft), transparent 72%),
+      radial-gradient(circle at 1px 1px, token-alpha(var(--c-fg), 4%) 1px, transparent 0) 0 0 / 22px 22px,
+      var(--c-bg)
+
+  .main
+    display: flex
+    align-items: center
+    justify-content: center
+    min-height: 68vh
+    padding: rem(40px 15px)
+
+  .immersive--content
+    background: var(--c-surface)
+    border: 1px solid $border-1-color
+    border-radius: $radius-lg
+    box-shadow: var(--shadow-float)
+    padding: rem(34px 30px 26px)
+    width: 100%
+    max-width: rem(380px)
+    margin: 0
+
+    h1
+      text-align: center
+      font-size: rem(26px)
+      font-weight: 600
+      margin-bottom: rem(22px)
+
+    // the template uses `inverse` controls because the old layout had a hero
+    // background; on a plain card they follow the normal palette instead
+    label.inverse.material
+      color: $text-2-color
+
+      input
+        color: $text-1-color
+        border-color: $border-1-color
+        border-radius: 0
+
+        &:enabled:read-write:hover
+          border-color: $border-1-color
+
+        &:enabled:read-write:focus
+          border-color: $primary-color
+
+    label.inverse.material.checkbox
+      color: $text-2-color !important
+
+    .button.inverse
+      border: 0
+      border-radius: $radius-sm
+      background: $primary-color
+      color: var(--c-accent-fg)
+      line-height: rem($form-control-height - 2)
+
+      &, &:visited
+        &, .typo &
+          color: var(--c-accent-fg)
+
+      &:hover
+        background: var(--c-accent-hover)

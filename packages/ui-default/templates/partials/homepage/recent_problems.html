@@ -3,14 +3,15 @@
 {% if pdocs.length %}
   <div class="section side nojs--hide">
     <div class="section__header">
-      <h1 class="section__title">{{ _('Recent Problems') }}</h1>
+      <h2 class="section__title">{{ _('Recent Problems') }}</h2>
+      <div class="section__tools"><a class="link" href="{{ url('problem_main') }}">{{ _('Problems') }} →</a></div>
     </div>
-    <div class="section__body typo no-media col--problem-name">
+    <div class="section__body home-list no-padding">
       {%- for pdoc in pdocs -%}
-        <p>
-          {{ problem.render_problem_title(pdoc, show_tags=false, show_invisible_flag=false, show_pid=false) }}
-          <span style="float: right">{{ datetimeSpan(pdoc._id)|safe }}</span>
-        </p>
+        <div class="home-list__row">
+          <span class="home-list__title">{{ problem.render_problem_title(pdoc, show_tags=false, show_invisible_flag=false, show_pid=true) }}</span>
+          <span class="home-list__meta">{{ datetimeSpan(pdoc._id)|safe }}</span>
+        </div>
       {%- endfor -%}
     </div>
   </div>

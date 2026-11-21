@@ -66,7 +66,7 @@ export default class Notification {
   static success(message: string, duration?: number) {
     return notifications.show({
       title: message,
-      color: '#238551',
+      color: 'var(--c-ok)',
       message: '',
       icon: React.createElement('i', { className: 'icon icon-check' }),
       autoClose: duration,
@@ -76,7 +76,7 @@ export default class Notification {
   static info(message: string, duration?: number) {
     return notifications.show({
       title: message,
-      color: '#2d72d2',
+      color: 'var(--c-info)',
       message: '',
       icon: React.createElement('i', { className: 'icon icon-info--circle' }),
       autoClose: duration,
@@ -86,7 +86,7 @@ export default class Notification {
   static warn(message: string, duration?: number) {
     return notifications.show({
       title: message,
-      color: '#fbb360',
+      color: 'var(--c-warn)',
       message: '',
       icon: React.createElement('i', { className: 'icon icon-warning' }),
       autoClose: duration,
@@ -96,7 +96,7 @@ export default class Notification {
   static error(message: string, duration?: number) {
     return notifications.show({
       title: message,
-      color: '#cd4246',
+      color: 'var(--c-bad)',
       message: '',
       icon: React.createElement('i', { className: 'icon icon-close--circle' }),
       autoClose: duration,

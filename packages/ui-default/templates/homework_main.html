@@ -1,22 +1,16 @@
 {% extends "layout/basic.html" %}
 {% block content %}
 {{ set(UiContext, 'docs', calendar) }}
-<div class="row">
+<div class="row homework-list-layout">
   <div class="medium-12 columns">
-    <div class="section">
+    <div class="section learning-activity-list-card">
       <div class="section__header">
         <h1 class="section__title">{{ _('All Homeworks') }}</h1>
-        <div class="section__tools">
-          <span class="nojs--hide">
-            {{ _('View') }}:
-            <select class="inline compact select" name="homework_display">
-              <option value="calendar">{{ _('Calendar View') }}</option>
-              <option value="list" selected>{{ _('List View') }}</option>
-            </select>
-          </span>
-          <form method="get" class="filter-form" name="filter-form">
-            <input type="text" class="inline compact textbox" name="q" value="{{ q }}" placeholder="{{ _('Search homeworks...') }}">
-            <select class="inline compact select" name="group">
+        <div class="section__tools homework-toolbar">
+          <form method="get" class="filter-form" name="filter-form" role="search">
+            <input type="text" class="inline compact textbox" name="q" value="{{ q }}"
+              placeholder="{{ _('Search homeworks...') }}" aria-label="{{ _('Search homeworks...') }}">
+            <select class="inline compact select" name="group" aria-label="{{ _('Group') }}">
               <option value=""{% if not group %} selected{% endif %}>{{ _('All') }}</option>
               {%- for g in groups -%}
                 <option value="{{ g }}"{% if group == g %} selected{% endif %}>{{ g }}</option>
@@ -29,8 +23,15 @@
               {{ _('Search') }}
             </button>
           </form>
+          <span class="homework-toolbar__view nojs--hide">
+            <span class="homework-toolbar__label">{{ _('View') }}</span>
+            <select class="compact select" name="homework_display" aria-label="{{ _('View') }}">
+              <option value="calendar">{{ _('Calendar View') }}</option>
+              <option value="list" selected>{{ _('List View') }}</option>
+            </select>
+          </span>
         {% if handler.user.hasPerm(perm.PERM_CREATE_HOMEWORK) %}
-          <a class="compact button" href="{{ url('homework_create') }}">{{ _('Create Homework') }}</a>
+          <a class="compact primary button" href="{{ url('homework_create') }}">{{ _('Create Homework') }}</a>
         {% endif %}
         </div>
       </div>
@@ -40,25 +41,36 @@
       {% else %}
         <ol class="section__list homework__list">
         {%- for tdoc in tdocs -%}
-          <li class="section__list__item homework__item">
+          {%- set hwDone = model.contest.isDone(tdoc) -%}
+          {%- set hwLive = not hwDone and model.contest.isOngoing(tdoc) -%}
+          {%- set hwState = 'done' if hwDone else ('live' if hwLive else 'ready') -%}
+          {# 真正的截止时间：延期作业看硬截止 endAt，普通作业看 penaltySince #}
+          {%- set hwFinal = model.contest.isExtended(tdoc) or hwDone -%}
+          {%- set hwDeadline = tdoc.endAt if hwFinal else tdoc.penaltySince -%}
+          {# 48 小时内即将截止，给一条细线提示 #}
+          {%- set hwLeft = hwDeadline.getTime() - Date.now() -%}
+          {%- set hwClosing = hwLive and hwLeft > 0 and hwLeft <= 172800000 -%}
+          <li class="section__list__item activity-item activity-item--{{ hwState }}{% if hwClosing %} activity-item--closing{% endif %} homework__item">
             <div class="media">
               <div class="media__left medium">
-                <div class="homework__date numbox">
-                  <div class="numbox__num large">{{ datetimeSpan(tdoc['penaltySince'], false, 'D')|safe }}</div>
-                  <div class="numbox__text">{{ datetimeSpan(tdoc['penaltySince'], false, 'YYYY-M')|safe }}</div>
+                <div class="activity__date homework__date">
+                  <span class="activity__date-day">{{ datetimeSpan(tdoc['penaltySince'], false, 'D')|safe }}</span>
+                  <span class="activity__date-month">{{ datetimeSpan(tdoc['penaltySince'], false, 'YYYY-M')|safe }}</span>
                 </div>
               </div>
               <div class="media__body medium">
-                <h1 class="homework__title"><a href="{{ url('homework_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h1>
-                <ul class="supplementary list">
-                  <li>{{ _('Status') }}: {{ _(model.contest.statusText(tdoc)) }}</li>
-                  <li>{{ _('Open Since') }}: {{ datetimeSpan(tdoc['beginAt'])|safe }}</li>
-                  <li>
-                  {% if model.contest.isExtended(tdoc) or model.contest.isDone(tdoc) %}
-                    {{ _('Hard Deadline') }}: {{ datetimeSpan(tdoc['endAt'])|safe }}
-                  {% else %}
-                    {{ _('Deadline') }}: {{ datetimeSpan(tdoc['penaltySince'])|safe }}
-                  {% endif %}
+                <h2 class="activity__title homework__title"><a href="{{ url('homework_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc.title }}</a></h2>
+                <ul class="supplementary list activity__meta homework__meta">
+                  <li class="activity__meta-item activity__meta-item--status">
+                    <span class="activity__meta-label">{{ _('Status') }}</span>
+                    <span class="activity__meta-value">{{ _(model.contest.statusText(tdoc)) }}</span>
+                  </li>
+                  <li class="activity__meta-item activity__meta-item--times">
+                    <span class="activity__meta-label">{{ _('Open Since') }}</span>
+                    <span class="activity__meta-value">{{ datetimeSpan(tdoc['beginAt'])|safe }}</span>
+                    <span class="activity__meta-sep" aria-hidden="true">·</span>
+                    <span class="activity__meta-label">{{ _('Hard Deadline') if hwFinal else _('Deadline') }}</span>
+                    <span class="activity__meta-value">{{ datetimeSpan(tdoc['endAt'] if hwFinal else tdoc['penaltySince'])|safe }}</span>
                   </li>
                 </ul>
               </div>

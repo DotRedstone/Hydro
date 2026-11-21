@@ -38,16 +38,22 @@ export default connect(mapStateToProps, mapDispatchToProps)(class ScratchpadPret
         )}
       >
         <Allotment>
-          <DataInput
-            title={i18n('Input')}
-            value={this.props.input}
-            onChange={(v) => this.props.handleDataChange('input', v)}
-          />
-          <DataInput
-            title={i18n('Output')}
-            value={new AnsiUp().ansi_to_html(this.props.output)}
-            html
-          />
+          <div className="scratchpad__pretest-pane">
+            <div className="scratchpad__pretest-label">{i18n('Input')}</div>
+            <DataInput
+              title={i18n('Input')}
+              value={this.props.input}
+              onChange={(v) => this.props.handleDataChange('input', v)}
+            />
+          </div>
+          <div className="scratchpad__pretest-pane">
+            <div className="scratchpad__pretest-label">{i18n('Output')}</div>
+            <DataInput
+              title={i18n('Output')}
+              value={new AnsiUp().ansi_to_html(this.props.output)}
+              html
+            />
+          </div>
         </Allotment>
       </Panel>
     );

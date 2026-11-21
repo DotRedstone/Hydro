@@ -2,5 +2,8 @@
 {% block manage_content %}
 {{ set(UiContext, 'schema', schema) }}
 {{ set(UiContext, 'config', value) }}
-<div id="app"></div>
+<div class="section administration-config-card">
+  <div class="section__header"><h1 class="section__title">{{ _('Configuration') }}</h1></div>
+  <div id="app" class="administration-config-mount"></div>
+</div>
 {% endblock %}

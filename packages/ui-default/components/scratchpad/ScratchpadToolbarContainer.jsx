@@ -117,10 +117,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(class ScratchpadTool
             data-tooltip={`${i18n('Pretest Your Code')} (F9)`}
           >
             <Icon name="debug" />
-            {' '}
             {i18n('Run Pretest')}
-            {' '}
-            {this.props.pretestWaitSec ? `(${this.props.pretestWaitSec}s)` : '(F9)'}
+            {this.props.pretestWaitSec
+              ? <span className="scratchpad__kbd">{this.props.pretestWaitSec}s</span>
+              : <span className="scratchpad__kbd">F9</span>}
           </ToolbarButton>
         )}
         <ToolbarButton
@@ -131,23 +131,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(class ScratchpadTool
           data-tooltip={`${i18n('Submit Your Code')} (F10)`}
         >
           <Icon name="play" />
-          {' '}
           {i18n('Submit Solution')}
-          {' '}
-          {this.props.submitWaitSec ? `(${this.props.submitWaitSec}s)` : '(F10)'}
+          {this.props.submitWaitSec
+            ? <span className="scratchpad__kbd">{this.props.submitWaitSec}s</span>
+            : <span className="scratchpad__kbd">F10</span>}
         </ToolbarButton>
-        <ToolbarButton
-          data-global-hotkey="alt+q"
-          data-tooltip={`${i18n('Quit Scratchpad')} (Alt+Q)`}
-          name="problem-sidebar__quit-scratchpad"
-        >
-          <Icon name="close" />
-          {' '}
-          {i18n('Exit')}
-          {' '}
-          (Alt+Q)
-        </ToolbarButton>
-        <ToolbarItem>
+        <ToolbarSplit />
+        <ToolbarItem className="scratchpad__toolbar__lang">
           <select
             className="select"
             disabled={this.props.isPosting}
@@ -159,18 +149,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(class ScratchpadTool
             ))}
           </select>
         </ToolbarItem>
-        <ToolbarSplit />
         {canUsePretest && (
-          <ToolbarButton
-            activated={this.props.pretestVisible}
-            onClick={() => this.props.togglePanel('pretest')}
-            data-global-hotkey="alt+p"
-            data-tooltip={`${i18n('Toggle Pretest Panel')} (Alt+P)`}
-          >
-            <Icon name="edit" />
-            {' '}
-            {i18n('Pretest')}
-          </ToolbarButton>
+          <>
+            <ToolbarSplit />
+            <ToolbarButton
+              activated={this.props.pretestVisible}
+              onClick={() => this.props.togglePanel('pretest')}
+              data-global-hotkey="alt+p"
+              data-tooltip={`${i18n('Toggle Pretest Panel')} (Alt+P)`}
+            >
+              <Icon name="edit" />
+              {i18n('Pretest')}
+            </ToolbarButton>
+          </>
         )}
         {UiContext.canViewRecord && (
           <ToolbarButton
@@ -180,10 +171,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(class ScratchpadTool
             data-tooltip={`${i18n('Toggle Records Panel')} (Alt+R)`}
           >
             <Icon name="flag" />
-            {' '}
             {i18n('Records')}
           </ToolbarButton>
         )}
+        <ToolbarItem className="scratchpad__toolbar__spacer" />
+        <ToolbarButton
+          className="scratchpad__toolbar__quit"
+          data-global-hotkey="alt+q"
+          data-tooltip={`${i18n('Quit Scratchpad')} (Alt+Q)`}
+          name="problem-sidebar__quit-scratchpad"
+        >
+          <Icon name="close" />
+          {i18n('Exit')}
+          <span className="scratchpad__kbd">Alt+Q</span>
+        </ToolbarButton>
       </Toolbar>
     );
   }

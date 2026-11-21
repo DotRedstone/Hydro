@@ -5,8 +5,11 @@
     font-size: rem($font-size-secondary)
     line-height: rem($form-control-height - 2)
     height: rem($form-control-height)
-    padding: rem(0 25px)
+    padding: rem(0 16px)
     display: inline-block
+    // <button> 默认居中、<a> 默认左对齐，链接样式的按钮（重置 / 查看更多…）
+    // 文字会歪在左边，这里统一成居中
+    text-align: center
     outline: 0
     margin: 0 0 1rem
     cursor: pointer
@@ -26,11 +29,12 @@
       line-height: rem($compact-control-height - 2)
       padding: rem(0 15px)
 
-.button.inverse
-  line-height: rem($form-control-height - 4)
-  border: 2px solid #FFF
-  background: none
-
-  &, &:visited
-    &, .typo &
-      color: #FFF
+// 链接与 <button> 的按钮一律用 flex 居中：只要有人给 .button 自定义高度或
+// 上下内边距，纯 line-height 对齐就会把文字顶歪（评测记录的「重置」就是这样）
+a.button:not(.codicon),
+button.button:not(.codicon)
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  // flex 会把标签之间的空格吃掉，图标与文字靠 gap 撑开
+  gap: .42em

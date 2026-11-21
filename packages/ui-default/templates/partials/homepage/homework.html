@@ -1,35 +1,47 @@
 {% set htdocs = payload[0] %}
 {% set htsdict = payload[1] %}
 {% if htdocs.length %}
-  <div class="section page--homework_main">
+  <div class="section">
     <div class="section__header">
-      <h1 class="section__title">{{ _('Homework') }}</h1>
+      <h2 class="section__title">{{ _('Homework') }}</h2>
+      <div class="section__tools"><a class="link" href="{{ url('homework_main') }}">{{ _('All Homeworks') }} →</a></div>
     </div>
     <ol class="section__list homework__list">
       {%- for tdoc in htdocs -%}
-        <li class="section__list__item homework__item">
+        {%- set hwDone = model.contest.isDone(tdoc) -%}
+        {%- set hwLive = not hwDone and model.contest.isOngoing(tdoc) -%}
+        {%- set hwState = 'done' if hwDone else ('live' if hwLive else 'ready') -%}
+        {# 真正的截止时间：延期作业看硬截止 endAt，普通作业看 penaltySince #}
+        {%- set hwFinal = model.contest.isExtended(tdoc) or hwDone -%}
+        {%- set hwDeadline = tdoc.endAt if hwFinal else tdoc.penaltySince -%}
+        {# 48 小时内即将截止，给一条细线提示 #}
+        {%- set hwLeft = hwDeadline.getTime() - Date.now() -%}
+        {%- set hwClosing = hwLive and hwLeft > 0 and hwLeft <= 172800000 -%}
+        <li class="section__list__item activity-item activity-item--{{ hwState }}{% if hwClosing %} activity-item--closing{% endif %} homework__item">
           <div class="media">
             <div class="media__left medium">
-              <div class="homework__date numbox">
-                <div class="numbox__num large">{{ datetimeSpan(tdoc['penaltySince'], false, 'D')|safe }}</div>
-                <div class="numbox__text">{{ datetimeSpan(tdoc['penaltySince'], false, 'YYYY-M')|safe }}</div>
+              <div class="activity__date homework__date">
+                <span class="activity__date-day">{{ datetimeSpan(tdoc['penaltySince'], false, 'D')|safe }}</span>
+                <span class="activity__date-month">{{ datetimeSpan(tdoc['penaltySince'], false, 'YYYY-M')|safe }}</span>
               </div>
             </div>
             <div class="media__body medium">
-              <h1 class="homework__title"><a href="{{ url('homework_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc['title'] }}</a></h1>
-              <ul class="supplementary list">
-                <li>{{ _('Status') }}: {{ _(model.contest.statusText(tdoc)) }}</li>
-                <li>{{ _('Open Since') }}: {{ datetimeSpan(tdoc['beginAt'])|safe }}</li>
-                <li>
-                  {% if model.contest.isExtended(tdoc) or model.contest.isDone(tdoc) %}
-                    {{ _('Hard Deadline') }}: {{ datetimeSpan(tdoc['endAt'])|safe }}
-                  {% else %}
-                    {{ _('Deadline') }}: {{ datetimeSpan(tdoc['penaltySince'])|safe }}
-                  {% endif %}
+              <h2 class="activity__title homework__title"><a href="{{ url('homework_detail', tid=tdoc.docId) }}" data-emoji-enabled>{{ tdoc['title'] }}</a></h2>
+              <ul class="supplementary list activity__meta homework__meta">
+                <li class="activity__meta-item activity__meta-item--status">
+                  <span class="activity__meta-label">{{ _('Status') }}</span>
+                  <span class="activity__meta-value">{{ _(model.contest.statusText(tdoc)) }}</span>
+                </li>
+                <li class="activity__meta-item activity__meta-item--times">
+                  <span class="activity__meta-label">{{ _('Open Since') }}</span>
+                  <span class="activity__meta-value">{{ datetimeSpan(tdoc['beginAt'])|safe }}</span>
+                  <span class="activity__meta-sep" aria-hidden="true">·</span>
+                  <span class="activity__meta-label">{{ _('Hard Deadline') if hwFinal else _('Deadline') }}</span>
+                  <span class="activity__meta-value">{{ datetimeSpan(tdoc['endAt'] if hwFinal else tdoc['penaltySince'])|safe }}</span>
                 </li>
                 {% if htsdict[tdoc['docId']]['attend'] == 1 %}
-                  <li class="homework__info-attended">
-                    <span class="icon icon-check"></span> {{ _('Claimed') }}
+                  <li class="activity__meta-item contest__info-attended">
+                    <span class="icon icon-check"></span>{{ _('Claimed') }}
                   </li>
                 {% endif %}
               </ul>

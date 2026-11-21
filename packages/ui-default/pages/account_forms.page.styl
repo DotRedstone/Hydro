@@ -1,0 +1,426 @@
+// Shared account/form presentation. Existing fields, auth handlers and methods untouched.
+// Auth pages share one shell: a form panel plus a warm side panel that carries
+// the secondary path (sign up / log in / back). The sign-in dialog uses the same
+// language, so the two never drift apart.
+.auth-page
+  display: flex
+  justify-content: center
+  padding: rem(28px) rem(16px) rem(52px)
+
+.account-auth-card
+  display: grid
+  grid-template-columns: minmax(0, 1fr) rem(258px)
+  width: min(100%, 812px)
+  max-width: 812px
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  overflow: hidden
+  border: 1px solid token-alpha(var(--c-border), 70%)
+  border-radius: var(--r-lg)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-card)
+  color: var(--c-fg)
+
+.auth-card__main
+  padding: 32px 36px 36px
+  min-width: 0
+
+.auth-card__side
+  display: flex
+  flex-direction: column
+  justify-content: center
+  gap: 12px
+  padding: 32px 28px
+  // 侧栏只是「还有另一条路」的说明，用页面底色就够，不用整块陶土色
+  background: var(--c-bg)
+  border-left: 1px solid token-alpha(var(--c-border), 70%)
+
+.auth-card__side h2
+  margin: 0
+  color: var(--c-heading)
+  font-family: var(--font-display)
+  font-size: 1.24rem
+  line-height: 1.35
+  font-weight: 500
+  letter-spacing: -.01em
+
+.auth-card__side p
+  margin: 0
+  color: var(--c-fg-2)
+  font-size: .89rem
+  line-height: 1.7
+
+.auth-card__side .button
+  align-self: flex-start
+  margin: 6px 0 0
+  // 文案只有「注册 / Sign Up」时，药丸按钮会缩成一个小圆点
+  min-width: 128px
+  padding: 0 20px
+  text-align: center
+
++below(rupture.mobile-cutoff)
+  .account-auth-card
+    grid-template-columns: minmax(0, 1fr)
+
+  .auth-card__side
+    border-left: 0
+    border-top: 1px solid token-alpha(var(--c-border), 70%)
+
+.account-auth-card .auth-card__main h1
+  margin: 0 0 24px
+  text-align: left
+  color: var(--c-heading)
+  font-family: var(--font-display)
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem)
+  line-height: 1.4
+  letter-spacing: -.02em
+  font-weight: 650
+
+.account-auth-card .row
+  max-width: none
+
+.account-auth-card label.material,
+.account-auth-card label.textbox
+  display: block
+  color: var(--c-fg)
+  font-size: .91rem
+  font-weight: 550
+  line-height: 1.7
+  margin-bottom: 15px
+
+.account-auth-card label.material input:not([type="checkbox"]),
+.account-auth-card label.textbox input:not([type="checkbox"])
+  display: block
+  width: 100%
+  box-sizing: border-box
+  min-height: 45px
+  margin-top: 7px
+  padding: 10px 12px
+  border: 1px solid var(--c-border-strong)
+  border-radius: var(--r-sm)
+  // 与其他表单一致：输入框比卡片低一档，边界不靠一根淡线撑着；
+  // 1rem 还顺手解决了手机上小于 16px 会触发 iOS 整页放大的问题
+  background: var(--c-bg)
+  color: var(--c-fg)
+  font-size: 1rem
+
+.account-auth-card input[type="checkbox"]
+  margin-right: 9px
+  accent-color: var(--c-link)
+
+.account-auth-card label.checkbox
+  color: var(--c-fg-2)
+  font-size: .87rem
+  line-height: 1.7
+
+.account-auth-card .button,
+.account-auth-card input[type="submit"],
+.account-auth-card input[name="confirm"],
+.account-auth-card input[name="webauthn_verify"]
+  min-height: 44px
+  margin: 7px 0
+  border-radius: var(--r-sm)
+  font-size: .93rem
+  font-weight: 600
+
+.account-auth-card .supplementary,
+.account-auth-card .supplementary.inverse
+  color: var(--c-fg-2)
+  font-size: .85rem
+  line-height: 1.7
+
+.account-auth-card .supplementary a
+  color: var(--c-link)
+
+.account-auth-card .note,
+.account-auth-card .warn
+  border-radius: var(--r-sm)
+  line-height: 1.7
+
+.account-auth-card .sudo-switch
+  margin: 6px 0
+  padding: 6px 0
+
+// Confirm-access (sudo) reuses the auth shell as a single narrower column:
+// one field, one action, the explanation underneath the form.
+.account-auth-card--single
+  grid-template-columns: minmax(0, 1fr)
+  width: min(100%, 440px)
+  max-width: 440px
+
+.auth-card__lead
+  margin: -10px 0 22px
+  color: var(--c-fg-2)
+  font-size: .9rem
+  line-height: 1.72
+
+// 登录失败留在表单里说话，不再整页跳到错误页
+.auth-form__error
+  margin: 0 0 18px
+  padding: 10px 13px
+  border: 1px solid token-alpha(var(--c-bad), 30%)
+  border-radius: var(--r-sm)
+  background: token-tint(var(--c-bad), 8%)
+  color: var(--c-bad)
+  font-size: .85rem
+  line-height: 1.6
+
+.auth-card__foot
+  margin: 18px 0 0
+  padding-top: 16px
+  border-top: 1px solid token-alpha(var(--c-border), 70%)
+
+  // 找回密码 / 注册回执里的两个下一步动作保持同一行、间距一致
+  .button + .button
+    margin-left: 10px
+
+.auth-card__hint
+  margin: 14px 0 0
+  color: var(--c-fg-3)
+  font-size: .82rem
+  line-height: 1.65
+
+.auth-card__other
+  margin-top: 14px
+
+.auth-card__other-title
+  margin: 0 0 6px
+  color: var(--c-fg-3)
+  font-size: .74rem
+  font-weight: 600
+  letter-spacing: .08em
+  text-transform: uppercase
+
+.auth-card__other-list
+  margin: 0
+  padding: 0
+  list-style: none
+
+.auth-card__other-list li
+  margin: 0
+  padding: 4px 0
+
+.auth-card__other-list a
+  color: var(--c-link)
+  font-size: .89rem
+  text-decoration: none
+
+.auth-card__other-list a:hover
+  text-decoration: underline
+
+.account-signin-dialog
+  border-radius: var(--r-lg)
+  border: 1px solid var(--c-border)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-card)
+  overflow: hidden
+
+  font-size: .87rem
+  line-height: 1.65
+
+
+.page--home_account,
+.page--home_settings,
+.page--home_security,
+.page--home_messages
+  .section
+    margin-bottom: var(--sp-5)
+
+  .section__header
+    padding: 20px 24px
+    border-bottom: 1px solid var(--c-border)
+
+  .section__header .section__title
+    margin: 0
+    font-size: 1.17rem
+    font-weight: 650
+    line-height: 1.4
+
+  .section__body
+    padding: 22px 24px
+    font-size: .92rem
+    line-height: 1.7
+
+  .section__body.no-padding
+    padding: 0
+
+  .section__body label
+    color: var(--c-fg)
+    font-size: .91rem
+    line-height: 1.65
+
+  .section__body input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  .section__body select,
+  .section__body textarea
+    max-width: 100%
+    min-height: 42px
+    padding: 9px 12px
+    border-radius: var(--r-sm)
+    // 用 background-color：background 简写会连下拉箭头一起清掉
+    background-color: var(--c-bg)
+    color: var(--c-fg)
+    font-size: .94rem
+
+  .section__body select
+    padding-right: rem(30px)
+
+  .section__body textarea
+    min-height: 125px
+    line-height: 1.7
+
+  .section__body .button,
+  .section__header .button
+    min-height: 40px
+    padding: 9px 14px
+    border-radius: var(--r-sm)
+    font-size: .9rem
+
+  .section__body .menu__link,
+  .section__body a
+    overflow-wrap: anywhere
+
+  .platform-list,
+  .autherlist,
+  .sessionlist
+    margin: 0
+    padding: 0
+    list-style: none
+
+  .platform-list__item,
+  .autherlist__item,
+  .sessionlist__item
+    margin: 0
+    padding: 16px 0
+    border-bottom: 1px solid var(--c-border)
+
+  .platform-list__item:last-child,
+  .autherlist__item:last-child,
+  .sessionlist__item:last-child
+    border-bottom: 0
+
+  .platform-list__item .media__body,
+  .autherlist__item .media__body,
+  .sessionlist__item .media__body
+    min-width: 0
+    overflow-wrap: anywhere
+
+  .platform-list__item .media__body p,
+  .autherlist__item .media__body p
+    margin: 0
+    line-height: 1.65
+
+  .account-security-content .row
+    margin-bottom: 14px
+
+  .account-security-content .section__body
+    min-width: 0
+
+  .account-message-card #messagePad
+    min-height: 240px
+    padding: 15px
+    color: var(--c-fg)
+
+  .account-message-card .loader-container
+    min-height: 110px
+    display: flex
+    align-items: center
+    justify-content: center
+
+  @media only screen and (max-width: 600px)
+    .section__header
+      padding: 17px 18px
+
+    .section__body
+      padding: 18px
+
+@media only screen and (max-width: 600px)
+  .account-auth-card
+    width: 100%
+    max-width: none
+    margin: 16px auto 26px
+    padding: 24px 19px 28px
+
+  .account-signin-dialog .dialog--signin__main
+    padding: 20px 17px
+
+.account-dashboard-layout::before,
+.account-dashboard-layout::after
+  content: none
+
+.account-dashboard-layout
+  display: grid
+  grid-template-columns: minmax(0, 1fr) 210px
+  gap: var(--sp-5)
+  align-items: start
+
+.account-dashboard-layout > .columns
+  min-width: 0
+  width: auto
+  padding-left: 0
+  padding-right: 0
+  float: none
+
+.account-dashboard-sidebar .section
+  margin-bottom: var(--sp-5)
+
+.account-dashboard-sidebar .menu
+  margin: 0
+  padding: 9px
+  list-style: none
+
+.account-dashboard-sidebar .menu__link
+  display: flex
+  align-items: center
+  min-height: 42px
+  padding: 10px 12px
+  border-radius: var(--r-sm)
+  font-size: .89rem
+  line-height: 1.5
+  color: var(--c-fg-2)
+
+.account-dashboard-sidebar .menu__link:hover,
+.account-dashboard-sidebar .menu__link.active
+  background: var(--c-accent-soft)
+  color: var(--c-link)
+
+.account-dashboard-sidebar .menu__seperator
+  border-color: var(--c-border)
+  margin: 7px 10px
+
+@media only screen and (max-width: 900px)
+  .account-dashboard-layout
+    grid-template-columns: minmax(0, 1fr)
+
+  .account-dashboard-sidebar
+    order: -1
+
+  .account-dashboard-sidebar .menu
+    display: flex
+    flex-wrap: wrap
+    gap: 5px
+
+  .account-dashboard-sidebar .menu__seperator
+    display: none
+
+// OAuth 按钮：图标 + 文案在同一行居中，按钮宽度仍由 .expanded 决定
+// 提高一级优先级，压过 .button 自带的 display/line-height 组合
+.auth-form .oauth-button,
+.account-signin-dialog .oauth-button,
+.oauth-button.oauth-button
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 9px
+  line-height: 1.2
+
+.oauth-button__icon
+  display: inline-flex
+  align-items: center
+  flex: none
+
+  svg
+    width: 17px
+    height: 17px
+    display: block
+    fill: currentColor

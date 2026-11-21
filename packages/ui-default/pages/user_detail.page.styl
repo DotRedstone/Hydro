@@ -9,6 +9,24 @@
     min-height: rem(270px)
     padding-bottom: rem($tab-item-height + $tab-item-shadow-size + 20px)
 
+  // The banner used to be a stock blue photo. It is now a warm token surface;
+  // a user-uploaded image is kept but pushed back behind a surface scrim so the
+  // text keeps its normal (non-inverse) colour.
+  .user-profile-bg
+    background: linear-gradient(160deg, token-tint(var(--c-accent), 16%), var(--c-sunken))
+    border-bottom: 1px solid var(--c-border)
+
+    &::after
+      content: ''
+      position: absolute
+      inset: 0
+      background: token-alpha(var(--c-surface), 86%)
+      pointer-events: none
+
+    > *
+      position: relative
+      z-index: 1
+
     +mobile()
       padding-bottom: rem($tab-item-height-mobile)
 
@@ -36,7 +54,7 @@
     position: absolute
     right: rem($section-gap-h + 5px)
     top: rem($section-gap-v + 20px)
-    color: #FFF
+    color: var(--c-fg-2)
     text-align: right
 
     +below(rupture.hd-cutoff)
@@ -48,7 +66,7 @@
 
   .profile-header__contact-item
     vertical-align: top
-    color: rgba(#FFF, 0.8)
+    color: var(--c-fg-3)
     margin-left: rem(10px)
 
     +below(rupture.hd-cutoff)
@@ -56,28 +74,28 @@
       margin-right: rem(15px)
 
     &:hover
-      color: rgba(#FFF, 1)
+      color: var(--c-link)
       text-decoration: none
 
     &.badge--su
-      background-color: rgba(#FFF, 0.8) !important
-      color: rgba(#000, 0.8) !important
+      background-color: var(--c-accent-soft) !important
+      color: var(--c-link) !important
 
     &.badge--mod
-      background-color: rgba(#FFF, 0.8) !important
-      color: rgba(#000, 0.8) !important
+      background-color: var(--c-neutral-soft) !important
+      color: var(--c-fg-2) !important
 
   .profile-header__main
     h1
       line-height: 40px
-      color: #FFF
+      color: var(--c-heading)
 
     p
       line-height: 30px
-      color: #FFF
+      color: var(--c-fg-2)
 
     small
-      color: rgba(#FFF, 0.8)
+      color: var(--c-fg-3)
 
   .profile-content
     position: relative

@@ -8,6 +8,7 @@ import convert from 'schemastery-jsonschema';
 import { presetRenderers } from './backendlib/contentRenderer';
 import markdown from './backendlib/markdown';
 import { TemplateService } from './backendlib/template';
+import { isThemeId, pickTheme, THEMES } from './theme/themes';
 
 class WikiHelpHandler extends Handler {
   noCheckPermView = true;
@@ -41,12 +42,30 @@ class WikiAboutHandler extends Handler {
   }
 }
 
+class ThemeGuideHandler extends Handler {
+  noCheckPermView = true;
+
+  async get() {
+    this.response.template = 'theme_guide.html';
+  }
+}
+
 class SetThemeHandler extends Handler {
   noCheckPermView = true;
 
   async get({ theme }) {
-    this.checkPriv(PRIV.PRIV_USER_PROFILE);
-    await UserModel.setById(this.user._id, { theme });
+    theme = isThemeId(theme) ? theme : 'default';
+    if (this.user.hasPriv(PRIV.PRIV_USER_PROFILE)) {
+      await UserModel.setById(this.user._id, { theme });
+    }
+    // Visitors without an account still get to pick a theme: it lives in a
+    // cookie, which the layout reads on render (see layout/html5.html).
+    this.context.cookies.set('theme', theme, {
+      httpOnly: false,
+      sameSite: 'lax',
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      path: '/',
+    });
     this.back();
   }
 }
@@ -134,6 +153,7 @@ class RichMediaHandler extends Handler {
 
 /* eslint-disable style/quote-props */
 const fontRange = {
+  Inter: 'Inter',
   'Open Sans': 'Open Sans',
   'Seravek': 'Seravek',
   'Segoe UI': 'Segoe UI',
@@ -181,9 +201,10 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       SettingModel.Setting('setting_display', 'rounded', false, 'boolean', 'Rounded Corners'),
       SettingModel.Setting('setting_display', 'skipAnimate', false, 'boolean', 'Skip Animation'),
       SettingModel.Setting('setting_display', 'showTimeAgo', true, 'boolean', 'Enable Time Ago'),
-      SettingModel.Setting('setting_display', 'fontFamily', 'Open Sans', fontRange, 'Font Family'),
+      SettingModel.Setting('setting_display', 'fontFamily', 'Inter', fontRange, 'Font Family'),
       SettingModel.Setting('setting_display', 'codeFontFamily', 'Source Code Pro', codeFontRange, 'Code Font Family'),
-      SettingModel.Setting('setting_display', 'theme', 'light', { light: 'Light', dark: 'Dark' }, 'Theme'),
+      SettingModel.Setting('setting_display', 'theme', 'default',
+        Object.fromEntries(THEMES.map((t) => [t.id, t.label])), 'Theme'),
       SettingModel.Setting('setting_markdown', 'preferredEditorType', 'sv', { sv: 'Split View', monaco: 'Monaco Editor' }, 'Preferred Editor Type'),
       SettingModel.Setting('setting_highlight', 'showInvisibleChar', false, 'boolean', 'Show Invisible Characters'),
       SettingModel.Setting('setting_highlight', 'formatCode', true, 'boolean', 'Auto Format Code'),
@@ -195,6 +216,10 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
         domainNavigation: Schema.boolean().default(true).description('Show Domain Navigation'),
         about: Schema.string().role('markdown').default(defaultAbout),
         enableScratchpad: Schema.boolean().default(true).description('Enable Scratchpad Mode'),
+        copyAttribution: Schema.boolean().default(true)
+          .description('Append the page source when copying text'),
+        copyAttributionCode: Schema.boolean().default(false)
+          .description('Append the page source when copying code blocks'),
       }),
     }));
     ctx.Route('config_schema', '/manage/config/schema.json', SystemConfigSchemaHandler, PRIV.PRIV_EDIT_SYSTEM);
@@ -202,6 +227,7 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
   if (process.env.HYDRO_CLI) return;
   ctx.Route('wiki_help', '/wiki/help', WikiHelpHandler);
   ctx.Route('wiki_about', '/wiki/about', WikiAboutHandler);
+  ctx.Route('theme_guide', '/theme-guide', ThemeGuideHandler);
   ctx.Route('set_theme', '/set_theme/:theme', SetThemeHandler);
   ctx.Route('set_legacy', '/legacy', LegacyModeHandler);
   ctx.Route('markdown', '/markdown', MarkdownHandler);
@@ -211,6 +237,11 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       that.response.type = 'text/html';
       that.response.body = await markdown.render(that.response.body);
     }
+  });
+  // 设置页的“主题”下拉要显示当前生效的主题，否则保存其它偏好会把
+  // 访客期在 cookie 里选的主题悄悄覆盖回默认值。
+  ctx.on('handler/before/HomeSettings', async (that) => {
+    that.user.theme = pickTheme(that.user, that.context.cookies);
   });
   ctx.on('handler/after', async (that) => {
     that.UiContext.SWConfig = {

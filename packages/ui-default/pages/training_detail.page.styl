@@ -10,6 +10,11 @@
     width: rem(70px)
     text-align: center
 
+  // the counts are the quiet facts of the row, the title carries the weight
+  .col--tried, .col--ac, .col--difficulty
+    color: var(--c-fg-2)
+    font-variant-numeric: tabular-nums
+
   .col--status
     border-right: 1px solid $table-border-color
 
@@ -46,3 +51,134 @@
     max-height: 85vh
     overflow-y: auto
     overflow-x: hidden
+
+  .training-detail-layout > .columns
+    min-width: 0
+
+  .training-detail-layout > .columns > .section,
+  .training-detail-layout > .columns > [data-sticky] > .section
+    margin-bottom: var(--sp-5)
+
+  .training-detail-intro .section__body
+    padding: 23px 27px
+    line-height: 1.8
+    font-size: .96rem
+    overflow-wrap: anywhere
+
+  .training-detail-intro .section__body + .section__body
+    border-top: 1px solid var(--c-border)
+
+  .training-detail-intro .typo p
+    line-height: 1.8
+
+  .training-detail-chapters
+    overflow: visible
+
+  .training-detail-chapters .training__section
+    margin: 0
+    border-bottom: 1px solid var(--c-border)
+
+  .training-detail-chapters .training__section:last-child
+    border-bottom: 0
+
+  .training-detail-chapters .training__section > .section__header
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: space-between
+    gap: 12px
+    padding: 20px 24px
+    background: var(--c-sunken)
+
+  .training-detail-chapters .training__section > .section__header .float-left,
+  .training-detail-chapters .training__section > .section__header .float-right
+    float: none
+    min-width: 0
+
+  .training-detail-chapters .training__section .section__title
+    margin: 0
+    font-size: 1.05rem
+    line-height: 1.5
+    font-weight: 630
+
+  .training-detail-chapters .training__section .section__header h4
+    margin: 5px 0 0
+    font-size: .85rem
+    font-weight: 400
+    color: var(--c-fg-2)
+
+  .training-detail-chapters .training__section .training-section-status--text
+    font-size: .83rem
+    white-space: nowrap
+
+  .training-detail-chapters .training__section > .section__body
+    padding: 10px 24px
+    border-top: 1px solid var(--c-border)
+
+  .training-detail-chapters [name="training__section__expand"],
+  .training-detail-chapters [name="training__section__collapse"]
+    display: inline-flex
+    align-items: center
+    gap: 5px
+    min-height: 30px
+    font-size: .86rem
+    font-weight: 550
+
+  .training-detail-chapters .training__section__detail > .section__body
+    padding: 18px 24px
+    line-height: 1.75
+
+  .training-detail-chapters .training__section__detail > .section__body.no-padding
+    padding: 0
+
+  .training-detail-chapters .training__problems .col--name
+    min-width: 220px
+    white-space: normal
+
+  .training-detail-chapters .training__problems .data-table
+    font-size: .88rem
+
+  .training-detail-chapters .training__problems .data-table td
+    padding: 12px
+    line-height: 1.55
+
+  .training-detail-layout .menu__link
+    min-height: 40px
+    padding: 10px 15px
+    border-radius: var(--r-sm)
+    font-size: .89rem
+
+  .training-detail-layout .menu__link:hover
+    background: var(--c-accent-soft)
+    color: var(--c-link)
+
+  // the active entry is a section label here, not a call to action: keep it quiet
+  .training-detail-layout .menu__link.active
+    background: var(--c-sunken)
+    color: var(--c-fg)
+    font-weight: 620
+
+  .training-detail-layout dl.horizontal
+    font-size: .87rem
+    line-height: 1.6
+
+  @media only screen and (max-width: 600px)
+    .training-detail-intro .section__body
+      padding: 18px
+
+    .training-detail-chapters .training__section > .section__header
+      padding: 16px
+
+    .training-detail-chapters .training__section__detail > .section__body
+      padding: 16px
+
+// chapter tables: the problem title is the point of the row, never truncate it
+.page--training_detail .training__section .data-table .col--problem-name
+  min-width: 240px
+  white-space: normal
+
+.page--training_detail .training__section .data-table .col--problem-name a
+  color: var(--c-fg)
+
+.page--training_detail .training__section .data-table .col--problem-name a:hover
+  color: var(--c-link)

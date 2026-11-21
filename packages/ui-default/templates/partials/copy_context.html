@@ -1,0 +1,11 @@
+{# 复制管线的上下文：只放服务端确实知道的标识。
+   标题与地址交给前端（document.title / location.href），避免在这里重复拼装。 #}
+<div hidden data-copy-context
+     data-domain="{{ handler.domain._id }}"
+     data-site-name="{{ model.system.get('server.name') }}"
+     {% if UiContext.pdoc %}data-problem="{{ UiContext.pdoc.docId }}"{% endif %}
+     {% if UiContext.tdoc %}data-contest="{{ UiContext.tdoc.docId }}"{% endif %}
+     data-copy-attribution="{{ 'on' if model.system.get('ui-default.copyAttribution') else 'off' }}"
+     data-copy-attribution-code="{{ 'on' if model.system.get('ui-default.copyAttributionCode') else 'off' }}"
+     data-copy-suffix="{{ _('Copy source suffix') }}">
+</div>

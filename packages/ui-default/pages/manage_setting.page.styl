@@ -1,0 +1,20 @@
+// 设置表单的排版规则放在 theme/claude-authoring.styl（/manage/setting 与
+// /domain/edit 共用 partials/setting.html）；这里只留本页特有的保存条。
+.page--manage_setting
+  // the trailing body only holds the submit action
+  form > .section__body:last-child
+    position: sticky
+    bottom: 0
+    z-index: 3
+    margin: 0
+    padding: 14px 22px
+    border-top: 1px solid token-alpha(var(--c-border), 70%)
+    background: var(--c-surface)
+    box-shadow: 0 -6px 16px token-alpha(var(--c-fg), 5%)
+
++below(rupture.mobile-cutoff)
+  .page--manage_setting,
+  .page--domain_edit
+    .section__body
+      grid-template-columns: minmax(0, 1fr)
+      gap: 16px

@@ -1,0 +1,139 @@
+// 动效总表：只做“短、克制、可关”的过渡。
+// 位移类动画统一放在 prefers-reduced-motion 允许的范围内，
+// 颜色/边框这类无位移反馈则始终保留。
+
+$motion-ease = cubic-bezier(.22, .61, .36, 1)
+$motion-fast = .16s
+$motion-base = .22s
+
+// ---------------------------------------------------------------- 常驻反馈
+.button,
+button,
+input[type="submit"]
+  transition: background-color $motion-fast $motion-ease,
+    border-color $motion-fast $motion-ease,
+    color $motion-fast $motion-ease,
+    box-shadow $motion-fast $motion-ease,
+    transform .12s $motion-ease
+
+.button:not(:disabled):active,
+button:not(:disabled):active,
+input[type="submit"]:not(:disabled):active
+  transform: translateY(1px)
+
+.section__list__item,
+.problem-catalog__table tbody tr,
+.data-table tbody tr,
+.menu__item .menu__link,
+.nav__item,
+.tag,
+.problem__tag-item,
+.problem__tag-link
+  transition: background-color $motion-fast $motion-ease,
+    border-color $motion-fast $motion-ease,
+    color $motion-fast $motion-ease
+
+// 正文链接：hover 时下划线从左往右铺开，比整段变色安静
+.typo p a,
+.typo li a,
+.problem-content p a,
+.problem-content li a
+  text-decoration: none
+  background-image: linear-gradient(currentColor, currentColor)
+  background-repeat: no-repeat
+  background-position: 0 100%
+  background-size: 0 1px
+  transition: background-size $motion-base $motion-ease, color $motion-fast $motion-ease
+  padding-bottom: 1px
+
+.typo p a:hover,
+.typo li a:hover,
+.problem-content p a:hover,
+.problem-content li a:hover
+  background-size: 100% 1px
+
+// 输入类：聚焦时描边柔和过渡，而不是瞬间跳色
+input.textbox,
+textarea.textbox,
+select,
+.autocomplete-wrapper
+  transition: border-color $motion-fast $motion-ease,
+    outline-color $motion-fast $motion-ease,
+    box-shadow $motion-fast $motion-ease
+
+// 头像：hover 轻微放大，配合链接的变色
+.user-profile-link img,
+.user-profile-avatar
+  transition: transform $motion-base $motion-ease, filter $motion-base $motion-ease
+
+a:hover > .user-profile-link img,
+.user-profile-link:hover img
+  transform: scale(1.06)
+
+// 深色模式下的月亮图标：切换时转一下，暗示“换了个主题”
+.fab--theme svg
+  transition: transform .32s $motion-ease
+
+:root.theme--dark .fab--theme svg
+  transform: rotate(-24deg)
+
+// ---------------------------------------------------------------- 进入动画
+@media (prefers-reduced-motion: no-preference)
+  @keyframes claude-rise
+    from
+      opacity: 0
+      transform: translateY(8px)
+    to
+      opacity: 1
+      transform: translateY(0)
+
+  @keyframes claude-fade
+    from
+      opacity: 0
+    to
+      opacity: 1
+
+  // 主内容按行依次浮上来：整体不超过 250ms，靠 40ms 的间隔错开
+  .main > .row
+    animation: claude-rise .3s $motion-ease both
+
+  for $i in 1 2 3 4 5
+    .main > .row:nth-child({$i})
+      animation-delay: ($i - 1) * 40ms
+
+  // 卡片内列表：hover 时抬起 1px，只对能点的行生效
+  .section__list__item:hover,
+  .learning-activity-list-card .section__list__item:hover
+    transform: translateY(-1px)
+
+  .section__list__item,
+  .learning-activity-list-card .section__list__item
+    transition: background-color $motion-fast $motion-ease,
+      transform $motion-base $motion-ease
+
+  // 浮动按钮：hover 抬起，按下回弹
+  .fab:hover
+    transform: translateY(-1px)
+
+  .fab:active
+    transform: translateY(0) scale(.97)
+
+  // 弹层（登录框、上下文菜单）：淡入 + 轻微放大
+  .dialog__content
+    animation: claude-rise .24s $motion-ease both
+
+  .dropdown-target.menu
+    animation: claude-fade .16s $motion-ease both
+
+  // 章节展开/折叠：内容出现时淡入
+  .training__section__detail
+    animation: claude-fade .2s $motion-ease both
+
+  // 顶部导航：滚动后出现的阴影淡入
+  .nav--shadow
+    animation: claude-fade .2s $motion-ease both
+
+  // 侧边栏粘性卡片轻微延迟出现，避免整页同时动
+  .section.side
+    animation: claude-fade .3s $motion-ease both
+    animation-delay: 60ms

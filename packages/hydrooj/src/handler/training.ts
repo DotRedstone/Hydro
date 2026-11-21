@@ -122,14 +122,19 @@ class TrainingDetailHandler extends Handler {
             problem.getListStatus(domainId, uid, exist),
             shouldCompare ? problem.getListStatus(domainId, this.user._id, exist) : {},
         ]);
+        // progress only counts once the user joined the plan: a visitor who happens to
+        // have solved the problems should not see a finished plan they never enrolled in
+        const enrollTsdoc = await training.getStatus(domainId, tid, uid);
+        const enrolled = !!enrollTsdoc?.enroll;
         const donePids = new Set<number>();
         const progPids = new Set<number>();
         for (const pid in psdict) {
             if (!+pid) continue;
             const psdoc = psdict[pid];
             if (psdoc.status) {
-                if (psdoc.status === STATUS.STATUS_ACCEPTED) donePids.add(+pid);
-                else progPids.add(+pid);
+                if (psdoc.status === STATUS.STATUS_ACCEPTED) {
+                    if (enrolled) donePids.add(+pid);
+                } else progPids.add(+pid);
             }
         }
         const nsdict = {};

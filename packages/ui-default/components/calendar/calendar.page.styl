@@ -44,7 +44,7 @@
     border: 1px solid $table-border-color
 
     &.is-current-day
-      background: lighten($highlight-color, 85%)
+      background: var(--c-accent-soft)
 
 .calendar__row__content
   min-height: rem(100px)
@@ -80,13 +80,13 @@
   line-height: rem(20px)
   padding: rem(0 5px)
   font-size: rem($font-size-small)
-  border-radius: rem(5px)
+  border-radius: var(--r-xs)
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
 
   &, &:visited, &:hover, &:active
-    color: #FFF
+    color: var(--c-accent-fg)
     text-decoration: none
 
   &.is-trunc-begin, &.is-snap-begin
@@ -108,10 +108,10 @@
   &.is-masked
     background-image: repeating-linear-gradient(
       45deg,
-      rgba(#000, 0.1),
-      rgba(#000, 0.1) 10px,
-      rgba(#000, 0) 10px,
-      rgba(#000, 0) 20px
+      token-alpha(var(--c-fg), 8%),
+      token-alpha(var(--c-fg), 8%) 10px,
+      token-alpha(var(--c-fg), 0%) 10px,
+      token-alpha(var(--c-fg), 0%) 20px
     );
 
   for key, value in $calendar-banner-color

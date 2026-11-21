@@ -13,7 +13,7 @@ export default new AutoloadPage('omnibar', () => {
     <div class='omnibar' data-hotkey="esc:click" style="opacity:0;display:none;">
       <div class='omnibar-main'>
         <div>
-          <input placeholder="Search" />
+          <input placeholder="${i18n('Search problems or users')}" />
           <span class="icon icon-search"></span>
         </div>
         <div id='omnibar-content'></div>
@@ -31,6 +31,7 @@ export default new AutoloadPage('omnibar', () => {
 
   const prefix = window.location.pathname.startsWith('/d/') ? `/d/${UiContext.domainId}` : '';
   let setSearching;
+  let lastQuery = '';
   let pdocs = [];
   let psdict = {};
   let udocs = [];
@@ -39,7 +40,8 @@ export default new AutoloadPage('omnibar', () => {
     setSearching = set;
     return (
       <>
-        {searching && <div>Searching...</div>}
+        {searching && <div>{i18n('Searching...')}</div>}
+        {!searching && lastQuery && !pdocs.length && !udocs.length && <div>{i18n('Nothing found')}</div>}
         {pdocs.length > 0 && <div className="omnibar-content-title">{i18n('Problems')}</div>}
         {pdocs.map((i) => ({ ...i, base: i.domainId !== UiContext.domainId ? `/d/${i.domainId}` : prefix })).map(({
           domainId, docId, pid, title, nSubmit, nAccept, base,
@@ -77,8 +79,8 @@ export default new AutoloadPage('omnibar', () => {
             <div>
               <img src={avatarUrl} alt={uname} />
               <div className="omnibar-user-info">
-                <span>UID {_id}</span><br />
-                <div><span style={{ lineHeight: '20px' }}>{uname}</span></div>
+                <span className="omnibar-user-name">{uname}</span>
+                <span className="omnibar-user-uid">UID {_id}</span>
               </div>
             </div>
           </a>
@@ -89,6 +91,7 @@ export default new AutoloadPage('omnibar', () => {
   ReactDOM.createRoot(document.getElementById('omnibar-content')!).render(<SearchResult />);
 
   async function search(query: string) {
+    lastQuery = query?.trim() || '';
     if (!query?.trim()) {
       pdocs = [];
       setSearching?.(false);
@@ -101,7 +104,7 @@ export default new AutoloadPage('omnibar', () => {
     ]);
     setSearching?.(false);
   }
-  $input.on('input', debounce((ev) => search(ev.target.value), 1000));
+  $input.on('input', debounce((ev) => search(ev.target.value), 300));
 
   let open = false;
   const show = () => {

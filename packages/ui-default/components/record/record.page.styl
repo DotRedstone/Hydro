@@ -15,10 +15,13 @@
   border-left: rem(3px) solid transparent
   for key, value in $record-status-color
     &.{key}
-      border-left: rem(3px) solid lighten(value, 10%)
+      border-left: rem(3px) solid token-tint(value, 90%)
+
+// 通过的行不再铺浅绿底：一列色块会把整张记录表压成“绿色表格”，
+// 状态语义交给左侧状态线和状态文案本身
 
 .record-status--background
-  color: #FFF
+  color: var(--c-accent-fg)
 
   for key, value in $record-status-color
     &.{key}

@@ -1,0 +1,391 @@
+// One visual system for the native desktop nav, More/account dropdowns, and mobile slideout.
+// Keep Hydro's own navigationPage, menu relocation, permissions, and slideout events.
+:root
+  --school-nav-height: 60px
+
+.nav--shadow
+  height: var(--school-nav-height)
+  box-shadow: none
+  pointer-events: none
+
+.nav--placeholder
+  height: var(--school-nav-height)
+
+.nav
+  height: var(--school-nav-height)
+  background: var(--c-surface)
+  border-bottom: 1px solid var(--c-border)
+  box-shadow: none
+  font-size: 15px
+  color: var(--c-fg)
+
+.nav .row::before,
+.nav .row::after,
+.nav .row > .columns::before,
+.nav .row > .columns::after
+  content: none
+
+// The row contains Hydro's floated columns, so the native More height test works.
+.nav > .row
+  display: flow-root
+
+.nav .row > .columns
+  display: flex
+  flex-wrap: nowrap
+  align-items: center
+  justify-content: space-between
+  min-height: var(--school-nav-height)
+  height: auto
+  gap: 12px
+
+.nav__list
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 5px
+  margin: 0
+  padding: 0
+
+// Hydro floats the secondary list right; a flex row needs the auto margin instead.
+.nav .nav__list--secondary
+  float: none
+  margin-left: auto
+  justify-content: flex-end
+
+// Account / domain / language are utilities: one step quieter than the sections.
+.nav .nav__list--secondary .nav__item
+  color: var(--c-fg-3)
+  font-size: 14px
+
+.nav .nav__list--secondary .nav__item:hover
+  color: var(--c-fg)
+
+.nav__list-item
+  display: flex
+  align-items: center
+  height: var(--school-nav-height)
+
+.nav__brand-item
+  margin-right: 14px
+
+.nav .nav__brand,
+.nav .nav__brand:visited
+  display: inline-flex
+  align-items: center
+  min-height: 44px
+  max-width: 220px
+  padding: 0 14px 0 5px
+  overflow: hidden
+  color: var(--c-fg)
+  text-decoration: none
+  text-overflow: ellipsis
+  white-space: nowrap
+
+/* Typography of the wordmark itself stays in navigation.page.styl. */
+.nav .nav__brand .nav__wordmark
+  padding: 0
+  line-height: 1.2
+
+.nav .nav__brand:hover
+  color: var(--c-link)
+  text-decoration: none
+
+.nav .nav__item,
+.nav .nav__item:visited,
+.nav .nav__item:active
+  position: relative
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  box-sizing: border-box
+  min-height: 44px
+  height: 44px
+  margin: 0 1px
+  padding: 0 12px
+  color: var(--c-fg-2)
+  font-size: 15px
+  line-height: 1.35
+  font-weight: 550
+  border: 1px solid transparent
+  border-radius: var(--r-sm)
+  background: transparent
+  white-space: nowrap
+  text-decoration: none
+  transition: color .16s ease, background .16s ease
+
+.nav .nav__item::before
+  content: none
+  box-shadow: none
+
+.nav .nav__item:hover,
+// Selected section: quiet text emphasis plus a 2px marker, instead of a clay pill
+.nav .nav__item:hover
+  color: var(--c-fg)
+  background: var(--c-hover)
+
+.nav .nav__item.nav--active,
+.nav .nav__item.nav--active:visited
+  color: var(--c-fg)
+  font-weight: 600
+  border-color: transparent
+  background: transparent
+  box-shadow: none
+  text-decoration: none
+
+.nav .nav__item.nav--active::after
+  content: ''
+  position: absolute
+  right: 12px
+  bottom: 0
+  left: 12px
+  height: 2px
+  border-radius: var(--r-pill)
+  background: var(--c-accent)
+
+.nav .nav__item.nav--active:hover
+  background: var(--c-hover)
+
+.nav .nav__item--round,
+.nav .nav__item--round:visited,
+.nav .nav__item--round:active
+  display: inline-flex
+  align-items: center
+  box-sizing: border-box
+  min-height: 32px
+  margin: 0 3px 0 8px
+  padding: 0 14px
+  border: 1px solid var(--c-border-strong)
+  border-radius: var(--r-sm)
+  color: var(--c-fg)
+  background: var(--c-surface)
+  font-size: 13px
+  font-weight: 500
+  line-height: 1.35
+  white-space: nowrap
+  text-decoration: none
+
+.nav .nav__item--round:hover
+  color: var(--c-fg)
+  background: var(--c-hover)
+  border-color: var(--c-fg-3)
+  text-decoration: none
+
+// Treat the native dropdown menus, including More, as part of the same surface.
+// The class also lands on the trigger <li>, so the panel must be scoped to .menu.
+.nav__dropdown.menu,
+.menu_more,
+.nav .dropdown-target.menu
+  padding: 7px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r)
+  background: var(--c-surface)
+  box-shadow: none
+  color: var(--c-fg)
+
+.nav__dropdown .menu__link,
+.menu_more .menu__link,
+.nav .dropdown-target.menu .menu__link
+  display: flex
+  align-items: center
+  min-height: 40px
+  padding: 9px 13px
+  border: 0
+  border-radius: var(--r-sm)
+  background: transparent
+  color: var(--c-fg-2)
+  font-size: 14px
+  font-weight: 500
+  line-height: 1.5
+  text-decoration: none
+
+.nav__dropdown .menu__link:hover,
+.menu_more .menu__link:hover,
+.nav .dropdown-target.menu .menu__link:hover
+  background: var(--c-hover)
+  color: var(--c-fg)
+
+.nav__dropdown .menu__seperator,
+.menu_more .menu__seperator,
+.nav .dropdown-target.menu .menu__seperator
+  border-color: var(--c-border)
+
+// The fixed desktop bar must reserve enough reading space below it.
+.main
+  padding-top: calc(var(--school-nav-height) + 24px)
+
+// Immersive pages already reserve the header height via .nav--placeholder.
+.layout--immersive .main
+  padding-top: 24px
+
+#scratchpad
+  top: var(--school-nav-height)
+
+#nprogress .bar,
+#nprogress .spinner,
+.hint
+  top: var(--school-nav-height)
+
+// The mobile header stays in document flow; the desktop fixed bar becomes a slideout.
+@media only screen and (max-width: 600px)
+  .nav.slideout-menu
+    height: auto
+    min-height: 100vh
+    background: var(--c-surface)
+    color: var(--c-fg)
+    border: 0
+    border-left: 1px solid var(--c-border)
+    box-shadow: none
+    font-size: 15px
+
+  .nav.slideout-menu .row > .columns
+    display: block
+    float: none
+    height: auto
+    min-height: 0
+    width: 100%
+    padding: 10px 0 18px
+
+  .nav.slideout-menu .nav__list,
+  .nav.slideout-menu .nav__list-item
+    display: block
+    float: none
+    height: auto
+    min-height: 0
+
+  .nav.slideout-menu .nav__list
+    padding: 0 9px
+
+  .nav.slideout-menu .nav__list--secondary
+    margin-top: 13px
+    padding-top: 13px
+    border-top: 1px solid var(--c-border)
+
+  .nav.slideout-menu .nav__brand-item
+    margin: 0 0 9px
+
+  .nav.slideout-menu .nav__brand,
+  .nav.slideout-menu .nav__brand:visited
+    display: flex
+    max-width: 100%
+    min-height: 48px
+    padding: 6px 12px
+    color: var(--c-fg)
+
+  .nav.slideout-menu .nav__item,
+  .nav.slideout-menu .nav__item:visited,
+  .nav.slideout-menu .nav__item:active,
+  .nav.slideout-menu .nav__item--round,
+  .nav.slideout-menu .nav__item--round:visited,
+  .nav.slideout-menu .nav__item--round:active
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    width: 100%
+    height: auto
+    min-height: 44px
+    margin: 2px 0
+    padding: 10px 13px
+    border: 1px solid transparent
+    border-radius: var(--r-sm)
+    background: transparent
+    color: var(--c-fg-2)
+    font-size: 15px
+    line-height: 1.45
+    font-weight: 500
+    white-space: normal
+
+  .nav.slideout-menu .nav__item.nav--active,
+  .nav.slideout-menu .nav__item:hover,
+  .nav.slideout-menu .nav__item--round:hover
+    border-color: transparent
+    background: var(--c-accent-soft)
+    color: var(--c-link)
+
+  .nav.slideout-menu .nav__item--round,
+  .nav.slideout-menu .nav__item--round:visited
+    border-color: var(--c-border)
+    background: var(--c-sunken)
+    color: var(--c-link)
+    font-weight: 600
+
+  .nav.slideout-menu .dropdown-target.menu
+    display: block
+    padding: 0 0 0 8px
+    margin: 0
+    border: 0
+    border-radius: 0
+    background: transparent
+    box-shadow: none
+
+  .nav.slideout-menu .dropdown-target.menu .menu__link,
+  .nav.slideout-menu .dropdown-target.menu .menu__link:visited
+    display: flex
+    align-items: center
+    min-height: 40px
+    padding: 9px 13px
+    border-radius: var(--r-sm)
+    background: transparent
+    color: var(--c-fg-2)
+    font-size: 14px
+    line-height: 1.5
+
+  .nav.slideout-menu .dropdown-target.menu .menu__link:hover
+    background: var(--c-accent-soft)
+    color: var(--c-link)
+
+  .nav.slideout-menu .dropdown-target.menu .menu__seperator
+    display: none
+
+  .header--mobile
+    background: var(--c-surface)
+    border-bottom: 1px solid var(--c-border)
+    box-shadow: none
+    color: var(--c-fg)
+    padding: 7px 0
+    line-height: 1.4
+
+  .header--mobile .row
+    display: flow-root
+
+  .header--mobile a.header--mobile__domain,
+  .header--mobile a.header--mobile__domain:visited,
+  .header--mobile a.header--mobile__domain:hover
+    display: inline-flex
+    align-items: center
+    min-height: 44px
+    height: auto
+    max-width: 240px
+    margin: 0
+    padding: 0 5px
+    color: var(--c-fg)
+    font-size: 19px
+    font-weight: 650
+    line-height: 1.4
+    letter-spacing: -.035em
+    text-decoration: none
+
+  .header--mobile .header__hamburger
+    display: flex
+    align-items: center
+    justify-content: center
+    min-width: 44px
+    min-height: 44px
+    padding: 0
+    cursor: pointer
+
+  .header--mobile .hamburger-inner,
+  .header--mobile .hamburger-inner::before,
+  .header--mobile .hamburger-inner::after
+    background-color: var(--c-fg)
+
+  .main
+    padding-top: 18px
+
+  .nav--placeholder
+    height: 0
+    min-height: 0
+
+  #nprogress .bar,
+  #nprogress .spinner,
+  .hint
+    top: 0

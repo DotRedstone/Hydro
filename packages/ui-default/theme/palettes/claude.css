@@ -1,0 +1,197 @@
+/* Palette: claude */
+/* ---------------------------------------------------------------------------- */
+/* A palette only assigns VALUES to design tokens. It never styles a selector */
+/* other than the two roots below. Every token listed here is part of the */
+/* contract described in theme/README.md; a new palette must define all of them. */
+
+/*   light: :root            (also the fallback for any page) */
+/*   dark:  :root.theme--dark */
+
+/* Other palettes scope themselves with .palette--<name> (see README). */
+/* The bridge blocks at the bottom re-point Mantine's own variables at the */
+/* tokens, so Mantine islands (notifications, popovers, uploads) match. */
+
+:root {
+  color-scheme: light;
+
+  /* surfaces — near-white paper; cards are pure white, insets a step down.
+     the page tint is deliberately faint: a full beige page fatigues the eye
+     and makes every white card look like a pasted-on sheet. */
+  --c-bg: #F8F7F4;
+  --c-surface: #FFFFFF;
+  --c-sunken: #F1EFEA;
+  --c-hover: #F3F1ED;
+  --c-border: #E8E5E0;
+  /* 输入框、下拉框、分页的边界都吃这一个值：再淡就和纸底分不开了 */
+  --c-border-strong: #CBC5BA;
+  --c-nav-bg: rgba(248, 247, 244, 0.9);
+  --c-overlay: rgba(28, 27, 25, 0.36);
+
+  /* text — warm ink, four steps of contrast instead of two */
+  --c-fg: #2C2A26;
+  --c-fg-2: #57534B;
+  /* 时间、说明、表头这类小字也用这一档：原来 #86817A 在白卡上只有 3.6:1 */
+  --c-fg-3: #746F67;
+  --c-heading: #191817;
+
+  /* accent — clay. fills only; --c-link is the text-safe variant */
+  --c-accent: #C76B4E;
+  --c-accent-hover: #B1593D;
+  --c-link: #A34E2E;
+  --c-accent-soft: #F6E7E0;
+  --c-accent-fg: #FFFFFF;
+  --c-focus-ring: rgba(199, 107, 78, 0.26);
+
+  /* semantic */
+  --c-ok: #427253;
+  --c-ok-soft: #E4EEE5;
+  --c-bad: #A94733;
+  --c-warn: #96681A;
+  --c-warn-soft: #F6ECD7;
+  --c-info: #4E6E8A;
+  --c-neutral: #746F67;
+  --c-neutral-soft: #EEECE7;
+
+  /* content */
+  --c-code-bg: #F1EFEA;
+  --c-code-fg: #A34E2E;
+  --c-mark: #F4E9C8;
+  --c-inverse-bg: #24231F;
+  --c-inverse-fg: #F7F6F2;
+
+  /* categorical */
+  --c-cat-1: #C76B4E;
+  --c-cat-2: #B9873C;
+  --c-cat-3: #7D9366;
+  --c-cat-4: #5F8C84;
+  --c-cat-5: #5F7C9A;
+  --c-cat-6: #82719A;
+  --c-cat-7: #A26A7C;
+  --c-cat-8: #8B867E;
+
+  /* brand: monochrome logos follow the foreground */
+  --logo-filter: none;
+
+  /* type (the user-chosen --font-family / --code-font-family win, see html5.html) */
+  --font-ui: "Inter", "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: "Source Serif 4", "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+  --font-code: "JetBrains Mono", "Source Code Pro", Consolas, "Liberation Mono", monospace;
+
+  /* elevation — light mode separates with hairlines, not shadows */
+  --shadow-pop: 0 1px 2px rgba(24, 23, 20, 0.05), 0 10px 26px rgba(24, 23, 20, 0.10);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(24, 23, 20, 0.04), 0 18px 44px rgba(24, 23, 20, 0.08);
+
+  /* spacing scale (4/8/12/16/24/32) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+
+  /* layout — containers and shells read these instead of rem(px), because the
+     rem() helper divides by 15px while the document root is 16px */
+  --w-page: 1200px;
+  --w-sidebar: 280px;
+  --layout-gap: 24px;
+  --layout-gutter: 15px;
+
+  /* shape — instrument-grade corners, not pill soup */
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r: 10px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+}
+
+:root.theme--dark {
+  color-scheme: dark;
+
+  /* three distinct neutral steps (page / container / inset) so sections read as
+     layers instead of one grey mass; borders stay nearly invisible and the
+     separation comes from value, not outlines. */
+  --c-bg: #1B1B1A;
+  --c-surface: #232322;
+  --c-sunken: #151514;
+  --c-hover: #2B2B29;
+  --c-border: #2E2D2B;
+  --c-border-strong: #55524C;
+  --c-nav-bg: rgba(27, 27, 26, 0.9);
+  --c-overlay: rgba(0, 0, 0, 0.56);
+
+  --c-fg: #E7E4DD;
+  --c-fg-2: #B7B3AA;
+  /* 深色下辅助文字压在卡片上只有 4.1:1，提亮一档才够读 */
+  --c-fg-3: #9A968D;
+  --c-heading: #F5F3ED;
+
+  --c-accent: #D98A66;
+  --c-accent-hover: #E79C79;
+  --c-link: #DF9270;
+  --c-accent-soft: #33241E;
+  --c-accent-fg: #1B1B1A;
+  --c-focus-ring: rgba(217, 138, 102, 0.30);
+
+  --c-ok: #8FBF97;
+  --c-ok-soft: #1F2A22;
+  --c-bad: #E09283;
+  --c-warn: #DFB974;
+  --c-warn-soft: #2C2618;
+  --c-info: #93AFC6;
+  --c-neutral: #9A968D;
+  --c-neutral-soft: #2A2A28;
+
+  --c-code-bg: #151514;
+  --c-code-fg: #DF9270;
+  --c-mark: #4A3E1F;
+  --c-inverse-bg: #E7E4DD;
+  --c-inverse-fg: #1B1B1A;
+
+  --c-cat-1: #D98A66;
+  --c-cat-2: #D3A85F;
+  --c-cat-3: #9DB77F;
+  --c-cat-4: #79AFA4;
+  --c-cat-5: #8FABC4;
+  --c-cat-6: #A895BE;
+  --c-cat-7: #C98DA0;
+  --c-cat-8: #8B867E;
+
+  --logo-filter: brightness(0) invert(1);
+
+  /* dark mode separates with elevation: cards sit one step above the page and
+     carry a faint shadow, so the layout does not need a border everywhere */
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.45), 0 18px 44px rgba(0, 0, 0, 0.55);
+}
+
+/* Mantine bridge: Mantine declares these under the same attribute selector, */
+/* so it has to be matched at equal specificity to win. */
+:root[data-mantine-color-scheme='light'] {
+  --mantine-color-body: var(--c-bg);
+  --mantine-color-text: var(--c-fg);
+  --mantine-color-dimmed: var(--c-fg-3);
+  --mantine-color-default-border: var(--c-border-strong);
+  --mantine-color-default: var(--c-surface);
+  --mantine-color-default-hover: var(--c-hover);
+  --mantine-color-anchor: var(--c-accent);
+  --mantine-primary-color-filled: var(--c-accent);
+  --mantine-primary-color-filled-hover: var(--c-accent-hover);
+  --mantine-primary-color-light: var(--c-accent-soft);
+  --mantine-primary-color-contrast: var(--c-accent-fg);
+}
+
+:root[data-mantine-color-scheme='dark'] {
+  --mantine-color-body: var(--c-bg);
+  --mantine-color-text: var(--c-fg);
+  --mantine-color-dimmed: var(--c-fg-3);
+  --mantine-color-default-border: var(--c-border-strong);
+  --mantine-color-default: var(--c-surface);
+  --mantine-color-default-hover: var(--c-hover);
+  --mantine-color-anchor: var(--c-accent);
+  --mantine-primary-color-filled: var(--c-accent);
+  --mantine-primary-color-filled-hover: var(--c-accent-hover);
+  --mantine-primary-color-light: var(--c-accent-soft);
+  --mantine-primary-color-contrast: var(--c-accent-fg);
+}

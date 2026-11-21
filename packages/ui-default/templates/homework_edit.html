@@ -1,8 +1,8 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-<div class="row">
-  <div class="medium-9 columns">
-    <div class="section">
+<div class="row authoring-workbench">
+  <div class="medium-9 columns authoring-workbench__main">
+    <div class="section authoring-workbench__editor">
       <div class="section__body">
         <form method="post">
           {{ form.form_text({
@@ -131,7 +131,7 @@
       </div>
     </div>
   </div>
-  <div class="medium-3 columns">
+  <div class="medium-3 columns authoring-workbench__side">
     {% include 'components/md_hint.html' %}
   </div>
 </div>

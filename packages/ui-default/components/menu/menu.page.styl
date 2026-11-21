@@ -1,5 +1,5 @@
 .menu
-  padding: rem(5px 0)
+  padding: rem(6px)
   font-size: rem($font-size-secondary)
 
   .icon
@@ -20,21 +20,36 @@
   text-align: left
   display: block
   width: 100%
-  padding: rem(12px $section-gap-h)
-  line-height: rem(18px)
-  color: $text-1-color
-  border-left: 3px solid transparent
+  padding: rem(9px 12px)
+  line-height: rem(20px)
+  color: $text-2-color
+  border: 0
+  border-radius: var(--r-sm)
   position: relative
 
+  // 侧栏里「进入在线编程模式」这类特殊入口：中性底 + 左侧细标记，
+  // 不用整块陶土色抢走递交按钮的位置
   &.highlight
-    background: mix($highlight-color, #FFF, 10%)
+    background: var(--c-hover)
+    color: var(--c-fg)
+    font-weight: 550
+    box-shadow: inset 2px 0 0 var(--c-accent)
+
+  // 折叠分组的标题：一行弱化小标，而不是又一个看起来可点的菜单项
+  &.expandable
+    padding-top: rem(10px)
+    padding-bottom: rem(6px)
+    color: var(--c-fg-3)
+    font-size: .78rem
+    font-weight: 600
+    letter-spacing: .02em
 
   &.expandable:after
     font-family: $icon-font-name
     font-size: rem($font-size-icon)
     content: $icon-expand_more
     position: absolute
-    right: $section-gap-h
+    right: rem(12px)
     top: 50%
     line-height: 1
     margin-top: rem($font-size-icon / -2)
@@ -53,16 +68,29 @@ a.menu__link, button.menu__link
   &:not(.disabled):hover
     color: $text-1-color
     background: $menu-item-bg-color-hover
-    border-color: darken($primary-color, 10%)
+  // 选中项和顶部导航用同一种克制表达：中性底 + 左侧 2px 标记
   &.active, &.active:hover
-    border-color: darken($secondary-color, 30%)
-    background: $secondary-color
-    color: #FFF
+    background: var(--c-hover)
+    color: var(--c-fg)
+    font-weight: 550
+    box-shadow: inset 2px 0 0 var(--c-accent)
 
 .menu__item .menu .menu__link
-  padding-left: rem($section-gap-h + 10px)
+  padding-left: rem(14px)
+
+// One primary row per menu (submit / join), so the main action is not one of
+// thirteen identical rows.
+.menu a.menu__link--primary
+  &, &:visited
+    background: var(--c-accent)
+    color: var(--c-accent-fg)
+    font-weight: 600
+
+  &:hover
+    background: var(--c-accent-hover)
+    color: var(--c-accent-fg)
 
 .menu__seperator
-  height: 1px
-  border-top: 1px solid #EEE
-  margin: rem(5px 0)
+  height: 0
+  border-top: 1px solid token-alpha(var(--c-border), 70%)
+  margin: rem(7px 10px)

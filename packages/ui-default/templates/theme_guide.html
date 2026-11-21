@@ -1,0 +1,153 @@
+{% extends "layout/basic.html" %}
+{% block content %}
+{% set tokens = [
+  ['--c-bg', '页面底'], ['--c-surface', '卡片'], ['--c-sunken', '凹陷/提示块'],
+  ['--c-border', '边框'], ['--c-border-strong', '强边框'], ['--c-hover', '悬浮'],
+  ['--c-fg', '正文'], ['--c-fg-2', '次要'], ['--c-fg-3', '辅助'], ['--c-heading', '标题'],
+  ['--c-accent', '强调'], ['--c-accent-hover', '强调 hover'], ['--c-accent-soft', '强调浅底'],
+  ['--c-ok', '通过'], ['--c-bad', '失败'], ['--c-warn', '警告'], ['--c-info', '信息'],
+  ['--c-neutral-soft', '中性浅底'], ['--c-code-bg', '代码底'], ['--c-mark', '高亮']
+] %}
+<div class="row"><div class="columns">
+
+  <div class="section">
+    <div class="section__header"><h1 class="section__title">UI 组件与 token</h1></div>
+    <div class="section__body typo">
+      <p>这是 <code>ui-default</code> 的组件清单：全站只应该用这里的类 + <code>theme/palettes/*.css</code> 里的 token。
+      新增页面请对照这里，不要再引入新的颜色字面量或一次性样式。</p>
+      <p class="text-gray">校验：<code>yarn lint:tokens</code>（颜色字面量、未定义/未使用的 token 都会让它失败）。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section__header"><h2 class="section__title">排版</h2></div>
+    <div class="section__body typo">
+      <h1>一级标题 Serif 大标题</h1>
+      <h2>二级标题</h2>
+      <h3>三级标题</h3>
+      <p>正文 16px / 1.75 行高。链接 <a href="#">是这样的</a>，<code>行内代码</code> 用等宽字体，
+      强调用 <strong>加粗</strong> 或 <em>斜体</em>。<span class="text-gray">辅助文字走 text-gray。</span></p>
+      <blockquote><p>普通引用块：中性底，没有颜色语义。</p></blockquote>
+      <pre><code>#include &lt;cstdio&gt;
+int main() { printf("hello\n"); }</code></pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section__header"><h2 class="section__title">按钮</h2></div>
+    <div class="section__body">
+      <p>
+        <button class="button primary">主要操作</button>
+        <button class="button">次要操作</button>
+        <button class="button rounded primary">胶囊主按钮</button>
+        <button class="button" disabled>禁用</button>
+      </p>
+      <p><a class="button" href="#">链接样式的按钮</a> <span class="text-gray">按钮统一 36px 高、胶囊圆角、500 字重</span></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section__header"><h2 class="section__title">表单</h2></div>
+    <div class="section__body">
+      <div class="row">
+        <div class="medium-6 columns">
+          <label>输入框
+            <input class="textbox" type="text" placeholder="placeholder">
+          </label>
+          <label>下拉选择
+            <select class="select"><option>C++17</option><option>Python 3</option></select>
+          </label>
+          <label>多行文本
+            <textarea class="textbox" rows="3" placeholder="支持 markdown"></textarea>
+          </label>
+        </div>
+        <div class="medium-6 columns">
+          <label class="checkbox"><input type="checkbox" checked> 复选框（选中）</label>
+          <label class="checkbox"><input type="checkbox"> 复选框</label>
+          <label class="radiobox"><input type="radio" name="r" checked> 单选框 A</label>
+          <label class="radiobox"><input type="radio" name="r"> 单选框 B</label>
+          <p class="help-text">辅助说明文字，走 --c-fg-3。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section__header"><h2 class="section__title">提示块</h2></div>
+    <div class="section__body typo">
+      <blockquote class="note"><p>NOTE：信息类提示。中性底 + 竖线，只有标签带颜色。</p></blockquote>
+      <blockquote class="warn"><p>WARNING：需要注意，比如没有测试数据、配置缺失。</p></blockquote>
+      <blockquote class="yellow"><p>样例/补充说明。</p></blockquote>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section__header"><h2 class="section__title">表格与状态</h2></div>
+    <div class="section__body no-padding">
+      <table class="data-table">
+        <thead><tr><th>状态</th><th>题目</th><th>标签</th><th>AC / 尝试</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="record-status--border pass"><span class="icon record-status--icon pass"></span><span class="record-status--text pass">AC</span></td>
+            <td>P1001 A+B Problem</td>
+            <td><span class="tag">入门</span></td>
+            <td>0 / 0</td>
+          </tr>
+          <tr>
+            <td class="record-status--border fail"><span class="icon record-status--icon fail"></span><span class="record-status--text fail">WA</span></td>
+            <td>P1002 区间求和</td>
+            <td><span class="tag">数据结构</span></td>
+            <td>3 / 7</td>
+          </tr>
+          <tr>
+            <td class="record-status--border progress"><span class="icon record-status--icon progress"></span><span class="record-status--text progress">评测中</span></td>
+            <td>P1003 最短路径</td>
+            <td><span class="tag">图论</span></td>
+            <td>0 / 1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section__header"><h2 class="section__title">标签页 / 分页 / 菜单</h2></div>
+    <div class="section__body">
+      <ul class="section__tab-header">
+        <li class="section__tab-header-item selected">题目</li>
+        <li class="section__tab-header-item">提交记录</li>
+        <li class="section__tab-header-item">讨论</li>
+      </ul>
+      <p class="pager">
+        <a class="pager__item" href="#">上一页</a>
+        <a class="pager__item link" href="#">1</a>
+        <span class="pager__item current">2</span>
+        <a class="pager__item link" href="#">3</a>
+        <a class="pager__item" href="#">下一页</a>
+      </p>
+      <ol class="menu">
+        <li class="menu__item"><a class="menu__link active" href="#">当前项</a></li>
+        <li class="menu__item"><a class="menu__link" href="#">普通项</a></li>
+        <li class="menu__separator"></li>
+        <li class="menu__item"><a class="menu__link disabled" href="#">禁用项</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section__header"><h2 class="section__title">设计 token</h2></div>
+    <div class="section__body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">
+        {% for token, label in tokens %}
+        <div>
+          <div style="height:44px;border-radius:8px;border:1px solid var(--c-border);background:var({{ token }})"></div>
+          <div style="font-size:12px;margin-top:6px">{{ label }}</div>
+          <div style="font-size:11px;color:var(--c-fg-3);font-family:var(--font-code)">{{ token }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</div></div>
+{% endblock %}

@@ -1,0 +1,821 @@
+// Phase 5 shared editorial / administration surfaces.
+// Deliberately leaves judge status colors, JS mount points and all form behavior unchanged.
+.authoring-workbench::before,
+.authoring-workbench::after,
+.administration-layout::before,
+.administration-layout::after
+  content: none
+
+.authoring-workbench
+  display: grid
+  grid-template-columns: minmax(0, 1fr) var(--w-sidebar)
+  gap: var(--sp-5)
+  align-items: start
+
+.authoring-workbench > .columns,
+.administration-layout > .columns
+  float: none
+  width: auto
+  min-width: 0
+  padding-left: 0
+  padding-right: 0
+
+.authoring-workbench--files
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .9fr) 265px
+
+.authoring-workbench__main > .section,
+.authoring-workbench__files > .section,
+.authoring-workbench__side > .section,
+.administration-layout__main > .section,
+.administration-layout__side .section
+  margin-bottom: var(--sp-5)
+
+.authoring-workbench__main .section__header,
+.authoring-workbench__files .section__header,
+.administration-layout__main .section__header
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 12px
+  justify-content: space-between
+  padding: 20px 25px
+
+.authoring-workbench__main .section__title,
+.authoring-workbench__files .section__title,
+.administration-layout__main .section__title
+  font-size: 1.2rem
+  font-weight: 650
+  line-height: 1.4
+  letter-spacing: -.015em
+
+.authoring-workbench__editor > .section__body,
+.authoring-workbench__main > .section > .section__body:not(.no-padding),
+.administration-layout__main > .section > .section__body:not(.no-padding)
+  padding: 25px 28px
+
+.authoring-workbench__main form,
+.administration-layout__main form
+  font-size: .95rem
+  line-height: 1.7
+
+.authoring-workbench__main form label,
+.administration-layout__main form label
+  color: var(--c-fg)
+  font-size: .9rem
+  line-height: 1.6
+
+.authoring-workbench__main .help-text,
+.administration-layout__main .help-text
+  color: var(--c-fg-2)
+  font-size: .83rem
+  line-height: 1.65
+
+.authoring-workbench__main input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]),
+.authoring-workbench__main select,
+.authoring-workbench__main textarea,
+.administration-layout__main input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]),
+.administration-layout__main select,
+.administration-layout__main textarea
+  max-width: 100%
+  border-radius: var(--r-sm)
+  border-color: var(--c-border)
+  // background-color 而不是简写：简写会把 form/select 画的下拉箭头一起清掉
+  background-color: var(--c-surface)
+  color: var(--c-fg)
+  font-size: .94rem
+  line-height: 1.6
+
+.authoring-workbench__main textarea,
+.administration-layout__main textarea
+  min-height: 120px
+  padding: 13px
+
+.authoring-workbench__main input[type=file],
+.authoring-workbench__files input[type=file],
+.administration-layout__main input[type=file]
+  display: inline-block
+  max-width: 100%
+  padding: 11px
+  border: 1px dashed var(--c-border)
+  border-radius: var(--r)
+  background: var(--c-sunken)
+
+.authoring-workbench__main button,
+.authoring-workbench__files button,
+.authoring-workbench__side button,
+.administration-layout__main button,
+.administration-layout__main input[type=submit],
+.administration-layout__side button
+  min-height: 40px
+  border-radius: var(--r-sm)
+  font-size: .88rem
+  font-weight: 550
+
+.authoring-workbench__side .section__header,
+.administration-layout__side .section__header
+  padding: 17px 19px
+
+.authoring-workbench__side .section__body,
+.administration-layout__side .section__body
+  padding: 16px 19px
+
+.authoring-workbench__side .menu__link,
+.administration-layout__side .menu__link
+  display: block
+  min-height: 34px
+  padding: 7px 11px
+  border-radius: var(--r-sm)
+  color: var(--c-fg-2)
+  font-size: .88rem
+  line-height: 1.5
+
+.authoring-workbench__side .menu__link:hover,
+.administration-layout__side .menu__link:hover
+  color: var(--c-fg)
+  background: var(--c-hover)
+
+// 选中项跟顶部导航同一套表达：中性底 + 左侧 2px 标记，而不是一整块陶土色
+.authoring-workbench__side .menu__link.active,
+.administration-layout__side .menu__link.active
+  color: var(--c-fg)
+  font-weight: 550
+  background: var(--c-hover)
+  box-shadow: inset 2px 0 0 var(--c-accent)
+
+.authoring-workbench__side .menu__seperator,
+.administration-layout__side .menu__seperator
+  margin: 7px 12px
+  border-color: var(--c-border)
+
+// Editor tabs and React mount areas retain their exact existing IDs.
+.authoring-workbench #statement-tabs
+  display: flex
+  flex-wrap: wrap
+  gap: 5px
+  padding: 7px 9px
+  border-bottom: 1px solid var(--c-border)
+  background: var(--c-sunken)
+
+.authoring-workbench #statement-tabs .section__tab-header-item
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  min-height: 39px
+  padding: 8px 12px
+  color: var(--c-fg-2)
+  background: transparent
+  border-radius: var(--r-sm)
+  text-decoration: none
+
+// 文件名后面那个语言标记：<sup> 在 flex 里会跟文件名叠在一起，改成小胶囊
+.authoring-workbench #statement-tabs .section__tab-header-item .supplementary
+  padding: 1px 5px
+  border-radius: var(--r-xs)
+  background: var(--c-surface)
+  color: var(--c-fg-3)
+  font-size: .68rem
+  font-weight: 500
+  line-height: 1.4
+  letter-spacing: 0
+
+.authoring-workbench #statement-tabs .section__tab-header-item:hover,
+.authoring-workbench #statement-tabs .section__tab-header-item.tab--active
+  color: var(--c-link)
+  background: var(--c-accent-soft)
+
+.authoring-workbench #statement-props
+  display: flex
+  flex-wrap: wrap
+  gap: 9px
+  align-items: center
+  margin: 14px 0
+
+.authoring-workbench #statement-editor-area
+  min-width: 0
+  margin: 15px 0 20px
+
+.authoring-workbench #ProblemConfig
+  min-width: 0
+  min-height: 300px
+  padding: 18px 22px
+
+.authoring-workbench #ProblemConfig .loader-container
+  min-height: 170px
+
+.authoring-workbench__main .section__tab-container
+  min-width: 0
+
+// Shared uploads / testdata tables: avoid a second overflow parent around StyledTable.
+.files
+  min-width: 0
+  padding: 0
+
+.files .data-table
+  width: 100%
+  font-size: .86rem
+
+.files .data-table th
+  padding: 12px 11px
+  color: var(--c-fg-2)
+  font-size: .78rem
+  line-height: 1.5
+
+.files .data-table td
+  padding: 12px 11px
+  line-height: 1.6
+  vertical-align: middle
+
+.files .data-table .col--name
+  min-width: 130px
+  overflow-wrap: anywhere
+
+.files .data-table .col--name a
+  color: var(--c-fg)
+  font-weight: 550
+
+.files .data-table .col--name a:hover
+  color: var(--c-link)
+
+.files .data-table .col--size
+  width: 95px
+  color: var(--c-fg-2)
+  white-space: nowrap
+
+.files .data-table .col--operation
+  width: 72px
+  white-space: nowrap
+
+.files .data-table .col--checkbox
+  width: 46px
+
+.files[data-sidebar] .data-table th,
+.files[data-sidebar] .data-table td
+  padding: 10px 7px
+  font-size: .8rem
+
+.files .nothing,
+.files .nothing__icon
+  color: var(--c-fg-2)
+
+.authoring-workbench__files > .section > .section__body:not(.no-padding)
+  padding: 17px 20px
+
+// Problem solution, statistics, hack, contest management and generic editing forms.
+.authoring-workbench .filter-form
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 10px
+
+.authoring-workbench .filter-form select
+  min-height: 40px
+  padding: 8px 10px
+
+.authoring-workbench .section__body.no-padding
+  padding: 0
+
+.authoring-workbench .data-table th
+  padding: 13px 11px
+  font-size: .81rem
+  line-height: 1.5
+
+.authoring-workbench .data-table td
+  padding: 13px 11px
+  font-size: .89rem
+  line-height: 1.55
+
+.authoring-workbench .dczcomments__list
+  margin: 0
+  padding: 0
+
+.authoring-workbench .dczcomments__item
+  padding: 19px 0
+  border-bottom: 1px solid var(--c-border)
+
+.authoring-workbench .typo.richmedia
+  line-height: 1.8
+  overflow-wrap: anywhere
+
+// Management: preserve ui.getNodes/sidemenu and existing sticky navigation.
+.administration-layout
+  display: grid
+  grid-template-columns: minmax(0, 1fr) var(--w-sidebar)
+  gap: var(--sp-5)
+  align-items: start
+
+.administration-layout__side .menu
+  padding: 9px
+  margin: 0
+  list-style: none
+
+.administration-layout__side .menu .menu
+  padding: 2px 0 6px 8px
+
+// 折叠分组的标题是标签，不是菜单项：小一号、弱化、不可点
+.administration-layout__side .menu__link.expandable
+  min-height: 0
+  padding: 8px 11px 4px
+  color: var(--c-fg-3)
+  font-size: .78rem
+  font-weight: 600
+  letter-spacing: .02em
+
+.administration-layout__main .section__header .section__tools
+  display: flex
+  gap: 9px
+  align-items: center
+  flex-wrap: wrap
+
+.administration-layout__main .data-table
+  width: 100%
+  font-size: .87rem
+
+.administration-layout__main .data-table th
+  padding: 10px 11px
+  line-height: 1.5
+  font-weight: 600
+
+.administration-layout__main .data-table td
+  // 管理表格原本每行 78px，脚本/角色/用户权限这类只有两三个字段的表太散
+  padding: 8px 11px
+  line-height: 1.55
+
+.administration-layout__main .col--description
+  min-width: 220px
+  white-space: normal
+
+// inline editors live inside table rows on the domain role/user pages
+.administration-layout__main .data-table select,
+.administration-layout__main .data-table input.textbox
+  min-height: 34px
+  margin: 0
+  padding: 4px 10px
+  border-radius: var(--r-sm)
+  background-color: var(--c-surface)
+  font-size: .86rem
+
+// 表格里的下拉同样要留出箭头的位置
+.administration-layout__main .data-table select
+  padding-right: rem(28px)
+
+.administration-layout__main .data-table input[type=checkbox]
+  accent-color: var(--c-accent)
+
+.administration-layout__main .col--actions,
+.administration-script-card .col--action
+  min-width: 92px
+  white-space: nowrap
+
+.administration-layout__main .col--p
+  min-width: 70px
+  text-align: center
+
+.administration-layout__main .col--p input[type=checkbox],
+.administration-layout__main [data-checkbox-group] 
+  accent-color: var(--c-link)
+  width: 17px
+  height: 17px
+
+.administration-layout__main .col--family
+  padding: 15px
+  font-size: .83rem
+  font-weight: 650
+  color: var(--c-fg)
+  background: var(--c-sunken)
+
+.administration-config-card #app,
+.administration-config-mount
+  min-height: 260px
+  min-width: 0
+  padding: 16px
+  // ConfigEditor 是给全屏用的外壳：内部 .fullscreen-content 是 absolute + 固定 1200px，
+  // 塞进管理页 896px 的主列就会溢出卡片、盖住右侧导航
+  position: relative
+  overflow: hidden
+
+.administration-config-mount .fullscreen-content
+  width: 100%
+  max-width: 100%
+
+.administration-script-card .col--desc
+  min-width: 220px
+  white-space: normal
+
+.administration-import-card pre[name=messages]
+  max-height: 290px
+  overflow: auto
+  margin: 0 0 20px
+  padding: 14px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r)
+  background: var(--c-sunken)
+  font-size: .85rem
+  line-height: 1.65
+
+.administration-import-card textarea[name=users]
+  min-height: 240px
+  padding: 12px 14px
+  border-radius: var(--r-sm)
+  background: var(--c-bg)
+  font-family: var(--code-font-family)
+  font-size: .87rem
+  line-height: 1.7
+
+// the message log only exists once a run has produced output
+.administration-import-card pre[name=messages]:empty
+  display: none
+
+// Distinguish irreversible controls from ordinary Save / Preview actions.
+// This is visual only: native dialogs and explicit clicks remain required.
+.authoring-workbench button[name=operation][value=delete],
+.administration-layout button[name=operation][value=delete],
+.administration-layout #delete-domain-form input[type=submit]
+  border: 1px solid var(--c-bad)
+  color: var(--c-bad)
+  background: transparent
+
+.authoring-workbench button[name=operation][value=delete]:hover,
+.administration-layout button[name=operation][value=delete]:hover,
+.administration-layout #delete-domain-form input[type=submit]:hover
+  border-color: var(--c-bad)
+  background: token-alpha(var(--c-bad), 10%)
+  color: var(--c-bad)
+
+.administration-danger-section
+  border-color: token-alpha(var(--c-bad), 55%)
+
+.administration-danger-section .section__title
+  color: var(--c-bad)
+
+.administration-script-card .col--action a
+  display: inline-flex
+  align-items: center
+  min-height: 34px
+  padding: 5px 12px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  color: var(--c-fg-2)
+  font-size: .85rem
+  text-decoration: none
+
+.administration-script-card .col--action a:hover
+  border-color: var(--c-accent)
+  background: var(--c-accent-soft)
+  color: var(--c-link)
+
+@media only screen and (max-width: 1150px)
+  .authoring-workbench--files
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+
+  .authoring-workbench--files > .authoring-workbench__side
+    grid-column: 1 / -1
+
+@media only screen and (max-width: 900px)
+  .authoring-workbench,
+  .authoring-workbench--files,
+  .administration-layout
+    grid-template-columns: minmax(0, 1fr)
+    gap: var(--sp-4)
+
+  .authoring-workbench__side,
+  .administration-layout__side
+    order: 2
+
+  .authoring-workbench--files > .authoring-workbench__side
+    grid-column: auto
+
+@media only screen and (max-width: 600px)
+  .authoring-workbench__main .section__header,
+  .authoring-workbench__files .section__header,
+  .administration-layout__main .section__header
+    padding: 17px 18px
+
+  .authoring-workbench__editor > .section__body,
+  .authoring-workbench__main > .section > .section__body:not(.no-padding),
+  .administration-layout__main > .section > .section__body:not(.no-padding)
+    padding: 18px
+
+  .authoring-workbench #ProblemConfig
+    padding: 10px 12px
+
+  .administration-layout__main .data-table .col--description
+    min-width: 190px
+
+// Field rows in the authoring card keep one vertical rhythm; the templates emit
+// a mix of 12-column rows and single fields, which used to drift apart.
+.authoring-workbench__editor .section__body > .row,
+.administration-layout__main .section__body > .row
+  margin-left: rem(-8px)
+  margin-right: rem(-8px)
+  margin-bottom: rem(10px)
+
+  &:last-child
+    margin-bottom: 0
+
+.authoring-workbench__editor .section__body > .row > .columns,
+.administration-layout__main .section__body > .row > .columns
+  padding-left: rem(8px)
+  padding-right: rem(8px)
+
+.authoring-workbench__editor .section__body label,
+.administration-layout__main .section__body label
+  margin-bottom: 0
+
+.authoring-workbench__editor .section__body input.textbox,
+.authoring-workbench__editor .section__body select,
+.authoring-workbench__editor .section__body textarea
+  margin-bottom: 0
+
+// The rail is short compared to a long edit form; keep it in view instead of
+// leaving 700px of empty column under it.
++above(rupture.mobile-cutoff)
+  .authoring-workbench__side,
+  .administration-layout__side
+    position: sticky
+    top: calc(var(--school-nav-height) + 16px)
+    align-self: start
+
+// --- Schema editor (manage › config, problem › config) ---------------------
+// Both config editors are allotment split views over monaco + Element Plus.
+// `:root:root` bridges the palette into the library variables and outranks the
+// library's own `:root` block, which loads later in the cascade.
+:root:root
+  --el-color-primary: var(--c-accent)
+  --el-color-primary-light-3: var(--c-accent-hover)
+  --el-color-primary-light-5: var(--c-accent-soft)
+  --el-color-primary-light-9: var(--c-accent-soft)
+  --el-color-danger: var(--c-bad)
+  --el-color-error: var(--c-bad)
+  --el-color-success: var(--c-ok)
+  --el-color-warning: var(--c-warn)
+  --el-bg-color: var(--c-surface)
+  --el-bg-color-page: var(--c-bg)
+  --el-bg-color-overlay: var(--c-surface)
+  --el-text-color-primary: var(--c-fg)
+  --el-text-color-regular: var(--c-fg)
+  --el-text-color-secondary: var(--c-fg-2)
+  --el-text-color-placeholder: var(--c-fg-3)
+  --el-border-color: var(--c-border)
+  --el-border-color-light: var(--c-border)
+  --el-border-color-lighter: var(--c-border)
+  --el-border-color-extra-light: var(--c-border)
+  --el-fill-color: var(--c-hover)
+  --el-fill-color-light: var(--c-hover)
+  --el-fill-color-lighter: var(--c-hover)
+  --el-fill-color-blank: transparent
+  --el-input-bg-color: var(--c-bg)
+  --el-input-border-color: var(--c-border)
+  --el-input-text-color: var(--c-fg)
+  --el-input-hover-border-color: var(--c-fg-3)
+  --el-input-focus-border-color: var(--c-accent)
+  --el-disabled-bg-color: var(--c-sunken)
+  --el-disabled-text-color: var(--c-fg-3)
+  --el-color-white: var(--c-surface)
+  --el-color-black: var(--c-fg)
+  --k-color-primary: var(--c-accent)
+  --k-color-danger: var(--c-bad)
+  --k-hover-bg: var(--c-hover)
+  --k-button-hover-bg: var(--c-hover)
+  --k-text-light: var(--c-fg-3)
+  --k-text-dark: var(--c-fg)
+  --k-menu-shadow: var(--shadow-float)
+  --el-button-bg-color: var(--c-surface)
+  --el-button-border-color: var(--c-border)
+  --el-button-text-color: var(--c-fg)
+  --el-button-hover-bg-color: var(--c-hover)
+  --el-button-hover-border-color: var(--c-fg-3)
+  --el-button-hover-text-color: var(--c-fg)
+
+// palette rules shared by the full-bleed editor and the in-card judge editor
+.fullscreen-content,
+.problem-config-allotment
+  background: var(--c-bg)
+  color: var(--c-fg)
+  font-family: var(--font-body)
+
+  .monaco-editor,
+  .monaco-editor .overflow-guard,
+  .monaco-editor-background,
+  .monaco-editor .margin
+    background: var(--c-surface) !important
+
+  .monaco-editor .line-numbers
+    color: var(--c-fg-3) !important
+
+  .k-schema-header
+    margin: 14px 0 10px
+    color: var(--c-heading)
+    font-family: var(--font-display)
+    font-size: 1.16rem
+    font-weight: 550
+    letter-spacing: -.01em
+
+  .k-schema-item
+    padding: 10px 12px
+    border-color: var(--c-border)
+
+  .k-schema-item:hover
+    background: var(--c-hover)
+
+  .k-schema-item h3
+    color: var(--c-fg)
+    font-size: .93rem
+    font-weight: 600
+
+  .k-schema-item h3 .prefix
+    color: var(--c-fg-2)
+    font-family: var(--code-font-family)
+    font-size: .85rem
+
+  .k-schema-item p
+    color: var(--c-fg-2)
+    font-size: .82rem
+    line-height: 1.65
+
+  .k-form:not(:first-child)
+    margin-top: 26px
+
+// the in-card judge editor keeps monaco on the surface and lets it fill its pane
+.problem-config-allotment
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  overflow: hidden
+
+  .split-view-view
+    background: var(--c-bg)
+
+  .split-view-view:first-child
+    background: var(--c-surface)
+
+    > div:first-child
+      height: 100% !important
+      box-sizing: border-box
+
+  .split-view-view:nth-child(2) > div
+    padding: 0 14px 40px
+
+// geometry rules for the full-bleed management editor only
+.fullscreen-content
+  .split-view-container > .split-view-view:not(:last-child)
+    box-shadow: inset -1px 0 0 var(--c-border)
+
+  .split-view-view
+    background: var(--c-bg)
+
+  .split-view-view:first-child
+    background: var(--c-surface)
+
+    > div:first-child
+      height: calc(100% - 104px) !important
+      padding: 14px 16px 0
+      box-sizing: border-box
+
+    > button.button
+      margin: 12px 16px 16px
+
+  .split-view-view:nth-child(2) > div
+    margin-left: 0 !important
+    padding: 8px 22px 64px
+
+  pre.help-text
+    flex: none
+    margin: 8px 16px 0
+    color: var(--c-bad)
+    font-family: var(--code-font-family)
+    font-size: .78rem
+    line-height: 1.6
+    white-space: pre-wrap
+
+  .section.side.visible
+    margin: 0
+    border: 0
+    border-radius: 0
+    box-shadow: none
+    background: var(--c-surface)
+
+// ---------------------------------------------------------------------------
+// /manage/config —— ConfigEditor 是整屏应用：内部 .fullscreen-content 是
+// absolute，尺寸按外层容器算；页面本身还设了 body{overflow:hidden}、隐藏页脚。
+// 所以这里不能套管理页的两列栅格 + 260px 的卡片高度，否则编辑器只剩一条窄带。
+// 做法：去掉卡片外观，让挂载点吃掉「视口 - 导航」的整块高度。
+// 侧栏会被编辑器搬进自己的 slot，页面上的 aside 留空即隐藏。
+// ---------------------------------------------------------------------------
+.page--manage_config
+  .administration-layout
+    display: block
+    max-width: none
+    padding: 0
+
+  .administration-layout__side
+    display: none
+
+  .administration-config-card
+    display: flex
+    flex-direction: column
+    height: calc(100vh - var(--school-nav-height))
+    margin: 0
+    border: 0
+    border-radius: 0
+    background: transparent
+    box-shadow: none
+
+  .administration-config-card > .section__header
+    flex: 0 0 auto
+    padding: 10px var(--layout-gutter)
+
+  .administration-config-mount
+    flex: 1 1 auto
+    min-height: 0
+    padding: 0
+
+.page--manage_setting
+  // a family boundary: bigger breathing room above, hairline below
+  .section__header
+    padding-bottom: 10px
+    border-bottom: 1px solid token-alpha(var(--c-border), 70%)
+
+  .section__body
+    display: grid
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    align-items: start
+    gap: 14px 32px
+
+    // 多行字段（textarea / markdown / yaml）占满整行
+    > .row:has(textarea)
+      grid-column: 1 / -1
+
+  .section__body > .row
+    margin: 0
+    min-width: 0
+
+    // Foundation 的 .row .columns.medium-5 是三段权重，要盖住它
+    > .columns,
+    > .columns.medium-5
+      width: 100%
+      float: none
+      padding: 0
+
+  .form__item
+    display: flex
+    flex-direction: column
+    gap: 7px
+    min-width: 0
+
+  // label 里的键名不参与标签排版：有描述时整段隐藏，否则当小号等宽标签
+  .form__item > label
+    display: contents
+    font-size: 0
+
+  .form__item:not(:has(> .help-text)) > label
+    color: var(--c-fg-3)
+    font-family: var(--code-font-family)
+    font-size: .76rem
+    line-height: 1.5
+    word-break: break-all
+
+  .form__item > label > div
+    order: 3
+
+  // 人类可读名升级成真正的标签
+  .form__item .help-text
+    order: 1
+    margin: 0
+    color: var(--c-fg)
+    font-size: .9rem
+    font-weight: 500
+    line-height: 1.5
+
+  .form__item input.textbox,
+  .form__item select,
+  .form__item textarea
+    display: block
+    width: 100%
+    box-sizing: border-box
+    margin: 0
+    color: var(--c-fg)
+    font-family: var(--font-ui)
+    font-size: .92rem
+
+  .form__item textarea
+    min-height: 120px
+    line-height: 1.65
+
+  // 复选框/单选项：与输入框同一行高，文字用界面字体
+  .form__item label.checkbox,
+  .form__item label.radio,
+  .form__item .checkbox-container label
+    order: 3
+    display: inline-flex
+    align-items: center
+    gap: 8px
+    min-height: 38px
+    color: var(--c-fg)
+    font-family: var(--font-ui)
+    font-size: .9rem
+    font-weight: 400
+    line-height: 1.5
+
+  // 布尔项的人话在复选框里，键名一并不显示（放在最后，权重相同也要压住上面那条）
+  .form__item:has(.checkbox-container) > label
+    font-size: 0
+

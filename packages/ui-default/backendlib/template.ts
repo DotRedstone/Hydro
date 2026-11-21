@@ -12,8 +12,11 @@ import { renderStatement } from './contentRenderer';
 import markdown from './markdown';
 import { ensureTag, xss } from './markdown-it-xss';
 import * as misc from './misc';
+import { pickTheme, resolveTheme, THEMES } from '../theme/themes';
 
 const argv = cac().parse();
+
+let themeAssetCache = { at: 0, value: '' };
 
 let { template } = argv.options;
 if (!template || typeof template !== 'string') template = findFileSync('@hydrooj/ui-default/templates');
@@ -155,6 +158,25 @@ class Nunjucks extends nunjucks.Environment {
     this.addGlobal('model', global.Hydro.model);
     this.addGlobal('lib', { difficulty: difficultyAlgorithm });
     this.addGlobal('ui', global.Hydro.ui);
+    // 主题 CSS 的文件名是固定的 theme-<version>.css（不含内容哈希），静态资源
+    // 又按 max-age 一整天缓存；重建之后浏览器仍旧读旧样式。用构建产物的 mtime
+    // 当查询串，文件名不变、地址随构建变化。
+    this.addGlobal('themeAssetVersion', () => {
+      if (Date.now() - themeAssetCache.at > 5000) {
+        try {
+          const dir = path.join(__dirname, '..', 'public');
+          const file = fs.readdirSync(dir).find((n) => /^theme-.*\.css$/.test(n));
+          themeAssetCache = { at: Date.now(), value: file ? Math.floor(fs.statSync(path.join(dir, file)).mtimeMs).toString(36) : '' };
+        } catch {
+          themeAssetCache = { at: Date.now(), value: '' };
+        }
+      }
+      return themeAssetCache.value;
+    });
+    // 主题清单只来自 theme/themes.ts；模板里不再各自维护
+    this.addGlobal('themes', THEMES);
+    this.addGlobal('themeMeta', (id) => resolveTheme(id));
+    this.addGlobal('themeOf', pickTheme);
     this.addGlobal('isIE', (str) => {
       if (!str) return false;
       if (['MSIE', 'rv:11.0'].some((i) => str.includes(i))) return true;

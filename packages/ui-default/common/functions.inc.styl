@@ -7,3 +7,19 @@ word-wrap()
   -moz-hyphens: auto
   -webkit-hyphens: auto
   hyphens: auto
+
+// Token-safe color helpers.
+// Colors are CSS custom properties (var(--c-*)), so Stylus' compile-time
+// lighten()/darken()/rgba() cannot operate on them. Use these instead; they
+// emit CSS color-mix() and therefore follow the active palette and dark mode.
+//   token-alpha(var(--c-accent), 20%)          -> accent at 20% opacity
+//   token-mix(var(--c-accent), var(--c-surface), 10%) -> 10% accent over surface
+//   token-tint(var(--c-accent), 12%)           -> accent tinted into the surface
+token-alpha(c, pct)
+  unquote('color-mix(in srgb, ' + c + ' ' + pct + ', transparent)')
+
+token-mix(a, b, pct)
+  unquote('color-mix(in srgb, ' + a + ' ' + pct + ', ' + b + ')')
+
+token-tint(c, pct)
+  unquote('color-mix(in srgb, ' + c + ' ' + pct + ', var(--c-surface))')

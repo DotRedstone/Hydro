@@ -4,10 +4,14 @@
 {% import "components/problem.html" as problem with context %}
 {% import "components/user.html" as user with context %}
 {% block content %}
-<div class="row">
+{# 首页不再放大标题 / 宣传语：站名在导航里已经出现过一次，
+   这里只留一个给读屏和 SEO 的一级标题，内容直接由下面的模块开场。 #}
+<h1 class="sr-only">{{ model.system.get('server.name') }}</h1>
+<div class="row learning-hub__columns">
   {% for column in contents %}
-    <div class="large-{{ column.width }} columns">
+    <div class="large-{{ column.width }} columns learning-hub__column">
       {% for s in column.sections %}
+        <div class="learning-hub__module learning-hub__module--{{ s[0] }}">
         {% if templateExists("partials/homepage/" + s[0] + ".html") %}
           {% set payload = s[1] %}
           {% include "partials/homepage/" + s[0] + ".html" %}
@@ -15,6 +19,7 @@
           {% set payload = _("Template {0} not found.").format(s[0]) %}
           {% include "partials/homepage/error.html" %}
         {% endif %}
+        </div>
       {% endfor %}
     </div>
   {% endfor %}

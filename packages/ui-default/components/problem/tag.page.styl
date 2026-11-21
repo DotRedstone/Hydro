@@ -15,25 +15,19 @@
   padding: 0 !important
 
 .problem__tag-item
-  padding: 0 10px !important
-  margin-left: rem(3px)
-  margin-bottom: rem(5px)
-  line-height: 30px !important
   display: inline-flex
   flex-direction: row
   align-items: center
-  border: none
-  border-radius: 2px
+  border: 0
   box-shadow: none
-  font-size: 14px
-  line-height: 18px
+  border-radius: $radius-pill
   max-width: 100%
-  min-height: 30px
-  min-width: 30px
-  padding: 6px 8px
   position: relative
-  background-color: rgba(143, 153, 168, 0.15)
-  color: #1c2127
+  background-color: token-alpha(var(--c-fg), 8%)
+  color: $text-2-color
+  font-size: rem(12px)
+  line-height: 1.5
+  padding: rem(2px 10px)
   &:hover
     text-decoration: none
   > span
@@ -49,31 +43,44 @@
   > :last-child
     margin-right: 0
   &:focus
-    outline: rgba(33, 93, 176, 0.752) solid 2px
+    outline: 2px solid var(--c-focus-ring)
     outline-offset: 0
     -moz-outline-radius: 6px
   &.interactive
     cursor: pointer
     &:hover
-      background: rgba(143, 153, 168, 0.3)
-      color: #111418
+      background: token-alpha(var(--c-neutral), 30%)
+      color: $text-1-color
+
+.tag
+  display: inline-flex
+  align-items: center
+  padding: rem(2px 10px)
+  border-radius: $radius-pill
+  background: token-alpha(var(--c-fg), 8%)
+  color: $text-2-color
+  font-size: rem(12px)
+  line-height: 1.5
+  white-space: nowrap
 
 .problem__tag-link
-  display: inline-block
-  padding: rem(0 7px)
+  display: inline-flex
+  align-items: center
+  padding: rem(2px 10px)
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
   max-width: rem(250px)
-  line-height: rem($table-lh)
-  height: rem($table-lh)
-  background: #F0F0F0
-  color: $text-1-color !important
-  font-size: rem($font-size-small)
+  line-height: 1.5
+  border-radius: $radius-pill
+  background: token-alpha(var(--c-fg), 8%)
+  color: $text-2-color !important
+  font-size: rem(12px)
+  transition: background .15s, color .15s
 
   &:hover
-    background: $primary-color
-    color: #FFF !important
+    background: var(--c-accent-soft)
+    color: $primary-color !important
     text-decoration: none
 
 .col--problem-name
