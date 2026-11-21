@@ -5,6 +5,10 @@
 .auth-page
   display: flex
   justify-content: center
+  // .main 是 flex 容器，这里不加宽度就会按内容收缩：登录页 643、注册页 783，
+  // 两张卡片的宽度跟着文案长短变。占满一行，卡片才稳定在 812 上限。
+  width: 100%
+  box-sizing: border-box
   padding: rem(28px) rem(16px) rem(52px)
 
 .account-auth-card
@@ -79,6 +83,15 @@
 
 .account-auth-card .row
   max-width: none
+  // Foundation 的 .row/.columns 自带 15px 沟槽：字段被内缩、验证码行却是通栏，
+  // 右边缘对不齐（邮箱输入 395..769，验证码图到 784）。卡片自己已有 36px 内边距，
+  // 这里把沟槽去掉，让所有控件共用同一条左/右边缘。
+  margin-left: 0
+  margin-right: 0
+
+.account-auth-card .row > .columns
+  padding-left: 0
+  padding-right: 0
 
 .account-auth-card label.material,
 .account-auth-card label.textbox
