@@ -12,13 +12,16 @@
 
   // 表头左右各有 13px 内边距，再加上两三个汉字；50px 会把「题目 / 比赛」
   // 截成「题…」，这里留出放得下标签的最小宽度
+  // 数字列统一右对齐 + 等宽数字：原来 RP 右对齐、比赛/通过居中，一列里两种对齐
   .col--detail
     width: rem(76px)
-    text-align: center
+    text-align: right
+    font-variant-numeric: tabular-nums
 
   .col--ac
     width: rem(70px)
-    text-align: center
+    text-align: right
+    font-variant-numeric: tabular-nums
 
   &[lang="en"]
     .col--detail
