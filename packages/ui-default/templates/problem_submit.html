@@ -1,6 +1,7 @@
 {% extends "layout/basic.html" %}
 {% block content %}
 {{ set(UiContext, 'pdoc', pdoc) }}
+{{ set(UiContext, 'defaultLang', defaultLang) }}
 <div class="row problem-submit-layout">
   <div class="medium-9 columns problem-submit-main">
     <div class="section problem-submit-card">
@@ -14,7 +15,7 @@
                 label:'Code language',
                 options:langRange,
                 name:'lang',
-                value:handler.user.codeLang
+                value:defaultLang
               }) }}
           </div>
           <div class="submit-language-panel"><div class="row nojs--hide" id="codelang-selector"></div></div>
