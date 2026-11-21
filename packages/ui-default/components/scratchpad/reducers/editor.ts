@@ -1,5 +1,6 @@
 export default function reducer(state = {
-  lang: UiContext.codeLang,
+  // 与服务端一致的默认语言（上次用过的 / 站点默认 / 常见语言），不是注册顺序里的 bash
+  lang: UiContext.defaultLang || UiContext.codeLang,
   code: UiContext.codeTemplate,
 }, action: any = {}) {
   if (action.type === 'SCRATCHPAD_EDITOR_HYDRATE') return action.payload;

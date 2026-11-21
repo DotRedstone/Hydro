@@ -1,7 +1,7 @@
 {% extends "layout/basic.html" %}
 {% block content %}
 <script>
-{{ set(UiContext, {
+{{ set(UiContext, { defaultLang: defaultLang,
   problemId: pdoc.pid|default(pdoc.docId),
   problemNumId: pdoc.docId,
   codeLang: handler.user.codeLang,

@@ -340,6 +340,19 @@
   padding: 8px 11px
   line-height: 1.55
 
+// 表头里的操作按钮（创建角色 / 新建…）和标题不在一条水平线上：表头是
+// space-between 的 flex，按钮比文字低 6px，居中一下。
+.administration-layout__main .section__header
+  align-items: center
+
+// 行分隔线只画了一半：表头下沿、末行下沿都缺线，末行还会和后面的操作按钮黏在一起
+.administration-layout__main .data-table
+  thead tr
+    border-bottom: 1px solid var(--c-border)
+
+  tbody tr + tr
+    border-top: 1px solid token-alpha(var(--c-border), 70%)
+
 .administration-layout__main .col--description
   min-width: 220px
   white-space: normal

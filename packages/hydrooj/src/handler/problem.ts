@@ -419,6 +419,13 @@ export class ProblemDetailHandler extends ContestDetailBaseHandler {
             pdoc: this.pdoc, tdoc: this.tdoc, statements, stmtLangs, preferredLang, activeLang, stmtFiles,
         };
         Object.assign(this.response.body, data);
+        // 在线编辑模式（scratchpad）也用同一套默认语言规则，别一进来就是 bash
+        this.response.body.defaultLang = await pickDefaultLang(
+            this.domain._id, this.user, this.pdoc.config.langs ? Object.fromEntries(
+                (this.pdoc.config.langs as string[]).map((i) => [i, setting.langs[i]?.display || i]),
+            ) : setting.SETTINGS_BY_KEY.codeLang.range,
+            this.request.query.lang as string,
+        );
         this.response.body.page_name = this.tdoc
             ? this.tdoc.rule === 'homework'
                 ? 'homework_detail_problem'
@@ -483,6 +490,37 @@ export class ProblemDetailHandler extends ContestDetailBaseHandler {
     }
 }
 
+/**
+ * 打开提交页 / 在线编辑器时默认选中哪个语言。
+ *
+ * 原来交给 select 的第一个选项，也就是语言注册顺序里的 bash——对 OJ 来说等于每次
+ * 都要重选。这里依次尝试：?lang= → 个人设置 → 最近提交用过的语言（跳过 bash，它
+ * 只是跑脚本用的）→ 站点默认 → 常见竞赛语言，最后才回落到第一个非 bash 项。
+ */
+export async function pickDefaultLang(
+    domainId: ObjectId,
+    udoc: User,
+    langRange: Record<string, string>,
+    queryLang?: string,
+): Promise<string> {
+    const keys = Object.keys(langRange);
+    const wanted = queryLang || udoc.codeLang;
+    if (wanted && langRange[wanted]) return wanted;
+    const recent = await record.getMulti(domainId, { uid: udoc._id })
+        .sort({ _id: -1 }).limit(5).project({ lang: 1 }).toArray().catch(() => []);
+    for (const rdoc of recent) {
+        if (rdoc.lang && rdoc.lang !== 'bash' && langRange[rdoc.lang]) return rdoc.lang;
+    }
+    const systemLang = system.get('codeLang');
+    if (systemLang && langRange[systemLang]) return systemLang;
+    const preferred = [
+        'cc.cc20o2', 'cc.cc17o2', 'cc.cc14o2', 'cc', 'c',
+        'py.py3', 'py', 'java', 'go', 'rs', 'js',
+    ];
+    for (const key of preferred) if (langRange[key]) return key;
+    return keys.find((key) => key !== 'bash') || keys[0] || '';
+}
+
 export class ProblemSubmitHandler extends ProblemDetailHandler {
     @param('tid', Types.ObjectId, true)
     async prepare(domainId: string, tid?: ObjectId) {
@@ -497,39 +535,14 @@ export class ProblemSubmitHandler extends ProblemDetailHandler {
             ? Object.fromEntries(this.pdoc.config.langs.map((i) => [i, setting.langs[i]?.display || i]))
             : setting.SETTINGS_BY_KEY.codeLang.range;
         this.response.body.langRange = langRange;
-        this.response.body.defaultLang = await this.pickSubmitLang(langRange);
+        this.response.body.defaultLang = await pickDefaultLang(
+            this.domain._id, this.user, langRange, this.request.query.lang as string,
+        );
         this.response.body.page_name = this.tdoc
             ? this.tdoc.rule === 'homework'
                 ? 'homework_detail_problem_submit'
                 : 'contest_detail_problem_submit'
             : 'problem_submit';
-    }
-
-    /**
-     * 打开提交页时默认选中哪个语言。
-     *
-     * 原来交给 select 的第一个选项，也就是注册顺序里的 bash——对 OJ 来说等于每次都
-     * 要重选。这里依次尝试：?lang= → 个人设置 → 上次提交用过的语言 → 站点默认 →
-     * 常见竞赛语言，最后才回落到第一个非 bash 项。
-     */
-    private async pickSubmitLang(langRange: Record<string, string>): Promise<string> {
-        const keys = Object.keys(langRange);
-        const wanted = (this.request.query.lang as string) || this.user.codeLang;
-        if (wanted && langRange[wanted]) return wanted;
-        const recent = await record.getMulti(this.domain._id, { uid: this.user._id })
-            .sort({ _id: -1 }).limit(5).project({ lang: 1 }).toArray().catch(() => []);
-        // bash 只用来跑脚本，不算解题语言；跳过它取最近一次解题用的语言
-        for (const rdoc of recent) {
-            if (rdoc.lang && rdoc.lang !== 'bash' && langRange[rdoc.lang]) return rdoc.lang;
-        }
-        const systemLang = system.get('codeLang');
-        if (systemLang && langRange[systemLang]) return systemLang;
-        const preferred = [
-            'cc.cc20o2', 'cc.cc17o2', 'cc.cc14o2', 'cc', 'c',
-            'py.py3', 'py', 'java', 'go', 'rs', 'js',
-        ];
-        for (const key of preferred) if (langRange[key]) return key;
-        return keys.find((key) => key !== 'bash') || keys[0] || '';
     }
 
     @param('lang', Types.Name)
