@@ -39,6 +39,7 @@
 .problem-catalog__search .search > input
   min-width: 0
   height: 40px
+  margin: 0
   padding: 0 13px
   border: 1px solid var(--c-border-strong)
   border-radius: var(--r-sm)
@@ -50,6 +51,7 @@
   flex: 0 0 40px
   width: 40px
   height: 40px
+  margin: 0
   border: 1px solid var(--c-border-strong)
   border-radius: var(--r-sm)
   background: var(--c-surface)
@@ -70,8 +72,9 @@
   position: static
   flex: 0 0 126px
   width: 126px
-  // 与搜索框、按钮同高，三者原本是 40/44/40
+  // 与搜索框、按钮同高且去掉全局 select 下边距，避免在 flex 行内上浮 8px
   height: 40px
+  margin: 0
   border: 1px solid var(--c-border-strong)
   border-radius: var(--r-sm)
   // background-color：简写会清掉 form/select 画的下拉箭头

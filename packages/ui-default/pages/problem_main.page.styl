@@ -269,6 +269,16 @@ body.edit-mode .edit-mode-hide,
     align-items: baseline
     gap: rem(7px)
 
+  +mobile()
+    .problem-catalog__table .col--problem-name
+      white-space: normal
+
+    .problem-catalog__table .col--problem-name a
+      display: inline
+
+    .problem-catalog__table .col--problem-name b
+      margin-right: rem(6px)
+
   .problem-catalog__table .col--problem-name b
     margin: 0
     color: var(--c-fg-3)

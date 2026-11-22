@@ -99,10 +99,18 @@ h3.section__title
   margin-bottom: 0
 
 .section__tools
-  position: absolute
-  right: rem($section-gap-h)
-  top: rem($section-gap-v)
+  position: static
+  margin-left: auto
+  display: flex
+  align-items: center
+  flex-wrap: wrap
+  gap: rem(8px)
   font-size: rem($font-size-secondary)
+
+  .button,
+  select,
+  input
+    margin-bottom: 0
 
   .tool-button
     appearance: none
