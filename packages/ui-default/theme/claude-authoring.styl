@@ -719,10 +719,13 @@
 // 侧栏会被编辑器搬进自己的 slot，页面上的 aside 留空即隐藏。
 // ---------------------------------------------------------------------------
 .page--manage_config
+  // 配置编辑器是整屏应用（内部按三栏排：代码 / 字段 / 属性）。之前为了让它不
+  // 溢出，把整页改成整屏——结果顶满视口、右侧菜单被推到屏幕边缘。这里改回
+  // 和其他管理页一致的两列布局，只把编辑器关进卡片里滚动。
+  // 这页没有右侧菜单（side 只是个空的占位），管理页的两列网格在这里收成一列，
+  // 编辑器才有它需要的三栏宽度；页面留白和其他管理页一致
   .administration-layout
-    display: block
-    max-width: none
-    padding: 0
+    grid-template-columns: minmax(0, 1fr)
 
   .administration-layout__side
     display: none
@@ -730,28 +733,24 @@
   .administration-config-card
     display: flex
     flex-direction: column
-    height: calc(100vh - var(--school-nav-height))
-    margin: 0
-    border: 0
-    border-radius: 0
-    background: transparent
-    box-shadow: none
+    // 不顶满视口：上下留一档，读起来是一张卡片，不是被撑开的整屏
+    height: min(calc(100vh - var(--school-nav-height) - 64px), 720px)
+    overflow: hidden
 
   .administration-config-card > .section__header
     flex: 0 0 auto
-    padding: 10px var(--layout-gutter)
+    padding: 12px 20px
 
   .administration-config-mount
+    position: relative
     flex: 1 1 auto
     min-height: 0
-    // 配置编辑器自己按三栏排（代码 / 字段 / 属性），最后一栏原本被视口右缘裁掉；
-    // 留出 24px 才看得见它的右边框
-    padding: 0 24px 0 0
+    overflow: auto
+    padding: 0
 
-  // 标题原来是 15px 左内边距，比下面的代码面板还靠左；和内容同一条边
-  .administration-config-card > .section__header
-    padding-left: 24px
-    padding-right: 24px
+  // 三栏总宽超过卡片时，在挂载点里横向滚动，而不是压到右侧菜单上
+  .administration-config-mount > *
+    max-width: 100%
 
 .page--manage_setting
   // a family boundary: bigger breathing room above, hairline below

@@ -8,10 +8,17 @@
 
 #scratchpad
   position: absolute
-  left: 0
-  top: $nav-item-height
-  width: 100%
-  bottom: 0
+  // 四周留一档、加圆角与描边：整屏模式贴到视口边缘会显得被撑爆，
+  // 收进一张工作台卡片里，读起来和平时的卡片布局是同一套语言
+  left: rem(12px)
+  right: rem(12px)
+  top: calc(var(--school-nav-height, 50px) + 12px)
+  width: auto
+  bottom: rem(12px)
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-lg)
+  box-shadow: var(--shadow-float)
+  overflow: hidden
   background: var(--c-bg)
   color: var(--c-fg)
   // Allotment 靠这几个变量画分隔线与拖拽指示，改令牌就不用管它的哈希类名
