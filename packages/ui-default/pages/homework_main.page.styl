@@ -101,7 +101,9 @@ $highlight-button-color = var(--c-warn)
 // 属于工具条自身宽度计算的问题，留待单独处理。
 +mobile()
   .page--homework_main .homework-toolbar [name="q"],
-  .page--homework_main .homework-toolbar select
+  .page--homework_main .homework-toolbar select,
+  .page--homework_main .homework-toolbar .filter-form select,
+  .page--homework_main .section__tools .homework-toolbar__view select
     font-size: 16px
 
   // 表单默认是 flex: 0 0 auto，宽度按内容算（实测 405px），比卡片宽出 79px，

@@ -345,6 +345,11 @@
 .administration-layout__main .section__header
   align-items: center
 
+// 侧栏分组标题（属性 / 访问控制）比菜单项文字左缩 12px：分组链接的
+// padding-left 是 11px、菜单项是 15px，两者左边缘本来就差 8px
+.administration-layout__side .menu__link.expandable
+  padding-left: 23px
+
 // 行分隔线只画了一半：表头下沿、末行下沿都缺线，末行还会和后面的操作按钮黏在一起
 .administration-layout__main .data-table
   thead tr
