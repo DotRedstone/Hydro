@@ -68,6 +68,12 @@ function consumeCaptcha(h: Handler, input: string) {
     }
 }
 
+// [Inline Error] 表单页内联错误文案
+function inlineErrorText(h: Handler, e: any) {
+    if (e instanceof ValidationError && e.params[0] === 'captcha' && e.params[2]) return e.params[2];
+    return h.translate(e.message).formatFromArray(e.params || []);
+}
+
 class UserLoginHandler extends Handler {
     noCheckPermView = true;
 
@@ -165,7 +171,7 @@ class UserLoginHandler extends Handler {
         } catch (e) {
             if (!inline) throw e;
             // 账号或密码错误时不暴露具体是哪一项错，统一一句话
-            let message = e.message;
+            let message = inlineErrorText(this, e);
             if (e instanceof UserNotFoundError || e instanceof LoginError) {
                 message = this.translate('Invalid username/email or password.');
             } else if (e instanceof OpcountExceededError) {
@@ -339,7 +345,7 @@ export class UserRegisterHandler extends Handler {
             consumeCaptcha(this, captcha);
         } catch (e) {
             this.response.template = 'user_register.html';
-            this.response.body = { captchaRequired: true, error: e.message, mail };
+            this.response.body = { captchaRequired: true, error: inlineErrorText(this, e), mail };
             return;
         }
         if (await user.getByEmail('system', mail)) throw new UserAlreadyExistError(mail);
@@ -495,7 +501,7 @@ class UserLostPassHandler extends Handler {
         } catch (e) {
             if (!(e instanceof UserFacingError)) throw e;
             // 浏览器表单：错误留在页面上，别把人甩到错误页
-            let message = e.message;
+            let message = inlineErrorText(this, e);
             if (e instanceof UserNotFoundError) message = this.translate('No account is registered with this email.');
             else if (e instanceof OpcountExceededError) message = this.translate('Too many attempts, please try again later.');
             else if (e instanceof SendMailError) message = this.translate('Failed to send the mail, please try again later.');
