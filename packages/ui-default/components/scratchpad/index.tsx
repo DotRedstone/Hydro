@@ -8,6 +8,7 @@ import React from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import Dom from 'vj/components/react/DomComponent';
 import { ctx, Service } from 'vj/context';
+import { i18n } from 'vj/utils';
 import ScratchpadEditor from './ScratchpadEditorContainer';
 import ScratchpadPretest from './ScratchpadPretestContainer';
 import ScratchpadRecords from './ScratchpadRecordsContainer';
@@ -72,6 +73,8 @@ export default function ScratchpadContainer() {
   }, []);
   const dispatch = useDispatch();
   const ui = useSelector<any, any>((state) => state.ui, _.isEqual);
+  // 题目没有配置文件时编辑器就是一片空白，给一句提示，输入后自动消失
+  const codeEmpty = useSelector<any, boolean>((state) => !((state.editor?.code || '') as string).trim());
 
   const handleChangeSize = _.debounce(() => {
     ctx.scratchpad.editor?.layout?.();
@@ -116,9 +119,14 @@ export default function ScratchpadContainer() {
         </div>
       </Allotment.Pane>
       <Allotment vertical onChange={handleChangeSize}>
-        <div key="editor" className="flex-col splitpane-fill">
+        <div key="editor" className="flex-col splitpane-fill scratchpad__editor-pane">
           <ScratchpadToolbar />
           <ScratchpadEditor />
+          {codeEmpty && (
+            <div className="scratchpad__editor-hint" aria-hidden="true">
+              {i18n('Write your solution here, then press F9 to test it or F10 to submit.')}
+            </div>
+          )}
         </div>
         <Allotment.Pane visible={ui.pretest.visible}>
           <ScratchpadPretest key="pretest" />

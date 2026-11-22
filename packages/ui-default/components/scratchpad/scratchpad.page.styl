@@ -75,3 +75,18 @@
   .icol--stat
     color: $text-3-color
     width: rem(60px)
+
+// 空编辑器提示：题目没配文件时编辑器是纯空白，看起来像没加载出来
+.scratchpad__editor-pane
+  position: relative
+
+.scratchpad__editor-hint
+  position: absolute
+  top: rem(58px)
+  left: rem(72px)
+  right: rem(24px)
+  color: var(--c-fg-3)
+  font-size: .87rem
+  line-height: 1.6
+  pointer-events: none
+  user-select: none
