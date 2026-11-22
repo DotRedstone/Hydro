@@ -3,10 +3,19 @@
   filter: var(--avatar-filter)
 
 .user-profile-badge
-  display: inline-block !important
-  font-size: rem(12px) !important
-  padding: rem(3px 4px) !important
-  line-height: 1 !important
+  display: inline-flex !important
+  align-items: center
+  justify-content: center
+  min-width: rem(38px)
+  font-size: rem(11.5px) !important
+  font-weight: 600
+  font-variant-numeric: tabular-nums
+  letter-spacing: .02em
+  padding: rem(3px 6px) !important
+  border-radius: var(--r-xs)
+  line-height: 1.1 !important
+  white-space: nowrap
+  vertical-align: middle
 
   &:hover
     text-decoration: none !important

@@ -295,6 +295,27 @@
   .community-ranking-card .col--user
     min-width: 170px
 
+  // 排名表里用户名长短不一，把徽章收齐到用户名列右缘，整列等级对齐成一条直线
+  .community-ranking-card .col--user .user-profile-link
+    display: flex
+    align-items: center
+    gap: 8px
+    min-width: 0
+
+  .community-ranking-card .col--user .user-profile-avatar
+    flex: 0 0 auto
+    margin: 0
+
+  .community-ranking-card .col--user .user-profile-name
+    flex: 1 1 auto
+    min-width: 0
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+  .community-ranking-card .col--user .user-profile-badge
+    flex: 0 0 auto
+
   .community-ranking-card .col--bio
     display: table-cell
     white-space: normal
@@ -304,8 +325,29 @@
   @media only screen and (max-width: 600px)
     .community-ranking-card .section__header
       padding: 18px
+
     .community-ranking-card .data-table
-      min-width: 690px
+      min-width: 0
+
+    .community-ranking-card .data-table th,
+    .community-ranking-card .data-table td
+      padding: 11px 8px
+
+    .community-ranking-card .col--bio
+      display: none
+
+    .community-ranking-card .col--rank
+      width: 50px
+
+    .community-ranking-card .col--user
+      width: auto
+      min-width: 0
+
+    .community-ranking-card .col--rp
+      width: 54px
+
+    .community-ranking-card .col--ac
+      width: 62px
 
 .page--user_detail
   .account-profile-layout::before,
