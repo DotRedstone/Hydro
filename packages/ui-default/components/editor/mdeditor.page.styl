@@ -45,6 +45,17 @@
     background: var(--c-code-bg)
     color: var(--c-fg)
 
+  // 预览区引用块跟随主题令牌，避免 md-editor-rt 默认主题在浅色下画出黑底绿边条
+  .md-editor-preview blockquote
+    background: var(--c-sunken) !important
+    color: var(--c-fg) !important
+    border-left: 3px solid var(--c-border-strong) !important
+    border-radius: var(--r-sm)
+    padding: 10px 14px
+
+  .md-editor-preview blockquote p
+    color: var(--c-fg) !important
+
   .md-editor-input-wrapper textarea
     color: var(--c-fg)
     background: var(--c-surface)

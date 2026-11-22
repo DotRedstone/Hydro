@@ -1,4 +1,3 @@
-import { getScoreColor } from '@hydrooj/common';
 import $ from 'jquery';
 import { NamedPage } from 'vj/misc/Page';
 import { getAvailableLangs, tpl } from 'vj/utils';
@@ -9,6 +8,14 @@ const page = new NamedPage('problem_statistics', () => {
   function token(name: string, fallback: string) {
     const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     return value || fallback;
+  }
+
+  function scoreColor(score: number) {
+    if (score >= 100) return token('--c-ok', '#427253');
+    if (score >= 80) return token('--c-cat-3', '#7d9366');
+    if (score >= 40) return token('--c-warn', '#96681a');
+    if (score > 0) return token('--c-cat-1', '#c76b4e');
+    return token('--c-bad', '#a94733');
   }
 
   const STATUS_TONES: Record<string, string> = {
@@ -75,7 +82,7 @@ const page = new NamedPage('problem_statistics', () => {
       series: [{
         data: x.map((i) => ({
           value: UiContext.pdoc.stats[`s${i}`],
-          itemStyle: { color: getScoreColor(i) },
+          itemStyle: { color: scoreColor(i) },
         })),
         type: 'bar',
       }],
