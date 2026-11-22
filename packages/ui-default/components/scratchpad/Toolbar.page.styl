@@ -115,7 +115,8 @@
   color: var(--c-fg-3)
 
 .scratchpad__toolbar__submit .scratchpad__kbd
-  color: token-alpha(var(--c-accent-fg), 88%)
+  // 88% 透明度的白压在 accent 上只有 4.11:1，11px 小字不达标；用不透明的白
+  color: var(--c-accent-fg)
 
 .scratchpad__toolbar__split
   width: 1px

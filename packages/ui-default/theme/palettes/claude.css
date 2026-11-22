@@ -35,12 +35,13 @@
   --c-heading: #191817;
 
   /* accent — clay. fills only; --c-link is the text-safe variant */
-  --c-accent: #C76B4E;
-  --c-accent-hover: #B1593D;
+  /* 白字压在原 #C76B4E 上只有 3.72:1，主按钮一律不达标；整体下压一档到 4.81:1 */
+  --c-accent: #B1593D;
+  --c-accent-hover: #9E4D33;
   --c-link: #A34E2E;
   --c-accent-soft: #F6E7E0;
   --c-accent-fg: #FFFFFF;
-  --c-focus-ring: rgba(199, 107, 78, 0.26);
+  --c-focus-ring: rgba(177, 89, 61, 0.26);
 
   /* semantic */
   --c-ok: #427253;
