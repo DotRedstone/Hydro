@@ -28,7 +28,18 @@ $send-button-width = 50px
   height: rem(30px)
   padding: rem(5px)
   text-align: center
-  border-bottom: 1px solid $border-2-color;
+  border-bottom: 1px solid $border-2-color
+
+  &:empty
+    border-bottom: 0
+
+.messagepad__empty
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 100%
+  color: var(--c-fg-3)
+  font-size: .92rem
 
 .messagepad__content
   position: absolute

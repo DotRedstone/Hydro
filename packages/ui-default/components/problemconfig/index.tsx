@@ -35,7 +35,7 @@ export default function ProblemConfig(props: Props) {
       setTimeout(() => {
         const target = Math.max(container.clientHeight, tabs?.clientHeight || 0);
         container.style.height = `${target}px`;
-        if (editor) editor.layout();
+        if (editor?.layout) editor.layout();
       }, 50);
     };
     const dispose = store.subscribe(callback);

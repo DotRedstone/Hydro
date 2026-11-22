@@ -85,7 +85,7 @@ export function configYamlFormat(config: ProblemConfigFile) {
   return formatConfig;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(class MonacoEditor extends React.PureComponent<Props> {
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(class MonacoEditor extends React.PureComponent<Props> {
   disposable = [];
   containerElement: HTMLElement;
   __preventUpdate = false;
@@ -148,6 +148,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(class MonacoEditor e
     if (this.model) this.model.dispose();
     if (this.editor) this.editor.dispose();
     this.disposable.map((i) => i.dispose());
+  }
+
+  layout() {
+    this.editor?.layout();
   }
 
   assignRef = (component) => {

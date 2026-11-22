@@ -90,20 +90,19 @@
     padding-top: 0 !important
 
   .section__tab-header-item
-    border-top: 3px solid transparent;
-    transition: border-color 0.2s, background 0.2s, color 0.2s;
-    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    border-top: 0
+    transition: border-color 0.2s, background 0.2s, color 0.2s
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1)
     margin-right: 0
 
     &:hover
-      border-color: var(--c-info);
-      background: var(--c-hover);
-    
-    &.tab--active
-      border-color: var(--c-link);
+      border-bottom-color: var(--c-border-strong)
+      background: var(--c-hover)
 
+    &.tab--active,
     &.selected
-      border-color: var(--c-link);
+      border-bottom-color: var(--c-link)
+      color: var(--c-fg)
 
 .section__tab-content
   position: relative

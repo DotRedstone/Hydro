@@ -1,23 +1,19 @@
 .page--problem_config
-  .main
-    .row
-      max-width: 100vw !important;
-
   .textbox,.select
     margin: 0
 
   input::placeholder
     color: $text-3-color !important
 
-  .problem-config-allotment  
-    overflow: visible !important  
-      
-    .split-view-container > .split-view-view  
+  .problem-config-allotment
+    overflow: visible !important
+
+    .split-view-container > .split-view-view
       overflow: visible !important
 
   .problem-config-form
-    font-family: var(--code-font-family)
-  
+    font-family: var(--font-ui)
+
     input::-webkit-outer-spin-button, input::-webkit-inner-spin-button
       -webkit-appearance: none !important
     input[type="number"]
@@ -25,3 +21,42 @@
 
   .hover-row.status-bar
     display: none
+
+  // 窄屏把左右分栏改成上下堆叠，不再把表单字段挤成竖排单字
+  @media only screen and (max-width: 900px)
+    #ProblemConfig > div
+      height: auto !important
+
+    .problem-config-allotment
+      height: auto !important
+
+      .split-view-container
+        display: flex
+        flex-direction: column
+        gap: 16px
+        position: static !important
+        height: auto !important
+
+        > .split-view-view
+          position: static !important
+          left: auto !important
+          top: auto !important
+          width: 100% !important
+          height: auto !important
+
+      .sash-container
+        display: none
+
+      .ConfigMonacoEditor
+        min-height: 220px !important
+        height: 240px !important
+
+      .mantine-Tabs-root
+        padding-left: 0 !important
+
+      .mantine-Group-root
+        flex-wrap: wrap !important
+
+      .mantine-SegmentedControl-root
+        max-width: 100%
+        overflow-x: auto

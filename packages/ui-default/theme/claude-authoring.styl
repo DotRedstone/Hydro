@@ -70,10 +70,10 @@
   font-size: .83rem
   line-height: 1.65
 
-.authoring-workbench__main input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]),
+.authoring-workbench__main input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]):not([type=submit]):not([type=button]):not([type=reset]),
 .authoring-workbench__main select,
 .authoring-workbench__main textarea,
-.administration-layout__main input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]),
+.administration-layout__main input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]):not([type=submit]):not([type=button]):not([type=reset]),
 .administration-layout__main select,
 .administration-layout__main textarea
   max-width: 100%
@@ -268,8 +268,9 @@
   gap: 10px
 
 .authoring-workbench .filter-form select
+  min-width: 78px
   min-height: 40px
-  padding: 8px 10px
+  padding: 8px 28px 8px 10px
 
 .authoring-workbench .section__body.no-padding
   padding: 0
@@ -802,8 +803,8 @@
     flex: 0 0 auto
 
   // 输入框与「…」按钮统一成站内控件：32px 高、6px 圆角、1px 描边。
-  // 下拉是 Element Plus 的 el-select，它自己用 box-shadow 画边框，
-  // 两层一起描边会变成「框中框」，所以只给里层的 wrapper 描边。
+  // Element Plus 的 el-input / el-select 都有内层 wrapper，只给 wrapper 描边，
+  // 去掉内部 input 的边框，避免「框中框」
   .k-schema-right input
     width: 100%
     height: 32px
@@ -813,6 +814,23 @@
     background: var(--c-surface)
     color: var(--c-fg)
     font-size: .84rem
+
+  .k-schema-right .el-input__wrapper
+    min-height: 32px
+    padding: 0 9px
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-sm)
+    background: var(--c-surface)
+    box-shadow: none
+
+  .k-schema-right .el-input__wrapper input,
+  .k-schema-right .el-input__inner
+    height: 30px
+    padding: 0
+    border: 0
+    border-radius: 0
+    background: transparent
+    box-shadow: none
 
   .k-schema-right .el-select
     width: 100%
@@ -825,6 +843,12 @@
     background: var(--c-surface)
     box-shadow: none
     font-size: .84rem
+
+  .k-schema-right .el-select__wrapper input
+    height: auto
+    padding: 0
+    border: 0
+    background: transparent
 
   .k-schema-menu > *
     width: 26px
@@ -842,6 +866,57 @@
   .split-view-view .menu__link
     padding: 5px 10px
     font-size: .86rem
+
+  // 移动端把三栏配置编辑器改为纵向堆叠，不再把文字挤成竖排单字
+  @media only screen and (max-width: 900px)
+    .administration-config-card
+      height: auto
+
+    .administration-config-mount
+      overflow: visible
+
+      .fullscreen-content
+        position: static
+        height: auto
+
+      .split-view
+        height: auto !important
+        overflow: visible !important
+
+      .split-view-container
+        display: flex
+        flex-direction: column
+        position: static !important
+        height: auto !important
+
+        > .split-view-view
+          position: static !important
+          left: auto !important
+          top: auto !important
+          width: 100% !important
+          height: auto !important
+          overflow: visible !important
+          border-bottom: 1px solid var(--c-border)
+
+          > div
+            position: static !important
+            height: auto !important
+            overflow: visible !important
+
+      .monaco-editor
+        min-height: 220px !important
+
+      .sash-container
+        display: none
+
+      .k-schema-item > .k-schema-main
+        flex-direction: column
+        align-items: stretch
+        gap: 8px
+
+      .k-schema-right
+        flex: 1 1 auto
+        width: 100%
 
 .page--manage_setting
   // a family boundary: bigger breathing room above, hairline below

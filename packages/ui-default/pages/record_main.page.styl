@@ -194,13 +194,26 @@
     .record-filter-card .section__tools
       width: 100%
 
+    .record_main__table
+      min-width: 0
+
+    .record_main__table .col--status
+      width: auto
+      min-width: 120px
+
+    .record_main__table .col--problem
+      min-width: 0
+
+    .record_main__table .col--problem-name form.form--inline
+      display: none
+
 // rejudge / cancel-score controls belong to the row, not to the list: they only
 // show up when the row is under the pointer
 .page--record_main .record_main__table .col--problem-name form.form--inline
   display: inline-flex
   align-items: center
   gap: 8px
-  margin-right: 6px
+  margin-left: 10px
   visibility: hidden
 
 .page--record_main .record_main__table tbody tr:hover .col--problem-name form.form--inline,

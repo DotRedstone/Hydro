@@ -16,10 +16,10 @@
     font-variant-numeric: tabular-nums
 
   .col--status
-    border-right: 1px solid $table-border-color
+    border-right: 0
 
   .col--tried, .col--difficulty
-    border-left: 1px solid $table-border-color
+    border-left: 0
 
   +mobile()
     .col--status,
@@ -80,6 +80,10 @@
 
   .training-detail-chapters .training__section:last-child
     border-bottom: 0
+
+  .training-detail-chapters .training__section > .section__header::before,
+  .training-detail-chapters .training__section > .section__header::after
+    content: none
 
   .training-detail-chapters .training__section > .section__header
     display: flex

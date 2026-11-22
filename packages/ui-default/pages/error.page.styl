@@ -1,44 +1,72 @@
-$error_width = 650px
-$twd2_width = 270px
-
 .page--error
-  .error__icon-container,
-  .error__text-container
-    text-align: center
-    margin: rem(20px 0)
+  .error__card
+    max-width: 600px
+    margin: rem(40px) auto rem(56px)
+    padding: rem(36px) rem(36px) rem(30px)
 
-  .error__text-container
-    color: $text-2-color
-    line-height: 1.5
+  .error__code
+    margin: 0 0 rem(6px)
+    font-family: var(--font-code)
+    font-size: .84rem
+    font-weight: 600
+    letter-spacing: .06em
+    color: var(--c-link)
 
-    h1
-      font-size: 4rem
-      color: $text-3-color
-      margin-bottom: rem(20px)
+  .error__title
+    margin: 0 0 rem(12px)
+    font-family: var(--font-display)
+    font-size: clamp(1.6rem, 3vw, 2.15rem)
+    line-height: 1.3
+    color: var(--c-heading)
 
-    li
-      list-style: decimal inside
+  .error__message
+    margin: 0 0 rem(24px)
+    font-size: 1rem
+    line-height: 1.7
+    color: var(--c-fg-2)
 
-  .error__twd2
-    background: url('error/twd2.svg') no-repeat
-    width: $twd2_width
-    height: $twd2_width
-    display: inline-block
+  .error__actions
+    display: flex
+    flex-wrap: wrap
+    gap: 10px
+    margin-bottom: rem(22px)
 
-  +above(rupture.mobile-cutoff)
-    .error__container
-      width: rem(700px)
-      margin: rem(50px) auto
-      position: relative
+    .button
+      margin-bottom: 0
 
-    .error__icon-container
-      float: left
-      width: $twd2_width
+  .error__tech
+    padding: rem(12px) rem(16px)
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-sm)
+    background: var(--c-sunken)
+    font-size: .84rem
+    color: var(--c-fg-3)
 
-    .error__text-container
-      left: rem($twd2_width + 50px)
-      position: absolute
-      top: 50%
-      transform: translateY(-50%)
-      text-align: left
+    summary
+      cursor: pointer
+      font-weight: 500
+      color: var(--c-fg-2)
+
+  .error__tech-list
+    margin: rem(10px) 0 0
+    display: grid
+    grid-template-columns: auto minmax(0, 1fr)
+    gap: 6px 14px
+
+    dt
+      color: var(--c-fg-3)
+
+    dd
       margin: 0
+      color: var(--c-fg-2)
+      overflow-wrap: anywhere
+
+    ol
+      margin: 0
+      padding-left: 1.2em
+      list-style: decimal
+
+  +mobile()
+    .error__card
+      margin: rem(16px) auto rem(24px)
+      padding: rem(24px) rem(20px)

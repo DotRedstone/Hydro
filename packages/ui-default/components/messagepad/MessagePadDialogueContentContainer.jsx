@@ -51,9 +51,9 @@ export default connect(mapStateToProps)(class MessagePadDialogueContentContainer
           if (arr[i].endsWith(':link')) {
             const link = data.params[arr[i].split(':link')[0]];
             if (!link) continue;
-            arr[i] = <a style={{ color: 'wheat' }} href={link} key={i} target="_blank" rel="noreferrer">{link}</a>;
+            arr[i] = <a style={{ color: 'var(--c-link)' }} href={link} key={i} target="_blank" rel="noreferrer">{link}</a>;
           } else {
-            arr[i] = <span style={{ color: 'wheat' }} key={i}>{data.params[arr[i]]}</span>;
+            arr[i] = <span style={{ color: 'var(--c-fg)', fontWeight: 600 }} key={i}>{data.params[arr[i]]}</span>;
           }
         }
         return arr;
@@ -96,7 +96,9 @@ export default connect(mapStateToProps)(class MessagePadDialogueContentContainer
           )}
         </div>
         <ol className="messagepad__content" style={{ overscrollBehavior: 'contain' }} ref={(ref) => { this.setState({ ...this.state, ref }); }}>
-          {this.renderInner()}
+          {this.props.activeId === null
+            ? <li className="messagepad__empty">{i18n('Select a conversation on the left, or start a new message.')}</li>
+            : this.renderInner()}
         </ol>
       </>
     );
