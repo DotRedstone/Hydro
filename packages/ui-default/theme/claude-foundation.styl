@@ -359,6 +359,11 @@
   border-radius: var(--r-sm)
   font-size: .9rem
 
+// 下拉要有放得下「全部」+ 箭头的宽度，否则文案被裁成「全」
+.learning-activity-list-card [name="filter-form"] select
+  min-width: rem(96px)
+  padding-right: rem(26px)
+
 .learning-activity-list-card [name="filter-form"] input
   min-width: 170px
   flex: 1 1 170px

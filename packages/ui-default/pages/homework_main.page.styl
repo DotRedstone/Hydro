@@ -63,9 +63,11 @@ $highlight-button-color = var(--c-warn)
     width: 200px
     padding: 0 10px
 
-  .homework-toolbar select
-    // 右侧要给 form/select 画的下拉箭头留位置
-    padding-right: rem(28px)
+  // 32px 高再叠 8px 上下内边距，正文只剩 16px（行高 29.9px），「全部」被裁掉半个字
+  .homework-toolbar .filter-form select,
+  .homework-toolbar__view select
+    min-width: rem(104px)
+    padding: 0 rem(26px) 0 rem(10px)
 
   .homework-toolbar .button
     padding-left: 12px

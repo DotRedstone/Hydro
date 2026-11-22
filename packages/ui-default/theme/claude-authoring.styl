@@ -739,7 +739,14 @@
   .administration-config-mount
     flex: 1 1 auto
     min-height: 0
-    padding: 0
+    // 配置编辑器自己按三栏排（代码 / 字段 / 属性），最后一栏原本被视口右缘裁掉；
+    // 留出 24px 才看得见它的右边框
+    padding: 0 24px 0 0
+
+  // 标题原来是 15px 左内边距，比下面的代码面板还靠左；和内容同一条边
+  .administration-config-card > .section__header
+    padding-left: 24px
+    padding-right: 24px
 
 .page--manage_setting
   // a family boundary: bigger breathing room above, hairline below
@@ -831,4 +838,17 @@
   // 布尔项的人话在复选框里，键名一并不显示（放在最后，权重相同也要压住上面那条）
   .form__item:has(.checkbox-container) > label
     font-size: 0
+
+  // 多行说明要悬挂缩进：复选框固定 17px，文字成为 flex item 后在自身宽度内换行，
+  // 第二行不会再缩回复选框下面（原来是 inline-block，整段文字绕在框外侧）
+  // 全局 `.checkbox { display: inline-block !important }`（表单组件基线），
+  // 这里只能对这条规则用一次 !important，范围限定在本页的布尔项
+  .section__body .form__item label.checkbox
+    display: inline-flex !important
+    align-items: flex-start
+    gap: 8px
+
+  .section__body .form__item label.checkbox > input
+    flex: 0 0 auto
+    margin-top: 3px
 
