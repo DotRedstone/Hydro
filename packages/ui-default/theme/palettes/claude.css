@@ -72,6 +72,8 @@
 
   /* brand: monochrome logos follow the foreground */
   --logo-filter: none;
+  --avatar-filter: none;
+  --captcha-filter: none;
 
   /* type (the user-chosen --font-family / --code-font-family win, see html5.html) */
   --font-ui: "Inter", "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, sans-serif;
@@ -159,6 +161,8 @@
   --c-cat-8: #8B867E;
 
   --logo-filter: brightness(0) invert(1);
+  --avatar-filter: brightness(0.88);
+  --captcha-filter: invert(0.88) hue-rotate(180deg);
 
   /* dark mode separates with elevation: cards sit one step above the page and
      carry a faint shadow, so the layout does not need a border everywhere */

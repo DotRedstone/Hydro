@@ -9,7 +9,6 @@
   font-style: normal
 
 .icon
-  font-family: $icon-font-name !important;{{fontSize}}
   speak: none
   font-style: normal
   font-weight: normal
@@ -18,5 +17,8 @@
   line-height: 1
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
+
+  &::before
+    font-family: $icon-font-name !important;{{fontSize}}
 
 {{cssString}}

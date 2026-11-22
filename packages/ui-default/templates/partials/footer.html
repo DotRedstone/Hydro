@@ -91,10 +91,14 @@
       <div class="footer__extra-right">
         <ol class="clearfix">
           {%- for html in (handler.domain.ui.footer_extra_html|default('')).split('\n') -%}
+            {%- if html|trim -%}
             <li class="footer__extra-link-item">{{ html|safe }}</li>
+            {%- endif -%}
           {%- endfor -%}
           {%- for html in (model.system.get('ui-default.footer_extra_html')|default('')).split('\n') -%}
+            {%- if html|trim -%}
             <li class="footer__extra-link-item">{{ html|safe }}</li>
+            {%- endif -%}
           {%- endfor -%}
           <li class="footer__extra-link-item">Worker {{ process.env.NODE_APP_INSTANCE }}, {{ Date.now() - handler.args.__start }}ms</li>
           <!-- Prepare {{ handler.args.__prepareDone - handler.args.__prepare }}ms -->
