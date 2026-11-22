@@ -1263,3 +1263,37 @@ Search problems or users: 搜索题目或用户
 Searching...: 搜索中……
 Nothing found: 没有找到相关内容
 Write your solution here, then press F9 to test it or F10 to submit.: 在这里写代码，写完按 F9 自测、F10 提交。
+# [UI Audit]
+New Message: 新建消息
+Select a conversation on the left, or start a new message.: 请选择左侧会话，或发起新消息。
+Back to Home: 返回首页
+Go Back: 返回上一页
+Search training...: 搜索训练计划...
+Import Problems: 导入题目
+Upload zipfile: 上传压缩包
+preferredPrefix: 题号前缀
+The preferred problem ID prefix.: 导入后自动添加的题号前缀。
+Make the problem hidden.: 将导入的题目设为隐藏。
+Keep original user: 保留原作者
+Keep original problem owner. Only used if this problemset is exported from current system.: 保留原题目的上传者，仅当题包由本系统导出时有效。
+About preferredPrefix option: 关于题号前缀
+Change avatar: 更换头像
+Rounded Corners: 圆角界面
+Skip Animation: 减少动效
+Enable Time Ago: 显示相对时间
+Font Family: 界面字体
+Select Custom Font: 选择自定义字体
+Find custom font: 查找字体
+Code Font Family: 代码字体
+Select Custom Code Font: 选择自定义代码字体
+Preferred Editor Type: 默认编辑器模式
+Show Invisible Characters: 显示空白字符
+Auto Format Code: 自动格式化代码
+Servers: 服务器
+Compile Commands: 编译命令
+Handled requests: 已处理请求
+Configuration: 配置管理
+UnRank: 取消排名
+Email Account: 邮箱账号
+Link: 绑定
+Change: 修改

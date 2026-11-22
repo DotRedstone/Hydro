@@ -106,7 +106,7 @@
             <span class="problem__tag-item interactive">{{ _('Uploaded By') }}: {{ user.render_inline(udoc, badge=false) }}</span>
           {% endif %}
           {% if pdoc.tag.length %}
-            <span name="show_tags" class="problem__tag-item interactive nojs--hide icon icon-tag">{{ _('Tags') + '>' }}</span>
+            <span name="show_tags" class="problem__tag-item interactive nojs--hide icon icon-tag">{{ _('Tags') }}</span>
             {%- for tag in pdoc.tag -%}
               <span class="problem__tag-item tags hasjs--hide">{{ tag }}</span>
             {%- endfor -%}

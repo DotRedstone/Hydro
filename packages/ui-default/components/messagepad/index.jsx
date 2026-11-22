@@ -36,7 +36,7 @@ export default connect(null, mapDispatchToProps)(class MessagePadContainer exten
             >
               <Icon name="add" />
               {' '}
-              {i18n('New')}
+              {i18n('New Message')}
             </button>
           </div>
           <MessagePadDialogueList />
