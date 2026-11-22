@@ -752,6 +752,97 @@
   .administration-config-mount > *
     max-width: 100%
 
+  // 嵌入的配置编辑器自带一套排版：区块标题用衬线体 21px、行高 70px、输入框
+  // 和「…」按钮各是独立的小盒子。这里只把它的观感拉回设计令牌（字体、行高、
+  // 分隔线、圆角），结构不动。
+  // 三栏原本是「白代码 / 米色表单 / 米色属性」三种底色，看着像三个程序拼在一起；
+  // 统一成同一张纸，区块标题用一条浅色带分节
+  .split-view-view
+    background: var(--c-surface)
+
+  .k-form
+    background: var(--c-surface)
+
+  .k-schema-header
+    margin: 0
+    padding: 10px 16px
+    border-bottom: 1px solid var(--c-border)
+    background: var(--c-sunken)
+    font-family: var(--font-ui)
+    font-size: .95rem
+    font-weight: 600
+    letter-spacing: 0
+    color: var(--c-fg)
+
+  .k-schema-item
+    padding: 0
+    border-bottom: 1px solid token-alpha(var(--c-border), 60%)
+    background: transparent
+
+  .k-schema-item > .k-schema-main
+    display: flex
+    align-items: center
+    gap: 14px
+    min-height: 46px
+    padding: 7px 16px
+
+  .k-schema-item:hover > .k-schema-main
+    background: var(--c-sunken)
+
+  .k-schema-left
+    flex: 1 1 auto
+    min-width: 0
+    font-size: .88rem
+
+  .k-schema-right
+    flex: 0 0 54%
+    min-width: 0
+
+  .k-schema-menu
+    flex: 0 0 auto
+
+  // 输入框与「…」按钮统一成站内控件：32px 高、6px 圆角、1px 描边。
+  // 下拉是 Element Plus 的 el-select，它自己用 box-shadow 画边框，
+  // 两层一起描边会变成「框中框」，所以只给里层的 wrapper 描边。
+  .k-schema-right input
+    width: 100%
+    height: 32px
+    padding: 0 9px
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-sm)
+    background: var(--c-surface)
+    color: var(--c-fg)
+    font-size: .84rem
+
+  .k-schema-right .el-select
+    width: 100%
+
+  .k-schema-right .el-select__wrapper
+    min-height: 32px
+    padding: 0 9px
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-sm)
+    background: var(--c-surface)
+    box-shadow: none
+    font-size: .84rem
+
+  .k-schema-menu > *
+    width: 26px
+    height: 26px
+    padding: 0
+    border: 1px solid transparent
+    border-radius: var(--r-sm)
+    color: var(--c-fg-3)
+    background: transparent
+
+  // 右栏那组菜单是站内的 .menu，按管理页 41px 的行高排在这里显得松散
+  .split-view-view .menu__item
+    min-height: 0
+
+  .split-view-view .menu__link
+    padding: 5px 10px
+    font-size: .86rem
+
 .page--manage_setting
   // a family boundary: bigger breathing room above, hairline below
   .section__header
