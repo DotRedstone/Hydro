@@ -137,7 +137,6 @@ Ask for a new link and open it right away, it stays valid for {0} hour(s).: Ask 
 Set a strong new password: Set a strong new password
 Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.: Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.
 Enter a valid email address.: Enter a valid email address.
-No account is registered with this email.: No account is registered with this email.
 Mail service is not configured yet.: Mail service is not configured yet.
 Failed to send the mail, please try again later.: Failed to send the mail, please try again later.
 The reset link is invalid or has expired.: The reset link is invalid or has expired.

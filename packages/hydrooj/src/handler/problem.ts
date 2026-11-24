@@ -294,6 +294,31 @@ export class ProblemRandomHandler extends Handler {
     }
 }
 
+export async function pickDefaultLang(
+    domainId: string,
+    udoc: User,
+    range: Record<string, string> | [string, string][],
+    queryLang?: string,
+): Promise<string> {
+    const langRange: Record<string, string> = Array.isArray(range) ? Object.fromEntries(range) : range;
+    const keys = Object.keys(langRange);
+    const wanted = queryLang || udoc.codeLang;
+    if (wanted && langRange[wanted]) return wanted;
+    const recent = await record.getMulti(domainId, { uid: udoc._id })
+        .sort({ _id: -1 }).limit(5).project({ lang: 1 }).toArray().catch(() => []);
+    for (const rdoc of recent) {
+        if (rdoc.lang && rdoc.lang !== 'bash' && langRange[rdoc.lang]) return rdoc.lang;
+    }
+    const systemLang = system.get('codeLang');
+    if (systemLang && langRange[systemLang]) return systemLang;
+    const preferred = [
+        'cc.cc20o2', 'cc.cc17o2', 'cc.cc14o2', 'cc', 'c',
+        'py.py3', 'py', 'java', 'go', 'rs', 'js',
+    ];
+    for (const key of preferred) if (langRange[key]) return key;
+    return keys.find((key) => key !== 'bash') || keys[0] || '';
+}
+
 export class ProblemDetailHandler extends ContestDetailBaseHandler {
     pdoc: ProblemDoc;
     udoc: User;
@@ -421,8 +446,8 @@ export class ProblemDetailHandler extends ContestDetailBaseHandler {
         Object.assign(this.response.body, data);
         // 在线编辑模式（scratchpad）也用同一套默认语言规则，别一进来就是 bash
         this.response.body.defaultLang = await pickDefaultLang(
-            this.domain._id, this.user, this.pdoc.config.langs ? Object.fromEntries(
-                (this.pdoc.config.langs as string[]).map((i) => [i, setting.langs[i]?.display || i]),
+            this.domain._id, this.user, (typeof this.pdoc.config === 'object' && this.pdoc.config.langs) ? Object.fromEntries(
+                this.pdoc.config.langs.map((i) => [i, setting.langs[i]?.display || i]),
             ) : setting.SETTINGS_BY_KEY.codeLang.range,
             this.request.query.lang as string,
         );
@@ -497,30 +522,6 @@ export class ProblemDetailHandler extends ContestDetailBaseHandler {
  * 都要重选。这里依次尝试：?lang= → 个人设置 → 最近提交用过的语言（跳过 bash，它
  * 只是跑脚本用的）→ 站点默认 → 常见竞赛语言，最后才回落到第一个非 bash 项。
  */
-export async function pickDefaultLang(
-    domainId: ObjectId,
-    udoc: User,
-    langRange: Record<string, string>,
-    queryLang?: string,
-): Promise<string> {
-    const keys = Object.keys(langRange);
-    const wanted = queryLang || udoc.codeLang;
-    if (wanted && langRange[wanted]) return wanted;
-    const recent = await record.getMulti(domainId, { uid: udoc._id })
-        .sort({ _id: -1 }).limit(5).project({ lang: 1 }).toArray().catch(() => []);
-    for (const rdoc of recent) {
-        if (rdoc.lang && rdoc.lang !== 'bash' && langRange[rdoc.lang]) return rdoc.lang;
-    }
-    const systemLang = system.get('codeLang');
-    if (systemLang && langRange[systemLang]) return systemLang;
-    const preferred = [
-        'cc.cc20o2', 'cc.cc17o2', 'cc.cc14o2', 'cc', 'c',
-        'py.py3', 'py', 'java', 'go', 'rs', 'js',
-    ];
-    for (const key of preferred) if (langRange[key]) return key;
-    return keys.find((key) => key !== 'bash') || keys[0] || '';
-}
-
 export class ProblemSubmitHandler extends ProblemDetailHandler {
     @param('tid', Types.ObjectId, true)
     async prepare(domainId: string, tid?: ObjectId) {

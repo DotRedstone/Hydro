@@ -20,9 +20,17 @@ export async function inc(op: string, ident: string, periodSecs: number, maxOper
     }
 }
 
+/** 只读当前窗口内的计数，不自增；窗口划分与 inc 一致 */
+export async function get(op: string, ident: string, periodSecs: number) {
+    const now = Date.now();
+    const expireAt = new Date(now - (now % (periodSecs * 1000)) + periodSecs * 1000);
+    const doc = await coll.findOne({ op, ident, expireAt });
+    return doc?.opcount || 0;
+}
+
 export const apply = () => db.ensureIndexes(
     coll,
     { key: { expireAt: -1 }, name: 'expire', expireAfterSeconds: 0 },
     { key: { op: 1, ident: 1, expireAt: 1 }, name: 'unique', unique: true },
 );
-global.Hydro.model.opcount = { inc, apply };
+global.Hydro.model.opcount = { inc, get, apply };

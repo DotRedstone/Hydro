@@ -20,6 +20,7 @@ import BlackListModel from '../model/blacklist';
 import { PERM, PRIV, STATUS } from '../model/builtin';
 import * as ContestModel from '../model/contest';
 import domain from '../model/domain';
+import * as opcount from '../model/opcount';
 import * as oplog from '../model/oplog';
 import problem, { ProblemDoc } from '../model/problem';
 import ScheduleModel from '../model/schedule';
@@ -50,8 +51,28 @@ async function successfulAuth(this: Handler, udoc: User) {
     }
 }
 
-function isCaptchaRequired(h: Handler) {
-    return (h.session.loginFail || 0) >= CAPTCHA_THRESHOLD;
+// [Login Fail] 失败计数记在会话与服务端：按用户名（阈值 CAPTCHA_THRESHOLD），
+// 按 IP 另设更高阈值 limit.login_captcha_ip（0 关闭），避免共享出口 IP 被别人连累
+const LOGIN_FAIL_WINDOW = 15 * 60;
+const failKey = (uname: string) => uname.trim().toLowerCase();
+const ipThreshold = () => Math.max(0, Number(system.get('limit.login_captcha_ip') ?? 20) || 0);
+
+async function isCaptchaRequired(h: Handler, uname = '') {
+    if ((h.session.loginFail || 0) >= CAPTCHA_THRESHOLD) return true;
+    const ipLimit = ipThreshold();
+    const [byIp, byName] = await Promise.all([
+        ipLimit ? opcount.get('user_login_fail', h.request.ip, LOGIN_FAIL_WINDOW) : 0,
+        uname ? opcount.get('user_login_fail_id', failKey(uname), LOGIN_FAIL_WINDOW) : 0,
+    ]);
+    return byName >= CAPTCHA_THRESHOLD || (ipLimit > 0 && byIp >= ipLimit);
+}
+
+async function recordLoginFail(h: Handler, uname: string) {
+    h.session.loginFail = (h.session.loginFail || 0) + 1;
+    await Promise.all([
+        ipThreshold() ? opcount.inc('user_login_fail', h.request.ip, LOGIN_FAIL_WINDOW, Number.MAX_SAFE_INTEGER) : null,
+        opcount.inc('user_login_fail_id', failKey(uname), LOGIN_FAIL_WINDOW, Number.MAX_SAFE_INTEGER),
+    ]);
 }
 
 /** 校验并一次性消耗会话中的验证码，避免同一张图被重复使用 */
@@ -77,15 +98,7 @@ function inlineErrorText(h: Handler, e: any) {
 class UserLoginHandler extends Handler {
     noCheckPermView = true;
 
-    private needsCaptcha() {
-        return isCaptchaRequired(this);
-    }
-
-    private recordLoginFail() {
-        this.session.loginFail = (this.session.loginFail || 0) + 1;
-    }
-
-    private renderWithError(message: string, uname: string, redirect: string) {
+    private async renderWithError(message: string, uname: string, redirect: string) {
         this.response.template = 'user_login.html';
         this.response.body = {
             redirect,
@@ -93,7 +106,7 @@ class UserLoginHandler extends Handler {
             error: message,
             builtInLogin: system.get('server.login'),
             loginMethods: this.loginMethods,
-            captchaRequired: this.needsCaptcha(),
+            captchaRequired: await isCaptchaRequired(this, uname),
         };
     }
 
@@ -106,7 +119,7 @@ class UserLoginHandler extends Handler {
             error: '',
             builtInLogin: system.get('server.login'),
             loginMethods: this.loginMethods,
-            captchaRequired: this.needsCaptcha(),
+            captchaRequired: await isCaptchaRequired(this),
         };
     }
 
@@ -126,13 +139,20 @@ class UserLoginHandler extends Handler {
         const inline = !judge && (this.request.headers.accept || '').includes('text/html');
         try {
             if (!judge && !system.get('server.login')) throw new BuiltinLoginError();
-            if (!judge && this.needsCaptcha()) consumeCaptcha(this, captcha);
+            // 限流放在查用户之前：不存在的用户名同样消耗额度
+            await Promise.all([
+                this.limitRate('user_login', 60, 30),
+                this.limitRate('user_login_id', 60, 5, failKey(uname)),
+                oplog.log(this, 'user.login', { redirect }),
+            ]);
+            if (!judge && await isCaptchaRequired(this, uname)) consumeCaptcha(this, captcha);
             let udoc = await user.getByEmail(domainId, uname);
             udoc ||= await user.getByUname(domainId, uname);
             if (judge && !system.get('server.login') && !udoc?.hasPriv(PRIV.PRIV_JUDGE)) throw new BuiltinLoginError();
             if (!udoc) {
-                this.recordLoginFail();
-                throw new UserNotFoundError(uname);
+                await recordLoginFail(this, uname);
+                // 与密码错误同一种错误，避免任何调用方据此枚举用户名
+                throw new LoginError(uname);
             }
             if (system.get('system.contestmode') && !udoc.hasPriv(PRIV.PRIV_EDIT_SYSTEM)) {
                 if (udoc._loginip && udoc._loginip !== this.request.ip) throw new ValidationError('ip');
@@ -141,17 +161,18 @@ class UserLoginHandler extends Handler {
                     if (udocs.length) throw new ValidationError('ip');
                 }
             }
-            await Promise.all([
-                this.limitRate('user_login', 60, 30),
-                this.limitRate('user_login_id', 60, 5, uname),
-                oplog.log(this, 'user.login', { redirect }),
-            ]);
             if (udoc.tfa || udoc.authn) {
                 if (udoc.tfa && tfa) {
-                    if (!verifyTFA(udoc._tfa, tfa)) throw new InvalidTokenError('2FA');
+                    if (!verifyTFA(udoc._tfa, tfa)) {
+                        await recordLoginFail(this, uname);
+                        throw new InvalidTokenError('2FA');
+                    }
                 } else if (udoc.authn && authnChallenge) {
                     const challenge = await token.get(authnChallenge, token.TYPE_WEBAUTHN);
-                    if (!challenge || challenge.uid !== udoc._id) throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_WEBAUTHN]);
+                    if (!challenge || challenge.uid !== udoc._id) {
+                        await recordLoginFail(this, uname);
+                        throw new InvalidTokenError(token.TYPE_TEXTS[token.TYPE_WEBAUTHN]);
+                    }
                     if (!challenge.verified) throw new ValidationError('challenge');
                     await token.del(authnChallenge, token.TYPE_WEBAUTHN);
                 } else throw new ValidationError('2FA', 'Authn');
@@ -159,7 +180,7 @@ class UserLoginHandler extends Handler {
             try {
                 await udoc.checkPassword(password);
             } catch (e) {
-                this.recordLoginFail();
+                await recordLoginFail(this, uname);
                 throw e;
             }
             if (!udoc.hasPriv(PRIV.PRIV_USER_PROFILE)) throw new BlacklistedError(uname, udoc.banReason);
@@ -177,7 +198,7 @@ class UserLoginHandler extends Handler {
             } else if (e instanceof OpcountExceededError) {
                 message = this.translate('Too many attempts, please try again later.');
             }
-            this.renderWithError(message, uname, redirect);
+            await this.renderWithError(message, uname, redirect);
         }
     }
 }
@@ -448,7 +469,8 @@ function resetExpireHours() {
     return Math.max(1, Math.round(system.get('session.unsaved_expire_seconds') / 3600));
 }
 
-const MAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// 域名各段不含点，相邻量词字符集不重叠，避免回溯爆炸
+const MAIL_PATTERN = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
 
 class UserLostPassHandler extends Handler {
     noCheckPermView = true;
@@ -474,13 +496,19 @@ class UserLostPassHandler extends Handler {
             return;
         }
         try {
-            const udoc = await user.getByEmail('system', address);
-            if (!udoc) throw new UserNotFoundError(address);
+            // 限流放在查邮箱之前，未注册的邮箱同样消耗额度
             await Promise.all([
                 this.limitRate('send_mail', 3600, 30),
-                this.limitRate('send_mail', 60, 1, address),
+                this.limitRate('send_mail', 60, 1, address.toLowerCase()),
                 oplog.log(this, 'user.lostpass', {}),
             ]);
+            const udoc = await user.getByEmail('system', address);
+            if (!udoc) {
+                // 未注册也显示“已发送”，不暴露邮箱是否存在
+                this.response.template = 'user_lostpass_mail_sent.html';
+                this.response.body = { mail: address, expireHours: resetExpireHours() };
+                return;
+            }
             const [tid] = await token.add(
                 token.TYPE_LOSTPASS,
                 system.get('session.unsaved_expire_seconds'),
@@ -502,9 +530,10 @@ class UserLostPassHandler extends Handler {
             if (!(e instanceof UserFacingError)) throw e;
             // 浏览器表单：错误留在页面上，别把人甩到错误页
             let message = inlineErrorText(this, e);
-            if (e instanceof UserNotFoundError) message = this.translate('No account is registered with this email.');
-            else if (e instanceof OpcountExceededError) message = this.translate('Too many attempts, please try again later.');
-            else if (e instanceof SendMailError) message = this.translate('Failed to send the mail, please try again later.');
+            // 两类错误结构相同，用 else if 会让 TS 把第二个分支收窄成 never，所以分开判断
+            const err: Error = e;
+            if (err instanceof SendMailError) message = this.translate('Failed to send the mail, please try again later.');
+            if ((e as Error) instanceof OpcountExceededError) message = this.translate('Too many attempts, please try again later.');
             this.render(address, message);
         }
     }
