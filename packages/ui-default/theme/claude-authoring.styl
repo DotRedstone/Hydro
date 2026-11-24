@@ -767,8 +767,8 @@
   .k-schema-header
     margin: 0
     padding: 10px 16px
-    border-bottom: 1px solid var(--c-border)
-    background: var(--c-sunken)
+    border-bottom: 1px solid var(--c-border-strong)
+    background: transparent
     font-family: var(--font-ui)
     font-size: .95rem
     font-weight: 600
@@ -809,18 +809,18 @@
     width: 100%
     height: 32px
     padding: 0 9px
-    border: 1px solid var(--c-border)
+    border: 1px solid var(--c-border-strong)
     border-radius: var(--r-sm)
-    background: var(--c-surface)
+    background: var(--c-bg)
     color: var(--c-fg)
     font-size: .84rem
 
   .k-schema-right .el-input__wrapper
     min-height: 32px
     padding: 0 9px
-    border: 1px solid var(--c-border)
+    border: 1px solid var(--c-border-strong)
     border-radius: var(--r-sm)
-    background: var(--c-surface)
+    background: var(--c-bg)
     box-shadow: none
 
   .k-schema-right .el-input__wrapper input,
@@ -838,9 +838,9 @@
   .k-schema-right .el-select__wrapper
     min-height: 32px
     padding: 0 9px
-    border: 1px solid var(--c-border)
+    border: 1px solid var(--c-border-strong)
     border-radius: var(--r-sm)
-    background: var(--c-surface)
+    background: var(--c-bg)
     box-shadow: none
     font-size: .84rem
 
@@ -850,9 +850,17 @@
     border: 0
     background: transparent
 
+  .k-schema-menu
+    display: flex
+    align-items: center
+    align-self: center
+
   .k-schema-menu > *
-    width: 26px
-    height: 26px
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    width: 32px
+    height: 32px
     padding: 0
     border: 1px solid transparent
     border-radius: var(--r-sm)
