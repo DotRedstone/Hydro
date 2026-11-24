@@ -142,3 +142,179 @@
   --hl-operator: #8ABEB7;
   --hl-selection: #373B41;
 }
+
+/* Tokyo Night */
+:root.code--tokyo-night {
+  --hl-bg: #1A1B26;
+  --hl-fg: #C0CAF5;
+  --hl-comment: #7B82A3;
+  --hl-punct: #A9B1D6;
+  --hl-keyword: #BB9AF7;
+  --hl-string: #9ECE6A;
+  --hl-number: #FF9E64;
+  --hl-function: #7AA2F7;
+  --hl-tag: #F7768E;
+  --hl-variable: #E0AF68;
+  --hl-operator: #89DDFF;
+  --hl-selection: #283457;
+}
+
+/* Tokyo Night Day */
+:root.code--tokyo-night-day {
+  --hl-bg: #E1E2E7;
+  --hl-fg: #3760BF;
+  --hl-comment: #5C627F;
+  --hl-punct: #536297;
+  --hl-keyword: #7D45C6;
+  --hl-string: #516C34;
+  --hl-number: #9C5100;
+  --hl-function: #2462B6;
+  --hl-tag: #BF214F;
+  --hl-variable: #7B5F37;
+  --hl-operator: #006A83;
+  --hl-selection: #B7C1E3;
+}
+
+/* Catppuccin Mocha */
+:root.code--catppuccin-mocha {
+  --hl-bg: #1E1E2E;
+  --hl-fg: #CDD6F4;
+  --hl-comment: #82869E;
+  --hl-punct: #9399B2;
+  --hl-keyword: #CBA6F7;
+  --hl-string: #A6E3A1;
+  --hl-number: #FAB387;
+  --hl-function: #89B4FA;
+  --hl-tag: #F38BA8;
+  --hl-variable: #F9E2AF;
+  --hl-operator: #89DCEB;
+  --hl-selection: #45475A;
+}
+
+/* Catppuccin Latte */
+:root.code--catppuccin-latte {
+  --hl-bg: #EFF1F5;
+  --hl-fg: #4C4F69;
+  --hl-comment: #6A6D7A;
+  --hl-punct: #6B6D7E;
+  --hl-keyword: #8839EF;
+  --hl-string: #327D22;
+  --hl-number: #BC4A08;
+  --hl-function: #1D62EB;
+  --hl-tag: #D20F39;
+  --hl-variable: #986114;
+  --hl-operator: #0373A0;
+  --hl-selection: #CCD0DA;
+}
+
+/* Gruvbox Dark */
+:root.code--gruvbox-dark {
+  --hl-bg: #282828;
+  --hl-fg: #EBDBB2;
+  --hl-comment: #9B8D7F;
+  --hl-punct: #A89984;
+  --hl-keyword: #FB5440;
+  --hl-string: #B8BB26;
+  --hl-number: #D3869B;
+  --hl-function: #FABD2F;
+  --hl-tag: #8EC07C;
+  --hl-variable: #83A598;
+  --hl-operator: #FE8019;
+  --hl-selection: #504945;
+}
+
+/* Gruvbox Light */
+:root.code--gruvbox-light {
+  --hl-bg: #FBF1C7;
+  --hl-fg: #3C3836;
+  --hl-comment: #786B5F;
+  --hl-punct: #776B60;
+  --hl-keyword: #9D0006;
+  --hl-string: #746F0D;
+  --hl-number: #8F3F71;
+  --hl-function: #946110;
+  --hl-tag: #417956;
+  --hl-variable: #076678;
+  --hl-operator: #AF3A03;
+  --hl-selection: #D5C4A1;
+}
+
+/* One Light */
+:root.code--one-light {
+  --hl-bg: #FAFAFA;
+  --hl-fg: #383A42;
+  --hl-comment: #707175;
+  --hl-punct: #383A42;
+  --hl-keyword: #A626A4;
+  --hl-string: #40813F;
+  --hl-number: #986801;
+  --hl-function: #3A6CDA;
+  --hl-tag: #C44A3F;
+  --hl-variable: #9A6A01;
+  --hl-operator: #0179AD;
+  --hl-selection: #E5E5E6;
+}
+
+/* GitHub Dark */
+:root.code--github-dark {
+  --hl-bg: #0D1117;
+  --hl-fg: #E6EDF3;
+  --hl-comment: #8B949E;
+  --hl-punct: #C9D1D9;
+  --hl-keyword: #FF7B72;
+  --hl-string: #A5D6FF;
+  --hl-number: #79C0FF;
+  --hl-function: #D2A8FF;
+  --hl-tag: #7EE787;
+  --hl-variable: #FFA657;
+  --hl-operator: #FF7B72;
+  --hl-selection: #264F78;
+}
+
+/* Everforest */
+:root.code--everforest {
+  --hl-bg: #2D353B;
+  --hl-fg: #D3C6AA;
+  --hl-comment: #949F97;
+  --hl-punct: #9DA9A0;
+  --hl-keyword: #E67E80;
+  --hl-string: #A7C080;
+  --hl-number: #D699B6;
+  --hl-function: #83C092;
+  --hl-tag: #E69875;
+  --hl-variable: #DBBC7F;
+  --hl-operator: #7FBBB3;
+  --hl-selection: #475258;
+}
+
+/* Kanagawa */
+:root.code--kanagawa {
+  --hl-bg: #1F1F28;
+  --hl-fg: #DCD7BA;
+  --hl-comment: #898881;
+  --hl-punct: #9CABCA;
+  --hl-keyword: #957FB8;
+  --hl-string: #98BB6C;
+  --hl-number: #D27E99;
+  --hl-function: #7E9CD8;
+  --hl-tag: #E46876;
+  --hl-variable: #E6C384;
+  --hl-operator: #C0A36E;
+  --hl-selection: #2D4F67;
+}
+
+/* Rosé Pine */
+:root.code--rose-pine {
+  --hl-bg: #191724;
+  --hl-fg: #E0DEF4;
+  --hl-comment: #827F97;
+  --hl-punct: #908CAA;
+  --hl-keyword: #528AA1;
+  --hl-string: #F6C177;
+  --hl-number: #EBBCBA;
+  --hl-function: #9CCFD8;
+  --hl-tag: #EB6F92;
+  --hl-variable: #C4A7E7;
+  --hl-operator: #528AA1;
+  --hl-selection: #403D52;
+}

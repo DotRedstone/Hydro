@@ -22,6 +22,17 @@ export const CODE_THEMES: readonly CodeThemeMeta[] = [
   { id: 'solarized-dark', label: 'Solarized Dark', dark: true },
   { id: 'nord', label: 'Nord', dark: true },
   { id: 'tomorrow-night', label: 'Tomorrow Night', dark: true },
+  { id: 'tokyo-night', label: 'Tokyo Night', dark: true },
+  { id: 'tokyo-night-day', label: 'Tokyo Night Day', dark: false },
+  { id: 'catppuccin-mocha', label: 'Catppuccin Mocha', dark: true },
+  { id: 'catppuccin-latte', label: 'Catppuccin Latte', dark: false },
+  { id: 'gruvbox-dark', label: 'Gruvbox Dark', dark: true },
+  { id: 'gruvbox-light', label: 'Gruvbox Light', dark: false },
+  { id: 'one-light', label: 'One Light', dark: false },
+  { id: 'github-dark', label: 'GitHub Dark', dark: true },
+  { id: 'everforest', label: 'Everforest', dark: true },
+  { id: 'kanagawa', label: 'Kanagawa', dark: true },
+  { id: 'rose-pine', label: 'Rosé Pine', dark: true },
 ];
 
 export const DEFAULT_CODE_THEME = 'follow';
