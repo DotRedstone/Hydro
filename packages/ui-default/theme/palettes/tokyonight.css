@@ -1,0 +1,117 @@
+/* Palette: tokyonight — Tokyo Night */
+/* 浅色 :root.theme--tokyonight；深色 :root.theme--tokyonight.mode--dark。由知名配色移植，文字对比度微调至 ≥4.6。 */
+/* --c-bg 两版须分别等于 themes.ts 里的 light / dark。只覆盖颜色类令牌。 */
+
+:root.theme--tokyonight {
+  color-scheme: light;
+
+  --c-bg: #E1E2E7;
+  --c-surface: #F2F3F6;
+  --c-sunken: #D5D6DB;
+  --c-hover: #D9DAE2;
+  --c-border: #C4C8DA;
+  --c-border-strong: #A8AECB;
+  --c-nav-bg: rgba(225, 226, 231, 0.88);
+  --c-overlay: rgba(50, 86, 172, 0.34);
+
+  --c-fg: #3256AC;
+  --c-fg-2: #4A5889;
+  --c-fg-3: #4C5989;
+  --c-heading: #2A4A9A;
+
+  --c-accent: #3F87EB;
+  --c-accent-hover: #5695ED;
+  --c-link: #215AA8;
+  --c-accent-soft: #C7D3E8;
+  --c-accent-fg: #1F1F1F;
+  --c-focus-ring: rgba(63, 135, 235, 0.3);
+
+  --c-ok: #4A6230;
+  --c-ok-soft: #CCD0CD;
+  --c-bad: #B01E49;
+  --c-warn: #705632;
+  --c-warn-soft: #CFCCCA;
+  --c-info: #006385;
+  --c-neutral: #4C5989;
+  --c-neutral-soft: #D5D6DB;
+
+  --c-code-bg: #D5D6DB;
+  --c-code-fg: #215AA8;
+  --c-mark: #F2DFA8;
+  --c-inverse-bg: #3256AC;
+  --c-inverse-fg: #E1E2E7;
+
+  --c-cat-1: #2E7DE9;
+  --c-cat-2: #B15C00;
+  --c-cat-3: #587539;
+  --c-cat-4: #007197;
+  --c-cat-5: #9854F1;
+  --c-cat-6: #8C6C3E;
+  --c-cat-7: #F52A65;
+  --c-cat-8: #6172B0;
+
+  --logo-filter: none;
+  --avatar-filter: none;
+  --captcha-filter: none;
+
+  --shadow-pop: 0 1px 2px rgba(50, 86, 172, 0.07), 0 8px 24px rgba(50, 86, 172, 0.12);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(50, 86, 172, 0.06), 0 18px 44px rgba(50, 86, 172, 0.1);
+}
+
+:root.theme--tokyonight.mode--dark {
+  color-scheme: dark;
+
+  --c-bg: #1A1B26;
+  --c-surface: #24283B;
+  --c-sunken: #16161E;
+  --c-hover: #292E42;
+  --c-border: #292E42;
+  --c-border-strong: #3B4261;
+  --c-nav-bg: rgba(26, 27, 38, 0.9);
+  --c-overlay: rgba(0, 0, 0, 0.56);
+
+  --c-fg: #C0CAF5;
+  --c-fg-2: #A9B1D6;
+  --c-fg-3: #8890B8;
+  --c-heading: #D5DCFA;
+
+  --c-accent: #7AA2F7;
+  --c-accent-hover: #8EB0F8;
+  --c-link: #7DCFFF;
+  --c-accent-soft: #293147;
+  --c-accent-fg: #1A1B26;
+  --c-focus-ring: rgba(122, 162, 247, 0.3);
+
+  --c-ok: #9ECE6A;
+  --c-ok-soft: #2C3430;
+  --c-bad: #F7768E;
+  --c-warn: #E0AF68;
+  --c-warn-soft: #3A3331;
+  --c-info: #7AA2F7;
+  --c-neutral: #8890B8;
+  --c-neutral-soft: #16161E;
+
+  --c-code-bg: #16161E;
+  --c-code-fg: #7DCFFF;
+  --c-mark: #3D4A2E;
+  --c-inverse-bg: #C0CAF5;
+  --c-inverse-fg: #1A1B26;
+
+  --c-cat-1: #7AA2F7;
+  --c-cat-2: #FF9E64;
+  --c-cat-3: #9ECE6A;
+  --c-cat-4: #7DCFFF;
+  --c-cat-5: #BB9AF7;
+  --c-cat-6: #E0AF68;
+  --c-cat-7: #F7768E;
+  --c-cat-8: #565F89;
+
+  --logo-filter: brightness(0) invert(1);
+  --avatar-filter: brightness(0.88);
+  --captcha-filter: invert(0.88) hue-rotate(180deg);
+
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.45), 0 18px 44px rgba(0, 0, 0, 0.55);
+}

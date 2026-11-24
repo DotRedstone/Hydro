@@ -42,6 +42,27 @@ export const THEMES: readonly ThemeMeta[] = [
   {
     id: 'rosepine', label: 'Rosé Pine', light: '#FAF4ED', dark: '#191724', swatch: ['#FAF4ED', '#FFFAF3', '#907AA9'],
   },
+  {
+    id: 'tokyonight', label: 'Tokyo Night', light: '#E1E2E7', dark: '#1A1B26', swatch: ['#E1E2E7', '#F2F3F6', '#3F87EB'],
+  },
+  {
+    id: 'catppuccin', label: 'Catppuccin', light: '#EFF1F5', dark: '#1E1E2E', swatch: ['#EFF1F5', '#FFFFFF', '#8839EF'],
+  },
+  {
+    id: 'gruvbox', label: 'Gruvbox', light: '#FBF1C7', dark: '#282828', swatch: ['#FBF1C7', '#F9F5D7', '#AF3A03'],
+  },
+  {
+    id: 'dracula', label: 'Dracula', light: '#FFFBEB', dark: '#282A36', swatch: ['#FFFBEB', '#FFFFFF', '#644AC9'],
+  },
+  {
+    id: 'one', label: 'One', light: '#FAFAFA', dark: '#282C34', swatch: ['#FAFAFA', '#FFFFFF', '#4F83F3'],
+  },
+  {
+    id: 'everforest', label: 'Everforest', light: '#FDF6E3', dark: '#2D353B', swatch: ['#FDF6E3', '#FFFBEF', '#859701'],
+  },
+  {
+    id: 'kanagawa', label: 'Kanagawa', light: '#F2ECBC', dark: '#1F1F28', swatch: ['#F2ECBC', '#F8F3D3', '#624C83'],
+  },
 ];
 
 export const DEFAULT_THEME = 'default';
