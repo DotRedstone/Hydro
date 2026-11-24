@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client';
 import Schema from 'schemastery';
 import Notification from 'vj/components/notification';
 import { NamedPage } from 'vj/misc/Page';
-import { i18n, request } from 'vj/utils';
+import { getTheme, i18n, request } from 'vj/utils';
 
 const page = new NamedPage('manage_config', async () => {
-  if (document.documentElement.classList.contains('mode--dark')) {
-    document.documentElement.className += ' dark';
-  }
+  // schemastery 的样式认 html.dark；随深浅切换同步
+  const syncDark = () => document.documentElement.classList.toggle('dark', getTheme() === 'dark');
+  syncDark();
+  document.addEventListener('themechange', syncDark);
 
   const [{ ConfigEditor, ComponentsProvider }, { load }] = await Promise.all([
     import('@hydrooj/components'),
@@ -28,7 +29,7 @@ const page = new NamedPage('manage_config', async () => {
   }
 
   ReactDOM.createRoot(document.getElementById('app')!).render(
-    <ComponentsProvider theme={UiContext.theme} codeFontFamily={UiContext.codeFontFamily} i18n={i18n}>
+    <ComponentsProvider theme={getTheme()} codeFontFamily={UiContext.codeFontFamily} i18n={i18n}>
       <ConfigEditor
         schema={new Schema(UiContext.schema)}
         config={UiContext.config}

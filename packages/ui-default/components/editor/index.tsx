@@ -173,6 +173,12 @@ export default class Editor extends DOMAttachedObject {
 
     function EditorComponent() {
       const [val, setVal] = React.useState(value);
+      const [mode, setMode] = React.useState(getTheme());
+      React.useEffect(() => {
+        const sync = () => setMode(getTheme());
+        document.addEventListener('themechange', sync);
+        return () => document.removeEventListener('themechange', sync);
+      }, []);
       that.setMarkdownEditorValue = setVal;
       return <MdEditor
         className="textbox"
@@ -181,7 +187,7 @@ export default class Editor extends DOMAttachedObject {
         codeStyleReverse={false}
         ref={renderCallback}
         value={val}
-        theme={getTheme()}
+        theme={mode}
         language={UserContext.viewLang === 'zh' ? 'zh-CN' : UserContext.viewLang?.replace('_', '-')}
         noMermaid
         noPrettier

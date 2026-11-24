@@ -38,8 +38,8 @@ function rounded() {
   if (!UserContext.rounded) return;
   const style = document.createElement('style');
   style.innerHTML = `
-    .section { border-radius: 8px; }
-    .section__table-header { border-radius: 8px 8px 0 0; }
+    .section { border-radius: var(--r); }
+    .section__table-header { border-radius: var(--r) var(--r) 0 0; }
   `;
   document.head.append(style);
 }
