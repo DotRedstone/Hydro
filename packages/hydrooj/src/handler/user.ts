@@ -455,6 +455,21 @@ class UserRegisterWithCodeHandler extends Handler {
         if (Object.keys(this.tdoc.setInDomain || {}).length) await domain.setUserInDomain(domainId, uid, this.tdoc.setInDomain);
         await this.ctx.oauth.set(this.tdoc.identity.platform, this.tdoc.identity.id, uid);
         await successfulAuth.call(this, await user.getById(domainId, uid));
+        // 邮箱注册完成后发一封欢迎邮件；发信失败只记日志，不影响注册结果
+        if (this.tdoc.identity.provider === 'mail' && this.tdoc.mail && canSendMail()) {
+            try {
+                const prefix = this.domain.host
+                    ? `${this.domain.host instanceof Array ? this.domain.host[0] : this.domain.host}`
+                    : system.get('server.url');
+                const m = await this.renderHTML('user_welcome_mail.html', {
+                    uname,
+                    url_prefix: prefix.endsWith('/') ? prefix.slice(0, -1) : prefix,
+                });
+                await sendMail(this.tdoc.mail, 'Welcome', 'user_welcome_mail', m.toString());
+            } catch (e) {
+                // sendMail 内部已记录错误
+            }
+        }
         this.response.redirect = this.tdoc.redirect || this.url('home_settings', { category: 'preference' });
     }
 }
