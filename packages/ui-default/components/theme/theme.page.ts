@@ -118,14 +118,22 @@ function mountFloatingActions() {
 }
 
 export default new AutoloadPage('theme', () => {
+  // 页脚的配色 / 深浅 / 代码主题链接：当场重绘，再后台请求服务端落库；无 JS 时链接照常跳转
+  const APPLY: Record<string, (v: string) => void> = {
+    set_theme: (v) => applyTheme(v),
+    set_mode: (v) => applyMode(v),
+    set_code_theme: (v) => applyCodeTheme(v),
+  };
   document.addEventListener('click', (ev: MouseEvent) => {
-    const link = (ev.target as HTMLElement)?.closest?.('a[href^="/set_theme/"]') as HTMLAnchorElement | null;
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    const link = (ev.target as HTMLElement)?.closest?.('a[href^="/set_theme/"], a[href^="/set_mode/"], a[href^="/set_code_theme/"]') as HTMLAnchorElement | null;
     if (!link) return;
-    // switching a palette does not need a round trip: repaint now, persist after
+    const [, route, value] = new URL(link.href, window.location.href).pathname.split('/');
+    const apply = APPLY[route];
+    if (!apply || !value) return;
     ev.preventDefault();
-    const theme = link.getAttribute('href').split('/').pop();
-    applyTheme(theme);
-    fetch(link.href, { credentials: 'include' }).catch(() => {});
+    apply(decodeURIComponent(value));
+    fetch(link.href, { credentials: 'include', redirect: 'manual' }).catch(() => {});
   });
 
   mountFloatingActions();
