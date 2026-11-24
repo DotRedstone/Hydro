@@ -1,0 +1,52 @@
+// 偏好设置页的实时预览卡片：吸顶，改设置时不用来回滚动
+.preference-preview
+  position: sticky
+  top: rem(12px)
+  z-index: 5
+  margin: 0 0 18px
+  padding: 16px 18px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-sm)
+  background: var(--c-surface)
+  box-shadow: var(--shadow-pop)
+  font-family: var(--font-family)
+  transition: border-radius .2s ease-out-cubic
+
+.preference-preview__label
+  margin: 0 0 8px
+  color: var(--c-fg-3)
+  font-size: .75rem
+  letter-spacing: .04em
+  text-transform: uppercase
+
+.preference-preview__title
+  margin: 0 0 4px
+  color: var(--c-fg)
+  font-size: 1.15rem
+  font-weight: 620
+
+.preference-preview__text
+  margin: 0 0 10px
+  color: var(--c-fg-2)
+  font-size: .9rem
+  line-height: 1.6
+
+.preference-preview__code
+  margin: 0
+  padding: 10px 12px
+  border: 1px solid var(--c-border)
+  border-radius: var(--r-xs)
+  background: var(--c-sunken)
+  color: var(--c-fg)
+  font-family: var(--code-font-family)
+  font-size: .82rem
+  line-height: 1.55
+  white-space: pre
+  overflow-x: auto
+
+// 与 hydro.ts 里 UserContext.rounded 注入的规则一致，预览时用 class 开关
+html.preference-preview--rounded
+  .section, .preference-preview
+    border-radius: var(--r)
+  .section__table-header
+    border-radius: var(--r) var(--r) 0 0
