@@ -1,0 +1,117 @@
+/* Palette: solarized — Solarized（Ethan Schoonover） */
+/* 浅色 :root.theme--solarized；深色 :root.theme--solarized.mode--dark。 */
+/* --c-bg 两版须分别等于 themes.ts 里的 light / dark。只覆盖颜色类令牌。 */
+
+:root.theme--solarized {
+  color-scheme: light;
+
+  --c-bg: #FDF6E3;
+  --c-surface: #EEE8D5;
+  --c-sunken: #F5EED9;
+  --c-hover: #E9E2CC;
+  --c-border: #DDD6C1;
+  --c-border-strong: #C5BEA8;
+  --c-nav-bg: rgba(253, 246, 227, 0.88);
+  --c-overlay: rgba(88, 110, 117, 0.34);
+
+  --c-fg: #546A70;
+  --c-fg-2: #55686F;
+  --c-fg-3: #5C696B;
+  --c-heading: #073642;
+
+  --c-accent: #268BD2;
+  --c-accent-hover: #3A98DB;
+  --c-link: #1E6BA1;
+  --c-accent-soft: #DCE8EC;
+  --c-accent-fg: #FDF6E3;
+  --c-focus-ring: rgba(38, 139, 210, 0.3);
+
+  --c-ok: #6B7F00;
+  --c-ok-soft: #E8EBC8;
+  --c-bad: #DC322F;
+  --c-warn: #A67700;
+  --c-warn-soft: #F2E4BC;
+  --c-info: #2AA198;
+  --c-neutral: #5C696B;
+  --c-neutral-soft: #E6DFC9;
+
+  --c-code-bg: #EEE8D5;
+  --c-code-fg: #CB4B16;
+  --c-mark: #F4E2A8;
+  --c-inverse-bg: #586E75;
+  --c-inverse-fg: #FDF6E3;
+
+  --c-cat-1: #268BD2;
+  --c-cat-2: #CB4B16;
+  --c-cat-3: #859900;
+  --c-cat-4: #2AA198;
+  --c-cat-5: #6C71C4;
+  --c-cat-6: #B58900;
+  --c-cat-7: #D33682;
+  --c-cat-8: #93A1A1;
+
+  --logo-filter: none;
+  --avatar-filter: none;
+  --captcha-filter: none;
+
+  --shadow-pop: 0 1px 2px rgba(88, 110, 117, 0.07), 0 8px 24px rgba(88, 110, 117, 0.12);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(88, 110, 117, 0.06), 0 18px 44px rgba(88, 110, 117, 0.1);
+}
+
+:root.theme--solarized.mode--dark {
+  color-scheme: dark;
+
+  --c-bg: #002B36;
+  --c-surface: #073642;
+  --c-sunken: #00212B;
+  --c-hover: #0B3E4B;
+  --c-border: #0E4352;
+  --c-border-strong: #2A5866;
+  --c-nav-bg: rgba(0, 43, 54, 0.9);
+  --c-overlay: rgba(0, 0, 0, 0.56);
+
+  --c-fg: #93A1A1;
+  --c-fg-2: #92A0A2;
+  --c-fg-3: #899EA4;
+  --c-heading: #EEE8D5;
+
+  --c-accent: #268BD2;
+  --c-accent-hover: #3B98DA;
+  --c-link: #4AA3E0;
+  --c-accent-soft: #08354A;
+  --c-accent-fg: #FDF6E3;
+  --c-focus-ring: rgba(38, 139, 210, 0.3);
+
+  --c-ok: #859900;
+  --c-ok-soft: #16351E;
+  --c-bad: #E0605D;
+  --c-warn: #B58900;
+  --c-warn-soft: #2B3318;
+  --c-info: #2AA198;
+  --c-neutral: #899EA4;
+  --c-neutral-soft: #073642;
+
+  --c-code-bg: #00212B;
+  --c-code-fg: #CB4B16;
+  --c-mark: #3C4A1C;
+  --c-inverse-bg: #93A1A1;
+  --c-inverse-fg: #002B36;
+
+  --c-cat-1: #268BD2;
+  --c-cat-2: #CB4B16;
+  --c-cat-3: #859900;
+  --c-cat-4: #2AA198;
+  --c-cat-5: #6C71C4;
+  --c-cat-6: #B58900;
+  --c-cat-7: #D33682;
+  --c-cat-8: #839496;
+
+  --logo-filter: brightness(0) invert(1);
+  --avatar-filter: brightness(0.88);
+  --captcha-filter: invert(0.88) hue-rotate(180deg);
+
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.45), 0 18px 44px rgba(0, 0, 0, 0.55);
+}

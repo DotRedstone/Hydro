@@ -1,0 +1,117 @@
+/* Palette: github — GitHub（Primer 调色板） */
+/* 浅色 :root.theme--github；深色 :root.theme--github.mode--dark。 */
+/* --c-bg 两版须分别等于 themes.ts 里的 light / dark。只覆盖颜色类令牌。 */
+
+:root.theme--github {
+  color-scheme: light;
+
+  --c-bg: #F6F8FA;
+  --c-surface: #FFFFFF;
+  --c-sunken: #EFF2F5;
+  --c-hover: #EAEEF2;
+  --c-border: #D0D7DE;
+  --c-border-strong: #AFB8C1;
+  --c-nav-bg: rgba(246, 248, 250, 0.88);
+  --c-overlay: rgba(31, 35, 40, 0.34);
+
+  --c-fg: #1F2328;
+  --c-fg-2: #424A53;
+  --c-fg-3: #59636E;
+  --c-heading: #1F2328;
+
+  --c-accent: #0969DA;
+  --c-accent-hover: #0860C7;
+  --c-link: #0550AE;
+  --c-accent-soft: #DDF4FF;
+  --c-accent-fg: #FFFFFF;
+  --c-focus-ring: rgba(9, 105, 218, 0.3);
+
+  --c-ok: #1A7F37;
+  --c-ok-soft: #DAFBE1;
+  --c-bad: #CF222E;
+  --c-warn: #9A6700;
+  --c-warn-soft: #FFF8C5;
+  --c-info: #0969DA;
+  --c-neutral: #59636E;
+  --c-neutral-soft: #EAEEF2;
+
+  --c-code-bg: #EFF2F5;
+  --c-code-fg: #CF222E;
+  --c-mark: #FFF2A8;
+  --c-inverse-bg: #1F2328;
+  --c-inverse-fg: #F6F8FA;
+
+  --c-cat-1: #0969DA;
+  --c-cat-2: #BC4C00;
+  --c-cat-3: #1A7F37;
+  --c-cat-4: #1B7C83;
+  --c-cat-5: #8250DF;
+  --c-cat-6: #9A6700;
+  --c-cat-7: #BF3989;
+  --c-cat-8: #6E7781;
+
+  --logo-filter: none;
+  --avatar-filter: none;
+  --captcha-filter: none;
+
+  --shadow-pop: 0 1px 2px rgba(31, 35, 40, 0.07), 0 8px 24px rgba(31, 35, 40, 0.12);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(31, 35, 40, 0.06), 0 18px 44px rgba(31, 35, 40, 0.1);
+}
+
+:root.theme--github.mode--dark {
+  color-scheme: dark;
+
+  --c-bg: #0D1117;
+  --c-surface: #161B22;
+  --c-sunken: #010409;
+  --c-hover: #1C2128;
+  --c-border: #30363D;
+  --c-border-strong: #484F58;
+  --c-nav-bg: rgba(13, 17, 23, 0.9);
+  --c-overlay: rgba(0, 0, 0, 0.56);
+
+  --c-fg: #E6EDF3;
+  --c-fg-2: #C9D1D9;
+  --c-fg-3: #9198A1;
+  --c-heading: #F0F6FC;
+
+  --c-accent: #4493F8;
+  --c-accent-hover: #58A6FF;
+  --c-link: #58A6FF;
+  --c-accent-soft: #121D2F;
+  --c-accent-fg: #0D1117;
+  --c-focus-ring: rgba(68, 147, 248, 0.3);
+
+  --c-ok: #3FB950;
+  --c-ok-soft: #12261E;
+  --c-bad: #F85149;
+  --c-warn: #D29922;
+  --c-warn-soft: #272115;
+  --c-info: #58A6FF;
+  --c-neutral: #9198A1;
+  --c-neutral-soft: #21262D;
+
+  --c-code-bg: #161B22;
+  --c-code-fg: #FF7B72;
+  --c-mark: #4D3B12;
+  --c-inverse-bg: #E6EDF3;
+  --c-inverse-fg: #0D1117;
+
+  --c-cat-1: #4493F8;
+  --c-cat-2: #F0883E;
+  --c-cat-3: #3FB950;
+  --c-cat-4: #39C5CF;
+  --c-cat-5: #A371F7;
+  --c-cat-6: #D29922;
+  --c-cat-7: #DB61A2;
+  --c-cat-8: #8B949E;
+
+  --logo-filter: brightness(0) invert(1);
+  --avatar-filter: brightness(0.88);
+  --captcha-filter: invert(0.88) hue-rotate(180deg);
+
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.45), 0 18px 44px rgba(0, 0, 0, 0.55);
+}

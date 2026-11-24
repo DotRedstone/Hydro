@@ -1,0 +1,117 @@
+/* Palette: rosepine — Rosé Pine（Dawn / 主色） */
+/* 浅色 :root.theme--rosepine；深色 :root.theme--rosepine.mode--dark。 */
+/* --c-bg 两版须分别等于 themes.ts 里的 light / dark。只覆盖颜色类令牌。 */
+
+:root.theme--rosepine {
+  color-scheme: light;
+
+  --c-bg: #FAF4ED;
+  --c-surface: #FFFAF3;
+  --c-sunken: #F2E9E1;
+  --c-hover: #F4EDE8;
+  --c-border: #DFDAD9;
+  --c-border-strong: #CECACD;
+  --c-nav-bg: rgba(250, 244, 237, 0.88);
+  --c-overlay: rgba(87, 82, 121, 0.34);
+
+  --c-fg: #575279;
+  --c-fg-2: #6E6A86;
+  --c-fg-3: #6F6C87;
+  --c-heading: #3E3A5E;
+
+  --c-accent: #907AA9;
+  --c-accent-hover: #9C88B4;
+  --c-link: #7A659A;
+  --c-accent-soft: #ECE4F0;
+  --c-accent-fg: #FFFAF3;
+  --c-focus-ring: rgba(144, 122, 169, 0.3);
+
+  --c-ok: #3B7A8A;
+  --c-ok-soft: #DCECEE;
+  --c-bad: #B4637A;
+  --c-warn: #B7791F;
+  --c-warn-soft: #F6E6CC;
+  --c-info: #286983;
+  --c-neutral: #6F6C87;
+  --c-neutral-soft: #F2E9E1;
+
+  --c-code-bg: #F2E9E1;
+  --c-code-fg: #B4637A;
+  --c-mark: #F6D7A8;
+  --c-inverse-bg: #575279;
+  --c-inverse-fg: #FAF4ED;
+
+  --c-cat-1: #907AA9;
+  --c-cat-2: #D7827E;
+  --c-cat-3: #56949F;
+  --c-cat-4: #286983;
+  --c-cat-5: #B4637A;
+  --c-cat-6: #EA9D34;
+  --c-cat-7: #797593;
+  --c-cat-8: #9893A5;
+
+  --logo-filter: none;
+  --avatar-filter: none;
+  --captcha-filter: none;
+
+  --shadow-pop: 0 1px 2px rgba(87, 82, 121, 0.07), 0 8px 24px rgba(87, 82, 121, 0.12);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(87, 82, 121, 0.06), 0 18px 44px rgba(87, 82, 121, 0.1);
+}
+
+:root.theme--rosepine.mode--dark {
+  color-scheme: dark;
+
+  --c-bg: #191724;
+  --c-surface: #1F1D2E;
+  --c-sunken: #13111C;
+  --c-hover: #26233A;
+  --c-border: #2A273F;
+  --c-border-strong: #403D52;
+  --c-nav-bg: rgba(25, 23, 36, 0.9);
+  --c-overlay: rgba(0, 0, 0, 0.56);
+
+  --c-fg: #E0DEF4;
+  --c-fg-2: #C4C1DA;
+  --c-fg-3: #908CAA;
+  --c-heading: #ECEAF8;
+
+  --c-accent: #C4A7E7;
+  --c-accent-hover: #D0B8EC;
+  --c-link: #C4A7E7;
+  --c-accent-soft: #2A2238;
+  --c-accent-fg: #191724;
+  --c-focus-ring: rgba(196, 167, 231, 0.3);
+
+  --c-ok: #9CCFD8;
+  --c-ok-soft: #1C2A30;
+  --c-bad: #EB6F92;
+  --c-warn: #F6C177;
+  --c-warn-soft: #33291E;
+  --c-info: #31748F;
+  --c-neutral: #908CAA;
+  --c-neutral-soft: #26233A;
+
+  --c-code-bg: #1F1D2E;
+  --c-code-fg: #EBBCBA;
+  --c-mark: #4A3C2A;
+  --c-inverse-bg: #E0DEF4;
+  --c-inverse-fg: #191724;
+
+  --c-cat-1: #C4A7E7;
+  --c-cat-2: #EBBCBA;
+  --c-cat-3: #9CCFD8;
+  --c-cat-4: #31748F;
+  --c-cat-5: #EB6F92;
+  --c-cat-6: #F6C177;
+  --c-cat-7: #908CAA;
+  --c-cat-8: #6E6A86;
+
+  --logo-filter: brightness(0) invert(1);
+  --avatar-filter: brightness(0.88);
+  --captcha-filter: invert(0.88) hue-rotate(180deg);
+
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.45), 0 18px 44px rgba(0, 0, 0, 0.55);
+}
