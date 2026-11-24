@@ -16,7 +16,9 @@ import {
     ValidationError,
 } from '../error';
 import { ContestStatusDoc, FileInfo, ScoreboardConfig, Tdoc } from '../interface';
-import { PERM, PRIV, STATUS } from '../model/builtin';
+import {
+    PERM, PRIV, STATUS, STATUS_TEXTS,
+} from '../model/builtin';
 import * as contest from '../model/contest';
 import * as discussion from '../model/discussion';
 import * as document from '../model/document';
@@ -1203,6 +1205,64 @@ export async function apply(ctx: Context) {
                 this.binary(toCSV(rows.map((r) => r.map((c) => c.value.toString())), { bom: true }), `${this.tdoc.title}.csv`);
             },
             supportedRules: ['*'],
+        });
+        // 全部提交记录：创建者与有隐藏榜权限的管理员可导出（赛中也可以），不含代码
+        scoreboard.addView('records', 'Records', { tdoc: 'tdoc' }, {
+            async display({ tdoc }) {
+                if (!contest.canViewHiddenScoreboard.call(this, tdoc)) {
+                    throw new PermissionError(tdoc.rule === 'homework'
+                        ? PERM.PERM_VIEW_HOMEWORK_HIDDEN_SCOREBOARD : PERM.PERM_VIEW_CONTEST_HIDDEN_SCOREBOARD);
+                }
+                await this.limitRate('scoreboard_download', 60, 3);
+                const [pdict, rdocs] = await Promise.all([
+                    problem.getList(tdoc.domainId, tdoc.pids, true, false, problem.PROJECTION_LIST, true),
+                    record.getMulti(tdoc.domainId, { contest: tdoc.docId }, {
+                        projection: {
+                            _id: 1, uid: 1, pid: 1, status: 1, score: 1, time: 1, memory: 1, lang: 1,
+                        },
+                        sort: { _id: 1 },
+                    }).toArray(),
+                ]);
+                const udict = await user.getList(tdoc.domainId, Array.from(new Set(rdocs.map((r) => r.uid))));
+                const showPrivate = this.user.hasPerm(PERM.PERM_VIEW_USER_PRIVATE_INFO);
+                const pad = (n: number) => n.toString().padStart(2, '0');
+                const elapsed = (at: Date) => {
+                    const secs = Math.floor((at.getTime() - tdoc.beginAt.getTime()) / Time.second);
+                    const sign = secs < 0 ? '-' : '';
+                    const abs = Math.abs(secs);
+                    return `${sign}${pad(Math.floor(abs / 3600))}:${pad(Math.floor(abs / 60) % 60)}:${pad(abs % 60)}`;
+                };
+                const header = [
+                    'Record ID', 'Submit Time', 'Elapsed', 'Username', ...(showPrivate ? ['Display Name'] : []), 'School',
+                    'Problem', 'Problem Title', 'Status', 'Score', 'Time (ms)', 'Memory (KiB)', 'Language', 'After Lock',
+                ].map((i) => this.translate(i));
+                const rows = rdocs.map((r) => {
+                    const at = r._id.getTimestamp();
+                    const index = tdoc.pids.indexOf(r.pid);
+                    const udoc = udict[r.uid];
+                    return [
+                        r._id.toHexString(),
+                        moment(at).format('YYYY-MM-DD HH:mm:ss'),
+                        elapsed(at),
+                        udoc?.uname || `UID${r.uid}`,
+                        ...(showPrivate ? [udoc?.displayName || ''] : []),
+                        udoc?.school || '',
+                        index >= 0 ? getAlphabeticId(index) : String(r.pid),
+                        pdict[r.pid]?.title || '',
+                        STATUS_TEXTS[r.status] || String(r.status),
+                        String(r.score ?? ''),
+                        String(r.time ?? ''),
+                        String(r.memory ?? ''),
+                        r.lang || '',
+                        tdoc.lockAt && at >= tdoc.lockAt ? 'Y' : '',
+                    ];
+                });
+                this.binary(toCSV([header, ...rows], { bom: true }), `${tdoc.title}-records.csv`);
+            },
+            supportedRules: ['*'],
+            checker() {
+                return contest.canViewHiddenScoreboard.call(this, this.tdoc);
+            },
         });
     });
 }

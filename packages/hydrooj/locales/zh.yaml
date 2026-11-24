@@ -1089,3 +1089,11 @@ Link: 绑定
 Change: 修改
 limit.login_captcha_ip: 同一 IP 登录失败多少次（15 分钟内）后要求验证码
 Failed logins per IP (15 min) before captcha is required, 0 to disable: 同一 IP 15 分钟内登录失败达到该次数后要求验证码，0 表示关闭
+Export Records: 导出提交记录
+Record ID: 提交 ID
+Submit Time: 提交时间
+Elapsed: 距开赛
+Problem Title: 题目名称
+Time (ms): 耗时 (ms)
+Memory (KiB): 内存 (KiB)
+After Lock: 封榜后提交

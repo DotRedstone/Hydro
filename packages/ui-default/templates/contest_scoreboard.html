@@ -27,7 +27,12 @@
           <span class="icon icon-download"></span> {{ _('Export as {0}').format(ext) }}
         </a>
       {%- endfor -%}
-      {% for id, name in availableViews %}{% if not ['html', 'csv', 'default', 'ghost'].includes(id) %}
+      {% if availableViews.records %}
+        <a class="button" target="_blank" href="{{ url(type + '_scoreboard_view', tid=tdoc.docId, view='records') }}">
+          <span class="icon icon-download"></span> {{ _('Export Records') }}
+        </a>
+      {% endif %}
+      {% for id, name in availableViews %}{% if not ['html', 'csv', 'default', 'ghost', 'records'].includes(id) %}
         <a class="button" target="_blank" href="{{ url(type + '_scoreboard_view', tid=tdoc.docId, view=id) }}">
           <span class="icon icon-copy"></span> {{ _(name) }}
         </a>
