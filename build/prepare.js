@@ -13,8 +13,15 @@ const withoutTypes = (data) => ({
     compilerOptions: Object.fromEntries(Object.entries(data.compilerOptions).filter(([k]) => k !== 'types')),
 });
 
+// 根目录的 content-disposition@2 自带类型，没有 Options 命名空间，会遮蔽 @types/koa 依赖的
+// @types/content-disposition；koa 运行时用的是自己目录下的 1.x，这里只把类型指回 @types。
+const typeOverrides = {
+    'content-disposition': [path.resolve(__dirname, '../node_modules/@types/content-disposition')],
+};
+
 /** @type {import('typescript').CompilerOptions} */
 const compilerOptionsBase = {
+    paths: typeOverrides,
     target: 'es2022',
     lib: ['esnext', 'DOM'],
     types: ['node'],
@@ -57,6 +64,7 @@ const configFlat = (name) => ({
         outDir: path.join(baseOutDir, name),
         rootDir: '.',
         paths: {
+            ...typeOverrides,
             'vj/*': [
                 '../../packages/ui-default/*',
             ],
@@ -120,6 +128,7 @@ const UIConfig = {
         noUncheckedSideEffectImports: true,
 
         paths: {
+            ...typeOverrides,
             'vj/*': [
                 './packages/ui-default/*',
             ],
@@ -156,6 +165,7 @@ const UINextConfig = {
         noUncheckedSideEffectImports: true,
 
         paths: {
+            ...typeOverrides,
             '@/*': [
                 './packages/ui-next/src/*',
             ],
@@ -190,6 +200,7 @@ const pluginsConfig = {
         outDir: path.join(baseOutDir, 'plugins'),
         skipLibCheck: true,
         paths: {
+            ...typeOverrides,
             'vj/*': [
                 '../packages/ui-default/*',
             ],
