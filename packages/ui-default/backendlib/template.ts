@@ -1,3 +1,4 @@
+import { pickCodeTheme } from '../theme/code-themes';
 import path from 'path';
 import * as status from '@hydrooj/common/status';
 import { findFileSync, getAlphabeticId } from '@hydrooj/utils/lib/utils';
@@ -181,6 +182,7 @@ class Nunjucks extends nunjucks.Environment {
     this.addGlobal('themeOf', pickTheme);
     this.addGlobal('modeOf', pickMode);
     this.addGlobal('colorModes', COLOR_MODES);
+    this.addGlobal('codeThemeOf', pickCodeTheme);
     this.addGlobal('isIE', (str) => {
       if (!str) return false;
       if (['MSIE', 'rv:11.0'].some((i) => str.includes(i))) return true;

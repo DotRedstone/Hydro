@@ -1,0 +1,144 @@
+/* Code highlight palettes — Prism 与 monaco 共用的 --hl-* 令牌。 */
+/* follow：映射到当前配色方案，不写字面色值。 */
+:root {
+  --hl-bg: var(--c-code-bg);
+  --hl-fg: var(--c-fg);
+  --hl-comment: var(--c-fg-3);
+  --hl-punct: var(--c-fg-2);
+  --hl-keyword: var(--c-link);
+  --hl-string: var(--c-ok);
+  --hl-number: var(--c-warn);
+  --hl-function: var(--c-info);
+  --hl-tag: var(--c-bad);
+  --hl-variable: var(--c-warn);
+  --hl-operator: var(--c-fg-2);
+  --hl-selection: var(--c-accent-soft);
+}
+
+/* GitHub */
+:root.code--github {
+  --hl-bg: #F6F8FA;
+  --hl-fg: #1F2328;
+  --hl-comment: #59636E;
+  --hl-punct: #424A53;
+  --hl-keyword: #CF222E;
+  --hl-string: #0A3069;
+  --hl-number: #0550AE;
+  --hl-function: #8250DF;
+  --hl-tag: #116329;
+  --hl-variable: #953800;
+  --hl-operator: #CF222E;
+  --hl-selection: #B6E3FF;
+}
+
+/* One Dark */
+:root.code--one-dark {
+  --hl-bg: #282C34;
+  --hl-fg: #ABB2BF;
+  --hl-comment: #7F848E;
+  --hl-punct: #ABB2BF;
+  --hl-keyword: #C678DD;
+  --hl-string: #98C379;
+  --hl-number: #D19A66;
+  --hl-function: #61AFEF;
+  --hl-tag: #E06C75;
+  --hl-variable: #E5C07B;
+  --hl-operator: #56B6C2;
+  --hl-selection: #3E4451;
+}
+
+/* Dracula */
+:root.code--dracula {
+  --hl-bg: #282A36;
+  --hl-fg: #F8F8F2;
+  --hl-comment: #8E9BC4;
+  --hl-punct: #F8F8F2;
+  --hl-keyword: #FF79C6;
+  --hl-string: #F1FA8C;
+  --hl-number: #BD93F9;
+  --hl-function: #50FA7B;
+  --hl-tag: #FF79C6;
+  --hl-variable: #FFB86C;
+  --hl-operator: #FF79C6;
+  --hl-selection: #44475A;
+}
+
+/* Monokai */
+:root.code--monokai {
+  --hl-bg: #272822;
+  --hl-fg: #F8F8F2;
+  --hl-comment: #9D9A86;
+  --hl-punct: #F8F8F2;
+  --hl-keyword: #F92672;
+  --hl-string: #E6DB74;
+  --hl-number: #AE81FF;
+  --hl-function: #A6E22E;
+  --hl-tag: #F92672;
+  --hl-variable: #FD971F;
+  --hl-operator: #F92672;
+  --hl-selection: #49483E;
+}
+
+/* Solarized Light */
+:root.code--solarized-light {
+  --hl-bg: #FDF6E3;
+  --hl-fg: #586E75;
+  --hl-comment: #6C7D7F;
+  --hl-punct: #586E75;
+  --hl-keyword: #859900;
+  --hl-string: #2AA198;
+  --hl-number: #D33682;
+  --hl-function: #268BD2;
+  --hl-tag: #B58900;
+  --hl-variable: #CB4B16;
+  --hl-operator: #859900;
+  --hl-selection: #EEE8D5;
+}
+
+/* Solarized Dark */
+:root.code--solarized-dark {
+  --hl-bg: #002B36;
+  --hl-fg: #93A1A1;
+  --hl-comment: #7A9298;
+  --hl-punct: #93A1A1;
+  --hl-keyword: #859900;
+  --hl-string: #2AA198;
+  --hl-number: #D33682;
+  --hl-function: #268BD2;
+  --hl-tag: #B58900;
+  --hl-variable: #CB4B16;
+  --hl-operator: #859900;
+  --hl-selection: #073642;
+}
+
+/* Nord */
+:root.code--nord {
+  --hl-bg: #2E3440;
+  --hl-fg: #D8DEE9;
+  --hl-comment: #8C97AD;
+  --hl-punct: #ECEFF4;
+  --hl-keyword: #81A1C1;
+  --hl-string: #A3BE8C;
+  --hl-number: #B48EAD;
+  --hl-function: #88C0D0;
+  --hl-tag: #8FBCBB;
+  --hl-variable: #D08770;
+  --hl-operator: #81A1C1;
+  --hl-selection: #434C5E;
+}
+
+/* Tomorrow Night */
+:root.code--tomorrow-night {
+  --hl-bg: #1D1F21;
+  --hl-fg: #C5C8C6;
+  --hl-comment: #969896;
+  --hl-punct: #C5C8C6;
+  --hl-keyword: #B294BB;
+  --hl-string: #B5BD68;
+  --hl-number: #DE935F;
+  --hl-function: #81A2BE;
+  --hl-tag: #CC6666;
+  --hl-variable: #F0C674;
+  --hl-operator: #8ABEB7;
+  --hl-selection: #373B41;
+}

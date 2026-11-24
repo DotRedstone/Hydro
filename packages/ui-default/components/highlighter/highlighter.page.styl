@@ -29,29 +29,29 @@ code
 // rest of the UI, so highlighting follows the theme.
 pre[class*='language-'],
 code[class*='language-']
-  color: var(--c-fg)
-  background: var(--c-code-bg)
+  color: var(--hl-fg)
+  background: var(--hl-bg)
   text-shadow: none
 
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata
-  color: var(--c-fg-3)
+  color: var(--hl-comment)
 
 .token.punctuation
-  color: var(--c-fg-2)
+  color: var(--hl-punct)
 
 .token.property,
 .token.tag,
 .token.constant,
 .token.symbol,
 .token.deleted
-  color: var(--c-bad)
+  color: var(--hl-tag)
 
 .token.boolean,
 .token.number
-  color: var(--c-warn)
+  color: var(--hl-number)
 
 .token.selector,
 .token.attr-name,
@@ -59,28 +59,28 @@ code[class*='language-']
 .token.char,
 .token.builtin,
 .token.inserted
-  color: var(--c-ok)
+  color: var(--hl-string)
 
 .token.operator,
 .token.entity,
 .token.url,
 .language-css .token.string,
 .style .token.string
-  color: var(--c-fg-2)
+  color: var(--hl-operator)
 
 .token.atrule,
 .token.attr-value,
 .token.keyword
-  color: var(--c-link)
+  color: var(--hl-keyword)
 
 .token.function,
 .token.class-name
-  color: var(--c-info)
+  color: var(--hl-function)
 
 .token.regex,
 .token.important,
 .token.variable
-  color: var(--c-warn)
+  color: var(--hl-variable)
 
 .token.important,
 .token.bold

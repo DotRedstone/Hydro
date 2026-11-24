@@ -9,6 +9,7 @@ import { EditorAction, registerEditorAction } from 'monaco-editor/esm/vs/editor/
 import { IQuickInputService } from 'monaco-editor/esm/vs/platform/quickinput/common/quickInput';
 import list from 'monaco-themes/themes/themelist.json';
 import { nanoid } from 'nanoid';
+import { resolveCodeTheme } from 'vj/theme/code-themes';
 import { i18n, request } from 'vj/utils';
 
 export { renderMarkdown } from 'monaco-editor/esm/vs/base/browser/markdownRenderer';
@@ -116,21 +117,35 @@ function tokenColor(name: string, fallback: string) {
 }
 
 export function defineTokenTheme() {
-  const dark = document.documentElement.classList.contains('mode--dark');
+  const html = document.documentElement;
+  const fixed = [...html.classList].find((c) => c.startsWith('code--'));
+  const meta = resolveCodeTheme(fixed?.slice(6));
+  const dark = meta.id === 'follow' ? html.classList.contains('mode--dark') : !!meta.dark;
+  const hl = (k: string, fb: string) => tokenColor(`--hl-${k}`, fb).replace('#', '');
   monaco.editor.defineTheme('hydro-tokens', {
     base: dark ? 'vs-dark' : 'vs',
     inherit: true,
-    rules: [],
+    rules: [
+      { token: 'comment', foreground: hl('comment', '888888'), fontStyle: 'italic' },
+      { token: 'keyword', foreground: hl('keyword', '0000ff') },
+      { token: 'string', foreground: hl('string', 'a31515') },
+      { token: 'number', foreground: hl('number', '098658') },
+      { token: 'type', foreground: hl('function', '267f99') },
+      { token: 'function', foreground: hl('function', '795e26') },
+      { token: 'tag', foreground: hl('tag', '800000') },
+      { token: 'variable', foreground: hl('variable', '001080') },
+      { token: 'operator', foreground: hl('operator', '000000') },
+      { token: 'delimiter', foreground: hl('punct', '000000') },
+    ],
     colors: {
-      'editor.background': tokenColor('--c-surface', dark ? '#2f2f2c' : '#ffffff'),
-      'editor.foreground': tokenColor('--c-fg', dark ? '#eceae2' : '#2b2a27'),
-      'editor.lineHighlightBackground': tokenColor('--c-sunken', dark ? '#1f1f1d' : '#f3f1ea'),
-      'editor.selectionBackground': tokenColor('--c-accent-soft', dark ? '#3d2c24' : '#f6e7df'),
-      'editorCursor.foreground': tokenColor('--c-accent', dark ? '#db7b5a' : '#c2603f'),
-      'editorLineNumber.foreground': tokenColor('--c-fg-3', dark ? '#8a877e' : '#8e8b82'),
-      'editorIndentGuide.background1': tokenColor('--c-border', dark ? '#3b3a36' : '#e6e3d8'),
-      'editorWidget.background': tokenColor('--c-surface', dark ? '#2f2f2c' : '#ffffff'),
-      'editorWidget.border': tokenColor('--c-border', dark ? '#3b3a36' : '#e6e3d8'),
+      'editor.background': tokenColor('--hl-bg', dark ? '#1e1e1e' : '#ffffff'),
+      'editor.foreground': tokenColor('--hl-fg', dark ? '#d4d4d4' : '#000000'),
+      'editor.selectionBackground': tokenColor('--hl-selection', dark ? '#264f78' : '#add6ff'),
+      'editor.lineHighlightBackground': tokenColor('--hl-selection', dark ? '#2a2d2e' : '#f3f3f3') + '55',
+      'editorCursor.foreground': tokenColor('--hl-fg', dark ? '#aeafad' : '#000000'),
+      'editorLineNumber.foreground': tokenColor('--hl-comment', dark ? '#858585' : '#237893'),
+      'editorWidget.background': tokenColor('--c-surface', dark ? '#252526' : '#f3f3f3'),
+      'editorWidget.border': tokenColor('--c-border', dark ? '#454545' : '#c8c8c8'),
     },
   });
 }

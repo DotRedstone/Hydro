@@ -5,6 +5,7 @@ import './palettes/nord.css';
 import './palettes/solarized.css';
 import './palettes/github.css';
 import './palettes/rosepine.css';
+import './palettes/code.css';
 import 'normalize.css/normalize.css';
 import 'allotment/dist/style.css';
 import 'katex/dist/katex.min.css';

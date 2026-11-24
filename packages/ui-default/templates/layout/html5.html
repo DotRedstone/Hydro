@@ -7,7 +7,8 @@
 <!DOCTYPE html>
 {% set theme = themeMeta(themeOf(handler.user, handler.context.cookies)) %}
 {% set colorMode = modeOf(handler.user, handler.context.cookies) %}
-<html data-page="{{ page_name }}" data-layout="{{ layout_name }}" class="layout--{{ layout_name }} page--{{ page_name }} theme--{{ theme.id }}{% if colorMode == 'dark' %} mode--dark{% endif %} nojs" data-color-mode="{{ colorMode }}" data-mantine-color-scheme="{{ 'dark' if colorMode == 'dark' else 'light' }}" lang="{{ UserContext.viewLang }}" data-app="Hydro">
+{% set codeTheme = codeThemeOf(handler.user, handler.context.cookies) %}
+<html data-page="{{ page_name }}" data-layout="{{ layout_name }}" class="layout--{{ layout_name }} page--{{ page_name }} theme--{{ theme.id }}{% if colorMode == 'dark' %} mode--dark{% endif %}{% if codeTheme != 'follow' %} code--{{ codeTheme }}{% endif %} nojs" data-color-mode="{{ colorMode }}" data-mantine-color-scheme="{{ 'dark' if colorMode == 'dark' else 'light' }}" lang="{{ UserContext.viewLang }}" data-app="Hydro">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>

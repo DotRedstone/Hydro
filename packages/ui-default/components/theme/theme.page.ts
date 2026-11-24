@@ -60,6 +60,15 @@ media?.addEventListener?.('change', () => {
   if (document.documentElement.dataset.colorMode === 'auto') applyMode('auto', false);
 });
 
+/** 就地切换代码高亮主题；persist=false 只预览。 */
+export function applyCodeTheme(id: string, persist = true) {
+  const html = document.documentElement;
+  for (const c of [...html.classList]) if (c.startsWith('code--')) html.classList.remove(c);
+  if (id && id !== 'follow') html.classList.add(`code--${id}`);
+  if (persist) setCookie('codeTheme', id || 'follow');
+  document.dispatchEvent(new CustomEvent('themechange', { detail: { codeTheme: id } }));
+}
+
 /** 右下角按钮：只切深浅，不动配色方案。 */
 export function toggleTheme() {
   const next = isDark() ? 'light' : 'dark';

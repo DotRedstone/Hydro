@@ -1,5 +1,5 @@
 import { AutoloadPage } from 'vj/misc/Page';
-import { applyMode, applyTheme } from 'vj/components/theme/theme.page';
+import { applyCodeTheme, applyMode, applyTheme } from 'vj/components/theme/theme.page';
 
 // 偏好设置实时预览：改字体 / 主题 / 圆角时立刻作用到当前页面，
 // 只改 DOM，不写 cookie、不发请求——真正生效仍以“保存”为准，
@@ -31,6 +31,11 @@ function previewMode(select) {
   select.addEventListener('change', () => applyMode(select.value, false));
 }
 
+function previewCodeTheme(select) {
+  if (!select) return;
+  select.addEventListener('change', () => applyCodeTheme(select.value, false));
+}
+
 function previewRounded(checkbox) {
   if (!checkbox) return;
   const apply = () => document.documentElement.classList.toggle(ROUNDED, checkbox.checked);
@@ -46,5 +51,6 @@ export default new AutoloadPage('preference-preview', () => {
   previewFont(form.querySelector('select[name="codeFontFamily"]'), '--code-font-family', '--font-code');
   previewTheme(form.querySelector('select[name="theme"]'));
   previewMode(form.querySelector('select[name="colorMode"]'));
+  previewCodeTheme(form.querySelector('select[name="codeTheme"]'));
   previewRounded(form.querySelector('input[type="checkbox"][name="rounded"]'));
 });

@@ -1,3 +1,4 @@
+import { CODE_THEMES } from './theme/code-themes';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import {
@@ -227,6 +228,8 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       SettingModel.Setting('setting_display', 'codeFontFamily', 'Source Code Pro', codeFontRange, 'Code Font Family'),
       SettingModel.Setting('setting_display', 'theme', 'default',
         Object.fromEntries(THEMES.map((t) => [t.id, t.label])), 'Theme'),
+      SettingModel.Setting('setting_display', 'codeTheme', 'follow',
+        Object.fromEntries(CODE_THEMES.map((t) => [t.id, t.label])), 'Code Theme'),
       SettingModel.Setting('setting_display', 'colorMode', 'auto', { ...COLOR_MODES }, 'Color Mode'),
       SettingModel.Setting('setting_markdown', 'preferredEditorType', 'sv', { sv: 'Split View', monaco: 'Monaco Editor' }, 'Preferred Editor Type'),
       SettingModel.Setting('setting_highlight', 'showInvisibleChar', false, 'boolean', 'Show Invisible Characters'),
