@@ -5,7 +5,33 @@ import { i18n, tpl } from 'vj/utils';
 
 const highlighterPage = new AutoloadPage('highlighterPage', () => {
   import('./prismjs').then(({ default: prismjs }) => {
+    // 从 Codeforces 等站点导入的题面常把样例写成 <pre>1<br /></pre>：没有 <code>、换行靠 <br>，
+    // 高亮与复制按钮都只认 pre code，于是样例没有按钮；导入时还会残留空的 <pre><code></code></pre>，
+    // 反而多出几个空复制按钮。这里只在题面（.richmedia）里把两种情况规整掉，不动编辑器等其它区域。
+    function normalizeBlocks($container) {
+      const $scope = $container.is('.richmedia') ? $container : $container.find('.richmedia');
+      $scope.find('pre').add($container.filter('.richmedia pre')).get().forEach((pre) => {
+        if (pre.closest('.cm-editor, .monaco-editor, .md-editor, [contenteditable]')) return;
+        const code = pre.querySelector(':scope > code');
+        if (code) {
+          if (!code.textContent.trim()) pre.remove();
+          return;
+        }
+        if (pre.querySelector('*:not(br)')) return; // 带其它标记的预排版内容保持原样
+        pre.querySelectorAll('br').forEach((br) => br.replaceWith('\n'));
+        const text = pre.textContent.replace(/\n$/, '');
+        if (!text.trim()) {
+          pre.remove();
+          return;
+        }
+        const wrapper = document.createElement('code');
+        wrapper.textContent = text;
+        pre.replaceChildren(wrapper);
+      });
+    }
+
     function runHighlight($container) {
+      normalizeBlocks($container);
       $container.find('pre code').get().forEach((code) => {
         const language = ($(code).attr('class') || '').trim();
         if (language.includes('line-numbers')) $(code).parent().addClass('line-numbers');
