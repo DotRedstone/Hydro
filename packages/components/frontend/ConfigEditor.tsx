@@ -68,8 +68,10 @@ function MonacoContainer({
     // eslint-disable-next-line
     const model = monaco.editor.createModel(config, 'yaml', monaco.Uri.parse('hydro://system/setting.yaml'));
     setModel(model);
+    // 不在这里指定 theme：monaco 主题是全局的，宿主页面（ui-default）已按设计令牌
+    // setTheme('hydro-tokens')，在这里传 'vs-dark' / 'vs-light' 会把它覆盖掉，
+    // 而且 'vs-light' 根本不是合法主题名。
     const e = monaco.editor.create(element, {
-      theme: dark ? 'vs-dark' : 'vs-light',
       lineNumbers: 'off',
       glyphMargin: true,
       lightbulb: { enabled: monaco.editor.ShowLightbulbIconMode.On },
@@ -109,7 +111,9 @@ function MonacoContainer({
     }
     model.pushEditOperations([], ops, undefined);
   }, [editor, config]);
-  return <div ref={initializeEditor} style={{ width: '100%', height: '80vh' }} />;
+  // 高度跟随所在面板（面板是纵向 flex：编辑器 / 报错 / 保存按钮），
+  // 不再写死 80vh——否则容器比 80vh 高时下面空一大块，矮时又被裁掉。
+  return <div ref={initializeEditor} style={{ width: '100%', flex: '1 1 auto', minHeight: 240 }} />;
 }
 
 export default function ConfigEditor({
