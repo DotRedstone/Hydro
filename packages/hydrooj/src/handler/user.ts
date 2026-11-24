@@ -527,8 +527,10 @@ class UserLostPassHandler extends Handler {
             if (!(e instanceof UserFacingError)) throw e;
             // 浏览器表单：错误留在页面上，别把人甩到错误页
             let message = inlineErrorText(this, e);
-            if (e instanceof OpcountExceededError) message = this.translate('Too many attempts, please try again later.');
-            else if (e instanceof SendMailError) message = this.translate('Failed to send the mail, please try again later.');
+            // 两类错误结构相同，用 else if 会让 TS 把第二个分支收窄成 never，所以分开判断
+            const err: Error = e;
+            if (err instanceof SendMailError) message = this.translate('Failed to send the mail, please try again later.');
+            if ((e as Error) instanceof OpcountExceededError) message = this.translate('Too many attempts, please try again later.');
             this.render(address, message);
         }
     }
