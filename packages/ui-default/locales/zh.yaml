@@ -1333,3 +1333,7 @@ Code Font Size: 代码字号
 Code Font Ligatures: 代码字体连字
 Not Installed: 未安装
 System Default: 系统默认
+"Changes apply immediately and are saved automatically.": 改动即时生效并自动保存。
+"Saving...": 正在保存…
+All changes saved: 已自动保存
+Save failed, please retry: 保存失败，请重试

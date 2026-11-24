@@ -14,15 +14,15 @@ export interface CodeThemeMeta {
 
 export const CODE_THEMES: readonly CodeThemeMeta[] = [
   { id: 'follow', label: 'Follow Color Scheme' },
-  { id: 'github', label: 'GitHub', dark: false },
+  { id: 'github', label: 'GitHub (Light)', dark: false },
   { id: 'one-dark', label: 'One Dark', dark: true },
-  { id: 'dracula', label: 'Dracula', dark: true },
-  { id: 'monokai', label: 'Monokai', dark: true },
+  { id: 'dracula', label: 'Dracula (Dark)', dark: true },
+  { id: 'monokai', label: 'Monokai (Dark)', dark: true },
   { id: 'solarized-light', label: 'Solarized Light', dark: false },
   { id: 'solarized-dark', label: 'Solarized Dark', dark: true },
-  { id: 'nord', label: 'Nord', dark: true },
-  { id: 'tomorrow-night', label: 'Tomorrow Night', dark: true },
-  { id: 'tokyo-night', label: 'Tokyo Night', dark: true },
+  { id: 'nord', label: 'Nord (Dark)', dark: true },
+  { id: 'tomorrow-night', label: 'Tomorrow Night (Dark)', dark: true },
+  { id: 'tokyo-night', label: 'Tokyo Night (Dark)', dark: true },
   { id: 'tokyo-night-day', label: 'Tokyo Night Day', dark: false },
   { id: 'catppuccin-mocha', label: 'Catppuccin Mocha', dark: true },
   { id: 'catppuccin-latte', label: 'Catppuccin Latte', dark: false },
@@ -30,9 +30,9 @@ export const CODE_THEMES: readonly CodeThemeMeta[] = [
   { id: 'gruvbox-light', label: 'Gruvbox Light', dark: false },
   { id: 'one-light', label: 'One Light', dark: false },
   { id: 'github-dark', label: 'GitHub Dark', dark: true },
-  { id: 'everforest', label: 'Everforest', dark: true },
-  { id: 'kanagawa', label: 'Kanagawa', dark: true },
-  { id: 'rose-pine', label: 'Rosé Pine', dark: true },
+  { id: 'everforest', label: 'Everforest (Dark)', dark: true },
+  { id: 'kanagawa', label: 'Kanagawa (Dark)', dark: true },
+  { id: 'rose-pine', label: 'Rosé Pine (Dark)', dark: true },
 ];
 
 export const DEFAULT_CODE_THEME = 'follow';

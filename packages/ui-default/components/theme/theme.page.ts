@@ -3,8 +3,6 @@ import {
   DEFAULT_THEME, isColorMode, resolveTheme, THEMES,
 } from 'vj/theme/themes';
 
-const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"/></svg>';
-const SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>';
 const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5.5 11.5 12 5l6.5 6.5"/></svg>';
 
 /** 当前配色方案：`<html>` 上只会挂一个 `theme--<id>`。 */
@@ -35,13 +33,19 @@ function setCookie(key: string, value: string) {
   document.cookie = `${key}=${value}; path=/; max-age=31536000; samesite=lax`;
 }
 
+// 多标签页同步：一处保存，其它已打开的页面就地跟上
+const channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('hydro-appearance') : null;
+function broadcast(key: string, value: string) {
+  channel?.postMessage({ key, value });
+}
+
 /** 就地切换配色方案；persist=false 只预览，不写 cookie。 */
 export function applyTheme(theme: string, persist = true) {
   const meta = resolveTheme(theme);
   const html = document.documentElement;
   for (const item of THEMES) html.classList.remove(`theme--${item.id}`);
   html.classList.add(`theme--${meta.id}`);
-  if (persist) setCookie('theme', meta.id);
+  if (persist) { setCookie('theme', meta.id); broadcast('theme', meta.id); }
   syncChrome();
 }
 
@@ -51,7 +55,7 @@ export function applyMode(mode: string, persist = true) {
   const html = document.documentElement;
   html.dataset.colorMode = value;
   html.classList.toggle('mode--dark', value === 'dark' || (value === 'auto' && !!media?.matches));
-  if (persist) setCookie('colorMode', value);
+  if (persist) { setCookie('colorMode', value); broadcast('colorMode', value); }
   syncChrome();
 }
 
@@ -65,17 +69,16 @@ export function applyCodeTheme(id: string, persist = true) {
   const html = document.documentElement;
   for (const c of [...html.classList]) if (c.startsWith('code--')) html.classList.remove(c);
   if (id && id !== 'follow') html.classList.add(`code--${id}`);
-  if (persist) setCookie('codeTheme', id || 'follow');
+  if (persist) { setCookie('codeTheme', id || 'follow'); broadcast('codeTheme', id || 'follow'); }
   document.dispatchEvent(new CustomEvent('themechange', { detail: { codeTheme: id } }));
 }
 
-/** 右下角按钮：只切深浅，不动配色方案。 */
-export function toggleTheme() {
-  const next = isDark() ? 'light' : 'dark';
-  applyMode(next);
-  fetch(`/set_mode/${next}`, { credentials: 'include' }).catch(() => {});
-  return next;
-}
+channel?.addEventListener('message', (ev: MessageEvent) => {
+  const { key, value } = ev.data || {};
+  if (key === 'theme') applyTheme(value, false);
+  else if (key === 'colorMode') applyMode(value, false);
+  else if (key === 'codeTheme') applyCodeTheme(value, false);
+});
 
 function makeFab(className: string, label: string, html: string) {
   const button = document.createElement('button');
@@ -87,7 +90,7 @@ function makeFab(className: string, label: string, html: string) {
   return button;
 }
 
-/** One column in the bottom-right corner: search, theme, back to top. */
+/** 右下角一列：搜索、回到顶部。深浅切换在偏好页与页脚，不再占一个按钮。 */
 function mountFloatingActions() {
   if (document.querySelector('.fab-stack')) return;
   const stack = document.createElement('div');
@@ -99,25 +102,13 @@ function mountFloatingActions() {
     stack.appendChild(search);
   }
 
-  const theme = makeFab('fab--theme', '切换深浅色', MOON);
-  theme.addEventListener('click', toggleTheme);
-
   const top = makeFab('fab--top', '回到顶部', ARROW_UP);
   top.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // stack grows upward from the corner: theme above search, arrow above theme
-  stack.appendChild(theme);
   stack.appendChild(top);
   document.body.appendChild(stack);
-
-  const syncThemeIcon = () => {
-    theme.innerHTML = isDark() ? SUN : MOON;
-    theme.setAttribute('aria-pressed', String(isDark()));
-  };
-  syncThemeIcon();
-  document.addEventListener('themechange', syncThemeIcon);
 
   const syncTop = () => {
     top.classList.toggle('is-visible', window.scrollY > 320);
