@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Schema from 'schemastery';
 import Notification from 'vj/components/notification';
-import DomComponent from 'vj/components/react/DomComponent';
 import { NamedPage } from 'vj/misc/Page';
 import { i18n, request } from 'vj/utils';
 
@@ -44,7 +43,6 @@ const page = new NamedPage('manage_config', async () => {
             Notification.error(i18n('Failed to save changes:'), e.message);
           });
         }}
-        sidebar={<DomComponent childDom={$('.section.side').get(0)} />}
         dynamic={UiContext.dynamic || {}}
       />
       <style>{`
