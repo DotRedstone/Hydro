@@ -146,3 +146,4 @@ No submissions yet.: No submissions yet.
 Search problems or users: Search problems or users
 Searching...: Searching...
 Nothing found: Nothing found
+limit.login_captcha_ip: Failed logins per IP before captcha
