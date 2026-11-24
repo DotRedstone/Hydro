@@ -214,5 +214,6 @@ export async function setTemporaryViewTransitionNames(entries, vtPromise: Promis
 }
 
 export function getTheme(): 'dark' | 'light' {
-  return ['light', 'dark'].includes(UserContext.theme) ? UserContext.theme : 'light';
+  // 深浅与配色方案已拆开：只看 <html> 上的 mode--dark（auto 已由首帧脚本补齐）
+  return document.documentElement.classList.contains('mode--dark') ? 'dark' : 'light';
 }
