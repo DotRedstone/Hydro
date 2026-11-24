@@ -51,23 +51,26 @@ async function successfulAuth(this: Handler, udoc: User) {
     }
 }
 
-// [Login Fail] 失败计数同时记在会话与服务端（按 IP、按用户名），清 cookie 不能绕过验证码
+// [Login Fail] 失败计数记在会话与服务端：按用户名（阈值 CAPTCHA_THRESHOLD），
+// 按 IP 另设更高阈值 limit.login_captcha_ip（0 关闭），避免共享出口 IP 被别人连累
 const LOGIN_FAIL_WINDOW = 15 * 60;
 const failKey = (uname: string) => uname.trim().toLowerCase();
+const ipThreshold = () => Math.max(0, Number(system.get('limit.login_captcha_ip') ?? 20) || 0);
 
 async function isCaptchaRequired(h: Handler, uname = '') {
     if ((h.session.loginFail || 0) >= CAPTCHA_THRESHOLD) return true;
+    const ipLimit = ipThreshold();
     const [byIp, byName] = await Promise.all([
-        opcount.get('user_login_fail', h.request.ip, LOGIN_FAIL_WINDOW),
+        ipLimit ? opcount.get('user_login_fail', h.request.ip, LOGIN_FAIL_WINDOW) : 0,
         uname ? opcount.get('user_login_fail_id', failKey(uname), LOGIN_FAIL_WINDOW) : 0,
     ]);
-    return byIp >= CAPTCHA_THRESHOLD || byName >= CAPTCHA_THRESHOLD;
+    return byName >= CAPTCHA_THRESHOLD || (ipLimit > 0 && byIp >= ipLimit);
 }
 
 async function recordLoginFail(h: Handler, uname: string) {
     h.session.loginFail = (h.session.loginFail || 0) + 1;
     await Promise.all([
-        opcount.inc('user_login_fail', h.request.ip, LOGIN_FAIL_WINDOW, Number.MAX_SAFE_INTEGER),
+        ipThreshold() ? opcount.inc('user_login_fail', h.request.ip, LOGIN_FAIL_WINDOW, Number.MAX_SAFE_INTEGER) : null,
         opcount.inc('user_login_fail_id', failKey(uname), LOGIN_FAIL_WINDOW, Number.MAX_SAFE_INTEGER),
     ]);
 }

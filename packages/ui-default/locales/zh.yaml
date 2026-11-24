@@ -1296,3 +1296,5 @@ UnRank: 取消排名
 Email Account: 邮箱账号
 Link: 绑定
 Change: 修改
+limit.login_captcha_ip: 同一 IP 登录失败多少次（15 分钟内）后要求验证码
+Failed logins per IP (15 min) before captcha is required, 0 to disable: 同一 IP 15 分钟内登录失败达到该次数后要求验证码，0 表示关闭
