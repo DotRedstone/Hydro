@@ -47,6 +47,8 @@
     body {
       --font-family: "{{ UserContext.fontFamily }}", var(--font-ui);
       --code-font-family: "{{ UserContext.codeFontFamily }}", var(--font-code);
+      --code-font-size: {{ UserContext.codeFontSize|default(14)|int }}px;
+      --code-ligatures: {{ "normal" if UserContext.codeLigatures else "none" }};
       --font-ligatures: {{ "normal" if UserContext.codeFontLigatures else "none" }} !important;
     }
     {% if not isIE(handler.request.headers['user-agent']) and not handler.session.legacy %}

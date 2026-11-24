@@ -50,22 +50,21 @@ function supportFontFamily(f) {
 
 const page = new NamedPage('home_preference', () => {
   initCodeLangHelper();
-  $('[name="fontFamily"] option, [name="codeFontFamily"] option').each(function () {
-    if (!supportFontFamily(this.value)) {
-      $(this).hide();
-      console.log(`Unsupported: ${this.value}`);
-    }
+  // @fontsource 字体按需下载：先强制加载再检测，检测不到标“未安装”，不再隐藏
+  const options = $('[name="fontFamily"] option, [name="codeFontFamily"] option');
+  options.each(function () {
     this.style.fontFamily = this.getAttribute('value');
     this.textContent = i18n(this.textContent.trim());
+    this.dataset.label = this.textContent;
   });
+  const mark = () => options.each(function () {
+    const ok = this.value === 'sans' || supportFontFamily(`"${this.value}"`);
+    this.textContent = ok ? this.dataset.label : `${this.dataset.label}（${i18n('Not Installed')}）`;
+  });
+  Promise.allSettled(options.toArray().map((o) => document.fonts.load(`16px "${o.value}"`))).then(mark);
   function updateFont() {
     this.style.fontFamily = $(this).val();
   }
-  document.fonts.onloadingdone = () => {
-    $('[name="fontFamily"] option, [name="codeFontFamily"] option').each(function () {
-      if (supportFontFamily(this.value)) $(this).show();
-    });
-  };
   $('[name="fontFamily"], [name="codeFontFamily"]').on('change', updateFont).each(updateFont);
 });
 

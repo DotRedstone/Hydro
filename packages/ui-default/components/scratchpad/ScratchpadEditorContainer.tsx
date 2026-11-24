@@ -49,6 +49,8 @@ export default connect((state: any) => ({
         // 主题交给 components/monaco 的 hydro-tokens（跟着调色板走），
         // 不要在这里写死 vs-light：暗色主题下会变成一块刺眼的白板
         fontFamily: UserContext.codeFontFamily,
+        fontSize: +UserContext.codeFontSize || 14,
+        fontLigatures: !!UserContext.codeLigatures,
         ...customOptions,
         lineNumbers: 'on',
         glyphMargin: true,
@@ -59,8 +61,7 @@ export default connect((state: any) => ({
         lineNumbersMinChars: 3,
         lightbulb: { enabled: monaco.editor.ShowLightbulbIconMode.On },
         model: this.model,
-        fontLigatures: '',
-      };
+        };
       this.editor = monaco.editor.create(this.containerElement, config);
       registerAction(this.editor, this.model);
       this.disposable.push(

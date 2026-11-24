@@ -1,4 +1,7 @@
 import { CODE_THEMES } from './theme/code-themes';
+import {
+  CODE_FONT_SIZES, CODE_FONTS, TEXT_FONTS, toRange,
+} from './theme/fonts';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import {
@@ -174,36 +177,6 @@ class RichMediaHandler extends Handler {
   }
 }
 
-/* eslint-disable style/quote-props */
-const fontRange = {
-  Inter: 'Inter',
-  'Open Sans': 'Open Sans',
-  'Seravek': 'Seravek',
-  'Segoe UI': 'Segoe UI',
-  'Verdana': 'Verdana',
-  'PingFang SC': 'PingFang SC',
-  'Hiragino Sans GB': 'Hiragino Sans GB',
-  'Microsoft Yahei': 'Microsoft Yahei',
-  'WenQuanYi Micro Hei': 'WenQuanYi Micro Hei',
-  'sans': 'sans',
-  'XiaoLai SC': '小赖 SC',
-};
-const codeFontRange = {
-  'monaco': 'Monaco',
-  'Source Code Pro': 'Source Code Pro',
-  'Consolas': 'Consolas',
-  'Lucida Console': 'Lucida Console',
-  'Fira Code': 'Fira Code',
-  'Roboto Mono': 'Roboto Mono',
-  'Inconsolata': 'Inconsolata',
-  'Hack': 'Hack',
-  'Jetbrains Mono': 'Jetbrains Mono',
-  'DM Mono': 'DM Mono',
-  'Ubuntu Mono': 'Ubuntu Mono',
-  'PT Mono': 'PT Mono',
-  'SF Mono': 'SF Mono',
-};
-
 const defaultAbout = (yaml.load(readFileSync(join(__dirname, 'setting.yaml'), 'utf-8')) as any).about.value;
 
 export const name = 'ui-default';
@@ -224,8 +197,10 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       SettingModel.Setting('setting_display', 'rounded', false, 'boolean', 'Rounded Corners'),
       SettingModel.Setting('setting_display', 'skipAnimate', false, 'boolean', 'Skip Animation'),
       SettingModel.Setting('setting_display', 'showTimeAgo', true, 'boolean', 'Enable Time Ago'),
-      SettingModel.Setting('setting_display', 'fontFamily', 'Inter', fontRange, 'Font Family'),
-      SettingModel.Setting('setting_display', 'codeFontFamily', 'Source Code Pro', codeFontRange, 'Code Font Family'),
+      SettingModel.Setting('setting_display', 'fontFamily', 'Inter', toRange(TEXT_FONTS), 'Font Family'),
+      SettingModel.Setting('setting_display', 'codeFontFamily', 'Source Code Pro', toRange(CODE_FONTS), 'Code Font Family'),
+      SettingModel.Setting('setting_display', 'codeFontSize', '14', { ...CODE_FONT_SIZES }, 'Code Font Size'),
+      SettingModel.Setting('setting_display', 'codeLigatures', false, 'boolean', 'Code Font Ligatures'),
       SettingModel.Setting('setting_display', 'theme', 'default',
         Object.fromEntries(THEMES.map((t) => [t.id, t.label])), 'Theme'),
       SettingModel.Setting('setting_display', 'codeTheme', 'follow',
