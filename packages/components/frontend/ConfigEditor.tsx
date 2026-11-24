@@ -117,7 +117,9 @@ function MonacoContainer({
 }
 
 export default function ConfigEditor({
-  schema, config, monaco, Markdown, onSave, registerAction, sidebar, dynamic,
+  schema, config, monaco, Markdown, onSave, registerAction, sidebar = null, dynamic,
+}: {
+  schema: any, config: any, monaco: any, Markdown: any, onSave: any, registerAction: any, sidebar?: any, dynamic: any,
 }) {
   const getValue = () => {
     try {
