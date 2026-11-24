@@ -6,7 +6,7 @@ import { NamedPage } from 'vj/misc/Page';
 import { i18n, request } from 'vj/utils';
 
 const page = new NamedPage('manage_config', async () => {
-  if (document.documentElement.className.includes('theme--dark')) {
+  if (document.documentElement.classList.contains('mode--dark')) {
     document.documentElement.className += ' dark';
   }
 

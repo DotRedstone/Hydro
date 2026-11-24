@@ -34,6 +34,6 @@ export const theme = createTheme({
 export default new AutoloadPage('mantine', null, () => {
   localStorage.setItem(
     'mantine-color-scheme-value',
-    document.documentElement.className.includes('theme--dark') ? 'dark' : 'light',
+    document.documentElement.classList.contains('mode--dark') ? 'dark' : 'light',
   );
 });

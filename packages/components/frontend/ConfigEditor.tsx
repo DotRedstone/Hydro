@@ -173,7 +173,7 @@ export default function ConfigEditor({
           setValue={updateFromMonaco}
           setError={setInfo}
           size={size[0]}
-          dark={document.documentElement.className.includes('theme--dark')}
+          dark={document.documentElement.classList.contains('mode--dark')}
         />
         <pre className="help-text">{info}</pre>
         <button onClick={() => onSave(stringConfig)} className="rounded primary button">{i18n('Save All Changes')}</button>

@@ -86,6 +86,14 @@
               {%- endfor -%}
             </ol>
           </li>
+          <li class="footer__extra-link-item hasjs--hide" data-dropdown-target="#menu-footer-mode">
+            <span><span class="icon icon-global"></span> {{ _('Color Mode') }} <span class="icon icon-expand_less"></span></span>
+            <ol class="dropdown-target menu" id="menu-footer-mode">
+              {%- for k, v in colorModes -%}
+              <li class="menu__item"><a class="menu__link" href="{{ url('set_mode', mode=k) }}">{{ _(v) }}</a></li>
+              {%- endfor -%}
+            </ol>
+          </li>
         </ol>
       </div>
       <div class="footer__extra-right">

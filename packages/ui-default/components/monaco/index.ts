@@ -116,7 +116,7 @@ function tokenColor(name: string, fallback: string) {
 }
 
 export function defineTokenTheme() {
-  const dark = document.documentElement.className.includes('theme--dark');
+  const dark = document.documentElement.classList.contains('mode--dark');
   monaco.editor.defineTheme('hydro-tokens', {
     base: dark ? 'vs-dark' : 'vs',
     inherit: true,

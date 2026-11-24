@@ -6,7 +6,8 @@
 {% import "components/user.html" as user with context %}
 <!DOCTYPE html>
 {% set theme = themeMeta(themeOf(handler.user, handler.context.cookies)) %}
-<html data-page="{{ page_name }}" data-layout="{{ layout_name }}" class="layout--{{ layout_name }} page--{{ page_name }} theme--{{ theme.id }} nojs" data-mantine-color-scheme="{{ 'dark' if theme.dark else 'light' }}" lang="{{ UserContext.viewLang }}" data-app="Hydro">
+{% set colorMode = modeOf(handler.user, handler.context.cookies) %}
+<html data-page="{{ page_name }}" data-layout="{{ layout_name }}" class="layout--{{ layout_name }} page--{{ page_name }} theme--{{ theme.id }}{% if colorMode == 'dark' %} mode--dark{% endif %} nojs" data-color-mode="{{ colorMode }}" data-mantine-color-scheme="{{ 'dark' if colorMode == 'dark' else 'light' }}" lang="{{ UserContext.viewLang }}" data-app="Hydro">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -19,7 +20,19 @@
   <link rel="icon" type="image/png" href="{{ UiContext.cdn_prefix }}favicon-96x96.png" sizes="96x96">
   <link rel="icon" type="image/png" href="{{ UiContext.cdn_prefix }}favicon-16x16.png" sizes="16x16">
   {% if handler.context.request.url %}<link rel="canonical" href="{{ model.system.get('server.url') }}{{ handler.context.request.url.substring(1) }}">{% endif %}
-  <meta name="theme-color" content="{{ theme.color }}">
+  <meta name="theme-color" content="{{ theme.dark if colorMode == 'dark' else theme.light }}" data-light="{{ theme.light }}" data-dark="{{ theme.dark }}">
+  <script>
+    // 深浅模式“跟随系统”：首帧前按系统偏好补上 mode--dark，避免闪白
+    (function () {
+      var h = document.documentElement;
+      if (h.getAttribute('data-color-mode') !== 'auto' || !window.matchMedia) return;
+      if (!window.matchMedia('(prefers-color-scheme: dark)').matches) return;
+      h.classList.add('mode--dark');
+      h.setAttribute('data-mantine-color-scheme', 'dark');
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', m.getAttribute('data-dark'));
+    })();
+  </script>
   {% block ogp_site %}
   <meta property="og:site_name" content="{{ (handler.domain|default({ui:[]})).ui.name|default(model.system.get('server.name')) }}" />
   <meta property="og:url" content="{{ model.system.get('server.url') }}{{ handler.request.path.slice(1) }}" />

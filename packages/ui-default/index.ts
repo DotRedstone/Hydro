@@ -8,7 +8,9 @@ import convert from 'schemastery-jsonschema';
 import { presetRenderers } from './backendlib/contentRenderer';
 import markdown from './backendlib/markdown';
 import { TemplateService } from './backendlib/template';
-import { isThemeId, pickTheme, THEMES } from './theme/themes';
+import {
+  COLOR_MODES, isColorMode, isThemeId, pickMode, pickTheme, resolveMode, resolveTheme, THEMES,
+} from './theme/themes';
 
 class WikiHelpHandler extends Handler {
   noCheckPermView = true;
@@ -54,19 +56,39 @@ class SetThemeHandler extends Handler {
   noCheckPermView = true;
 
   async get({ theme }) {
-    theme = isThemeId(theme) ? theme : 'default';
-    if (this.user.hasPriv(PRIV.PRIV_USER_PROFILE)) {
-      await UserModel.setById(this.user._id, { theme });
+    // 非法值不覆盖已存的设置，只跳回
+    if (!isThemeId(theme)) {
+      this.back();
+      return;
     }
-    // Visitors without an account still get to pick a theme: it lives in a
-    // cookie, which the layout reads on render (see layout/html5.html).
-    this.context.cookies.set('theme', theme, {
+    const raw = theme;
+    // 旧链接 /set_theme/dark、/set_theme/light 拆成“默认配色 + 对应深浅”
+    const $set: Record<string, string> = { theme: resolveTheme(raw).id };
+    if (raw === 'dark' || raw === 'light') $set.colorMode = resolveMode(undefined, raw);
+    await persistAppearance(this, $set);
+    this.back();
+  }
+}
+
+class SetModeHandler extends Handler {
+  noCheckPermView = true;
+
+  async get({ mode }) {
+    if (isColorMode(mode)) await persistAppearance(this, { colorMode: mode });
+    this.back();
+  }
+}
+
+/** 登录用户写进偏好；访客写 cookie，布局渲染时读取（见 layout/html5.html）。 */
+async function persistAppearance(h: Handler, $set: Record<string, string>) {
+  if (h.user.hasPriv(PRIV.PRIV_USER_PROFILE)) await UserModel.setById(h.user._id, $set);
+  for (const [key, value] of Object.entries($set)) {
+    h.context.cookies.set(key, value, {
       httpOnly: false,
       sameSite: 'lax',
       maxAge: 365 * 24 * 60 * 60 * 1000,
       path: '/',
     });
-    this.back();
   }
 }
 
@@ -205,6 +227,7 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       SettingModel.Setting('setting_display', 'codeFontFamily', 'Source Code Pro', codeFontRange, 'Code Font Family'),
       SettingModel.Setting('setting_display', 'theme', 'default',
         Object.fromEntries(THEMES.map((t) => [t.id, t.label])), 'Theme'),
+      SettingModel.Setting('setting_display', 'colorMode', 'auto', { ...COLOR_MODES }, 'Color Mode'),
       SettingModel.Setting('setting_markdown', 'preferredEditorType', 'sv', { sv: 'Split View', monaco: 'Monaco Editor' }, 'Preferred Editor Type'),
       SettingModel.Setting('setting_highlight', 'showInvisibleChar', false, 'boolean', 'Show Invisible Characters'),
       SettingModel.Setting('setting_highlight', 'formatCode', true, 'boolean', 'Auto Format Code'),
@@ -229,6 +252,7 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
   ctx.Route('wiki_about', '/wiki/about', WikiAboutHandler);
   ctx.Route('theme_guide', '/theme-guide', ThemeGuideHandler);
   ctx.Route('set_theme', '/set_theme/:theme', SetThemeHandler);
+  ctx.Route('set_mode', '/set_mode/:mode', SetModeHandler);
   ctx.Route('set_legacy', '/legacy', LegacyModeHandler);
   ctx.Route('markdown', '/markdown', MarkdownHandler);
   ctx.Route('media', '/media', RichMediaHandler);
@@ -242,6 +266,7 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
   // 访客期在 cookie 里选的主题悄悄覆盖回默认值。
   ctx.on('handler/before/HomeSettings', async (that) => {
     that.user.theme = pickTheme(that.user, that.context.cookies);
+    that.user.colorMode = pickMode(that.user, that.context.cookies);
   });
   ctx.on('handler/after', async (that) => {
     that.UiContext.SWConfig = {

@@ -1,9 +1,8 @@
 /* Palette: sepia */
 /* ---------------------------------------------------------------------------- */
-/* 第二个“浅色家族”的调色板，用来验证多主题只需要加一个文件：               */
-/*   :root            默认浅色（claude）                                       */
-/*   :root.theme--dark  深色                                                   */
-/*   :root.theme--sepia 这个文件里的暖褐纸张                                   */
+/* 暖褐纸张配色，浅色与深色两版写在同一个文件：                             */
+/*   :root.theme--sepia             浅色                                       */
+/*   :root.theme--sepia.mode--dark  深色（--c-bg 须等于 themes.ts 的 dark）   */
 /*                                                                             */
 /* 只覆盖颜色类令牌；间距、圆角、字号、宽度这些结构令牌沿用 :root。            */
 /* 新增主题的做法见 theme/README.md「Adding a palette」。                      */
@@ -63,4 +62,61 @@
   --shadow-pop: 0 1px 2px rgba(58, 47, 28, 0.07), 0 8px 24px rgba(58, 47, 28, 0.12);
   --shadow-card: none;
   --shadow-float: 0 1px 2px rgba(58, 47, 28, 0.06), 0 18px 44px rgba(58, 47, 28, 0.10);
+}
+
+:root.theme--sepia.mode--dark {
+  color-scheme: dark;
+
+  --c-bg: #1E1A14;
+  --c-surface: #27221A;
+  --c-sunken: #171410;
+  --c-hover: #2F2920;
+  --c-border: #3A3327;
+  --c-border-strong: #4D4434;
+  --c-nav-bg: rgba(30, 26, 20, 0.88);
+  --c-overlay: rgba(0, 0, 0, 0.55);
+
+  --c-fg: #E6DAC2;
+  --c-fg-2: #C7B99C;
+  --c-fg-3: #9C8E73;
+  --c-heading: #F2E8D3;
+
+  --c-accent: #D38455;
+  --c-accent-hover: #DE9568;
+  --c-link: #E0A077;
+  --c-accent-soft: #3D2A1C;
+  --c-accent-fg: #1E1A14;
+  --c-focus-ring: rgba(211, 132, 85, 0.35);
+
+  --c-ok: #8DB58F;
+  --c-ok-soft: #24301F;
+  --c-bad: #DB7B66;
+  --c-warn: #D6A651;
+  --c-warn-soft: #3A2E17;
+  --c-info: #82AECB;
+  --c-neutral: #9C8E73;
+  --c-neutral-soft: #2D2820;
+
+  --c-code-bg: #2A241B;
+  --c-code-fg: #E0A077;
+  --c-mark: #5A4524;
+  --c-inverse-bg: #E6DAC2;
+  --c-inverse-fg: #1E1A14;
+
+  --c-cat-1: #D38455;
+  --c-cat-2: #D6A651;
+  --c-cat-3: #9DB07C;
+  --c-cat-4: #7FB0A4;
+  --c-cat-5: #82A0BF;
+  --c-cat-6: #A994BA;
+  --c-cat-7: #C88D9E;
+  --c-cat-8: #A69E8C;
+
+  --logo-filter: brightness(0) invert(1);
+  --avatar-filter: brightness(0.9);
+  --captcha-filter: invert(0.88) hue-rotate(180deg);
+
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-card: none;
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.30), 0 18px 44px rgba(0, 0, 0, 0.40);
 }

@@ -13,7 +13,7 @@
     window.DEFAULT_LANG = "{{ 'zh-CN' if _('__id').startsWith('zh') else 'en' }}";
     window.DATA_SOURCE = "{{ dataSource|safe }}";
     {% if refreshInterval %}window.REFRESH_INTERVAL = {{ refreshInterval }};{% endif %}
-    if (document.documentElement.classList.contains("theme--dark")) document.documentElement.classList.toggle("dark", !0);
+    if (document.documentElement.classList.contains("mode--dark")) document.documentElement.classList.toggle("dark", !0);
     setInterval(() => {
         const location = window.location.href;
         if (location.includes("%2F")) {

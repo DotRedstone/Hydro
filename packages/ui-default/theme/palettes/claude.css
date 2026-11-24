@@ -5,7 +5,7 @@
 /* contract described in theme/README.md; a new palette must define all of them. */
 
 /*   light: :root            (also the fallback for any page) */
-/*   dark:  :root.theme--dark */
+/*   dark:  :root.mode--dark（任何配色方案的深色版未单独定义时兜底） */
 
 /* Other palettes scope themselves with .palette--<name> (see README). */
 /* The bridge blocks at the bottom re-point Mantine's own variables at the */
@@ -108,7 +108,7 @@
   --r-pill: 999px;
 }
 
-:root.theme--dark {
+:root.mode--dark {
   color-scheme: dark;
 
   /* three distinct neutral steps (page / container / inset) so sections read as
