@@ -1252,7 +1252,6 @@ Ask for a new link and open it right away, it stays valid for {0} hour(s).: 重�
 Set a strong new password: 设置一个足够强的密码
 Resetting the password also turns off two-step verification, so set it up again from the account settings afterwards.: 重置密码会同时关闭两步验证，之后请到账户设置里重新开启。
 Enter a valid email address.: 请输入有效的邮箱地址。
-No account is registered with this email.: 这个邮箱还没有注册账号。
 Mail service is not configured yet.: 邮件服务还没有配置好。
 Failed to send the mail, please try again later.: 邮件发送失败，请稍后再试。
 The reset link is invalid or has expired.: 重置链接无效或已经过期。
