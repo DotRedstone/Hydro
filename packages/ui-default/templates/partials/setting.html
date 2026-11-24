@@ -1,6 +1,8 @@
-<form method="post">
-{% if page_name == "home_preference" %}{% include "partials/preference_preview.html" %}{% endif %}
+{% set pref = page_name == "home_preference" %}
+<form method="post"{% if pref %} class="preference-form"{% endif %}>
+{% if pref %}<aside class="preference-form__aside">{% include "partials/preference_preview.html" %}</aside><div class="preference-form__main">{% endif %}
 {%- for family, family_settings in settings|groupby('family') -%}{%- if family != 'setting_storage' %}
+  {% if pref %}<div class="preference-group">{% endif %}
   <div class="section__header">
     <h1 class="section__title" id="{{ family }}" data-heading>{{ _(family) }}</h1>
   </div>
@@ -86,8 +88,10 @@
   {% endif %}
   {%- endfor -%}
   </div>
+  {% if pref %}</div>{% endif %}
 {%- endif -%}{%- endfor -%}
   <div class="section__body">
     <input type="submit" class="rounded primary button" value="{{ _('Save All Changes') }}">
   </div>
+{% if pref %}</div>{% endif %}
 </form>

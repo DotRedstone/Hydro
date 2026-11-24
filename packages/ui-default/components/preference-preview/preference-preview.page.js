@@ -1,4 +1,6 @@
 import { AutoloadPage } from 'vj/misc/Page';
+import { THEMES } from 'vj/theme/themes';
+import { i18n } from 'vj/utils';
 import { applyCodeTheme, applyMode, applyTheme } from 'vj/components/theme/theme.page';
 
 // 偏好设置实时预览：改字体 / 主题 / 圆角时立刻作用到当前页面，
@@ -36,6 +38,39 @@ function previewCodeTheme(select) {
   select.addEventListener('change', () => applyCodeTheme(select.value, false));
 }
 
+// 配色色块：点击即改下拉框并触发 change（预览照常走 previewTheme），下拉框保留作无 JS 兜底
+function buildSwatches(select) {
+  if (!select) return;
+  const row = document.createElement('div');
+  row.className = 'theme-swatches';
+  row.setAttribute('role', 'group');
+  const sync = () => row.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.theme === select.value)));
+  for (const t of THEMES) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'theme-swatch';
+    btn.dataset.theme = t.id;
+    const chips = document.createElement('span');
+    chips.className = 'theme-swatch__chips';
+    for (const c of t.swatch) {
+      const chip = document.createElement('span');
+      chip.style.background = c; // 色值来自 themes.ts 清单，不是样式表字面量
+      chips.append(chip);
+    }
+    const label = document.createElement('span');
+    label.textContent = i18n(t.label);
+    btn.append(chips, label);
+    btn.addEventListener('click', () => {
+      select.value = t.id;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    row.append(btn);
+  }
+  select.addEventListener('change', sync);
+  select.parentElement.insertBefore(row, select);
+  sync();
+}
+
 function previewRounded(checkbox) {
   if (!checkbox) return;
   const apply = () => document.documentElement.classList.toggle(ROUNDED, checkbox.checked);
@@ -50,6 +85,7 @@ export default new AutoloadPage('preference-preview', () => {
   previewFont(form.querySelector('select[name="fontFamily"]'), '--font-family', '--font-ui');
   previewFont(form.querySelector('select[name="codeFontFamily"]'), '--code-font-family', '--font-code');
   previewTheme(form.querySelector('select[name="theme"]'));
+  buildSwatches(form.querySelector('select[name="theme"]'));
   previewMode(form.querySelector('select[name="colorMode"]'));
   previewCodeTheme(form.querySelector('select[name="codeTheme"]'));
   previewRounded(form.querySelector('input[type="checkbox"][name="rounded"]'));

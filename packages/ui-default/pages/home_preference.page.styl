@@ -1,0 +1,65 @@
+// 偏好页：左侧分组卡片，右侧吸顶预览；窄屏预览置顶
+.page--home_preference
+  .preference-form
+    display: grid
+    grid-template-columns: minmax(0, 1fr) minmax(rem(260px), rem(340px))
+    grid-template-areas: 'main aside'
+    gap: var(--sp-5)
+    align-items: start
+  .preference-form__main
+    grid-area: main
+    min-width: 0
+  .preference-form__aside
+    grid-area: aside
+    position: sticky
+    top: rem(72px)
+    .preference-preview
+      position: static
+      margin: 0
+  .preference-group
+    margin: 0 0 var(--sp-4)
+    border: 1px solid var(--c-border)
+    border-radius: var(--r)
+    background: var(--c-surface)
+    box-shadow: var(--shadow-card)
+    overflow: hidden
+  .theme-swatches
+    display: flex
+    flex-wrap: wrap
+    gap: var(--sp-2)
+    margin: 0 0 var(--sp-2)
+  .theme-swatch
+    display: inline-flex
+    flex-direction: column
+    align-items: center
+    gap: rem(4px)
+    padding: rem(6px)
+    border: 1px solid var(--c-border)
+    border-radius: var(--r-sm)
+    background: var(--c-surface)
+    color: var(--c-fg-2)
+    font-size: .78rem
+    cursor: pointer
+    &:hover
+      background: var(--c-hover)
+    &[aria-pressed="true"]
+      border-color: var(--c-accent)
+      box-shadow: 0 0 0 2px var(--c-focus-ring)
+      color: var(--c-fg)
+  .theme-swatch__chips
+    display: flex
+    width: rem(64px)
+    height: rem(28px)
+    border-radius: var(--r-xs)
+    overflow: hidden
+    border: 1px solid var(--c-border)
+    span
+      flex: 1
+
+@media (max-width: 900px)
+  .page--home_preference
+    .preference-form
+      grid-template-columns: minmax(0, 1fr)
+      grid-template-areas: 'aside' 'main'
+    .preference-form__aside
+      position: static
