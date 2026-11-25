@@ -85,9 +85,13 @@ function previewVar(el, variable, map) {
 
 
 // 自动保存：表单原样 POST（含 booleanKeys），失败给出提示，不静默
+// 这些项由服务端渲染（语言、时区、编辑器类型等），无法就地预览：保存成功后刷新一次页面
+const RELOAD_KEYS = new Set(['viewLang', 'timeZone', 'preferredEditorType', 'skipAnimate', 'showTimeAgo', 'formatCode', 'showInvisibleChar']);
+
 function autosave(form, status) {
   let timer;
   let seq = 0;
+  let needReload = false;
   const show = (text, state) => {
     if (!status) return;
     status.textContent = text;
@@ -104,14 +108,23 @@ function autosave(form, status) {
         headers: { accept: 'application/json' },
       });
       if (!res.ok) throw new Error(String(res.status));
-      if (id === seq) show(i18n('All changes saved'), 'ok');
+      if (id !== seq) return;
+      show(i18n('All changes saved'), 'ok');
+      if (needReload) window.location.reload();
     } catch (e) {
       if (id === seq) show(i18n('Save failed, please retry'), 'error');
     }
   };
-  form.addEventListener('change', () => {
+  const schedule = (ev, delay) => {
+    const name = ev.target?.name || '';
+    if (RELOAD_KEYS.has(name.replace(/^booleanKeys\./, ''))) needReload = true;
     clearTimeout(timer);
-    timer = setTimeout(save, 400);
+    timer = setTimeout(save, delay);
+  };
+  // 选择类控件 change 即保存；文本 / 数字框边输入边保存，不用等失焦
+  form.addEventListener('change', (ev) => schedule(ev, 400));
+  form.addEventListener('input', (ev) => {
+    if (ev.target?.matches?.('input[type="text"], input[type="number"], input:not([type]), textarea')) schedule(ev, 800);
   });
   form.addEventListener('submit', (ev) => {
     ev.preventDefault();

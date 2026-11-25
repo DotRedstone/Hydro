@@ -90,7 +90,8 @@
   </div>
   {% if pref %}</div>{% endif %}
 {%- endif -%}{%- endfor -%}
-  <div class="section__body">
+  {# 偏好页改动即时生效并自动保存；按钮只留给无 JS 的情况 #}
+  <div class="section__body{% if pref %} hasjs--hide{% endif %}">
     <input type="submit" class="rounded primary button" value="{{ _('Save All Changes') }}">
   </div>
 {% if pref %}</div>{% endif %}
