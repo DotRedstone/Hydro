@@ -1,5 +1,5 @@
-$upvote-color = green
-$downvote-color = red
+$upvote-color = var(--c-ok)
+$downvote-color = var(--c-bad)
 
 .dczcomments__item .is-editing
   [name="dczcomments__dummy-box"]
@@ -110,7 +110,7 @@ $downvote-color = red
       &:hover
         background: $upvote-color
         color: var(--c-accent-fg)
-        box-shadow: 0 2px 10px rgba($upvote-color, 0.4)
+        box-shadow: 0 2px 10px token-alpha($upvote-color, 40%)
 
       &.active
         color: $upvote-color
@@ -123,7 +123,7 @@ $downvote-color = red
       &:hover
         background: $downvote-color
         color: var(--c-accent-fg)
-        box-shadow: 0 2px 10px rgba($downvote-color, 0.4)
+        box-shadow: 0 2px 10px token-alpha($downvote-color, 40%)
 
       &.active
         color: $downvote-color
