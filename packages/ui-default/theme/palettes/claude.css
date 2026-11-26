@@ -5,9 +5,13 @@
 /* contract described in theme/README.md; a new palette must define all of them. */
 
 /*   light: :root            (also the fallback for any page) */
-/*   dark:  :root.mode--dark（任何配色方案的深色版未单独定义时兜底） */
+/*   dark:  :root[class].mode--dark（任何配色方案的深色版未单独定义时兜底） */
+/*   优先级 (0,3,0)：须压过其它配色的浅色块 :root.theme--x (0,2,0)， */
+/*   又与其深色块 :root.theme--x.mode--dark (0,3,0) 同级——本文件最先 import， */
+/*   故同级时配色自己的深色值胜出。勿改为 :root.mode--dark 或 :not(#_)。 */
 
-/* Other palettes scope themselves with .palette--<name> (see README). */
+/* Other palettes scope themselves with :root.theme--<name> and */
+/* :root.theme--<name>.mode--dark (see README). */
 /* The bridge blocks at the bottom re-point Mantine's own variables at the */
 /* tokens, so Mantine islands (notifications, popovers, uploads) match. */
 
@@ -108,7 +112,7 @@
   --r-pill: 999px;
 }
 
-:root.mode--dark {
+:root[class].mode--dark {
   color-scheme: dark;
 
   /* three distinct neutral steps (page / container / inset) so sections read as
