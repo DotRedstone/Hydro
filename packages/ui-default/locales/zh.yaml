@@ -935,8 +935,8 @@ Set Roles for selected users: 为所选用户设置角色
 Set Score for Contest: 设置赛时分数
 Set time and memory limits: 设置时空限制
 setting_customize: 个性化
-setting_display: 显示偏好
-setting_highlight: 高亮偏好
+setting_display: 外观
+setting_highlight: 代码与高亮
 setting_markdown: 编辑偏好
 setting_domain: 域设置
 setting_info_domain: 个人信息

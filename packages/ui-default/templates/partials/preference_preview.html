@@ -3,10 +3,11 @@
   <h2 class="preference-preview__title">{{ _('A + B Problem') }}</h2>
   <p class="preference-preview__text">{{ _('Changes apply immediately and are saved automatically.') }}</p>
   <p class="preference-preview__status" data-preference-status role="status"></p>
-  <pre class="preference-preview__code">#include &lt;cstdio&gt;
+  {# 必须是 pre > code.language-*，站内高亮（highlighter.page.ts）只处理这种结构 #}
+  <pre class="preference-preview__code"><code class="language-cpp">#include &lt;cstdio&gt;
 int main() {
     int a, b; // 0Oo 1lI
     scanf("%d%d", &amp;a, &amp;b);
     printf("%d\n", a + b);
-}</pre>
+}</code></pre>
 </div>

@@ -2,7 +2,7 @@
 <form method="post"{% if pref %} class="preference-form"{% endif %}>
 {% if pref %}<aside class="preference-form__aside">{% include "partials/preference_preview.html" %}</aside><div class="preference-form__main">{% endif %}
 {%- for family, family_settings in settings|groupby('family') -%}{%- if family != 'setting_storage' %}
-  {% if pref %}<div class="preference-group">{% endif %}
+  {% if pref %}<div class="preference-group" data-family="{{ family }}">{% endif %}
   <div class="section__header">
     <h1 class="section__title" id="{{ family }}" data-heading>{{ _(family) }}</h1>
   </div>

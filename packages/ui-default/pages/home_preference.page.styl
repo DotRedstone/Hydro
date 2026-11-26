@@ -1,28 +1,55 @@
-// 偏好页：左侧分组卡片，右侧吸顶预览；窄屏预览置顶
+// 偏好页：每个分组自己就是一张卡片（外层 account-settings-card 透明，避免卡片套卡片）。
+// 预览在任何宽度下都吸顶可见：宽屏在右侧一栏，窄屏压成顶部一条紧凑预览。
 .page--home_preference
+  .account-settings-card
+    padding: 0
+    border: 0
+    background: transparent
+    box-shadow: none
+
   .preference-form
     display: grid
-    grid-template-columns: minmax(0, 1fr) minmax(rem(260px), rem(340px))
-    grid-template-areas: 'main aside'
-    gap: var(--sp-5)
+    grid-template-columns: minmax(0, 1fr)
+    grid-template-areas: 'aside' 'main'
+    gap: var(--sp-4)
     align-items: start
+
   .preference-form__main
     grid-area: main
     min-width: 0
-  .preference-form__aside
-    grid-area: aside
-    position: sticky
-    top: rem(72px)
-    .preference-preview
-      position: static
-      margin: 0
+    display: flex
+    flex-direction: column
+    gap: var(--sp-4)
+
+  // 分组顺序按“改得最多”排：外观 → 代码 → 编辑器 → 其它；注册顺序来自两个包，不好调，这里定
   .preference-group
-    margin: 0 0 var(--sp-4)
+    order: 9
+    margin: 0
     border: 1px solid var(--c-border)
     border-radius: var(--r)
     background: var(--c-surface)
     box-shadow: var(--shadow-card)
-    overflow: hidden
+    &[data-family="setting_display"]
+      order: 1
+    &[data-family="setting_highlight"]
+      order: 2
+    &[data-family="setting_markdown"]
+      order: 3
+    &[data-family="setting_usage"]
+      order: 4
+
+  .preference-form__main > .section__body
+    order: 10
+
+  .preference-form__aside
+    grid-area: aside
+    position: sticky
+    top: rem(64px)
+    z-index: 5
+    .preference-preview
+      position: static
+      margin: 0
+
   .theme-swatches
     display: flex
     flex-wrap: wrap
@@ -56,10 +83,23 @@
     span
       flex: 1
 
-@media (max-width: 900px)
+// 窄屏：顶部一条，只留代码块和保存状态，占高不超过三分之一屏
+@media (max-width: 1279px)
+  .page--home_preference
+    .preference-preview
+      padding: rem(10px) rem(12px)
+    .preference-preview__label,
+    .preference-preview__text
+      display: none
+    .preference-preview__title
+      font-size: 1rem
+    .preference-preview__code
+      max-height: 30vh
+      overflow: auto
+
+@media (min-width: 1280px)
   .page--home_preference
     .preference-form
-      grid-template-columns: minmax(0, 1fr)
-      grid-template-areas: 'aside' 'main'
-    .preference-form__aside
-      position: static
+      grid-template-columns: minmax(0, 1fr) rem(320px)
+      grid-template-areas: 'main aside'
+      gap: var(--sp-5)

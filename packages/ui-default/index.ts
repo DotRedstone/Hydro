@@ -56,6 +56,19 @@ class ThemeGuideHandler extends Handler {
   }
 }
 
+/** 登录用户写进偏好；访客写 cookie，布局渲染时读取（见 layout/html5.html）。 */
+async function persistAppearance(h: Handler, $set: Record<string, string>) {
+  if (h.user.hasPriv(PRIV.PRIV_USER_PROFILE)) await UserModel.setById(h.user._id, $set);
+  for (const [key, value] of Object.entries($set)) {
+    h.context.cookies.set(key, value, {
+      httpOnly: false,
+      sameSite: 'lax',
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      path: '/',
+    });
+  }
+}
+
 class SetThemeHandler extends Handler {
   noCheckPermView = true;
 
@@ -69,6 +82,12 @@ class SetThemeHandler extends Handler {
     // 旧链接 /set_theme/dark、/set_theme/light 拆成“默认配色 + 对应深浅”
     const $set: Record<string, string> = { theme: resolveTheme(raw).id };
     if (raw === 'dark' || raw === 'light') $set.colorMode = resolveMode(undefined, raw);
+    else {
+      // 旧数据只有 theme=dark、没有 colorMode 时，深浅只能从 theme 推出；
+      // 改写 theme 前先把推导结果固化，否则切一次配色深色就丢了
+      const stored = this.user._udoc?.colorMode || this.context.cookies.get('colorMode');
+      if (!isColorMode(stored)) $set.colorMode = pickMode(this.user, this.context.cookies);
+    }
     await persistAppearance(this, $set);
     this.back();
   }
@@ -80,19 +99,6 @@ class SetModeHandler extends Handler {
   async get({ mode }) {
     if (isColorMode(mode)) await persistAppearance(this, { colorMode: mode });
     this.back();
-  }
-}
-
-/** 登录用户写进偏好；访客写 cookie，布局渲染时读取（见 layout/html5.html）。 */
-async function persistAppearance(h: Handler, $set: Record<string, string>) {
-  if (h.user.hasPriv(PRIV.PRIV_USER_PROFILE)) await UserModel.setById(h.user._id, $set);
-  for (const [key, value] of Object.entries($set)) {
-    h.context.cookies.set(key, value, {
-      httpOnly: false,
-      sameSite: 'lax',
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      path: '/',
-    });
   }
 }
 
@@ -197,15 +203,17 @@ export function apply(ctx: Context, config: ReturnType<typeof Config>) {
       SettingModel.Setting('setting_display', 'rounded', false, 'boolean', 'Rounded Corners'),
       SettingModel.Setting('setting_display', 'skipAnimate', false, 'boolean', 'Skip Animation'),
       SettingModel.Setting('setting_display', 'showTimeAgo', true, 'boolean', 'Enable Time Ago'),
-      SettingModel.Setting('setting_display', 'fontFamily', 'Inter', toRange(TEXT_FONTS), 'Font Family'),
-      SettingModel.Setting('setting_display', 'codeFontFamily', 'Source Code Pro', toRange(CODE_FONTS), 'Code Font Family'),
-      SettingModel.Setting('setting_display', 'codeFontSize', '14', { ...CODE_FONT_SIZES }, 'Code Font Size'),
-      SettingModel.Setting('setting_display', 'codeLigatures', false, 'boolean', 'Code Font Ligatures'),
+      // 外观：配色、深浅、正文字体
       SettingModel.Setting('setting_display', 'theme', 'default',
         Object.fromEntries(THEMES.map((t) => [t.id, t.label])), 'Theme'),
-      SettingModel.Setting('setting_display', 'codeTheme', 'follow',
-        Object.fromEntries(CODE_THEMES.map((t) => [t.id, t.label])), 'Code Theme'),
       SettingModel.Setting('setting_display', 'colorMode', 'auto', { ...COLOR_MODES }, 'Color Mode'),
+      SettingModel.Setting('setting_display', 'fontFamily', 'Inter', toRange(TEXT_FONTS), 'Font Family'),
+      // 代码：高亮主题、代码字体与显示方式集中在一组，不用滑到页面底部
+      SettingModel.Setting('setting_highlight', 'codeTheme', 'follow',
+        Object.fromEntries(CODE_THEMES.map((t) => [t.id, t.label])), 'Code Theme'),
+      SettingModel.Setting('setting_highlight', 'codeFontFamily', 'Source Code Pro', toRange(CODE_FONTS), 'Code Font Family'),
+      SettingModel.Setting('setting_highlight', 'codeFontSize', '14', { ...CODE_FONT_SIZES }, 'Code Font Size'),
+      SettingModel.Setting('setting_highlight', 'codeLigatures', false, 'boolean', 'Code Font Ligatures'),
       SettingModel.Setting('setting_markdown', 'preferredEditorType', 'sv', { sv: 'Split View', monaco: 'Monaco Editor' }, 'Preferred Editor Type'),
       SettingModel.Setting('setting_highlight', 'showInvisibleChar', false, 'boolean', 'Show Invisible Characters'),
       SettingModel.Setting('setting_highlight', 'formatCode', true, 'boolean', 'Auto Format Code'),
