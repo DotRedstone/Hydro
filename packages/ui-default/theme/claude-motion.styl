@@ -70,11 +70,11 @@ a:hover > .user-profile-link img,
 .user-profile-link:hover img
   transform: scale(1.06)
 
-// 深色模式下的月亮图标：切换时转一下，暗示“换了个主题”
+// 浅色模式下按钮显示月亮：略微倾斜；切到深色换成太阳时转回正，暗示“换了个主题”
 .fab--theme svg
   transition: transform .32s $motion-ease
 
-:root.mode--dark .fab--theme svg
+:root:not(.mode--dark) .fab--theme svg
   transform: rotate(-24deg)
 
 // ---------------------------------------------------------------- 进入动画
